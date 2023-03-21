@@ -55,11 +55,12 @@ class RegistrationController extends AbstractController
             );
             // do anything else you need here, like send an email
 
-            return $userAuthenticator->authenticateUser(
+                $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
                 $request
             );
+            return $this->redirectToRoute('/');
         }
 
         return $this->render('registration/register.html.twig', [
