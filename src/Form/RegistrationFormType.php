@@ -33,7 +33,7 @@ class RegistrationFormType extends AbstractType
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
                 'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat Password'],
+                'second_options' => ['label' => 'Confirm Password'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
