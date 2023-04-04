@@ -25,7 +25,7 @@ class RootController extends AbstractController
         // convert to array and get data.
         $responseData = $response->toArray()['data'];
         // get last/most recent object and extract apy
-        $responseApy = end($responseData)['apy']*0.80;
+        $responseApy = end($responseData)['apy']*$this->getParameter('commission');
 
         return $this->render('homepage/index.html.twig', ['apy' => $responseApy]);
 
