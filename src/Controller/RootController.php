@@ -19,7 +19,7 @@ class RootController extends AbstractController
         $response = $client->request('GET', $this->getParameter('llama_api'));
 
         if ($response->getStatusCode() !== 200) {
-            return $this->render('dashboard/index.html.twig');
+            return $this->render('homepage/index.html.twig');
         }
 
         // convert to array and get data.
