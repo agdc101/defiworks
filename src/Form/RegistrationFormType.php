@@ -23,7 +23,6 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
-                'required' => true,
                 'constraints' => [
                     new Length([
                         'min' => 2,
@@ -39,7 +38,6 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('lastName', TextType::class, [
-                'required' => true,
                 'constraints' => [
                     new Length([
                         'min' => 2,
@@ -55,7 +53,6 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('address', TextType::class, [
-                'required' => true,
                 'constraints' => [
                     new Length([
                         'min' => 5,
@@ -66,7 +63,6 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('city', TextType::class, [
-                'required' => true,
                 'constraints' => [
                     new Length([
                         'min' => 3,
@@ -77,7 +73,6 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('postCode', TextType::class,  [
-                'required' => true,
                 'constraints' => [
                     new Length([
                         'min' => 5,
@@ -88,6 +83,7 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('county',TextType::class, [
+                'required' => false,
                 'constraints' => [
                     new Length([
                         'min' => 2,
@@ -103,7 +99,6 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('email', EmailType::class, [
-                'required' => true,
                 'constraints' => [
                     new Length([
                         'min' => 10,

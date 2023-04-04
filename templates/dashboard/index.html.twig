@@ -9,6 +9,15 @@
 </style>
 
 <div class="example-wrapper">
+    {#  prints verification success message  #}
+    {% for message in app.flashes('success') %}
+        {% if loop.first %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+
     <h1>Dashboard Page✅</h1>
 
     This friendly message is coming from:
