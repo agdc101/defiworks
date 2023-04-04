@@ -18,12 +18,19 @@
         {% endif %}
     {% endfor %}
 
-    <h1>Dashboard Page✅</h1>
+    <h1>{{ user }}'s Dashboard</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/ashleycampbell/Documents/Dev Work/Other Projects/defiworks/src/Controller/DashboardController.php'|file_link(0) }}">src/Controller/DashboardController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/ashleycampbell/Documents/Dev Work/Other Projects/defiworks/templates/dashboard/server-error.html.twig'|file_link(0) }}">templates/dashboard/index.html.twig</a></code></li>
-    </ul>
+    <div class="dashboard-content-wrapper">
+        <p>Current Portfolio Balance: <span>****</span></p>
+        <p>Total Interest Gained: <span>***</span></p>
+        <p>Current APY: <span>{{ apy|round(2, 'floor') }}%</span></p>
+    </div>
+
+    <div class="manage-account-wrapper">
+        <a href="{{ path('app_logout') }}">Manage Your Account</a>
+        <br>
+        <a href="{{ path('app_home') }}">Contact us</a>
+    </div>
+
 </div>
 {% endblock %}
