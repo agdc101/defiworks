@@ -11,6 +11,8 @@
 <div class="example-wrapper">
     <h1>De-Fi Works Homepage ✅</h1>
 
+    <p>Current strategy is yielding{% if apy is defined %} {{ apy|round(2, 'floor') }}% {% else %} 5% {% endif %}</p>
+
     This friendly message is coming from:
     <ul>
         <li>Your controller at <code><a href="{{ '/Users/ashleycampbell/Documents/Dev Work/Other Projects/defiworks/src/Controller/RootController.php'|file_link(0) }}">src/Controller/RootController.php</a></code></li>
