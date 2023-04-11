@@ -37,8 +37,12 @@ class UserAccountController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();
 
+        // invalidates/removes user session.
+        $request->getSession()->invalidate();
+        $this->container->get('security.token_storage')->setToken(null);
+
         $this->addFlash('account_closed', 'Sorry to see you go. Your account has been successfully closed.');
 
-        return $this->render('homepage/index.html.twig');
+        return $this->redirectToRoute('app_home');
     }
 }
