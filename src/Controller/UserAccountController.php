@@ -25,7 +25,7 @@ class UserAccountController extends AbstractController
             $this->addFlash('update_success', 'Thank You. Your details have been updated.');
         }
 
-        return $this->render('user-account/index.html.twig', [
+        return $this->render('user-account/user-account.html.twig', [
             'controller_name' => 'UserAccountController',
             'updateUserForm' => $form->createView(),
         ]);
