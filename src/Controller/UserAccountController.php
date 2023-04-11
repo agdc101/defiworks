@@ -22,7 +22,7 @@ class UserAccountController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('update_success', 'Thank You. Your details have been updated.');
+            $this->addFlash('update_success', 'Your details have been updated successfully.');
         }
 
         return $this->render('user-account/user-account.html.twig', [

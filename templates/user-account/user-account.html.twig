@@ -26,8 +26,12 @@
         <button type="submit" class="btn">Update</button>
     {{ form_end(updateUserForm) }}
 
-    <div class="cancel-account-wrapper">
+    <div class="account-options-wrapper">
+        <a href="{{ path('app_dashboard') }}">Back</a>
+        <a href="{{ path('app_forgot_password_request') }}">Reset your password</a>
         <a href="{{ path('app_close_user_account') }}">Close my account</a>
     </div>
+
+
 </div>
 {% endblock %}

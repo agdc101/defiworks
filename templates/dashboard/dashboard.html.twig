@@ -19,6 +19,7 @@
     {% endfor %}
 
     <h1>{{ user }}'s Dashboard</h1>
+    <a href="{{ path('app_home') }}">Home</a>
 
     <div class="dashboard-content-wrapper">
         <p>Current Portfolio Balance: <span>****</span></p>
@@ -29,7 +30,6 @@
     <div class="manage-account-wrapper">
         <a href="{{ path('app_user_account') }}">Manage Your Account</a>
         <br>
-        <a href="{{ path('app_home') }}">Contact us</a>
     </div>
 
 </div>
