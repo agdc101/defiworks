@@ -9,14 +9,15 @@
 </style>
 
 <div class="example-wrapper">
+
+    {% for flash_error in app.flashes('account_closed') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
     <h1>De-Fi Works Homepage ✅</h1>
 
     <p>Current strategy is yielding{% if apy is defined %} {{ apy|round(2, 'floor') }}% {% else %} 5% {% endif %}</p>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/ashleycampbell/Documents/Dev Work/Other Projects/defiworks/src/Controller/RootController.php'|file_link(0) }}">src/Controller/RootController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/ashleycampbell/Documents/Dev Work/Other Projects/defiworks/templates/homepage/server-error.html.twig'|file_link(0) }}">templates/root/index.html.twig</a></code></li>
-    </ul>
+
 </div>
 {% endblock %}

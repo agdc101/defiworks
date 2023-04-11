@@ -25,5 +25,9 @@
         {{ form_row(updateUserForm.county) }}
         <button type="submit" class="btn">Update</button>
     {{ form_end(updateUserForm) }}
+
+    <div class="cancel-account-wrapper">
+        <a href="{{ path('app_close_user_account') }}">Close my account</a>
+    </div>
 </div>
 {% endblock %}
