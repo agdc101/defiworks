@@ -12,15 +12,11 @@ class UpdateUserDetailsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
-            ->add('roles')
-            ->add('password')
-            ->add('isVerified')
-            ->add('first_name')
-            ->add('last_name')
+            ->add('firstName')
+            ->add('lastName')
             ->add('address')
             ->add('city')
-            ->add('post_code')
+            ->add('postCode')
             ->add('county')
         ;
     }
