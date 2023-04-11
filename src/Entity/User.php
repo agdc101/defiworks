@@ -51,6 +51,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $county = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -200,6 +203,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCounty(?string $county): self
     {
         $this->county = $county;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }
