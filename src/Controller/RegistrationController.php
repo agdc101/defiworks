@@ -60,18 +60,12 @@ class RegistrationController extends AbstractController
                 $authenticator,
                 $request
             );
-            return $this->redirectToRoute('please_verify');
+            return $this->render('please-verify/please-verify.html.twig');
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
-    }
-
-    #[Route('/please-verify', name: 'please_verify')]
-    public function displayEmailVerify(): Response
-    {
-        return $this->render('please-verify/please-verify.html.twig');
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
@@ -88,7 +82,6 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Thank You. Your email address has now been verified.');
 
         return $this->redirectToRoute('app_dashboard');
