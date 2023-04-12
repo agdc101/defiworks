@@ -11,7 +11,9 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
@@ -74,7 +76,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request): Response
+    public function verifyUserEmail(Request $request, MailerInterface $mailer): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
@@ -86,6 +88,19 @@ class RegistrationController extends AbstractController
 
             return $this->redirectToRoute('app_register');
         }
+
+        // send defiworks an email informing of new user with their name and email address.
+        $newUserFirstName = $this->getUser()->getFirstName();
+        $newUserLastName = $this->getUser()->getLastName();
+        $newUserEmail = $this->getUser()->getEmail();
+
+        $email = (new Email())
+            ->from('admin@defiworks.co.uk')
+            ->to('admin@defiworks.co.uk')
+            ->subject('New User!')
+            ->html("$newUserFirstName $newUserLastName is now a user. email address is $newUserEmail");
+
+        $mailer->send($email);
 
         $this->addFlash('success', 'Thank You. Your email address has now been verified.');
 
