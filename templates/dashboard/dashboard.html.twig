@@ -18,6 +18,10 @@
         {% endif %}
     {% endfor %}
 
+    {% for message in app.flashes('password_reset_success') %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endfor %}
+
     <h1>{{ user }}'s Dashboard</h1>
     <a href="{{ path('app_home') }}">Home</a>
 

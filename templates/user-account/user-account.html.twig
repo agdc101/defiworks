@@ -12,8 +12,8 @@
 
     <h1>Update your details:</h1>
 
-    {% for flash_error in app.flashes('update_success') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% for message in app.flashes('update_success') %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
     {% endfor %}
 
     {{ form_start(updateUserForm) }}

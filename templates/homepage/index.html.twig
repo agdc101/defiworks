@@ -10,8 +10,8 @@
 
 <div class="example-wrapper">
 
-    {% for flash_error in app.flashes('account_closed') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% for message in app.flashes('account_closed') %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
     {% endfor %}
 
     <h1>De-Fi Works Homepage ✅</h1>
