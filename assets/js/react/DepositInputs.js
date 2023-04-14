@@ -4,22 +4,23 @@ import ReactDOM from 'react-dom/client';
 let SUSDRate = 0;
 
 const DepositInputs = () =>  {
-
+    // state variables
     const [gbpDepositAmount, setGbpDepositAmount] = useState(0);
     const [usdDepositAmount, setUsdDepositAmount] = useState(0);
 
+    // function that gets gbp->susd rate from coingecko api
     async function getRate() {
         const response = await fetch("https://api.coingecko.com/api/v3/simple/token_price/optimistic-ethereum?contract_addresses=0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9&vs_currencies=gbp");
         const jsonData = await response.json();
         SUSDRate = jsonData['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp'];
-
-        console.log(typeof SUSDRate);
     }
 
+    //useEffect hook that calls getRate() on component mount
     useEffect(() => {
         getRate();
     }, []);
 
+    // event handlers for the two input fields
     function setGbpDepositAmountHandler(event) {
         setGbpDepositAmount(event.target.value);
         setUsdDepositAmount(event.target.value / SUSDRate);
