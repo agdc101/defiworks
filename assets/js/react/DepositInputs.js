@@ -31,7 +31,6 @@ const DepositInputs = () =>  {
         setGbpDepositAmount(event.target.value * SUSDRate)
     }
 
-
     return (
         <div>
             <form>
@@ -45,7 +44,10 @@ const DepositInputs = () =>  {
     );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('depositInputs'));
-root.render(
-    <DepositInputs />
-);
+// render the component if the element exists
+if (document.getElementById('depositInputs')) {
+    const root = ReactDOM.createRoot(document.getElementById('depositInputs'));
+    root.render(
+        <DepositInputs />
+    );
+}
