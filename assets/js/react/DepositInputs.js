@@ -5,8 +5,8 @@ let SUSDRate = 0;
 
 const DepositInputs = () =>  {
     // state variables
-    const [gbpDepositAmount, setGbpDepositAmount] = useState(0);
-    const [usdDepositAmount, setUsdDepositAmount] = useState(0);
+    const [gbpDepositAmount, setGbpDepositAmount] = useState('');
+    const [usdDepositAmount, setUsdDepositAmount] = useState('');
 
     // function that gets gbp->susd rate from coingecko api
     async function getRate() {
