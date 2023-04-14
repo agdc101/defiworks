@@ -10,4 +10,4 @@ import '../styles/app.css';
 
 // start the Stimulus application
 import './bootstrap.js';
-import './react/depositInputs.js';
+import './react/DepositInputs.js';
