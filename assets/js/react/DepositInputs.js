@@ -23,12 +23,14 @@ const DepositInputs = () =>  {
     // event handlers for the two input fields
     function setGbpDepositAmountHandler(event) {
         setGbpDepositAmount(event.target.value);
-        setUsdDepositAmount(event.target.value / SUSDRate);
+        let sum = event.target.value / SUSDRate;
+        setUsdDepositAmount(sum.toFixed(2));
     }
 
     function setUsdDepositAmountHandler(event) {
         setUsdDepositAmount(event.target.value);
-        setGbpDepositAmount(event.target.value * SUSDRate)
+        let sum = event.target.value * SUSDRate;
+        setGbpDepositAmount(sum.toFixed(2));
     }
 
     return (
