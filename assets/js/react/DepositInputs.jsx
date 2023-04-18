@@ -25,14 +25,18 @@ const DepositInputs = () =>  {
     // event handlers for the two input fields
     function setGbpDepositAmountHandler(event) {
         setGbpDepositAmount(event.target.value);
-        let sum = ((event.target.value / SUSDRate) * fee);
-        setUsdDepositAmount(sum.toFixed(2));
+        let UsdSum = ((event.target.value / SUSDRate) * fee);
+        (UsdSum === 0) ? setUsdDepositAmount('') : setUsdDepositAmount(UsdSum.toFixed(2));
     }
 
     function setUsdDepositAmountHandler(event) {
         setUsdDepositAmount(event.target.value);
-        let sum = ((event.target.value * SUSDRate) * fee);
-        setGbpDepositAmount(sum.toFixed(2));
+        let GbpSum = ((event.target.value * SUSDRate) * fee);
+        (GbpSum === 0) ? setGbpDepositAmount('') : setGbpDepositAmount(GbpSum.toFixed(2));
+    }
+
+    function isUsdValid() {
+        return usdDepositAmount > 0 || usdDepositAmount !== '';
     }
 
     return (
@@ -44,7 +48,7 @@ const DepositInputs = () =>  {
                 <label htmlFor="UsdDepositAmount">Deposit Amount In USD($)</label>
                 <input type="number" id="UsdDepositAmount" name="UsdDepositAmount" onChange={setUsdDepositAmountHandler} value={usdDepositAmount}/>
             </form>
-            {gbpDepositAmount !== '' && usdDepositAmount !== '' ? <p>Your received amount will be ${usdDepositAmount}</p> : <p>Please enter a deposit amount</p>}
+            {isUsdValid() ? <p>Your received amount will be ${usdDepositAmount}</p> : <p>Please enter a deposit amount</p>}
         </div>
     );
 }
