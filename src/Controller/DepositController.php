@@ -9,8 +9,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class DepositController extends AbstractController
 {
     #[Route('/deposit', name: 'app_deposit')]
-    public function index(): Response
+    public function renderDeposit(): Response
     {
         return $this->render('deposit/deposit.html.twig');
+    }
+
+    #[Route('/confirm-deposit', name: 'app_confirm_deposit')]
+    public function renderDepositConfirm(): Response
+    {
+        return $this->render('confirm_deposit/confirm-deposit.html.twig', [
+            'controller_name' => 'ConfirmDepositController',
+        ]);
     }
 }

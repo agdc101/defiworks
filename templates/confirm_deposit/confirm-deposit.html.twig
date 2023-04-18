@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DepositController!{% endblock %}
+{% block title %}Hello ConfirmDepositController!{% endblock %}
 
 {% block body %}
 <style>
@@ -9,13 +9,12 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Deposit funds</h1>
 
-    {# react component DepositInputs.jsx will be rendered here #}
-    <div id="depositInputs"></div>
-    {# -----------------------------------------------------   #}
+    <h1>Deposit Details:</h1>
+    <div class="bank-details">
+        <h3>Account Name : DeFiWorks</h3>
+        <p>Sort: 01-04-06</p>
+    </div>
 
 </div>
-
-
 {% endblock %}
