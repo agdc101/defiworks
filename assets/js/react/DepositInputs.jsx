@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom/client';
 
 let SUSDRate = 0;
+let fee = 0.99;
 const GECKO_API = 'https://api.coingecko.com/api/v3/simple/token_price/optimistic-ethereum?contract_addresses=0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9&vs_currencies=gbp';
 
 const DepositInputs = () =>  {
@@ -24,13 +25,13 @@ const DepositInputs = () =>  {
     // event handlers for the two input fields
     function setGbpDepositAmountHandler(event) {
         setGbpDepositAmount(event.target.value);
-        let sum = event.target.value / SUSDRate;
+        let sum = ((event.target.value / SUSDRate) * fee);
         setUsdDepositAmount(sum.toFixed(2));
     }
 
     function setUsdDepositAmountHandler(event) {
         setUsdDepositAmount(event.target.value);
-        let sum = event.target.value * SUSDRate;
+        let sum = ((event.target.value * SUSDRate) * fee);
         setGbpDepositAmount(sum.toFixed(2));
     }
 
@@ -43,7 +44,7 @@ const DepositInputs = () =>  {
                 <label htmlFor="UsdDepositAmount">Deposit Amount In USD($)</label>
                 <input type="number" id="UsdDepositAmount" name="UsdDepositAmount" onChange={setUsdDepositAmountHandler} value={usdDepositAmount}/>
             </form>
-            <p>Your deposit amount will be ${usdDepositAmount}</p>
+            {gbpDepositAmount !== '' && usdDepositAmount !== '' ? <p>Your received amount will be ${usdDepositAmount}</p> : <p>Please enter a deposit amount</p>}
         </div>
     );
 }
