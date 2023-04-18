@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ConfirmDepositController!{% endblock %}
+{% block title %}DeFi Works - Confirm Deposit{% endblock %}
 
 {% block body %}
 <style>
@@ -17,9 +17,9 @@
         <p>Account No: 01234 56789</p>
     </div>
     <div>
-        <h3>Your deposit amount is £<span>{{ app.request.requesturi | split('=') | last }}</span><span></span></h3>
+        <h3>Your amount to deposit is £{{ app.request.requesturi | split('&') | first | split('=') | last }}</h3>
         <p>Please press confirm button when deposit has been sent.</p>
-
+        <p>${{ app.request.requesturi | split('=') | last }} will appear as your account balance.</p>
     </div>
 
 </div>
