@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom/client';
 
 let SUSDRate = 0;
+const GECKO_API = 'https://api.coingecko.com/api/v3/simple/token_price/optimistic-ethereum?contract_addresses=0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9&vs_currencies=gbp';
 
 const DepositInputs = () =>  {
     // state variables
@@ -10,7 +11,7 @@ const DepositInputs = () =>  {
 
     // function that gets gbp->susd rate from coingecko api
     async function getRate() {
-        const response = await fetch("https://api.coingecko.com/api/v3/simple/token_price/optimistic-ethereum?contract_addresses=0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9&vs_currencies=gbp");
+        const response = await fetch(GECKO_API);
         const jsonData = await response.json();
         SUSDRate = jsonData['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp'];
     }
@@ -42,6 +43,7 @@ const DepositInputs = () =>  {
                 <label htmlFor="UsdDepositAmount">Deposit Amount In USD($)</label>
                 <input type="number" id="UsdDepositAmount" name="UsdDepositAmount" onChange={setUsdDepositAmountHandler} value={usdDepositAmount}/>
             </form>
+            <p>Your deposit amount will be ${usdDepositAmount}</p>
         </div>
     );
 }
