@@ -48,7 +48,7 @@ const DepositInputs = () =>  {
     );
 }
 
-// render the component if the element exists
+// // render the component if the element exists
 if (document.getElementById('depositInputs')) {
     const root = ReactDOM.createRoot(document.getElementById('depositInputs'));
     root.render(
