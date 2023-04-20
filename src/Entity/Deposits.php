@@ -23,6 +23,9 @@ class Deposits
     #[ORM\Column(length: 255)]
     private ?string $user_email = null;
 
+    #[ORM\Column]
+    private ?bool $is_verified = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +63,18 @@ class Deposits
     public function setUserEmail(string $user_email): self
     {
         $this->user_email = $user_email;
+
+        return $this;
+    }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->is_verified;
+    }
+
+    public function setIsVerified(bool $is_verified): self
+    {
+        $this->is_verified = $is_verified;
 
         return $this;
     }
