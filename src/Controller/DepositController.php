@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use DateTimeImmutable;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,19 +26,23 @@ class DepositController extends AbstractController
     }
 
     #[Route('/deposit/deposit-confirmation', name: 'app_deposit_confirmation')]
-    public function renderDepositConfirmedMessage(MailerInterface $mailer): Response
+    public function handleDepositConfirmation(MailerInterface $mailer): Response
     {
-        //get deposit information
-        $userEmail = $this->getUser()->getEmail();
+        //send email to admin to confirm deposit
+        try {
+            $userEmail = $this->getUser()->getEmail();
+            $date = new DateTimeImmutable('now', new \DateTimeZone('Europe/London'));
+            $dateString = $date->format('H:i:s Y-m-d');
+            $email = (new Email())
+                ->from('admin@defiworks.co.uk')
+                ->to('admin@defiworks.co.uk')
+                ->subject('New Deposit - Confirmation required')
+                ->html("$userEmail has made a new new deposit at $dateString");
+            $mailer->send($email);
 
-        $email = (new Email())
-            ->from('admin@defiworks.co.uk')
-            ->to('admin@defiworks.co.uk')
-            ->subject('New Deposit')
-            ->text('Sending emails is fun again!')
-            ->html("$userEmail has apparently made a new new deposit - test");
-
-        $mailer->send($email);
+        } catch (Exception $e) {
+            $this->createNotFoundException("Error getting current date and time - $e");
+        }
 
         return $this->render('deposit_confirmation/deposit-confirmation.html.twig');
     }
