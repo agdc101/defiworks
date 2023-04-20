@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Deposits;
+use App\Form\AddPendingDepositType;
 use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -26,8 +30,19 @@ class DepositController extends AbstractController
     }
 
     #[Route('/deposit/deposit-confirmation', name: 'app_deposit_confirmation')]
-    public function handleDepositConfirmation(MailerInterface $mailer): Response
+    public function handleDepositConfirmation(Request $request, MailerInterface $mailer, EntityManagerInterface $entityManager): Response
     {
+        $deposit = new Deposits();
+        $form = $this->createForm(AddPendingDepositType::class, $deposit);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($deposit);
+            $entityManager->flush();
+
+        }
+
+
         //send email to admin to confirm deposit
         try {
             $userEmail = $this->getUser()->getEmail();
@@ -40,7 +55,7 @@ class DepositController extends AbstractController
                 ->html("$userEmail has made a new new deposit at $dateString");
             $mailer->send($email);
 
-        } catch ( TransportExceptionInterface | Exception $e) {
+        } catch ( TransportExceptionInterface | Exception) {
             return $this->render('error/error.html.twig');
         }
 
