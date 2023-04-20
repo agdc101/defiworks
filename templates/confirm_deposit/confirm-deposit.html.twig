@@ -21,6 +21,9 @@
         <p>Please press confirm button when deposit has been sent.</p>
         <p>${{ app.request.requesturi | split('=') | last }} will appear as your account balance.</p>
     </div>
+    <div>
+        <a href="{{ path('app_deposit_confirmation') }}" class="btn btn-primary">Confirm Deposit</a>
+    </div>
 
 </div>
 {% endblock %}

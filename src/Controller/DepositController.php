@@ -14,11 +14,15 @@ class DepositController extends AbstractController
         return $this->render('deposit/deposit.html.twig');
     }
 
-    #[Route('/confirm-deposit', name: 'app_confirm_deposit')]
+    #[Route('/deposit/confirm-deposit', name: 'app_confirm_deposit')]
     public function renderDepositConfirm(): Response
     {
-        return $this->render('confirm_deposit/confirm-deposit.html.twig', [
-            'controller_name' => 'ConfirmDepositController',
-        ]);
+        return $this->render('confirm_deposit/confirm-deposit.html.twig');
+    }
+
+    #[Route('/deposit//deposit-confirmation', name: 'app_deposit_confirmation')]
+    public function renderDepositConfirmedMessage(): Response
+    {
+        return $this->render('confirm_deposit/confirm-deposit.html.twig');
     }
 }

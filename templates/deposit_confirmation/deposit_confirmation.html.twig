@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DeFi Works- Deposit Confirmation{% endblock %}
+
+{% block body %}
+
+    <div class="example-wrapper">
+        <h1>Thank you.</h1>
+
+        <p>Your deposit will now need to be confirmed.</p>
+        <p>Once confirmed, you will receive an email with your deposit details. The deposit amount will also appear in your dashboard balance.</p>
+
+        {# -----------------------------------------------------   #}
+        <a href={{ path('app_dashboard') }}>Dashboard</a>
+    </div>
+
+
+{% endblock %}
+

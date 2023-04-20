@@ -26,7 +26,7 @@ const DepositInputs = () =>  {
     function ConfirmDepositHandler(event) {
         event.preventDefault();
         if (isUsdValid()) {
-            window.location.href = '/confirm-deposit?GbpAmt=' + gbpDepositAmount + '&UsdAmt=' + usdDepositAmount;
+            window.location.href = '/deposit/confirm-deposit?GbpAmt=' + gbpDepositAmount + '&UsdAmt=' + usdDepositAmount;
         }
     }
 
@@ -67,7 +67,7 @@ const DepositInputs = () =>  {
                 <input type="number" id="UsdDepositAmount" name="UsdDepositAmount" onChange={setUsdDepositAmountHandler} value={usdDepositAmount}/>
             </form>
             {isUsdValid() ? <p>Your account balance will be ${usdDepositAmount}</p> : <p>Please enter a deposit amount</p>}
-            <a id="confirm-continue-btn" href="/confirm-deposit" onClick={ConfirmDepositHandler}>Continue</a>
+            <a id="confirm-continue-btn" href="/deposit/confirm-deposit" onClick={ConfirmDepositHandler}>Continue</a>
         </div>
     );
 }
