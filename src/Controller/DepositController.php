@@ -40,8 +40,8 @@ class DepositController extends AbstractController
                 ->html("$userEmail has made a new new deposit at $dateString");
             $mailer->send($email);
 
-        } catch (Exception $e) {
-            $this->createNotFoundException("Error getting current date and time - $e");
+        } catch ( TransportExceptionInterface | Exception $e) {
+            return $this->render('error/error.html.twig');
         }
 
         return $this->render('deposit_confirmation/deposit-confirmation.html.twig');
