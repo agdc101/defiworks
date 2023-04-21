@@ -24,27 +24,39 @@ class DepositController extends AbstractController
     }
 
     #[Route('/deposit/confirm-deposit', name: 'app_confirm_deposit')]
-    public function renderDepositConfirm(): Response
-    {
-        return $this->render('confirm_deposit/confirm-deposit.html.twig');
-    }
-
-    #[Route('/deposit/deposit-confirmation', name: 'app_deposit_confirmation')]
-    public function handleDepositConfirmation(Request $request, MailerInterface $mailer, EntityManagerInterface $entityManager): Response
+    public function renderDepositConfirm(Request $request, EntityManagerInterface $entityManager): Response
     {
         $deposit = new Deposits();
+        //create form to add deposit to database
         $form = $this->createForm(AddPendingDepositType::class, $deposit);
         $form->handleRequest($request);
+        try {
+            //set default values for deposit
+            $deposit->setIsVerified(false);
+            $deposit->setTimestamp(new DateTimeImmutable('now', new \DateTimeZone('Europe/London')));
+            $deposit->setUserEmail($this->getUser()->getEmail());
+            $deposit->setUserId($this->getUser()->getId());
+        } catch (Exception) {
+            return $this->render('error/error.html.twig');
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($deposit);
             $entityManager->flush();
-
+            return $this->render('deposit_confirmation/deposit-confirmation.html.twig');
         }
 
+        return $this->render('confirm_deposit/confirm-deposit.html.twig', [
+            'AddPendingDepositForm' => $form->createView(),
+        ]);
+    }
 
-        //send email to admin to confirm deposit
+    #[Route('/deposit/deposit-confirmation', name: 'app_deposit_confirmation')]
+    public function handleDepositConfirmation(MailerInterface $mailer): Response
+    {
+
         try {
+            //send email to admin to confirm deposit
             $userEmail = $this->getUser()->getEmail();
             $date = new DateTimeImmutable('now', new \DateTimeZone('Europe/London'));
             $dateString = $date->format('H:i:s Y-m-d');
@@ -60,7 +72,6 @@ class DepositController extends AbstractController
         }
 
 
-
-        return $this->render('deposit_confirmation/deposit-confirmation.html.twig');
+        return $this->render('confirm_deposit/confirm-deposit.html.twig');
     }
 }

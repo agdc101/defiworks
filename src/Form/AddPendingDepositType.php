@@ -12,7 +12,7 @@ class AddPendingDepositType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('amount')
+            ->add('gbp_amount')
             ->add('timestamp')
             ->add('user_email')
             ->add('is_verified')
