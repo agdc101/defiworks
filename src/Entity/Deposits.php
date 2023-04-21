@@ -14,14 +14,20 @@ class Deposits
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?string $amount = null;
-
     #[ORM\Column]
-    private ?\DateTimeImmutable $timestamp = null;
+    private ?int $user_id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $user_email = null;
+
+    #[ORM\Column(type: Types::BIGINT)]
+    private ?string $gbp_amount = null;
+
+    #[ORM\Column(type: Types::BIGINT)]
+    private ?string $usd_amount = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $timestamp = null;
 
     #[ORM\Column]
     private ?bool $is_verified = null;
@@ -31,26 +37,14 @@ class Deposits
         return $this->id;
     }
 
-    public function getAmount(): ?string
+    public function getUserId(): ?int
     {
-        return $this->amount;
+        return $this->user_id;
     }
 
-    public function setAmount(string $amount): self
+    public function setUserId(int $user_id): self
     {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    public function getTimestamp(): ?\DateTimeImmutable
-    {
-        return $this->timestamp;
-    }
-
-    public function setTimestamp(\DateTimeImmutable $timestamp): self
-    {
-        $this->timestamp = $timestamp;
+        $this->user_id = $user_id;
 
         return $this;
     }
@@ -67,6 +61,42 @@ class Deposits
         return $this;
     }
 
+    public function getGbpAmount(): ?string
+    {
+        return $this->gbp_amount;
+    }
+
+    public function setGbpAmount(string $gbp_amount): self
+    {
+        $this->gbp_amount = $gbp_amount;
+
+        return $this;
+    }
+
+    public function getUsdAmount(): ?string
+    {
+        return $this->usd_amount;
+    }
+
+    public function setUsdAmount(string $usd_amount): self
+    {
+        $this->usd_amount = $usd_amount;
+
+        return $this;
+    }
+
+    public function getTimestamp(): ?\DateTimeImmutable
+    {
+        return $this->timestamp;
+    }
+
+    public function setTimestamp(\DateTimeImmutable $timestamp): self
+    {
+        $this->timestamp = $timestamp;
+
+        return $this;
+    }
+
     public function isIsVerified(): ?bool
     {
         return $this->is_verified;
@@ -78,4 +108,5 @@ class Deposits
 
         return $this;
     }
+
 }
