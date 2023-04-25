@@ -31,17 +31,25 @@ class DepositController extends AbstractController
         $form = $this->createForm(AddPendingDepositType::class, $deposit);
         $form->handleRequest($request);
 
-        try {
-            //set default values for deposit
-            $deposit->setIsVerified(false);
-            $deposit->setTimestamp(new DateTimeImmutable('now', new \DateTimeZone('Europe/London')));
-            $deposit->setUserEmail($this->getUser()->getEmail());
-            $deposit->setUserId($this->getUser()->getId());
-            $deposit->setUsdAmount(120);
-            $deposit->setGbpAmount(100);
+        if ($slug !== 'null') {
+            preg_match_all('/\d+(\.\d+)?/', $slug, $matches);
+            $numbers = $matches[0];
+            list($gbpAmount, $usdAmount) = $numbers;
 
-        } catch (Exception) {
-            return $this->render('error/error.html.twig');
+            try {
+                //set default values for deposit
+                $deposit->setIsVerified(false);
+                $deposit->setTimestamp(new DateTimeImmutable('now', new \DateTimeZone('Europe/London')));
+                $deposit->setUserEmail($this->getUser()->getEmail());
+                $deposit->setUserId($this->getUser()->getId());
+                $deposit->setUsdAmount($usdAmount);
+                $deposit->setGbpAmount($gbpAmount);
+
+            } catch (Exception) {
+                return $this->render('error/error.html.twig');
+            }
+        } else {
+            return $this->redirectToRoute('app_deposit');
         }
 
         if ($form->isSubmitted() && $form->isValid()) {

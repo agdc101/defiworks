@@ -26,7 +26,7 @@ const DepositInputs = () =>  {
     function ConfirmDepositHandler(event) {
         event.preventDefault();
         if (isUsdValid()) {
-            window.location.href = '/deposit/confirm-deposit?GbpAmt=' + gbpDepositAmount + '&UsdAmt=' + usdDepositAmount;
+            window.location.href = '/deposit/confirm-deposit/GbpAmt=' + gbpDepositAmount + '&UsdAmt=' + usdDepositAmount;
         }
     }
 
