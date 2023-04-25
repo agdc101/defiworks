@@ -58,14 +58,17 @@ class DepositController extends AbstractController
 
             try {
                 //send email to admin to confirm deposit
+                $firstName = $this->getUser()->getFirstName();
+                $lastName = $this->getUser()->getLastName();
                 $userEmail = $this->getUser()->getEmail();
-                $date = new DateTimeImmutable('now', new \DateTimeZone('Europe/London'));
+                $date = $deposit->getTimestamp();
                 $dateString = $date->format('H:i:s Y-m-d');
+                $depositId = $deposit->getId();
                 $email = (new Email())
                     ->from('admin@defiworks.co.uk')
                     ->to('admin@defiworks.co.uk')
                     ->subject('New Deposit - Confirmation required')
-                    ->html("$userEmail has made a new new deposit at $dateString");
+                    ->html("$firstName $lastName ($userEmail) has made a new deposit at $dateString <br><br> confirm by going to <a href='https://defiworks.co.uk/admin/confirm-deposits/$depositId'>https://defiworks.co.uk/admin/confirm-deposits/$depositId</a>");
                 $mailer->send($email);
 
             } catch ( TransportExceptionInterface | Exception) {
