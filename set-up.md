@@ -16,20 +16,15 @@
 
 7) Install mySQL server & mySQL GUI (Workbench) == "The MySQL server provides a database management system with querying and connectivity capabilities" == create mySQL database.
 
-## Project File Set-up
+## Project Set-up
 
-1) Create new Symfony app - in terminal of Project folder "symfony new --webapp <project-name>".
+1) Git clone - https://github.com/agdc101/defiworks.git
+
+2) run composer install
+
+3) run yarn install - installs node_modules
   
-2) Create env.local file - change database URL.
+4) Create env.local file - change database URL.
   
-3) In terminal, Run "yarn install" == to install project dependancies.
-  
-4) In terminal, Run "symfony server:start" == starts symfony server, go to web address to make sure all ok.
-  
-5) In terminal, Run "yarn encore dev --watch" == Yarn/encore webpack watching for code changes.
-  
-6) Enable React in webpack.config.js file == uncomment ".enableReactPreset()".
-  
-7) In terminal, Run "bin/console make:controller" == makes Symfony controller so routes can be handler. Follow prompts.
-  
+### Windows machines will need to run webpack in git bash.  
 ### run in terminal --> "symfony server:start" --> "yarn encore dev --watch".
