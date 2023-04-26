@@ -7,8 +7,12 @@
     <div class="example-wrapper">
         <h1>Thank you.</h1>
 
-        <p>Your deposit will now need to be confirmed.</p>
-        <p>Once confirmed, you will receive an email with your deposit details. The deposit amount will also appear in your dashboard balance.</p>
+        {% for message in app.flashes('gbp_amount') %}
+            <p>Your deposit of £{{ message }} will now need to be confirmed.</p>
+            <p>Once confirmed, you will receive an email with your deposit details. The deposit amount will also appear in your dashboard balance.</p>
+        {% endfor %}
+
+        <p>Your payment will need to be confirmed and processed. you will receive an email with your deposit details. The deposit amount will also appear in your dashboard balance.</p>
 
         {# -----------------------------------------------------  #}
         <a href={{ path('app_dashboard') }}>Return to Dashboard</a>

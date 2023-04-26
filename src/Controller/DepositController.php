@@ -33,8 +33,7 @@ class DepositController extends AbstractController
 
         if ($slug !== 'null') {
             preg_match_all('/\d+(\.\d+)?/', $slug, $matches);
-            $numbers = $matches[0];
-            list($gbpAmount, $usdAmount) = $numbers;
+            list($gbpAmount, $usdAmount) = $matches[0];
 
             try {
                 //set default values for deposit
@@ -76,11 +75,21 @@ class DepositController extends AbstractController
                 return $this->render('error/error.html.twig');
             }
 
-            return $this->render('deposit_confirmation/deposit-confirmation.html.twig');
+            //add flash message
+            $this->addFlash('gbp_amount', $gbpAmount);
+
+            //redirect to deposit confirmation page
+            return $this->redirectToRoute('app_deposit_confirmed');
         }
 
         return $this->render('confirm_deposit/confirm-deposit.html.twig', [
             'AddPendingDepositForm' => $form->createView(),
         ]);
+    }
+
+    #[Route('/deposit/deposit-confirmation', name: 'app_deposit_confirmed')]
+    public function renderDepositConfirmationTemplate(): Response
+    {
+        return $this->render('deposit_confirmation/deposit-confirmation.html.twig');
     }
 }
