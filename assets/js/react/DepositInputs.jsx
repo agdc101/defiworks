@@ -9,6 +9,7 @@ const DepositInputs = () =>  {
     // state variables
     const [gbpDepositAmount, setGbpDepositAmount] = useState('');
     const [usdDepositAmount, setUsdDepositAmount] = useState('');
+    const [isGbpValid, setIsGbpValid] = useState(true);
 
     // function that gets gbp->susd rate from coingecko api
     async function getRate() {
@@ -37,6 +38,7 @@ const DepositInputs = () =>  {
             (currSum === 0) ? setUsdDepositAmount('') : setUsdDepositAmount(currSum.toFixed(2));
         } else {
             let currSum = ((value * SUSDRate) / fee);
+            (currSum < 10 || currSum > 10000) ? setIsGbpValid(false) : setIsGbpValid(true);
             (currSum === 0) ? setGbpDepositAmount('') : setGbpDepositAmount(currSum.toFixed(2));
         }
     }
@@ -48,6 +50,7 @@ const DepositInputs = () =>  {
 
     // event handlers for the two input fields
     function setGbpDepositAmountHandler(event) {
+        (event.target.value < 10 || event.target.value > 10000) ? setIsGbpValid(false) : setIsGbpValid(true);
         setGbpDepositAmount(event.target.value);
         setValueHelper(event.target.value, 'gbp');
     }
@@ -62,6 +65,7 @@ const DepositInputs = () =>  {
             <form>
                 <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
                 <input type="number" id="GbpDepositAmount" name="GbpDepositAmount" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
+                {!isGbpValid && <span>Deposit must be between £10 and £10,000 in value.</span>}
                 <br/>
                 <label htmlFor="UsdDepositAmount">Deposit Amount In USD($)</label>
                 <input type="number" id="UsdDepositAmount" name="UsdDepositAmount" onChange={setUsdDepositAmountHandler} value={usdDepositAmount}/>
