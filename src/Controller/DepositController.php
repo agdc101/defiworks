@@ -37,13 +37,12 @@ class DepositController extends AbstractController
 
             try {
                 //set default values for deposit
-                $deposit->setIsVerified(false);
-                $deposit->setTimestamp(new DateTimeImmutable('now', new \DateTimeZone('Europe/London')));
-                $deposit->setUserEmail($this->getUser()->getEmail());
-                $deposit->setUserId($this->getUser()->getId());
-                $deposit->setUsdAmount($usdAmount);
-                $deposit->setGbpAmount($gbpAmount);
-
+                $deposit->setIsVerified(false)
+                        ->setTimestamp(new DateTimeImmutable('now', new \DateTimeZone('Europe/London')))
+                        ->setUserEmail($this->getUser()->getEmail())
+                        ->setUserId($this->getUser()->getId())
+                        ->setUsdAmount($usdAmount)
+                        ->setGbpAmount($gbpAmount);
             } catch (Exception) {
                 return $this->render('error/error.html.twig');
             }
@@ -57,13 +56,9 @@ class DepositController extends AbstractController
 
             try {
                 //send email to admin to confirm deposit
-                $firstName = $this->getUser()->getFirstName();
-                $lastName = $this->getUser()->getLastName();
-                $userEmail = $this->getUser()->getEmail();
-                $gbpAmount = $deposit->getGbpAmount();
-                $date = $deposit->getTimestamp();
+                list($firstName, $lastName, $userEmail) = [$this->getUser()->getFirstName(), $this->getUser()->getLastName(), $this->getUser()->getEmail()];
+                list($gbpAmount, $date, $depositId) = [$deposit->getGbpAmount(), $deposit->getTimestamp(), $deposit->getId()];
                 $dateString = $date->format('H:i:s Y-m-d');
-                $depositId = $deposit->getId();
                 $email = (new Email())
                     ->from('admin@defiworks.co.uk')
                     ->to('admin@defiworks.co.uk')
