@@ -31,13 +31,13 @@ class UserAccountController extends AbstractController
         ]);
     }
 
-    #[Route('/close-user-account', name: 'app_close_user_account')]
+    #[Route('/user-account/close-user-account', name: 'app_close_user_account')]
     public function displayCloseLanding(): Response
     {
         return $this->render('user-account/close-account.html.twig');
     }
 
-    #[Route('/close-user-account/confirm', name: 'app_close_user_account_confirm')]
+    #[Route('/user-account/close-user-account/confirm', name: 'app_close_user_account_confirm')]
     public function close(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();

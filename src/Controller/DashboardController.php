@@ -11,8 +11,6 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function index(): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
         // getReaperApy is defined in helpers.php
         getReaperApy($this->getParameter('llama_api'), $this->getParameter('commission'));
         $responseApy = getReaperApy($this->getParameter('llama_api'), $this->getParameter('commission'));
