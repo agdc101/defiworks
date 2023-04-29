@@ -32,18 +32,20 @@ const DepositInputs = () =>  {
     }
 
     // helper function that sets the value of the other input field
-    function setValueHelper(value, curr) {
+    function setOtherInput(value, curr) {
+        // Limit the value length to 8 characters
         if (curr === 'gbp') {
-            let currSum = ((value / SUSDRate) * fee);
-            (currSum === 0) ? setUsdDepositAmount('') : setUsdDepositAmount(currSum.toFixed(2));
+            let usdSum = ((value / SUSDRate) * fee);
+            (usdSum === 0) ? setUsdDepositAmount('') : setUsdDepositAmount(usdSum.toFixed(2));
         } else {
-            let currSum = ((value * SUSDRate) / fee);
-            (currSum < 10 || currSum > 10000) ? setIsGbpValid(false) : setIsGbpValid(true);
-            (currSum === 0) ? setGbpDepositAmount('') : setGbpDepositAmount(currSum.toFixed(2));
+            let gbpSum = ((value * SUSDRate) / fee);
+            console.log(gbpSum);
+            (gbpSum < 10 || gbpSum > 10000) ? setIsGbpValid(false) : setIsGbpValid(true);
+            (gbpSum === 0) ? setGbpDepositAmount('') : setGbpDepositAmount(gbpSum.toFixed(2));
         }
     }
 
-    //useEffect hook that calls getRate() on component mount
+    // useEffect hook that calls getRate() on component mount
     useEffect(() => {
         getRate().then(() => {console.log('rate: ' + SUSDRate)});
     }, []);
@@ -51,13 +53,24 @@ const DepositInputs = () =>  {
     // event handlers for the two input fields
     function setGbpDepositAmountHandler(event) {
         (event.target.value < 10 || event.target.value > 10000) ? setIsGbpValid(false) : setIsGbpValid(true);
-        setGbpDepositAmount(event.target.value);
-        setValueHelper(event.target.value, 'gbp');
+        let value = event.target.value.toString().substring(0, 6);
+        // if usd value is bigger than 10000, set it to 10000
+        setGbpDepositAmount(value);
+        // if the value 8 characters long, do not set the other input field
+        if (value.length === 6) {
+            return;
+        }
+        setOtherInput(event.target.value, 'gbp');
     }
 
     function setUsdDepositAmountHandler(event) {
-        setUsdDepositAmount(event.target.value);
-        setValueHelper(event.target.value,'usd');
+        let value = event.target.value.toString().substring(0, 6);
+        // if gbp value is bigger than 10000, set it to 10000
+        setUsdDepositAmount(value);
+        if (value.length === 6) {
+            return;
+        }
+        setOtherInput(event.target.value,'usd');
     }
 
     return (
