@@ -52,24 +52,22 @@ const DepositInputs = () =>  {
 
     // event handlers for the two input fields
     function setGbpDepositAmountHandler(event) {
+        const pattern = /^[0-9 ]*$/;
+        if (!pattern.test(event.target.value)) return;
         (event.target.value < 10 || event.target.value > 10000) ? setIsGbpValid(false) : setIsGbpValid(true);
-        let value = event.target.value.toString().substring(0, 6);
-        // if usd value is bigger than 10000, set it to 10000
-        setGbpDepositAmount(value);
-        // if the value 8 characters long, do not set the other input field
-        if (value.length === 6) {
-            return;
+        if (+event.target.value > 10000) {
+            setGbpDepositAmount('10000');
+            setOtherInput('10000', 'gbp');
+        } else {
+            setGbpDepositAmount(event.target.value);
+            setOtherInput(event.target.value, 'gbp');
         }
-        setOtherInput(event.target.value, 'gbp');
     }
 
     function setUsdDepositAmountHandler(event) {
-        let value = event.target.value.toString().substring(0, 6);
-        // if gbp value is bigger than 10000, set it to 10000
-        setUsdDepositAmount(value);
-        if (value.length === 6) {
-            return;
-        }
+        const pattern = /^[0-9 ]*$/;
+        if (!pattern.test(event.target.value)) return;
+        setUsdDepositAmount(event.target.value);
         setOtherInput(event.target.value,'usd');
     }
 
@@ -77,11 +75,11 @@ const DepositInputs = () =>  {
         <div>
             <form>
                 <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
-                <input type="number" id="GbpDepositAmount" name="GbpDepositAmount" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
+                <input type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="6" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
                 {!isGbpValid && <span>Deposit must be between £10 and £10,000 in value.</span>}
                 <br/>
                 <label htmlFor="UsdDepositAmount">Deposit Amount In USD($)</label>
-                <input type="number" id="UsdDepositAmount" name="UsdDepositAmount" onChange={setUsdDepositAmountHandler} value={usdDepositAmount}/>
+                <input type="text" id="UsdDepositAmount" name="UsdDepositAmount" maxLength="6" onChange={setUsdDepositAmountHandler} value={usdDepositAmount}/>
             </form>
             {isUsdValid() ? <p>Your account balance will be ${usdDepositAmount}</p> : <p>Please enter a deposit amount</p>}
             <a id="confirm-continue-btn" href="/deposit/confirm-deposit" onClick={ConfirmDepositHandler}>Continue</a>
