@@ -39,7 +39,6 @@ const DepositInputs = () =>  {
             (usdSum === 0) ? setUsdDepositAmount('') : setUsdDepositAmount(usdSum.toFixed(2));
         } else {
             let gbpSum = ((value * SUSDRate) / fee);
-            console.log(gbpSum);
             (gbpSum < 10 || gbpSum > 10000) ? setIsGbpValid(false) : setIsGbpValid(true);
             (gbpSum === 0) ? setGbpDepositAmount('') : setGbpDepositAmount(gbpSum.toFixed(2));
         }
@@ -52,34 +51,31 @@ const DepositInputs = () =>  {
 
     // event handlers for the two input fields
     function setGbpDepositAmountHandler(event) {
-        const pattern = /^[0-9 ]*$/;
+        const pattern = /^(\d+(\.\d*)?|\.\d+|\s*)$/;
         if (!pattern.test(event.target.value)) return;
-        (event.target.value < 10 || event.target.value > 10000) ? setIsGbpValid(false) : setIsGbpValid(true);
-        if (+event.target.value > 10000) {
-            setGbpDepositAmount('10000');
-            setOtherInput('10000', 'gbp');
-        } else {
-            setGbpDepositAmount(event.target.value);
-            setOtherInput(event.target.value, 'gbp');
-        }
+        (event.target.value < 20) ? setIsGbpValid(false) : setIsGbpValid(true);
+
+        setGbpDepositAmount(event.target.value);
+        setOtherInput(event.target.value, 'gbp');
     }
 
     function setUsdDepositAmountHandler(event) {
-        const pattern = /^[0-9 ]*$/;
+        const pattern = /^(\d+(\.\d*)?|\.\d+|\s*)$/;
         if (!pattern.test(event.target.value)) return;
+
         setUsdDepositAmount(event.target.value);
-        setOtherInput(event.target.value,'usd');
+        setOtherInput(event.target.value, 'usd');
     }
 
     return (
         <div>
             <form>
                 <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
-                <input type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="6" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
-                {!isGbpValid && <span>Deposit must be between £10 and £10,000 in value.</span>}
+                <input type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="5" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
+                {!isGbpValid && <span>Deposit must at least £20 in value.</span>}
                 <br/>
                 <label htmlFor="UsdDepositAmount">Deposit Amount In USD($)</label>
-                <input type="text" id="UsdDepositAmount" name="UsdDepositAmount" maxLength="6" onChange={setUsdDepositAmountHandler} value={usdDepositAmount}/>
+                <input type="text" id="UsdDepositAmount" name="UsdDepositAmount" maxLength="5" onChange={setUsdDepositAmountHandler} value={usdDepositAmount}/>
             </form>
             {isUsdValid() ? <p>Your account balance will be ${usdDepositAmount}</p> : <p>Please enter a deposit amount</p>}
             <a id="confirm-continue-btn" href="/deposit/confirm-deposit" onClick={ConfirmDepositHandler}>Continue</a>
