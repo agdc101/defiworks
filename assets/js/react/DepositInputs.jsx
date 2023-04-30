@@ -36,11 +36,11 @@ const DepositInputs = () =>  {
         // Limit the value length to 8 characters
         if (curr === 'gbp') {
             let usdSum = ((value / SUSDRate) * fee);
-            (usdSum === 0) ? setUsdDepositAmount('') : setUsdDepositAmount(usdSum.toFixed(2));
+            (usdSum === 0) ? setUsdDepositAmount('') : setUsdDepositAmount(usdSum.toFixed(2).toLocaleString());
         } else {
             let gbpSum = ((value * SUSDRate) / fee);
             (gbpSum < 10 || gbpSum > 10000) ? setIsGbpValid(false) : setIsGbpValid(true);
-            (gbpSum === 0) ? setGbpDepositAmount('') : setGbpDepositAmount(gbpSum.toFixed(2));
+            (gbpSum === 0) ? setGbpDepositAmount('') : setGbpDepositAmount(gbpSum.toFixed(2).toLocaleString());
         }
     }
 
@@ -53,9 +53,12 @@ const DepositInputs = () =>  {
     function setGbpDepositAmountHandler(event) {
         const pattern = /^(\d+(\.\d*)?|\.\d+|\s*)$/;
         if (!pattern.test(event.target.value)) return;
+        let number = +event.target.value;
+        let formattedNumber = number.toLocaleString();
+        console.log(formattedNumber);
         (event.target.value < 20) ? setIsGbpValid(false) : setIsGbpValid(true);
 
-        setGbpDepositAmount(event.target.value);
+        setGbpDepositAmount(formattedNumber.toString());
         setOtherInput(event.target.value, 'gbp');
     }
 
@@ -63,7 +66,7 @@ const DepositInputs = () =>  {
         const pattern = /^(\d+(\.\d*)?|\.\d+|\s*)$/;
         if (!pattern.test(event.target.value)) return;
 
-        setUsdDepositAmount(event.target.value);
+        setUsdDepositAmount(event.target.value.toLocaleString());
         setOtherInput(event.target.value, 'usd');
     }
 
