@@ -23,6 +23,24 @@ const DepositInputs = () =>  {
         return usdDepositAmount > 0 || usdDepositAmount !== '';
     }
 
+    //validate input
+    function validateAndSetAllInputs(value, currEvent) {
+        const pattern = /^[0-9,. ]*$/;
+        if (!pattern.test(value)) return;
+        // remove commas from the value
+        let strippedVal = value.replace(/,/g, '');
+        // format the value to have the correct commas
+        let formattedValue = Number(strippedVal).toLocaleString();
+
+        if (currEvent === 'gbp') {
+            setGbpDepositAmount(formattedValue);
+            setOtherInput(strippedVal, 'gbp');
+        } else {
+            setUsdDepositAmount(formattedValue);
+            setOtherInput(strippedVal, 'usd');
+        }
+    }
+
     // function that handles the click event on the continue button, adding gbp amount to the url
     function ConfirmDepositHandler(event) {
         event.preventDefault();
@@ -33,14 +51,19 @@ const DepositInputs = () =>  {
 
     // helper function that sets the value of the other input field
     function setOtherInput(value, curr) {
-        // Limit the value length to 8 characters
         if (curr === 'gbp') {
-            let usdSum = ((value / SUSDRate) * fee);
-            (usdSum === 0) ? setUsdDepositAmount('') : setUsdDepositAmount(usdSum.toFixed(2).toLocaleString());
+            // calculate the usd sum and set to number.
+            let usdSum = Number(((value / SUSDRate) * fee));
+            // format the value to have the correct commas
+            let formattedValue = usdSum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            (usdSum === 0) ? setUsdDepositAmount('') : setUsdDepositAmount(formattedValue);
         } else {
-            let gbpSum = ((value * SUSDRate) / fee);
-            (gbpSum < 10 || gbpSum > 10000) ? setIsGbpValid(false) : setIsGbpValid(true);
-            (gbpSum === 0) ? setGbpDepositAmount('') : setGbpDepositAmount(gbpSum.toFixed(2).toLocaleString());
+            let gbpSum = Number(((value * SUSDRate) / fee));
+            let formattedValue = gbpSum.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            // check if the value is less than 10, if so set to invalid.
+            (gbpSum < 20) ? setIsGbpValid(false) : setIsGbpValid(true);
+            // if 0, set to empty string
+            (gbpSum === 0) ? setGbpDepositAmount('') : setGbpDepositAmount(formattedValue);
         }
     }
 
@@ -51,31 +74,13 @@ const DepositInputs = () =>  {
 
     // event handlers for the two input fields
     function setGbpDepositAmountHandler(event) {
-        const pattern = /^[0-9,. ]*$/;
-        if (!pattern.test(event.target.value)) return;
-
+        // check if the value is less than 20, if so set to invalid.
         (event.target.value < 20) ? setIsGbpValid(false) : setIsGbpValid(true);
-
-        let stripEvent = event.target.value.replace(/,/g, '');
-
-        let toNumber = Number(stripEvent);
-        
-        let formattedValue = toNumber.toLocaleString();
-
-        console.log(typeof formattedValue);
-        console.log(formattedValue);
-
-
-        setGbpDepositAmount(formattedValue);
-        // setOtherInput(event.target.value, 'gbp');
+        validateAndSetAllInputs(event.target.value, 'gbp');
     }
 
     function setUsdDepositAmountHandler(event) {
-        const pattern = /^[0-9,. ]*$/;
-        if (!pattern.test(event.target.value)) return;
-
-        setUsdDepositAmount(event.target.value);
-        setOtherInput(event.target.value, 'usd');
+        validateAndSetAllInputs(event.target.value, 'usd');
     }
 
     return (
