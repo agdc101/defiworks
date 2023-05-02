@@ -10,6 +10,7 @@ const DepositInputs = () =>  {
     const [gbpDepositAmount, setGbpDepositAmount] = useState('');
     const [usdDepositAmount, setUsdDepositAmount] = useState('');
     const [isGbpValid, setIsGbpValid] = useState(true);
+    const [isUsdValid, setIsUsdValid] = useState(false);
 
     // function that gets gbp->susd rate from coingecko api
     async function getRate() {
@@ -19,14 +20,18 @@ const DepositInputs = () =>  {
     }
 
     // function that checks if the USD amount is valid
-    function isUsdValid() {
-        return usdDepositAmount > 0 || usdDepositAmount !== '';
+    function checkUsdIsValid(value) {
+        console.log('usd: ' + value);
+        console.log(typeof value);
+        {(value > 0 || value !== '') ? setIsUsdValid(true) : setIsUsdValid(false)};
     }
 
     //validate input
     function validateAndSetAllInputs(value, currEvent) {
         const pattern = /^[0-9,. ]*$/;
         if (!pattern.test(value)) return;
+        // check if the usd value is valid
+        checkUsdIsValid(value);
         // remove commas from the value
         let strippedVal = value.replace(/,/g, '');
         // format the value to have the correct commas
@@ -44,7 +49,7 @@ const DepositInputs = () =>  {
     // function that handles the click event on the continue button, adding gbp amount to the url
     function ConfirmDepositHandler(event) {
         event.preventDefault();
-        if (isUsdValid()) {
+        if (isUsdValid) {
             window.location.href = '/deposit/confirm-deposit/GbpAmt=' + gbpDepositAmount + '&UsdAmt=' + usdDepositAmount;
         }
     }
@@ -93,7 +98,7 @@ const DepositInputs = () =>  {
                 <label htmlFor="UsdDepositAmount">Deposit Amount In USD($)</label>
                 <input type="text" id="UsdDepositAmount" name="UsdDepositAmount" maxLength="6" onChange={setUsdDepositAmountHandler} value={usdDepositAmount}/>
             </form>
-            {isUsdValid() ? <p>Your account balance will be ${usdDepositAmount}</p> : <p>Please enter a deposit amount</p>}
+            {isUsdValid ? <p>Your account balance will be ${usdDepositAmount}</p> : <p>Please enter a deposit amount</p>}
             <a id="confirm-continue-btn" href="/deposit/confirm-deposit" onClick={ConfirmDepositHandler}>Continue</a>
         </div>
     );
