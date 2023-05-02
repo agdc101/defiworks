@@ -32,7 +32,7 @@ class DepositController extends AbstractController
         $form->handleRequest($request);
 
         if ($slug !== 'null') {
-            preg_match_all('/\d+(\.\d+)?/', $slug, $matches);
+            preg_match_all('/\d+(\.\d+)?/', str_replace(',', '', $slug), $matches);
             list($gbpAmount, $usdAmount) = $matches[0];
 
             try {
