@@ -10,6 +10,7 @@ const DepositInputs = () =>  {
     const [gbpDepositAmount, setGbpDepositAmount] = useState('');
     const [usdDepositAmount, setUsdDepositAmount] = useState('');
     const [isGbpValid, setIsGbpValid] = useState(false);
+    const [confirmDeposit, setConfirmDeposit] = useState(false);
 
     // function that gets gbp->susd rate from coingecko api
     async function getRate() {
@@ -44,9 +45,30 @@ const DepositInputs = () =>  {
     function ConfirmDepositHandler(event) {
         event.preventDefault();
         if (isGbpValid) {
-            window.location.href = '/deposit/confirm-deposit/GbpAmt=' + gbpDepositAmount + '&UsdAmt=' + usdDepositAmount;
+
+            //fetch post request to /deposit with gbp amount
+            fetch('/deposit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    gbpDepositAmount: gbpDepositAmount,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                setConfirmDeposit(true);
+                //shows confirm deposit button
+                document.getElementById('hidden-form').style.display = 'block';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
         }
     }
+
 
     // function that formats the value to have the correct commas and decimal places
     function formatValue(value) {
@@ -87,21 +109,41 @@ const DepositInputs = () =>  {
 
     return (
         <div>
-            <form>
-                <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
-                <input type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="6" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
-                {!isGbpValid && <span>Deposit must at least £20 in value.</span>}
-                <br/>
-                <label htmlFor="UsdDepositAmount">Deposit Amount In USD($)</label>
-                <input type="text" id="UsdDepositAmount" name="UsdDepositAmount" maxLength="6" onChange={setUsdDepositAmountHandler} value={usdDepositAmount}/>
-            </form>
-            {isGbpValid ?
+            {confirmDeposit ?
                 <div>
-                    <p>Your account balance will be ${usdDepositAmount}</p>
-                    <a id="confirm-continue-btn" href="/deposit/confirm-deposit" onClick={ConfirmDepositHandler} >Continue</a>
+                    <h1>Deposit Details:</h1>
+                    <div className="bank-details">
+                        <h4>Account Name : DeFi Works</h4>
+                        <p>Sort: 01-04-06</p>
+                        <p>Account No: 01234 56789</p>
+                    </div>
+                    <div>
+                        <h3>Your amount to deposit is £{gbpDepositAmount}</h3>
+                        <p>Please press confirm button when deposit has been sent.</p>
+                        <p>${usdDepositAmount} will appear as your account balance.</p>
+
+                    </div>
                 </div>
                 :
-                <p>Please enter a deposit amount</p>}
+                <div>
+                    <h3>Enter amount to deposit:</h3>
+                    <form>
+                        <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
+                        <input type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="6" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
+                        {!isGbpValid && <span>Deposit must at least £20 in value.</span>}
+                        <br/>
+                        <label htmlFor="UsdDepositAmount">Deposit Amount In USD($)</label>
+                        <input type="text" id="UsdDepositAmount" name="UsdDepositAmount" maxLength="6" onChange={setUsdDepositAmountHandler} value={usdDepositAmount}/>
+                    </form>
+                {isGbpValid ?
+                    <div>
+                    <p>Your account balance will be ${usdDepositAmount}</p>
+                    <a id="confirm-continue-btn" href="/deposit/confirm-deposit" onClick={ConfirmDepositHandler} >Continue</a>
+                    </div>
+                    :
+                    <p>Please enter a deposit amount</p>}
+                </div>
+            }
         </div>
     );
 }

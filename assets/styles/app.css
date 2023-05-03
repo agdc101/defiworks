@@ -2,4 +2,7 @@ body {
   background: #130e1f;
   color: darkgray; }
 
+#hidden-form {
+  display: none; }
+
 /*# sourceMappingURL=app.css.map */
