@@ -69,7 +69,6 @@ const DepositInputs = () =>  {
         }
     }
 
-
     // function that formats the value to have the correct commas and decimal places
     function formatValue(value) {
         if (value.toString().slice(-3) === ".00") {
@@ -108,6 +107,12 @@ const DepositInputs = () =>  {
         validateAndSetAllInputs(event.target.value, 'usd');
     }
 
+    // event handler for the back button
+    function backBtnHandler() {
+        setConfirmDeposit(false);
+        document.getElementById('hidden-form').style.display = 'none';
+    }
+
     return (
         <div>
             {confirmDeposit ?
@@ -122,6 +127,7 @@ const DepositInputs = () =>  {
                         <h3>Your amount to deposit is £{gbpDepositAmount}</h3>
                         <p>Please press confirm button when deposit has been sent.</p>
                         <p>${usdDepositAmount} will appear as your account balance.</p>
+                        <button onClick={backBtnHandler} >Back</button>
 
                     </div>
                 </div>
