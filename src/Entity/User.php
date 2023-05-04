@@ -54,6 +54,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $balance = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -215,6 +218,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getBalance(): ?float
+    {
+        return $this->balance;
+    }
+
+    public function setBalance(?float $balance): self
+    {
+        $this->balance = $balance;
 
         return $this;
     }

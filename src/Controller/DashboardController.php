@@ -21,7 +21,8 @@ class DashboardController extends AbstractController
 
         return $this->render('dashboard/dashboard.html.twig', [
             'user' => $this->getUser()->getFirstName(),
-            'apy' => reset($responseApy)
+            'apy' => reset($responseApy),
+            'balance' => $this->getUser()->getBalance()
         ]);
     }
 }

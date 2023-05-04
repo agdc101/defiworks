@@ -20,11 +20,11 @@ class Deposits
     #[ORM\Column(length: 255)]
     private ?string $user_email = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?string $gbp_amount = null;
+    #[ORM\Column]
+    private ?float $gbp_amount = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?string $usd_amount = null;
+    #[ORM\Column]
+    private ?float $usd_amount = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $timestamp = null;
