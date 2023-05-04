@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DepositController extends AbstractController
 {
     #[Route('/deposit', name: 'app_deposit')]
-    public function renderDeposit(Request $request): Response
+    public function renderDeposit(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $session = $request->getSession();
         $deposit = new Deposits();
@@ -26,56 +26,29 @@ class DepositController extends AbstractController
         $form = $this->createForm(AddPendingDepositType::class, $deposit);
         $form->handleRequest($request);
 
-        try {
-            //set default values for deposit
-            $deposit->setIsVerified(false)
-                ->setTimestamp(new DateTimeImmutable('now', new \DateTimeZone('Europe/London')))
-                ->setUserEmail($this->getUser()->getEmail())
-                ->setUserId($this->getUser()->getId())
-                ->setUsdAmount($session->get('usdDeposit'))
-                ->setGbpAmount($session->get('gbpDeposit'));
-        } catch (Exception) {
-            return $this->render('error/error.html.twig');
-        }
+        //if session variable gbpDeposit is set
+        if ($session->get('gbpDeposit') && $session->get('usdDeposit')) {
 
-        dd($deposit);
-
-        return $this->render('deposit/deposit.html.twig', [
-            'AddPendingDepositForm' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/deposit/confirm-deposit/{slug}', name: 'app_confirm_deposit')]
-    public function renderDepositConfirm(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, string $slug = 'null'): Response
-    {
-        $deposit = new Deposits();
-        //create form to add deposit to database
-        $form = $this->createForm(AddPendingDepositType::class, $deposit);
-        $form->handleRequest($request);
-
-        if ($slug !== 'null') {
-            preg_match_all('/\d+(\.\d+)?/', str_replace(',', '', $slug), $matches);
-            list($gbpAmount, $usdAmount) = $matches[0];
+            $cleanGbp = str_replace(',', '', $session->get('gbpDeposit'));
+            $cleanUsd = str_replace(',', '', $session->get('usdDeposit'));
 
             try {
                 //set default values for deposit
                 $deposit->setIsVerified(false)
-                        ->setTimestamp(new DateTimeImmutable('now', new \DateTimeZone('Europe/London')))
-                        ->setUserEmail($this->getUser()->getEmail())
-                        ->setUserId($this->getUser()->getId())
-                        ->setUsdAmount($usdAmount)
-                        ->setGbpAmount($gbpAmount);
+                    ->setTimestamp(new DateTimeImmutable('now', new \DateTimeZone('Europe/London')))
+                    ->setUserEmail($this->getUser()->getEmail())
+                    ->setUserId($this->getUser()->getId())
+                    ->setUsdAmount($cleanUsd)
+                    ->setGbpAmount($cleanGbp);
             } catch (Exception) {
                 return $this->render('error/error.html.twig');
             }
-        } else {
-            return $this->redirectToRoute('app_deposit');
         }
 
+        //if form is submitted and valid
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($deposit);
             $entityManager->flush();
-
             try {
                 //send email to admin to confirm deposit
                 list($firstName, $lastName, $userEmail) = [$this->getUser()->getFirstName(), $this->getUser()->getLastName(), $this->getUser()->getEmail()];
@@ -91,15 +64,13 @@ class DepositController extends AbstractController
             } catch ( TransportExceptionInterface | Exception) {
                 return $this->render('error/error.html.twig');
             }
-
             //add flash message
             $this->addFlash('gbp_amount', $gbpAmount);
-
             //redirect to deposit confirmation page
             return $this->redirectToRoute('app_deposit_confirmed');
         }
-
-        return $this->render('confirm_deposit/confirm-deposit.html.twig', [
+        //render deposit template - if form is not submitted
+        return $this->render('deposit/deposit.html.twig', [
             'AddPendingDepositForm' => $form->createView(),
         ]);
     }
@@ -110,7 +81,7 @@ class DepositController extends AbstractController
         return $this->render('deposit_confirmation/deposit-confirmation.html.twig');
     }
 
-    #[Route('/create-deposit-session', name: 'app_create_deposit', methods: ['POST'])]
+    #[Route('/create-deposit-session', methods: ['POST'])]
     public function createDeposit(Request $request): Response
     {
         //create session variable to store post request

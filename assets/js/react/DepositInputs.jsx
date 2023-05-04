@@ -45,7 +45,6 @@ const DepositInputs = () =>  {
     function ConfirmDepositHandler(event) {
         event.preventDefault();
         if (isGbpValid) {
-
             //fetch post request to /deposit with gbp amount
             fetch('/create-deposit-session', {
                 method: 'POST',
