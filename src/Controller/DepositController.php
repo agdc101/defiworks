@@ -18,9 +18,31 @@ use Symfony\Component\Routing\Annotation\Route;
 class DepositController extends AbstractController
 {
     #[Route('/deposit', name: 'app_deposit')]
-    public function renderDeposit(): Response
+    public function renderDeposit(Request $request): Response
     {
-        return $this->render('deposit/deposit.html.twig');
+        $session = $request->getSession();
+        $deposit = new Deposits();
+
+        $form = $this->createForm(AddPendingDepositType::class, $deposit);
+        $form->handleRequest($request);
+
+        try {
+            //set default values for deposit
+            $deposit->setIsVerified(false)
+                ->setTimestamp(new DateTimeImmutable('now', new \DateTimeZone('Europe/London')))
+                ->setUserEmail($this->getUser()->getEmail())
+                ->setUserId($this->getUser()->getId())
+                ->setUsdAmount($session->get('usdDeposit'))
+                ->setGbpAmount($session->get('gbpDeposit'));
+        } catch (Exception) {
+            return $this->render('error/error.html.twig');
+        }
+
+        dd($deposit);
+
+        return $this->render('deposit/deposit.html.twig', [
+            'AddPendingDepositForm' => $form->createView(),
+        ]);
     }
 
     #[Route('/deposit/confirm-deposit/{slug}', name: 'app_confirm_deposit')]
@@ -88,7 +110,7 @@ class DepositController extends AbstractController
         return $this->render('deposit_confirmation/deposit-confirmation.html.twig');
     }
 
-    #[Route('/create-deposit-session', name: 'app_create_deposit')]
+    #[Route('/create-deposit-session', name: 'app_create_deposit', methods: ['POST'])]
     public function createDeposit(Request $request): Response
     {
         //create session variable to store post request
