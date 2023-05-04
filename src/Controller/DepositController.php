@@ -87,4 +87,27 @@ class DepositController extends AbstractController
     {
         return $this->render('deposit_confirmation/deposit-confirmation.html.twig');
     }
+
+    #[Route('/create-deposit-session', name: 'app_create_deposit')]
+    public function createDeposit(Request $request): Response
+    {
+        //create session variable to store post request
+        $session = $request->getSession();
+        //get and decode post request
+        $parameters = json_decode($request->getContent(), true);
+
+        //set session variables
+        $session->set('gbpDeposit', $parameters['gbpDepositAmount']);
+        $session->set('usdDeposit', $parameters['usdDepositAmount']);
+
+        //create variables
+        list($gbp, $usd) = [$session->get('gbpDeposit'), $session->get('usdDeposit')];
+
+        //return a json response
+        return $this->json([
+            'message' => 'success',
+            'requests' => "$gbp, $usd"
+        ]);
+
+    }
 }

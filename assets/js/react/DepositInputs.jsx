@@ -47,13 +47,14 @@ const DepositInputs = () =>  {
         if (isGbpValid) {
 
             //fetch post request to /deposit with gbp amount
-            fetch('/deposit', {
+            fetch('/create-deposit-session', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     gbpDepositAmount: gbpDepositAmount,
+                    usdDepositAmount: usdDepositAmount,
                 }),
             })
             .then(response => response.json())
