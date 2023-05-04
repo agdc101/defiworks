@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom/client';
 
 let SUSDRate = 0;
-let fee = 0.9875;
+let fee = 0.985;
 const GECKO_API = 'https://api.coingecko.com/api/v3/simple/token_price/optimistic-ethereum?contract_addresses=0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9&vs_currencies=gbp';
 
 const DepositInputs = () =>  {
@@ -21,7 +21,7 @@ const DepositInputs = () =>  {
 
     // function that checks if the USD amount is valid
     function checkGbpIsValid(value) {
-        {(value > 20) ? setIsGbpValid(true) : setIsGbpValid(false)};
+        {(value >= 20) ? setIsGbpValid(true) : setIsGbpValid(false)};
     }
 
     //validate input, regex check for letters etc, remove commas from the value, then format the value to have the correct commas
@@ -94,12 +94,13 @@ const DepositInputs = () =>  {
 
     // useEffect hook that calls getRate() on component mount
     useEffect(() => {
-        getRate().then(() => {console.log('rate: ' + SUSDRate)});
+        getRate()
+            .then(() => {console.log('rate: ' + SUSDRate)});
     }, []);
 
     // event handlers for the two input fields
     function setGbpDepositAmountHandler(event) {
-        checkGbpIsValid(event.target.value);
+        checkGbpIsValid(event.target.value.replace(/,/g, ''));
         validateAndSetAllInputs(event.target.value, 'gbp');
     }
 
@@ -130,7 +131,7 @@ const DepositInputs = () =>  {
                     <form>
                         <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
                         <input type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="6" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
-                        {!isGbpValid && <span>Deposit must at least £20 in value.</span>}
+                        <span>Deposit must at least £20 in value.</span>
                         <br/>
                         <label htmlFor="UsdDepositAmount">Deposit Amount In USD($)</label>
                         <input type="text" id="UsdDepositAmount" name="UsdDepositAmount" maxLength="6" onChange={setUsdDepositAmountHandler} value={usdDepositAmount}/>
