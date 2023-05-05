@@ -1,0 +1,5 @@
+react:
+  server_side: false
+  render_functions:
+      name: 'react_component'
+      options: ~

@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import ReactDOM from "react-dom/client";
 
 let SUSDRate = 0;
 const GECKO_API = 'https://api.coingecko.com/api/v3/simple/token_price/optimistic-ethereum?contract_addresses=0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9&vs_currencies=gbp';
 let fee = 0.985;
 
-function WithdrawInputs(userBalance) {
+function WithdrawInputs(props) {
     const [UsdWithdrawAmount, setUsdWithdrawAmount] = useState('');
     const [GbpWithdrawAmount, setGbpWithdrawAmount] = useState('');
     const [isGbpValid, setIsGbpValid] = useState(false);
@@ -59,7 +58,7 @@ function WithdrawInputs(userBalance) {
 
     return (
         <div>
-            <p>Please enter a withdrawal amount:</p>
+            <p>Please enter a withdrawal amount: {props.data} </p>
             <form>
                 <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
                 <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={UsdWithdrawAmount}/>
@@ -69,10 +68,4 @@ function WithdrawInputs(userBalance) {
     );
 }
 
-// // render the component if the element exists
-if (document.getElementById('withdrawInputs')) {
-    const root = ReactDOM.createRoot(document.getElementById('withdrawInputs'));
-    root.render(
-        <WithdrawInputs />
-    );
-}
+export default WithdrawInputs;
