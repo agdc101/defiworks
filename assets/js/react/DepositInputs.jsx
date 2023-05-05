@@ -69,7 +69,7 @@ const DepositInputs = () =>  {
         }
     }
 
-    // function that formats the value to have the correct commas and decimal places
+    // function that removes .00 from the end of the value if it exists
     function formatValue(value) {
         if (value.toString().slice(-3) === ".00") {
             return Number(value).toLocaleString('en-US', { maximumFractionDigits: 0 });
