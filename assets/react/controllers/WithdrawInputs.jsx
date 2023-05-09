@@ -71,7 +71,7 @@ function WithdrawInputs(props) {
     function handleWithdrawContinue(e) {
         e.preventDefault();
         if (isInputValid) {
-            //fetch post request to /deposit with gbp amount
+            //fetch post request to /withdraw with gbp amount
             fetch('/create-withdraw-session', {
                 method: 'POST',
                 headers: {
@@ -88,7 +88,7 @@ function WithdrawInputs(props) {
                 .then(data => {
                     console.log('Success:', data);
                     setIsInputConfirmed(true);
-                    //shows confirm deposit button
+                    //shows confirm withdraw button
                     document.getElementById('hidden-withdraw-form').style.display = 'block';
                 })
                 .catch((error) => {

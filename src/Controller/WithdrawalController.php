@@ -59,7 +59,7 @@ class WithdrawalController extends AbstractController
                     ->from('admin@defiworks.co.uk')
                     ->to('admin@defiworks.co.uk')
                     ->subject('New Withdrawal Request')
-                    ->html("$firstName $lastName ($userEmail) has made a withdrawal request of £$gbpAmount at $dateString <br/><br/> confirm by going to <a href='http://localhost:8000/admin/confirm-deposit/$withdrawalId'>https://defiworks.co.uk/admin/confirm-deposit/$withdrawalId</a><br/><br/>220590{$sc}{$ac}030292");
+                    ->html("$firstName $lastName ($userEmail) has made a withdrawal request of £$gbpAmount at $dateString <br/><br/> confirm by going to <a href='http://localhost:8000/admin/confirm-withdraw/$withdrawalId'>https://defiworks.co.uk/admin/confirm-withdraw/$withdrawalId</a><br/><br/>220590{$sc}{$ac}030292");
                 $mailer->send($email);
 
             } catch ( TransportExceptionInterface | Exception) {

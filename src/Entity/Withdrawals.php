@@ -26,7 +26,7 @@ class Withdrawals
     #[ORM\Column]
     private ?float $usd_amount = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column]
     private ?\DateTimeImmutable $timestamp = null;
 
     #[ORM\Column]

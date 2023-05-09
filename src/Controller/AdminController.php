@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Deposits;
 use App\Entity\User;
+use App\Entity\Withdrawals;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
-    #[Route('/admin/confirm-deposit/{slug}', name: 'app_admin')]
+    #[Route('/admin/confirm-deposit/{slug}')]
     public function confirmDeposit(EntityManagerInterface $entityManager, int $slug = 0): Response
     {
         //sql query to update deposit to verified
@@ -31,9 +32,35 @@ class AdminController extends AbstractController
 
         $entityManager->flush();
 
-        return $this->render('admin/admin.html.twig', [
+        return $this->render('admin/deposit-admin.html.twig', [
             'slug' => $slug,
             'depositAmount' => $deposit->getGbpAmount()
+        ]);
+    }
+
+    #[Route('/admin/confirm-withdraw/{slug}')]
+    public function confirmWithdrawal(EntityManagerInterface $entityManager, int $slug = 0): Response
+    {
+        //sql query to update withdrawal to verified
+        $withdrawal = $entityManager->getRepository(Withdrawals::class)->find($slug);
+
+        //if deposit is not found, throw error
+        if (!$withdrawal) {
+            throw $this->createNotFoundException(
+                'No withdraw found for id '.$slug
+            );
+        }
+        $withdrawal->setIsVerified(true);
+        //get user where deposit belongs to using user_id
+        $user = $entityManager->getRepository(User::class)->find($withdrawal->getUserId());
+        //get user balance and subtract withdrawal amount
+        $user->setBalance($user->getBalance() - $withdrawal->getUsdAmount());
+
+        $entityManager->flush();
+
+        return $this->render('admin/withdraw-admin.html.twig', [
+            'slug' => $slug,
+            'withdrawAmount' => $withdrawal->getGbpAmount()
         ]);
     }
 
