@@ -61,6 +61,7 @@ function WithdrawInputs(props) {
     function handleWithdrawContinue(e) {
         e.preventDefault();
         setIsInputConfirmed(true);
+        document.getElementById('hidden-withdraw-form').style.display = 'block';
     }
 
     return (

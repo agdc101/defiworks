@@ -1,10 +1,13 @@
 
 //-=-=-=- Deposit page -=-=-=-//
-#hidden-form {
+#hidden-deposit-form {
   display: none;
 }
 
 //-=-=-=- Withdraw page -=-=-=-//
+#hidden-withdraw-form {
+  display: none;
+}
 a.disable-btn {
   pointer-events: none;
   cursor: default;

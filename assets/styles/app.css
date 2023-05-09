@@ -2,7 +2,10 @@ body {
   background: #130e1f;
   color: darkgray; }
 
-#hidden-form {
+#hidden-deposit-form {
+  display: none; }
+
+#hidden-withdraw-form {
   display: none; }
 
 a.disable-btn {

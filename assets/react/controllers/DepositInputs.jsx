@@ -62,7 +62,7 @@ const DepositInputs = () =>  {
                     console.log('Success:', data);
                     setConfirmDeposit(true);
                     //shows confirm deposit button
-                    document.getElementById('hidden-form').style.display = 'block';
+                    document.getElementById('hidden-deposit-form').style.display = 'block';
                 })
                 .catch((error) => {
                     console.error('Error:', error);

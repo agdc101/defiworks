@@ -14,10 +14,10 @@
 
     <div {{ react_component('WithdrawInputs', { 'max': maxWithdraw }) }}></div>
 
-    <div id="hidden-form">
-        {{ form_start(AddPendingDepositForm) }}
+    <div id="hidden-withdraw-form">
+        {{ form_start(AddPendingWithdrawalForm) }}
         <button type="submit">Confirm Deposit</button>
-        {{ form_end(AddPendingDepositForm) }}
+        {{ form_end(AddPendingWithdrawalForm) }}
     </div>
 
 </div>
