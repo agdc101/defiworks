@@ -14,6 +14,12 @@
 
     <div {{ react_component('WithdrawInputs', { 'max': maxWithdraw }) }}></div>
 
+    <div id="hidden-form">
+        {{ form_start(AddPendingDepositForm) }}
+        <button type="submit">Confirm Deposit</button>
+        {{ form_end(AddPendingDepositForm) }}
+    </div>
+
 </div>
 
 {% endblock %}

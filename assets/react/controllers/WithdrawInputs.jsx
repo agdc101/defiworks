@@ -8,6 +8,7 @@ function WithdrawInputs(props) {
     const [UsdWithdrawAmount, setUsdWithdrawAmount] = useState('');
     const [GbpWithdrawAmount, setGbpWithdrawAmount] = useState('');
     const [isInputValid, setInputIsValid] = useState(false);
+    const [isInputConfirmed, setIsInputConfirmed] = useState(false);
 
     // function that gets gbp->susd rate from coingecko api
     async function getRate() {
@@ -59,22 +60,29 @@ function WithdrawInputs(props) {
 
     function handleWithdrawContinue(e) {
         e.preventDefault();
+        setIsInputConfirmed(true);
     }
 
     return (
         <div>
-            <p>Please enter a withdrawal amount:</p>
-            <p>Your account balance is ${props.max}</p>
-            <form>
-                <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
-                <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={UsdWithdrawAmount}/>
-                {UsdWithdrawAmount < 20 && <p>Withdrawal amount must be at least £20</p>}
-                {UsdWithdrawAmount > props.max && <p>Withdrawal amount exceeds account balance</p>}
+            {!isInputConfirmed ?
                 <div>
-                    {isInputValid && <button onClick={handleWithdrawContinue}>Continue</button>}
+                    <p>Please enter a withdrawal amount:</p>
+                    <p>Your account balance is ${props.max}</p>
+                    <form>
+                        <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
+                        <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={UsdWithdrawAmount}/>
+                        {UsdWithdrawAmount < 20 && <p>Withdrawal amount must be at least £20</p>}
+                        {UsdWithdrawAmount > props.max && <p>Withdrawal amount exceeds account balance</p>}
+                        <div>
+                            {isInputValid && <button onClick={handleWithdrawContinue}>Continue</button>}
+                        </div>
+                    </form>
+                    <p>Your GBP withdrawal value is: {GbpWithdrawAmount === '' ? <span>£0</span> : <span>£{GbpWithdrawAmount}</span>}</p>
                 </div>
-            </form>
-            <p>Your GBP withdrawal value is: {GbpWithdrawAmount === '' ? <span>£0</span> : <span>£{GbpWithdrawAmount}</span>}</p>
+            :
+                <p>You are about to withdraw £{GbpWithdrawAmount}. Please press confirm to submit your withdrawal.</p>
+            }
         </div>
     );
 }
