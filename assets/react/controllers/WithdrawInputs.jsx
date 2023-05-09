@@ -80,6 +80,8 @@ function WithdrawInputs(props) {
                 body: JSON.stringify({
                     gbpWithdrawAmount: GbpWithdrawAmount,
                     usdWithdrawAmount: UsdWithdrawAmount,
+                    sortCode: sortCode,
+                    accountNo: accountNo,
                 }),
             })
                 .then(response => response.json())

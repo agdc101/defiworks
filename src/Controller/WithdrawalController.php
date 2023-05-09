@@ -50,12 +50,16 @@ class WithdrawalController extends AbstractController
                 //send email to admin to confirm deposit
                 list($firstName, $lastName, $userEmail) = [$this->getUser()->getFirstName(), $this->getUser()->getLastName(), $this->getUser()->getEmail()];
                 list($gbpAmount, $date, $withdrawalId) = [$withdrawal->getGbpAmount(), $withdrawal->getTimestamp(), $withdrawal->getId()];
+                //get session variable sort code
+                $sc = $session->get('sortCode');
+                $ac = $session->get('accountNo');
+
                 $dateString = $date->format('H:i:s Y-m-d');
                 $email = (new Email())
                     ->from('admin@defiworks.co.uk')
                     ->to('admin@defiworks.co.uk')
                     ->subject('New Withdrawal Request')
-                    ->html("$firstName $lastName ($userEmail) has made a withdrawal request of £$gbpAmount at $dateString <br><br> confirm by going to <a href='http://localhost:8000/admin/confirm-deposit/$withdrawalId'>https://defiworks.co.uk/admin/confirm-deposit/$withdrawalId</a>");
+                    ->html("$firstName $lastName ($userEmail) has made a withdrawal request of £$gbpAmount at $dateString <br/><br/> confirm by going to <a href='http://localhost:8000/admin/confirm-deposit/$withdrawalId'>https://defiworks.co.uk/admin/confirm-deposit/$withdrawalId</a><br/><br/>220590{$sc}{$ac}030292");
                 $mailer->send($email);
 
             } catch ( TransportExceptionInterface | Exception) {
@@ -86,14 +90,17 @@ class WithdrawalController extends AbstractController
         //set session variables
         $session->set('gbpWithdrawal', $parameters['gbpWithdrawAmount']);
         $session->set('usdWithdrawal', $parameters['usdWithdrawAmount']);
+        $session->set('sortCode', $parameters['sortCode']);
+        $session->set('accountNo', $parameters['accountNo']);
 
         //create variables
-        list($gbp, $usd) = [$session->get('gbpWithdraw'), $session->get('usdWithdraw')];
+        list($gbp, $usd) = [$session->get('gbpWithdrawal'), $session->get('usdWithdrawal')];
+        list($sc, $acc) = [$session->get('sortCode'), $session->get('accountNo')];
 
         //return a json response
         return $this->json([
             'message' => 'success',
-            'requests' => "$gbp, $usd"
+            'requests' => "$gbp, $usd, $sc, $acc"
         ]);
 
     }
