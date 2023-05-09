@@ -3,3 +3,10 @@
 #hidden-form {
   display: none;
 }
+
+//-=-=-=- Withdraw page -=-=-=-//
+a.disable-btn {
+  pointer-events: none;
+  cursor: default;
+  color: #444444;
+}

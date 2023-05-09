@@ -5,7 +5,9 @@ body {
 #hidden-form {
   display: none; }
 
-#hidden-form {
-  display: none; }
+a.disable-btn {
+  pointer-events: none;
+  cursor: default;
+  color: #444444; }
 
 /*# sourceMappingURL=app.css.map */
