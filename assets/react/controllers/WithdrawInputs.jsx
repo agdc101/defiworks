@@ -7,6 +7,8 @@ let fee = 0.985;
 function WithdrawInputs(props) {
     const [UsdWithdrawAmount, setUsdWithdrawAmount] = useState('');
     const [GbpWithdrawAmount, setGbpWithdrawAmount] = useState('');
+    const [sortCode, setSortCode] = useState('');
+    const [accountNo, setAccountNo] = useState('');
     const [isInputValid, setInputIsValid] = useState(false);
     const [isInputConfirmed, setIsInputConfirmed] = useState(false);
 
@@ -58,6 +60,14 @@ function WithdrawInputs(props) {
         setUsdValidateGbp(event.target.value);
     }
 
+    function sortChangeHandler(event) {
+        setSortCode(event.target.value);
+    }
+
+    function accountChangeHandler(event) {
+        setAccountNo(event.target.value);
+    }
+
     function handleWithdrawContinue(e) {
         e.preventDefault();
         if (isInputValid) {
@@ -92,13 +102,21 @@ function WithdrawInputs(props) {
                     <p>Please enter a withdrawal amount:</p>
                     <p>Your account balance is ${props.max}</p>
                     <form onSubmit={handleWithdrawContinue}>
-                        <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
-                        <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={UsdWithdrawAmount}/>
-                        {UsdWithdrawAmount < 20 && <p>Withdrawal amount must be at least £20</p>}
-                        {UsdWithdrawAmount > props.max && <p>Withdrawal amount exceeds account balance</p>}
-                        <div>
-                            {isInputValid && <button onClick={handleWithdrawContinue}>Continue</button>}
-                        </div>
+                        <fieldset>
+                            <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
+                            <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={UsdWithdrawAmount}/>
+                            {GbpWithdrawAmount < 20 && <p>Withdrawal amount must be at least £20</p>}
+                            {UsdWithdrawAmount > props.max && <p>Withdrawal amount exceeds account balance</p>}
+                        </fieldset>
+                        {isInputValid &&
+                            <fieldset>
+                                <p>Name: {props.name} </p>
+                                <label htmlFor="sort">Sort Code:</label>
+                                <input type="sort" id="sort" name="sort" maxLength="6" onChange={sortChangeHandler} value={sortCode}/>
+                                <label htmlFor="account">Account Number:</label>
+                                <input type="account" id="account" name="account" maxLength="8" onChange={accountChangeHandler} value={accountNo}/><br/>
+                                <button onClick={handleWithdrawContinue}>Continue</button>
+                            </fieldset>}
                     </form>
                     <p>Your GBP withdrawal value is: {GbpWithdrawAmount === '' ? <span>£0</span> : <span>£{GbpWithdrawAmount}</span>}</p>
                 </div>

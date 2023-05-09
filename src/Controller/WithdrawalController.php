@@ -70,6 +70,8 @@ class WithdrawalController extends AbstractController
         return $this->render('withdrawal/withdrawal.html.twig', [
             'maxWithdraw' => $balance,
             'AddPendingWithdrawalForm' => $form->createView(),
+            'firstName' => $this->getUser()->getFirstName(),
+            'lastName' => $this->getUser()->getLastName(),
         ]);
     }
 
