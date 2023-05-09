@@ -6,7 +6,13 @@
 
 <div class="example-wrapper">
 
-    {{ react_component('DepositInputs') }}
+    <div {{ react_component('DepositInputs') }}></div>
+
+    <div id="hidden-form">
+        {{ form_start(AddPendingDepositForm) }}
+        <button type="submit">Confirm Deposit</button>
+        {{ form_end(AddPendingDepositForm) }}
+    </div>
 
 </div>
 
