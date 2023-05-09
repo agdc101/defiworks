@@ -7,7 +7,7 @@ let fee = 0.985;
 function WithdrawInputs(props) {
     const [UsdWithdrawAmount, setUsdWithdrawAmount] = useState('');
     const [GbpWithdrawAmount, setGbpWithdrawAmount] = useState('');
-    const [isGbpValid, setIsGbpValid] = useState(false);
+    const [isInputValid, setInputIsValid] = useState(false);
 
     // function that gets gbp->susd rate from coingecko api
     async function getRate() {
@@ -17,8 +17,8 @@ function WithdrawInputs(props) {
     }
 
     // function that checks if the USD amount is valid
-    function checkGbpIsValid(value) {
-        {(value >= 20) ? setIsGbpValid(true) : setIsGbpValid(false)};
+    function checkAmountIsValid(gbp, usd) {
+        {(gbp >= 20 && usd <= props.max) ? setInputIsValid(true) : setInputIsValid(false)};
     }
 
     // function that removes .00 from the end of the value if it exists
@@ -43,27 +43,38 @@ function WithdrawInputs(props) {
         let strippedVal = value.replace(/,/g, '');
         let formattedUsdValue = Number(strippedVal).toLocaleString();
 
+        let gbpSum = ((strippedVal * SUSDRate) / fee);
+        checkAmountIsValid(gbpSum, formattedUsdValue);
+
         (formattedUsdValue === '0') ? setUsdWithdrawAmount('') : setUsdWithdrawAmount(formattedUsdValue);
 
-        let gbpSum = ((strippedVal * SUSDRate) / fee);
-        checkGbpIsValid(gbpSum);
         let formattedGbpValue = formatValue(gbpSum);
         (gbpSum === 0) ? setGbpWithdrawAmount('') : setGbpWithdrawAmount(formattedGbpValue);
 
     }
 
     function withdrawalInputChangeHandler(event) {
-        setUsdValidateGbp(event.target.value, 'usd');
+        setUsdValidateGbp(event.target.value);
+    }
+
+    function handleWithdrawContinue(e) {
+        e.preventDefault();
     }
 
     return (
         <div>
-            <p>Please enter a withdrawal amount: {props.data} </p>
+            <p>Please enter a withdrawal amount:</p>
+            <p>Your account balance is ${props.max}</p>
             <form>
                 <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
                 <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={UsdWithdrawAmount}/>
+                {UsdWithdrawAmount < 20 && <p>Withdrawal amount must be at least £20</p>}
+                {UsdWithdrawAmount > props.max && <p>Withdrawal amount exceeds account balance</p>}
+                <div>
+                    {isInputValid && <button onClick={handleWithdrawContinue}>Continue</button>}
+                </div>
             </form>
-            {GbpWithdrawAmount <= 0 || !isGbpValid ? <p>Please enter a withdrawal amount of at least £20 in value</p> : <p> The £GBP value of your withdrawal is £{GbpWithdrawAmount}</p>}
+            <p>Your GBP withdrawal value is: {GbpWithdrawAmount === '' ? <span>£0</span> : <span>£{GbpWithdrawAmount}</span>}</p>
         </div>
     );
 }
