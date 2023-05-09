@@ -27,7 +27,7 @@ const DepositInputs = () =>  {
 
     //validate input, regex check for letters etc, remove commas from the value, then format the value to have the correct commas
     function validateAndSetAllInputs(value, currEvent) {
-        const pattern = /^[0-9,. ]*$/;
+        const pattern = /^[0-9, ]*$/;
         if (!pattern.test(value)) return;
 
         let strippedVal = value.replace(/,/g, '');

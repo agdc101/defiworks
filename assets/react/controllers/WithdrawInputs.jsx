@@ -40,7 +40,7 @@ function WithdrawInputs(props) {
     }, []);
 
     function setUsdValidateGbp(value) {
-        const pattern = /^[0-9,. ]*$/;
+        const pattern = /^[0-9, ]*$/;
         if (!pattern.test(value)) return;
 
         let strippedVal = value.replace(/,/g, '');
@@ -94,7 +94,6 @@ function WithdrawInputs(props) {
                 });
         }
     }
-
     return (
         <div>
             {!isInputConfirmed ?
