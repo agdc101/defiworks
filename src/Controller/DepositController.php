@@ -34,7 +34,8 @@ class DepositController extends AbstractController
 
             try {
                 //set default values for deposit
-                $deposit->setIsVerified(false)
+                $deposit
+                    ->setIsVerified(false)
                     ->setTimestamp(new DateTimeImmutable('now', new \DateTimeZone('Europe/London')))
                     ->setUserEmail($this->getUser()->getEmail())
                     ->setUserId($this->getUser()->getId())

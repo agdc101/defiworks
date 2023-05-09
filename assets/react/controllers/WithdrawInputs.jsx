@@ -60,8 +60,29 @@ function WithdrawInputs(props) {
 
     function handleWithdrawContinue(e) {
         e.preventDefault();
-        setIsInputConfirmed(true);
-        document.getElementById('hidden-withdraw-form').style.display = 'block';
+        if (isInputValid) {
+            //fetch post request to /deposit with gbp amount
+            fetch('/create-withdraw-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    gbpWithdrawAmount: GbpWithdrawAmount,
+                    usdWithdrawAmount: UsdWithdrawAmount,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    setIsInputConfirmed(true);
+                    //shows confirm deposit button
+                    document.getElementById('hidden-withdraw-form').style.display = 'block';
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
     }
 
     return (
@@ -70,7 +91,7 @@ function WithdrawInputs(props) {
                 <div>
                     <p>Please enter a withdrawal amount:</p>
                     <p>Your account balance is ${props.max}</p>
-                    <form>
+                    <form onSubmit={handleWithdrawContinue}>
                         <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
                         <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={UsdWithdrawAmount}/>
                         {UsdWithdrawAmount < 20 && <p>Withdrawal amount must be at least £20</p>}

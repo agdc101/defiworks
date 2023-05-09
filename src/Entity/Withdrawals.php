@@ -21,13 +21,13 @@ class Withdrawals
     private ?string $user_email = null;
 
     #[ORM\Column]
-    private ?float  $gbp_amount = null;
+    private ?float $gbp_amount = null;
 
     #[ORM\Column]
     private ?float $usd_amount = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $timestamp = null;
+    private ?\DateTimeImmutable $timestamp = null;
 
     #[ORM\Column]
     private ?bool $is_verified = null;
@@ -85,12 +85,12 @@ class Withdrawals
         return $this;
     }
 
-    public function getTimestamp(): ?\DateTimeInterface
+    public function getTimestamp(): ?\DateTimeImmutable
     {
         return $this->timestamp;
     }
 
-    public function setTimestamp(\DateTimeInterface $timestamp): self
+    public function setTimestamp(\DateTimeImmutable $timestamp): self
     {
         $this->timestamp = $timestamp;
 

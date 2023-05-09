@@ -129,7 +129,7 @@ const DepositInputs = () =>  {
                 :
                 <div>
                     <h3>Enter amount to deposit:</h3>
-                    <form>
+                    <form onSubmit={ConfirmDepositHandler}>
                         <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
                         <input type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="6" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
                         {gbpDepositAmount < 20 && <span>Deposit must at least £20 in value.</span>}
