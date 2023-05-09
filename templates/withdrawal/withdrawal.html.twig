@@ -4,7 +4,6 @@
 
 {% block body %}
 
-{% set userId = 'test'%}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
@@ -13,19 +12,8 @@
 <div class="example-wrapper">
     <h3>Request Withdrawal</h3>
 
-
     <div {{ react_component('WithdrawInputs') }}></div>
-
-
 
 </div>
 
-{#<script type="text/babel">#}
-{#    import ReactDOM from "react-dom/client";#}
-{#    import WithdrawInputs from "../../assets/js/react/WithdrawInputs.jsx";#}
-{#    const root = ReactDOM.createRoot(document.getElementById('withdrawInputs'));#}
-{#    root.render(#}
-{#        <WithdrawInputs data="{{ userId }}"/>#}
-{#    );#}
-{#</script>#}
 {% endblock %}
