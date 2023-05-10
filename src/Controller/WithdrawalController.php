@@ -26,7 +26,7 @@ class WithdrawalController extends AbstractController
 
         if ($unverifiedWithdrawals) {
             return $this->render('error/error.html.twig', [
-                'PendingError' => 'You have a pending withdrawal request, please wait for it to be verified'
+                'PendingError' => 'You have a pending withdrawal request, please allow 24 hours for it to be processed.'
             ]);
         }
 

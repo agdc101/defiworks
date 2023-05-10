@@ -24,8 +24,8 @@
 
     <h1>{{ user }}'s Dashboard</h1>
     <a href="{{ path('app_home') }}">Home</a>
-    <a href="{{ path('app_deposit') }}">Deposit</a>
-    <a {% if balance is null %} class="withdraw-btn disable-btn"{% else  %} class="withdraw-btn" {% endif %} href="{{ path('app_withdrawal') }}">Withdraw</a>
+    <a href="{{ path('app_deposit') }}" class="deposit-btn {% if hasPendingDeposit %} disable-btn {% endif %}">Deposit</a>
+    <a {% if balance is null or hasPendingWithdrawal %} class="withdraw-btn disable-btn"{% else  %} class="withdraw-btn" {% endif %} href="{{ path('app_withdrawal') }}">Withdraw</a>
 
     <div class="dashboard-content-wrapper">
         <p>Current Portfolio Balance: <span>{% if balance is null %} $0 {% else  %} ${{ balance }} {% endif %}</span></p>
