@@ -18,12 +18,24 @@ class WithdrawalController extends AbstractController
     #[Route('/withdrawal', name: 'app_withdrawal')]
     public function renderWithdrawal(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
+        //check if $userid has a pending withdrawal
+        $unverifiedWithdrawals = $entityManager->getRepository(Withdrawals::class)->findOneBy([
+            'user_id' => $this->getUser()->getId(),
+            'is_verified' => false
+        ]);
+
+        if ($unverifiedWithdrawals) {
+            return $this->render('error/error.html.twig', [
+                'PendingError' => 'You have a pending withdrawal request, please wait for it to be verified'
+            ]);
+        }
+
         //new withdrawal
         $withdrawal = new Withdrawals();
         $form = $this->createForm(AddPendingWithdrawalType::class, $withdrawal);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && !$unverifiedWithdrawals) {
             //add session variables to withdrawal
             $session = $request->getSession();
 
@@ -69,10 +81,8 @@ class WithdrawalController extends AbstractController
             return $this->render('withdrawal/withdrawal-success.html.twig');
         }
 
-        //get user balance
-        $balance = $this->getUser()->getBalance();
         return $this->render('withdrawal/withdrawal.html.twig', [
-            'maxWithdraw' => $balance,
+            'maxWithdraw' => $this->getUser()->getBalance(),
             'AddPendingWithdrawalForm' => $form->createView(),
             'firstName' => $this->getUser()->getFirstName(),
             'lastName' => $this->getUser()->getLastName(),

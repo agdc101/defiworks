@@ -3,9 +3,13 @@
 {% block title %}DeFi Works - Error{% endblock %}
 
 {% block body %}
-
-    <div class="error-wrapper">
-        <p>Sorry there has been an error!</p>
-
-    </div>
+    {% if PendingError is defined %}
+        <h4>{{ PendingError }}</h4>
+        <p>Thank you for using DeFi Works</p>
+        <a href="{{ path('app_home') }}">Back to Home</a>
+    {% else %}
+        <div class="error-wrapper">
+            <p>Sorry there has been an error!</p>
+        </div>
+    {% endif %}
 {% endblock %}

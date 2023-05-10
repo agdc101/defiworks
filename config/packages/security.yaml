@@ -33,10 +33,10 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/deposit , roles: ROLE_USER }
+        - { path: ^/withdrawal , roles: ROLE_USER }
         - { path: ^/reset-password , roles: ROLE_USER }
         - { path: ^/dashboard , roles: ROLE_USER }
         - { path: ^/user-account , roles: ROLE_USER }
-        # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:
