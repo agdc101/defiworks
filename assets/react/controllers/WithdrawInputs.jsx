@@ -9,6 +9,7 @@ function WithdrawInputs(props) {
     const [GbpWithdrawAmount, setGbpWithdrawAmount] = useState('');
     const [sortCode, setSortCode] = useState('');
     const [accountNo, setAccountNo] = useState('');
+    const [pinNo, setPinNo] = useState('');
     const [isInputValid, setInputIsValid] = useState(false);
     const [isInputConfirmed, setIsInputConfirmed] = useState(false);
 
@@ -68,6 +69,40 @@ function WithdrawInputs(props) {
         setAccountNo(event.target.value);
     }
 
+    function pinChangeHandler(event){
+        const pattern = /^[0-9 ]*$/;
+        if (!pattern.test(event.target.value)) return;
+        setPinNo(event.target.value);
+    }
+
+    function handlePinSubmission(e) {
+        e.preventDefault();
+        //fetch post request to /withdraw with gbp amount
+        fetch('/verify-pin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                pinNo: pinNo,
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data.message);
+
+                //if data.message equals
+
+                setIsInputConfirmed(true);
+                //shows confirm withdraw button
+                document.getElementById('hidden-withdraw-form').style.display = 'block';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
+
     function handleWithdrawContinue(e) {
         e.preventDefault();
         if (isInputValid) {
@@ -89,7 +124,6 @@ function WithdrawInputs(props) {
                     console.log('Success:', data);
                     setIsInputConfirmed(true);
                     //shows confirm withdraw button
-                    document.getElementById('hidden-withdraw-form').style.display = 'block';
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -122,7 +156,14 @@ function WithdrawInputs(props) {
                     <p>Your GBP withdrawal value is: {GbpWithdrawAmount === '' ? <span>£0</span> : <span>£{GbpWithdrawAmount}</span>}</p>
                 </div>
             :
-                <p>You are about to withdraw £{GbpWithdrawAmount}. Please press confirm to submit your withdrawal.</p>
+                <form onSubmit={handlePinSubmission}>
+                <p>Please enter your pin to confirm your withdrawal:</p>
+                <label htmlFor="pin">Pin:</label>
+                <input type="text" id="pin" name="pin" maxLength="6" onChange={pinChangeHandler} value={pinNo}/>
+                <button onClick={handlePinSubmission}>Confirm Pin</button>
+                </form>
+
+                // <p>You are about to withdraw £{GbpWithdrawAmount}. Please press confirm to submit your withdrawal.</p>
             }
         </div>
     );

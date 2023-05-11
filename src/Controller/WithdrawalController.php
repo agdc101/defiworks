@@ -114,4 +114,27 @@ class WithdrawalController extends AbstractController
         ]);
 
     }
+
+    #[Route('/verify-pin', methods: ['POST'])]
+    public function verifyPinNo(Request $request): Response
+    {
+        //get and decode post request
+        $parameters = json_decode($request->getContent(), true);
+
+        //set session variables
+        $pin = $parameters['pinNo'];
+        //get user pin
+        $userPin = $this->getUser()->getUserPin();
+
+        if ($pin != $userPin) {
+            $response = 'fail';
+        } else {
+            $response = 'success';
+        }
+        //return a json response
+        return $this->json([
+            'message' => $response
+        ]);
+
+    }
 }
