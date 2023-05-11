@@ -57,6 +57,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?float $balance = null;
 
+    #[ORM\Column(length: 6)]
+    private ?string $user_pin = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -230,6 +233,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBalance(?float $balance): self
     {
         $this->balance = $balance;
+
+        return $this;
+    }
+
+    public function getUserPin(): ?string
+    {
+        return $this->user_pin;
+    }
+
+    public function setUserPin(string $user_pin): self
+    {
+        $this->user_pin = $user_pin;
 
         return $this;
     }

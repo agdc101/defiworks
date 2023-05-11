@@ -142,6 +142,25 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
+            ])
+            ->add('userPin', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'The pin fields must match.',
+                'options' => ['attr' => ['class' => 'pin-field']],
+                'required' => true,
+                'first_options'  => ['label' => 'Pin'],
+                'second_options' => ['label' => 'Confirm Pin'],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a pin',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your pin should be at least {{ limit }} characters',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 6,
+                    ]),
+                ],
             ]);
         ;
     }
