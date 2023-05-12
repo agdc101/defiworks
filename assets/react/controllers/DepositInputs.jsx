@@ -43,31 +43,45 @@ const DepositInputs = () =>  {
     }
 
     // function that handles the click event on the continue button, adding gbp amount to the url
-    function ConfirmDepositHandler(event) {
+
+    async function retrieveUsdConversion(event) {
         event.preventDefault();
         if (isGbpValid) {
-            //fetch post request to /deposit with gbp amount
-            fetch('/create-deposit-session', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    gbpDepositAmount: gbpDepositAmount,
-                    usdDepositAmount: usdDepositAmount,
-                }),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Success:', data);
-                    setConfirmDeposit(true);
-                    //shows confirm deposit button
-                    document.getElementById('hidden-deposit-form').style.display = 'block';
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
+            try {
+                const response = await fetch('/create-deposit-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        gbpDepositAmount: gbpDepositAmount,
+                    }),
                 });
+                return await response.json()
+            } catch (error) {
+                console.error(error);
+            }
         }
+    }
+
+    function ConfirmDepositHandler(event) {
+        retrieveUsdConversion(event).then(data => {
+
+            console.log('Data received:', data.requests);
+            setConfirmDeposit(true);
+
+        }).then((data) => {
+            const newElement = document.createElement("p");
+            newElement.textContent = 'data';
+
+            setTimeout(() => {
+                const renderDiv = document.getElementById("renderHere");
+                renderDiv.appendChild(newElement);
+            }, 100);
+
+        }).catch(error => {
+            console.error('Error:', error);
+        });
     }
 
 
@@ -119,7 +133,7 @@ const DepositInputs = () =>  {
                         <p>Sort: 01-04-06</p>
                         <p>Account No: 01234 56789</p>
                     </div>
-                    <div>
+                    <div id="renderHere">
                         <h3>Your amount to deposit is £{gbpDepositAmount}</h3>
                         <p>Please press confirm button when deposit has been sent.</p>
                         <p>${usdDepositAmount} will appear as your account balance.</p>

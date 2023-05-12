@@ -104,15 +104,14 @@ class DepositController extends AbstractController
 
         //set session variables
         $session->set('gbpDeposit', $parameters['gbpDepositAmount']);
-        $session->set('usdDeposit', $parameters['usdDepositAmount']);
 
         //create variables
-        list($gbp, $usd) = [$session->get('gbpDeposit'), $session->get('usdDeposit')];
+        list($gbp) = [$session->get('gbpDeposit')];
 
         //return a json response
         return $this->json([
             'message' => 'success',
-            'requests' => "$gbp, $usd"
+            'requests' => "$gbp"
         ]);
 
     }
