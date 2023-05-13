@@ -5,7 +5,9 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
         llama_api: '%env(LLAMA_API)%'
+        gecko_api: '%env(GECKO_API)%'
         commission: '%env(COMMISSION)%'
+        fee: '%env(FEE)%'
 
 
 services:

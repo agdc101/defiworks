@@ -14,6 +14,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpClient\HttpClient;
 
 class DepositController extends AbstractController
 {
@@ -102,6 +103,16 @@ class DepositController extends AbstractController
         //get and decode post request
         $parameters = json_decode($request->getContent(), true);
 
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request('GET', $this->getParameter('gecko_api'));
+        $data = $response->toArray();
+
+        $gbpRate = $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp'];
+
+
+
+        $usdSum = ($parameters['gbpDepositAmount'] / $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']) * $this->getParameter('fee');
+
         //set session variables
         $session->set('gbpDeposit', $parameters['gbpDepositAmount']);
 
@@ -111,7 +122,7 @@ class DepositController extends AbstractController
         //return a json response
         return $this->json([
             'message' => 'success',
-            'requests' => "$gbp"
+            'requests' => $usdSum,
         ]);
 
     }

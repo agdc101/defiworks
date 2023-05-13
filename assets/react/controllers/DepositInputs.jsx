@@ -66,13 +66,11 @@ const DepositInputs = () =>  {
 
     function ConfirmDepositHandler(event) {
         retrieveUsdConversion(event).then(data => {
-
             console.log('Data received:', data.requests);
             setConfirmDeposit(true);
 
-        }).then((data) => {
             const newElement = document.createElement("p");
-            newElement.textContent = 'data';
+            newElement.textContent = data.requests;
 
             setTimeout(() => {
                 const renderDiv = document.getElementById("renderHere");
