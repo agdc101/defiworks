@@ -66,16 +66,17 @@ const DepositInputs = () =>  {
 
     function ConfirmDepositHandler(event) {
         retrieveUsdConversion(event).then(data => {
-            console.log('Data received:', data.requests);
+            console.log('Data received:', data.usd, data.gbp);
             setConfirmDeposit(true);
 
             const newElement = document.createElement("p");
-            newElement.textContent = data.requests;
+            newElement.textContent = `Your account balance will be $${data.usd}`;
 
+            //render usd conversion on page.
             setTimeout(() => {
-                const renderDiv = document.getElementById("renderHere");
+                const renderDiv = document.getElementById("usdConversion");
                 renderDiv.appendChild(newElement);
-            }, 100);
+            }, 10);
 
         }).catch(error => {
             console.error('Error:', error);
@@ -131,11 +132,9 @@ const DepositInputs = () =>  {
                         <p>Sort: 01-04-06</p>
                         <p>Account No: 01234 56789</p>
                     </div>
-                    <div id="renderHere">
+                    <div id="usdConversion">
                         <h3>Your amount to deposit is £{gbpDepositAmount}</h3>
                         <p>Please press confirm button when deposit has been sent.</p>
-                        <p>${usdDepositAmount} will appear as your account balance.</p>
-
                     </div>
                 </div>
                 :

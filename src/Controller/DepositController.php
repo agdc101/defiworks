@@ -107,22 +107,21 @@ class DepositController extends AbstractController
         $response = $httpClient->request('GET', $this->getParameter('gecko_api'));
         $data = $response->toArray();
 
-        $gbpRate = $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp'];
-
-
-
         $usdSum = ($parameters['gbpDepositAmount'] / $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']) * $this->getParameter('fee');
+        $formatUsd = round($usdSum, 2);
 
         //set session variables
         $session->set('gbpDeposit', $parameters['gbpDepositAmount']);
+        $session->set('usdDeposit', $formatUsd);
 
         //create variables
-        list($gbp) = [$session->get('gbpDeposit')];
+        list($gbp, $usd) = [$session->get('gbpDeposit'), $formatUsd];
 
         //return a json response
         return $this->json([
             'message' => 'success',
-            'requests' => $usdSum,
+            'gbp' => $gbp,
+            'usd' => $usd,
         ]);
 
     }
