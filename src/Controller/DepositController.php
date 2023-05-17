@@ -125,4 +125,11 @@ class DepositController extends AbstractController
         ]);
 
     }
+
+    #[Route('/deposit/deposit-details', name: 'app_deposit_details')]
+    public function renderDepositDetailsTemplate(): Response
+    {
+        return $this->render('deposit-details/deposit-details.html.twig');
+    }
+
 }

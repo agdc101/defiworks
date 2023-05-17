@@ -65,7 +65,8 @@ const DepositInputs = () =>  {
     }
 
     function ConfirmDepositHandler(event) {
-        retrieveUsdConversion(event).then(data => {
+        retrieveUsdConversion(event)
+            .then(data => {
             console.log('Data received:', data.usd, data.gbp);
             setConfirmDeposit(true);
 

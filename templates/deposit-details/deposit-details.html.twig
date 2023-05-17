@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DeFi Works- Deposit{% endblock %}
+
+{% block body %}
+
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+
+        <div>
+            <h1>Deposit Details:</h1>
+            <div class="bank-details">
+                <h4>Account Name : DeFi Works</h4>
+                <p>Sort: 01-04-06</p>
+                <p>Account No: 01234 56789</p>
+            </div>
+            <div id="usdConversion">
+                <h3>Your amount to deposit is £{gbpDepositAmount}</h3>
+                <p>Please press confirm button when deposit has been sent.</p>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
