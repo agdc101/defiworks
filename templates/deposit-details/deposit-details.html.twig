@@ -19,8 +19,13 @@
                 <p>Account No: 01234 56789</p>
             </div>
             <div id="usdConversion">
-                <h3>Your amount to deposit is £{gbpDepositAmount}</h3>
+                <h3>Your amount to deposit is £{{gbpDeposit}}</h3>
                 <p>Please press confirm button when deposit has been sent.</p>
+            </div>
+            <div>
+                {{ form_start(AddPendingDepositForm) }}
+                <button type="submit">Confirm Deposit</button>
+                {{ form_end(AddPendingDepositForm) }}
             </div>
         </div>
 

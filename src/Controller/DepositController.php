@@ -127,9 +127,20 @@ class DepositController extends AbstractController
     }
 
     #[Route('/deposit/deposit-details', name: 'app_deposit_details')]
-    public function renderDepositDetailsTemplate(): Response
+    public function renderDepositDetailsTemplate(Request $request): Response
     {
-        return $this->render('deposit-details/deposit-details.html.twig');
+        //get usdDeposit and gbpDeposit from session
+        $session = $request->getSession();
+        $gbpDeposit = $session->get('gbpDeposit');
+        $deposit = new Deposits();
+
+        $form = $this->createForm(AddPendingDepositType::class, $deposit);
+        $form->handleRequest($request);
+
+        return $this->render('deposit-details/deposit-details.html.twig', [
+            'gbpDeposit' => $gbpDeposit,
+            'AddPendingDepositForm' => $form->createView()
+        ]);
     }
 
 }
