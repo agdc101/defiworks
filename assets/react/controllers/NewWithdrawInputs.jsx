@@ -136,6 +136,7 @@ function WithdrawInputs(props) {
                 <div>
                     <p>Please enter a withdrawal amount:</p>
                     <p>Your account balance is ${props.max}</p>
+                    <p>{strippedVal}</p>
                     <form onSubmit={handleWithdrawContinue}>
                         <fieldset>
                             <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
