@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DeFi Works - Withdraw{% endblock %}
+
+{% block body %}
+
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        <h3>Withdrawal details</h3>
+
+        <fieldset>
+            <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
+            <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={UsdWithdrawAmount}/>
+            {GbpWithdrawAmount < 20 && <p>Withdrawal amount must be at least £20</p>}
+            {UsdWithdrawAmount > props.max && <p>Withdrawal amount exceeds account balance</p>}
+        </fieldset>
+
+        <div id="hidden-withdraw-form">
+            {{ form_start(AddPendingWithdrawalForm) }}
+            <button type="submit">Confirm Withdrawal</button>
+            {{ form_end(AddPendingWithdrawalForm) }}
+        </div>
+
+    </div>
+
+{% endblock %}
