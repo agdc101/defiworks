@@ -123,7 +123,7 @@ class DepositController extends AbstractController
             return $this->redirectToRoute('app_deposit_confirmed');
         }
 
-        return $this->render('deposit-details/deposit-details.html.twig', [
+        return $this->render('deposit/deposit-details.html.twig', [
             'gbpDeposit' => $gbpDeposit,
             'AddPendingDepositForm' => $form->createView()
         ]);
@@ -132,7 +132,7 @@ class DepositController extends AbstractController
     #[Route('/deposit/deposit-confirmation', name: 'app_deposit_confirmed')]
     public function renderDepositConfirmationTemplate(): Response
     {
-        return $this->render('deposit_confirmation/deposit-confirmation.html.twig');
+        return $this->render('deposit/deposit-confirmation.html.twig');
     }
 
 }

@@ -12,13 +12,13 @@
 <div class="example-wrapper">
     <h3>Request Withdrawal</h3>
 
-    <div {{ react_component('WithdrawInputs', { 'max': maxWithdraw, 'name': firstName ~ ' ' ~ lastName }) }}></div>
+    <div {{ react_component('NewWithdrawInputs', { 'max': maxWithdraw, 'name': firstName ~ ' ' ~ lastName }) }}></div>
 
-    <div id="hidden-withdraw-form">
-        {{ form_start(AddPendingWithdrawalForm) }}
-        <button type="submit">Confirm Withdrawal</button>
-        {{ form_end(AddPendingWithdrawalForm) }}
-    </div>
+{#    <div id="hidden-withdraw-form">#}
+{#        {{ form_start(AddPendingWithdrawalForm) }}#}
+{#        <button type="submit">Confirm Withdrawal</button>#}
+{#        {{ form_end(AddPendingWithdrawalForm) }}#}
+{#    </div>#}
 
 </div>
 
