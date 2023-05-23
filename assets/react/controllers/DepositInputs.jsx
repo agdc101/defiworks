@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
 
-const GECKO_API = 'https://api.coingecko.com/api/v3/simple/token_price/optimistic-ethereum?contract_addresses=0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9&vs_currencies=gbp';
-
 const DepositInputs = () =>  {
     // state variables
     const [gbpDepositAmount, setGbpDepositAmount] = useState('');
@@ -49,7 +47,7 @@ const DepositInputs = () =>  {
             console.log('Data received:', data.usd, data.gbp);
 
             const newElement = document.createElement("p");
-            newElement.textContent = `Your account balance will be $${data.usd}`;
+            newElement.textContent = `The USD value of your deposit will be $${data.usd}`;
             const renderDiv = document.getElementById("usdConversion");
 
             setConversionFetched(true);
