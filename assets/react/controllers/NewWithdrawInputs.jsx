@@ -1,9 +1,5 @@
 import React, {useEffect, useState} from 'react';
 
-let SUSDRate = 0;
-const GECKO_API = 'https://api.coingecko.com/api/v3/simple/token_price/optimistic-ethereum?contract_addresses=0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9&vs_currencies=gbp';
-let fee = 0.985;
-
 function WithdrawInputs(props) {
     const [UsdWithdrawAmount, setUsdWithdrawAmount] = useState('');
     const [isUsdValid, setIsUsdValid] = useState(false);
@@ -11,35 +7,8 @@ function WithdrawInputs(props) {
 
     // function that checks if the USD amount is valid
     function checkUsdIsValid(value) {
-        {(value >= 20) ? setIsUsdValid(true) : setIsUsdValid(false)};
+        {(value >= 20 && value <= props.max) ? setIsUsdValid(true) : setIsUsdValid(false)};
     }
-
-    // function that gets gbp->susd rate from coingecko api
-    async function getRate() {
-        const response = await fetch(GECKO_API);
-        const jsonData = await response.json();
-        SUSDRate = jsonData['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp'];
-    }
-
-    // function that checks if the USD amount is valid
-    function checkAmountIsValid(gbp, usd) {
-        {(gbp >= 20 && usd <= props.max) ? setInputIsValid(true) : setInputIsValid(false)};
-    }
-
-    // function that removes .00 from the end of the value if it exists
-    function formatValue(value) {
-        if (value.toString().slice(-3) === ".00") {
-            return Number(value).toLocaleString('en-US', { maximumFractionDigits: 0 });
-        } else {
-            return Number(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
-    }
-
-    // useEffect hook that calls getRate() on component mount
-    useEffect(() => {
-        getRate()
-            .then(() => {console.log('rate: ' + SUSDRate)});
-    }, []);
 
     //validate input, regex check for letters etc, remove commas from the value, then format the value to have the correct commas
     function validateAndSetUsd(value) {
@@ -53,6 +22,8 @@ function WithdrawInputs(props) {
     }
 
     function withdrawalInputChangeHandler(event) {
+        const renderDiv = document.getElementById("gbpConversion");
+        renderDiv.innerHTML = '';
         checkUsdIsValid(event.target.value.replace(/,/g, ''));
         validateAndSetUsd(event.target.value);
     }
@@ -102,8 +73,9 @@ function WithdrawInputs(props) {
             <form onSubmit={ConfirmAndConvertUsd}>
                 <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
                 <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={UsdWithdrawAmount}/>
-                {UsdWithdrawAmount > props.max && <p>Withdrawal amount exceeds account balance</p>}
-                <button onClick={ConfirmAndConvertUsd}>Convert</button>
+                {UsdWithdrawAmount.replace(/,/g, '') > props.max && <p>Withdrawal amount exceeds account balance</p>}
+                {UsdWithdrawAmount < 20 && <p>Minimum withdrawal amount is $20</p>}
+                {isUsdValid && <button onClick={ConfirmAndConvertUsd}>Convert</button>}
             </form>
             <div id="gbpConversion" ></div>
         </div>
