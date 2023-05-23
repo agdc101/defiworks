@@ -14,6 +14,13 @@
 
         <div {{ react_component('NewWithdrawInputs', { 'max': maxWithdraw, 'name': firstName ~ ' ' ~ lastName }) }}></div>
 
+        <form onSubmit={handlePinSubmission}>
+            <p>Please enter your pin to confirm your withdrawal:</p>
+            <label for="pin">Pin:</label>
+            <input type="text" id="pin" name="pin" maxLength="6" onChange={pinChangeHandler} value={pinNo}/>
+            <button onClick={handlePinSubmission}>Confirm Pin</button>
+        </form>
+
         {#    <div id="hidden-withdraw-form">#}
         {#        {{ form_start(AddPendingWithdrawalForm) }}#}
         {#        <button type="submit">Confirm Withdrawal</button>#}

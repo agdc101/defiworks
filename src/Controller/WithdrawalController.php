@@ -5,7 +5,9 @@ use App\Entity\Withdrawals;
 use App\Form\AddPendingWithdrawalType;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -89,28 +91,34 @@ class WithdrawalController extends AbstractController
         ]);
     }
 
-    #[Route('/create-withdraw-session', methods: ['POST'])]
-    public function createDeposit(Request $request): Response
+    #[Route('/create-withdrawal-session', methods: ['POST'])]
+    public function createWithdraw(Request $request): Response
     {
         //create session variable to store post request
         $session = $request->getSession();
         //get and decode post request
         $parameters = json_decode($request->getContent(), true);
 
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request('GET', $this->getParameter('gecko_api'));
+        $data = $response->toArray();
+
+
+        $gbpSum = ($parameters['usdWithdrawAmount'] * $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']) * $this->getParameter('fee');
+        $formatGbp = round($gbpSum, 2);
+
         //set session variables
-        $session->set('gbpWithdrawal', $parameters['gbpWithdrawAmount']);
+        $session->set('gbpWithdrawal', $formatGbp);
         $session->set('usdWithdrawal', $parameters['usdWithdrawAmount']);
-        $session->set('sortCode', $parameters['sortCode']);
-        $session->set('accountNo', $parameters['accountNo']);
 
         //create variables
         list($gbp, $usd) = [$session->get('gbpWithdrawal'), $session->get('usdWithdrawal')];
-        list($sc, $acc) = [$session->get('sortCode'), $session->get('accountNo')];
 
         //return a json response
         return $this->json([
             'message' => 'success',
-            'requests' => "$gbp, $usd, $sc, $acc"
+            'gbp' => $gbp,
+            'usd' => $usd,
         ]);
 
     }

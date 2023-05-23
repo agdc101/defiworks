@@ -42,17 +42,18 @@ const DepositInputs = () =>  {
         }
     }
 
-    function ConfirmAndConvertUsd(event) {
-        retrieveUsdConversion(event).then(data => {
-            console.log('Data received:', data.usd, data.gbp);
+    function ConfirmAndConvertGbp(event) {
+        retrieveUsdConversion(event)
+            .then(data => {
+                console.log('Data received:', data.usd, data.gbp);
 
-            const newElement = document.createElement("p");
-            newElement.textContent = `The USD value of your deposit will be $${data.usd}`;
-            const renderDiv = document.getElementById("usdConversion");
+                const newElement = document.createElement("p");
+                newElement.textContent = `The USD value of your deposit will be $${data.usd}`;
+                const renderDiv = document.getElementById("usdConversion");
 
-            setConversionFetched(true);
+                setConversionFetched(true);
 
-            renderDiv.appendChild(newElement);
+                renderDiv.appendChild(newElement);
 
         }).catch(error => {
             console.error('Error:', error);
@@ -70,12 +71,12 @@ const DepositInputs = () =>  {
     return (
         <div>
             <h3>Enter amount to deposit:</h3>
-            <form onSubmit={ConfirmAndConvertUsd}>
+            <form onSubmit={ConfirmAndConvertGbp}>
                 <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
                 <input type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="6" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
                 {gbpDepositAmount < 20 && <span>Deposit must at least £20 in value.</span>}
                 <br/>
-                <button onClick={ConfirmAndConvertUsd}>Convert</button>
+                <button onClick={ConfirmAndConvertGbp}>Convert</button>
             </form>
             <div id="usdConversion">
 
