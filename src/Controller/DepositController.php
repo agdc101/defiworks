@@ -45,11 +45,15 @@ class DepositController extends AbstractController
         //get and decode post request
         $parameters = json_decode($request->getContent(), true);
 
+        //retrieve conversion rate from gecko api
         $httpClient = HttpClient::create();
         $response = $httpClient->request('GET', $this->getParameter('gecko_api'));
         $data = $response->toArray();
 
-        $usdSum = ($parameters['gbpDepositAmount'] / $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']) * $this->getParameter('fee');
+        //remove commas from gbpDepositAmount param.
+        $cleanGbpParam = str_replace( ',', '', $parameters['gbpDepositAmount'] );
+
+        $usdSum = ($cleanGbpParam / $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']) * $this->getParameter('fee');
         $formatUsd = round($usdSum, 2);
 
         //set session variables

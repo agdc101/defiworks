@@ -54,7 +54,7 @@ function WithdrawInputs(props) {
                 console.log('Data received:', data.usd, data.gbp);
 
                 const newElement = document.createElement("p");
-                newElement.textContent = `The GBP value of your withdrawal will be $${data.gbp}`;
+                newElement.textContent = `The GBP value of your withdrawal will be £${data.gbp}`;
                 const renderDiv = document.getElementById("gbpConversion");
 
                 setConversionFetched(true);
