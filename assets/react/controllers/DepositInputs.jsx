@@ -43,21 +43,34 @@ const DepositInputs = () =>  {
     }
 
     function ConfirmAndConvertGbp(event) {
-        retrieveUsdConversion(event)
-            .then(data => {
-                console.log('Data received:', data.usd, data.gbp);
+        //disable the GbpDepositAmount input field
+        document.querySelector('#GbpDepositAmount').disabled = true;
+        document.querySelector('#convert-btn').disabled = true;
 
-                const newElement = document.createElement("p");
-                newElement.textContent = `The USD value of your deposit will be $${data.usd}`;
-                const renderDiv = document.getElementById("usdConversion");
+        const renderDiv = document.getElementById("usdConversion");
+        renderDiv.innerHTML = '';
+        event.preventDefault();
+        if (isGbpValid) {
+            retrieveUsdConversion(event)
+                .then(data => {
+                    console.log('Data received:', data.usd, data.gbp);
 
-                setConversionFetched(true);
+                    const newElement = document.createElement("p");
+                    newElement.textContent = `The USD value of your deposit will be $${data.usd}`;
+                    const renderDiv = document.getElementById("usdConversion");
 
-                renderDiv.appendChild(newElement);
+                    setConversionFetched(true);
 
-        }).catch(error => {
-            console.error('Error:', error);
-        });
+                    renderDiv.appendChild(newElement);
+                    setTimeout(() => {
+                        document.querySelector('#GbpDepositAmount').disabled = false;
+                        document.querySelector('#convert-btn').disabled = false;
+                    }, 350);
+
+                }).catch(error => {
+                console.error('Error:', error);
+            });
+        }
     }
 
     // event handlers for the two input fields
@@ -68,22 +81,33 @@ const DepositInputs = () =>  {
         validateAndSetGbp(event.target.value, 'gbp');
     }
 
+    function handleConversionSwitch(event) {
+        event.preventDefault();
+        setConversionFetched(false);
+    }
+
     return (
         <div>
-            <h3>Enter amount to deposit:</h3>
-            <form onSubmit={ConfirmAndConvertGbp}>
-                <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
-                <input type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="6" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
-                {gbpDepositAmount < 20 && <span>Deposit must at least £20 in value.</span>}
-                <br/>
-                <button onClick={ConfirmAndConvertGbp}>Convert</button>
-            </form>
+            {!conversionFetched &&
+            <div>
+                <h3>Enter amount to deposit:</h3>
+                <form onSubmit={ConfirmAndConvertGbp}>
+                    <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
+                    <input type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="6" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
+                    {gbpDepositAmount < 20 && <span>Deposit must at least £20 in value.</span>}
+                    <br/>
+                    <button id="convert-btn" onClick={ConfirmAndConvertGbp}>Convert</button>
+                </form>
+            </div>
+            }
+
             <div id="usdConversion">
 
             </div>
             {isGbpValid && conversionFetched ?
                 <div>
                     <a id="confirm-continue-btn" href="/deposit/deposit-details" >Continue</a>
+                    <button id="back-btn" onClick={handleConversionSwitch}>Back</button>
                 </div>
                 :
                 <p>Please enter a deposit amount and convert to USD.</p>}

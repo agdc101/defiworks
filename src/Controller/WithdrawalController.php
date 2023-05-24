@@ -114,7 +114,7 @@ class WithdrawalController extends AbstractController
         $session->set('usdWithdrawal', $parameters['usdWithdrawAmount']);
 
         //create variables
-        list($gbp, $usd) = [$session->get('gbpWithdrawal'), $session->get('usdWithdrawal')];
+        list($gbp, $usd) = [$session->get('gbpWithdrawal'), $cleanUsdParam];
 
         //return a json response
         return $this->json([

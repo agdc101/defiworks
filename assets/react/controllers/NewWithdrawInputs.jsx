@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
 function WithdrawInputs(props) {
-    const [UsdWithdrawAmount, setUsdWithdrawAmount] = useState('');
+    const [usdWithdrawAmount, setUsdWithdrawAmount] = useState('');
     const [isUsdValid, setIsUsdValid] = useState(false);
     const [conversionFetched, setConversionFetched] = useState(false);
 
@@ -38,7 +38,7 @@ function WithdrawInputs(props) {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        usdWithdrawAmount: UsdWithdrawAmount,
+                        usdWithdrawAmount: usdWithdrawAmount,
                     }),
                 });
                 return await response.json()
@@ -55,11 +55,13 @@ function WithdrawInputs(props) {
 
                 const newElement = document.createElement("p");
                 newElement.textContent = `The GBP value of your withdrawal will be £${data.gbp}`;
-                const renderDiv = document.getElementById("gbpConversion");
-
+                //if data.gbp is less than 20, display a message saying that the withdrawal amount is less than £20
+                console.log(data.gbp, data.usd);
+                if (+data.usd >= 20) {
+                    const renderDiv = document.getElementById("gbpConversion");
+                    renderDiv.appendChild(newElement);
+                }
                 setConversionFetched(true);
-
-                renderDiv.appendChild(newElement);
 
         }).catch(error => {
             console.error('Error:', error);
@@ -68,13 +70,13 @@ function WithdrawInputs(props) {
 
     return (
         <div>
-            <p>Please enter a withdrawal amount:</p>
+            <p>Please enter a withdrawal amount and convert to GBP:</p>
             <p>Your account balance is ${props.max}</p>
             <form onSubmit={ConfirmAndConvertUsd}>
                 <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
-                <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={UsdWithdrawAmount}/>
-                {UsdWithdrawAmount.replace(/,/g, '') > props.max && <p>Withdrawal amount exceeds account balance</p>}
-                {UsdWithdrawAmount < 20 && <p>Minimum withdrawal amount is $20</p>}
+                <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
+                {usdWithdrawAmount.replace(/,/g, '') > props.max && <p>Withdrawal amount exceeds account balance</p>}
+                {usdWithdrawAmount < 20 && <p>Minimum withdrawal amount is $20</p>}
                 {isUsdValid && <button onClick={ConfirmAndConvertUsd}>Convert</button>}
             </form>
             <div id="gbpConversion" ></div>
