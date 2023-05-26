@@ -62,10 +62,6 @@ const DepositInputs = () =>  {
                     setConversionFetched(true);
 
                     renderDiv.appendChild(newElement);
-                    setTimeout(() => {
-                        document.querySelector('#GbpDepositAmount').disabled = false;
-                        document.querySelector('#convert-btn').disabled = false;
-                    }, 350);
 
                 }).catch(error => {
                 console.error('Error:', error);
