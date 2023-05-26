@@ -28,16 +28,64 @@ function WithdrawInputs(props) {
         validateAndSetUsd(event.target.value);
     }
 
-    async function retrieveGbpConversion(event) {
+    // async function retrieveGbpConversion(event, requestType) {
+    //     event.preventDefault();
+    //     if (isUsdValid) {
+    //         try {
+    //             const response = await fetch('/create-withdrawal-session', {
+    //                 method: 'POST',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                 },
+    //                 body: JSON.stringify({
+    //                     usdWithdrawAmount: usdWithdrawAmount,
+    //                 }),
+    //             });
+    //             return await response.json()
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     }
+    // }
+    //
+    // async function validateWithdrawValue(event, requestType) {
+    //     event.preventDefault();
+    //     if (isUsdValid) {
+    //         try {
+    //             const response = await fetch('/verify-withdrawal-amount', {
+    //                 method: 'POST',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                 },
+    //                 body: JSON.stringify({
+    //                     param: 'verifyWithdrawal',
+    //                     usdWithdrawAmount: usdWithdrawAmount,
+    //                 }),
+    //             });
+    //             return await response.json()
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     }
+    // }
+
+    async function fetchData(event, requestType) {
         event.preventDefault();
         if (isUsdValid) {
+            let api;
+            if (requestType === 'usdConversion') {
+                api = '/create-withdrawal-session';
+            } else {
+                api = '/verify-withdrawal-amount';
+            }
             try {
-                const response = await fetch('/create-withdrawal-session', {
+                const response = await fetch(api, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
+                        param: requestType,
                         usdWithdrawAmount: usdWithdrawAmount,
                     }),
                 });
@@ -49,7 +97,7 @@ function WithdrawInputs(props) {
     }
 
     function ConfirmAndConvertUsd(event) {
-        retrieveGbpConversion(event)
+        fetchData(event, 'usdConversion')
             .then(data => {
                 console.log('Data received:', data.usd, data.gbp);
 
@@ -75,11 +123,12 @@ function WithdrawInputs(props) {
             <form onSubmit={ConfirmAndConvertUsd}>
                 <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
                 <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
-                {usdWithdrawAmount.replace(/,/g, '') > props.max && <p>Withdrawal amount exceeds account balance</p>}
-                {usdWithdrawAmount < 20 && <p>Minimum withdrawal amount is $20</p>}
+                {usdWithdrawAmount.replace(/,/g, '') > props.max && <span>Withdrawal amount exceeds account balance</span>}
+                {usdWithdrawAmount < 20 && <span>Minimum withdrawal amount is $20</span>}
                 {isUsdValid && <button onClick={ConfirmAndConvertUsd}>Convert</button>}
             </form>
             <div id="gbpConversion" ></div>
+            {conversionFetched && <button onClick={validateWithdrawValue}>Continue</button>}
         </div>
     );
 }

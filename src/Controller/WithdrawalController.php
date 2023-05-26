@@ -125,6 +125,20 @@ class WithdrawalController extends AbstractController
 
     }
 
+    #[Route('/verify-withdrawal-amount', methods: ['POST'])]
+    public function verifyWithdrawAmount(Request $request): Response
+    {
+        //get and decode post request
+        $parameters = json_decode($request->getContent(), true);
+
+
+        //return a json response
+        return $this->json([
+            'message' => $parameters['usdWithdrawAmount']
+        ]);
+
+    }
+
     #[Route('/verify-pin', methods: ['POST'])]
     public function verifyPinNo(Request $request): Response
     {
