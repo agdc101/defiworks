@@ -1,13 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 function WithdrawInputs(props) {
     const [usdWithdrawAmount, setUsdWithdrawAmount] = useState('');
     const [isUsdValid, setIsUsdValid] = useState(false);
     const [conversionFetched, setConversionFetched] = useState(false);
+    const conversionDiv = document.getElementById("gbpConversion");
 
     // function that checks if the USD amount is valid
     function checkUsdIsValid(value) {
         {(value >= 20 && value <= props.max) ? setIsUsdValid(true) : setIsUsdValid(false)};
+    }
+
+    function switchButtons (bool) {
+        document.getElementById("UsdWithdrawAmount").disabled = bool;
+        document.getElementById("convert-btn").disabled = bool;
     }
 
     //validate input, regex check for letters etc, remove commas from the value, then format the value to have the correct commas
@@ -22,10 +28,15 @@ function WithdrawInputs(props) {
     }
 
     function withdrawalInputChangeHandler(event) {
-        const renderDiv = document.getElementById("gbpConversion");
-        renderDiv.innerHTML = '';
         checkUsdIsValid(event.target.value.replace(/,/g, ''));
         validateAndSetUsd(event.target.value);
+    }
+
+    function handleConversionReset(event) {
+        event.preventDefault();
+        switchButtons(false);
+        conversionDiv.innerHTML = '';
+        setConversionFetched(false);
     }
 
     // async function retrieveGbpConversion(event, requestType) {
@@ -97,17 +108,14 @@ function WithdrawInputs(props) {
     }
 
     function ConfirmAndConvertUsd(event) {
+        switchButtons(true);
         fetchData(event, 'usdConversion')
             .then(data => {
-                console.log('Data received:', data.usd, data.gbp);
-
                 const newElement = document.createElement("p");
                 newElement.textContent = `The GBP value of your withdrawal will be £${data.gbp}`;
                 //if data.gbp is less than 20, display a message saying that the withdrawal amount is less than £20
-                console.log(data.gbp, data.usd);
                 if (+data.usd >= 20) {
-                    const renderDiv = document.getElementById("gbpConversion");
-                    renderDiv.appendChild(newElement);
+                    conversionDiv.appendChild(newElement);
                 }
                 setConversionFetched(true);
 
@@ -125,10 +133,11 @@ function WithdrawInputs(props) {
                 <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
                 {usdWithdrawAmount.replace(/,/g, '') > props.max && <span>Withdrawal amount exceeds account balance</span>}
                 {usdWithdrawAmount < 20 && <span>Minimum withdrawal amount is $20</span>}
-                {isUsdValid && <button onClick={ConfirmAndConvertUsd}>Convert</button>}
+                {isUsdValid && <button id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
             </form>
             <div id="gbpConversion" ></div>
-            {conversionFetched && <button onClick={validateWithdrawValue}>Continue</button>}
+            {conversionFetched && <button onClick={ConfirmAndConvertUsd}>Continue</button>}
+            <button id="reset-btn" onClick={handleConversionReset}>Reset</button>
         </div>
     );
 }

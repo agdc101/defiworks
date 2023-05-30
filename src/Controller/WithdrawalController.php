@@ -20,7 +20,7 @@ class WithdrawalController extends AbstractController
     #[Route('/withdrawal', name: 'app_withdrawal')]
     public function renderWithdrawal(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
-        //check if $userid has a pending withdrawal
+        //check if userid has a pending withdrawal
         $unverifiedWithdrawals = $entityManager->getRepository(Withdrawals::class)->findOneBy([
             'user_id' => $this->getUser()->getId(),
             'is_verified' => false
@@ -37,7 +37,7 @@ class WithdrawalController extends AbstractController
         $form = $this->createForm(AddPendingWithdrawalType::class, $withdrawal);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && !$unverifiedWithdrawals) {
+        if ($form->isSubmitted() && $form->isValid()) {
             //add session variables to withdrawal
             $session = $request->getSession();
 
@@ -130,7 +130,6 @@ class WithdrawalController extends AbstractController
     {
         //get and decode post request
         $parameters = json_decode($request->getContent(), true);
-
 
         //return a json response
         return $this->json([

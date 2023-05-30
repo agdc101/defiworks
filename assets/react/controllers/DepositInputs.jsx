@@ -1,14 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 
 const DepositInputs = () =>  {
     // state variables
     const [gbpDepositAmount, setGbpDepositAmount] = useState('');
     const [isGbpValid, setIsGbpValid] = useState(false);
     const [conversionFetched, setConversionFetched] = useState(false);
+    const conversionDiv = document.getElementById("usdConversion");
 
     // function that checks if the USD amount is valid
     function checkGbpIsValid(value) {
         {(value >= 20) ? setIsGbpValid(true) : setIsGbpValid(false)};
+    }
+
+    function switchButtons (bool) {
+        document.getElementById("GbpDepositAmount").disabled = bool;
+        document.getElementById("convert-btn").disabled = bool;
     }
 
     //validate input, regex check for letters etc, remove commas from the value, then format the value to have the correct commas
@@ -44,24 +50,18 @@ const DepositInputs = () =>  {
 
     function ConfirmAndConvertGbp(event) {
         //disable the GbpDepositAmount input field
-        document.querySelector('#GbpDepositAmount').disabled = true;
-        document.querySelector('#convert-btn').disabled = true;
-
-        const renderDiv = document.getElementById("usdConversion");
-        renderDiv.innerHTML = '';
+        switchButtons(true);
         event.preventDefault();
+        conversionDiv.innerHTML = '';
+
         if (isGbpValid) {
             retrieveUsdConversion(event)
                 .then(data => {
                     console.log('Data received:', data.usd, data.gbp);
-
                     const newElement = document.createElement("p");
                     newElement.textContent = `The USD value of your deposit will be $${data.usd}`;
-                    const renderDiv = document.getElementById("usdConversion");
-
                     setConversionFetched(true);
-
-                    renderDiv.appendChild(newElement);
+                    conversionDiv.appendChild(newElement);
 
                 }).catch(error => {
                 console.error('Error:', error);
@@ -77,10 +77,8 @@ const DepositInputs = () =>  {
 
     function handleConversionReset(event) {
         event.preventDefault();
-        document.querySelector('#GbpDepositAmount').disabled = false;
-        document.querySelector('#convert-btn').disabled = false;
-        document.getElementById("usdConversion").innerHTML = '';
-
+        switchButtons(false);
+        conversionDiv.innerHTML = '';
         setConversionFetched(false);
     }
 
@@ -103,7 +101,7 @@ const DepositInputs = () =>  {
             {isGbpValid && conversionFetched ?
                 <div>
                     <a id="confirm-continue-btn" href="/deposit/deposit-details" >Continue</a>
-                    <button id="back-btn" onClick={handleConversionReset}>Reset</button>
+                    <button id="reset-btn" onClick={handleConversionReset}>Reset</button>
                 </div>
                 :
                 <p>Please enter a deposit amount and convert to USD.</p>}
