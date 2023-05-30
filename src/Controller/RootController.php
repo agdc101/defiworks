@@ -19,6 +19,8 @@ class RootController extends AbstractController
           return $this->render('homepage/index.html.twig');
         }
 
-        return $this->render('homepage/index.html.twig', ['apy' => reset($responseApy)]);
+        return $this->render('homepage/index.html.twig',
+            ['apy' => reset($responseApy)]
+        );
     }
 }

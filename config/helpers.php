@@ -8,12 +8,17 @@ function getReaperApy($apiAddress, $commision) : array
     $client = HttpClient::create();
     $response = $client->request('GET', $apiAddress);
 
-    // convert to array and get data.
-    $responseData = $response->toArray()['data'];
-    $responseApy = end($responseData)['apy']*$commision;
-    // get last/most recent object and extract apy
-    return [
-        'responseApy' => $responseApy,
-        'statusCode' => $response->getStatusCode()
-    ];
+    // if response is not 404, return status code
+    if ($response->getStatusCode() !== 404) {
+        $responseData = $response->toArray()['data'];
+        $responseApy = end($responseData)['apy']*$commision;
+        return [
+            'responseApy' => $responseApy,
+            'statusCode' => $response->getStatusCode()
+        ];
+    } else {
+        return [
+            'statusCode' => $response->getStatusCode()
+        ];
+    }
 }
