@@ -9,15 +9,15 @@ function getReaperApy($apiAddress, $commision) : array
     $response = $client->request('GET', $apiAddress);
 
     // if response is not 404, return status code
-    if ($response->getStatusCode() !== 404) {
+    if ($response->getStatusCode() !== 200) {
+        return [
+            'statusCode' => $response->getStatusCode()
+        ];
+    } else {
         $responseData = $response->toArray()['data'];
         $responseApy = end($responseData)['apy']*$commision;
         return [
             'responseApy' => $responseApy,
-            'statusCode' => $response->getStatusCode()
-        ];
-    } else {
-        return [
             'statusCode' => $response->getStatusCode()
         ];
     }
