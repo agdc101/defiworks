@@ -12,11 +12,11 @@
     <div class="example-wrapper">
         <h3>Withdrawal details</h3>
 
-{#        <div id="hidden-withdraw-form">#}
-{#            {{ form_start(AddPendingWithdrawalForm) }}#}
-{#            <button type="submit">Confirm Withdrawal</button>#}
-{#            {{ form_end(AddPendingWithdrawalForm) }}#}
-{#        </div>#}
+        {{ form_start(WithdrawDetailsForm) }}
+        {{ form_row(WithdrawDetailsForm.sort_code) }}
+        {{ form_row(WithdrawDetailsForm.account_number) }}
+        <button type="submit">Continue</button>
+        {{ form_end(WithdrawDetailsForm) }}
 
     </div>
 

@@ -100,43 +100,36 @@ class WithdrawalController extends AbstractController
         $form->handleRequest($request);
 
         //return a json response
-        return $this->render('withdrawal/withdraw-details.html.twig');
+        return $this->render('withdrawal/withdraw-details.html.twig', [
+            'WithdrawDetailsForm' => $form->createView()
+        ]);
 
     }
 
     #[Route('/create-withdrawal-session', methods: ['POST'])]
-    public function createWithdraw(Request $request): Response
+    public function convertUsdToGbp(Request $request): Response
     {
-        //create session variable to store post request
-        $session = $request->getSession();
-        //get and decode post request
         $parameters = json_decode($request->getContent(), true);
 
         $httpClient = HttpClient::create();
         $response = $httpClient->request('GET', $this->getParameter('gecko_api'));
         $data = $response->toArray();
 
-        //remove commas from usd param.
-        $cleanUsdParam = str_replace( ',', '', $parameters['usdWithdrawAmount'] );
-
+        $cleanUsdParam = str_replace(',', '', $parameters['usdWithdrawAmount']);
         $gbpSum = ($cleanUsdParam * $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']) * $this->getParameter('fee');
         $formatGbp = round($gbpSum, 2);
 
-        //set session variables
+        $session = $request->getSession();
         $session->set('gbpWithdrawal', $formatGbp);
         $session->set('usdWithdrawal', $parameters['usdWithdrawAmount']);
 
-        //create variables
-        list($gbp, $usd) = [$session->get('gbpWithdrawal'), $cleanUsdParam];
-
-        //return a json response
         return $this->json([
             'message' => 'success',
-            'gbp' => $gbp,
-            'usd' => $usd,
+            'gbp' => $session->get('gbpWithdrawal'),
+            'usd' => $cleanUsdParam
         ]);
-
     }
+
 
     #[Route('/verify-withdrawal-amount', methods: ['POST'])]
     public function verifyWithdrawAmount(Request $request): Response
