@@ -11,7 +11,18 @@
 
     <div class="example-wrapper">
 
-        <div {{ react_component('PinInput') }}></div>
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger" role="alert">{{ message }}</div>
+        {% endfor %}
+
+        <h3>Enter Pin</h3>
+
+        <p>Please enter your pin to continue the withdrawal process.</p>
+
+        {{ form_start(PinForm) }}
+        {{ form_row(PinForm.pin) }}
+        <button type="submit">Submit</button>
+        {{ form_end(PinForm) }}
 
     </div>
 

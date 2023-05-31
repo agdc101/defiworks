@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\Withdrawals;
 use App\Form\AddPendingWithdrawalType;
+use App\Form\PinVerifyType;
 use App\Form\WithdrawDetailsType;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -18,14 +19,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WithdrawalController extends AbstractController
 {
-    #[Route('/withdraw', name: 'app_withdrawal')]
+    #[Route('/withdraw', name: 'app_withdraw')]
     public function renderWithdrawal(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         //get current session
         $session = $request->getSession();
-        //check if userpin exists in session
+        //check if user pin exists in session
         if (!$session->get('userPin')) {
-            return $this->render('withdrawal/confirm-pin.html.twig');
+            return $this->redirectToRoute('app_pin');
         }
 
         //check if userid has a pending withdrawal
@@ -102,6 +103,12 @@ class WithdrawalController extends AbstractController
     #[Route('/withdraw/withdraw-details')]
     public function renderWithdrawDetailsTemplate(Request $request): Response
     {
+        //get current session
+        $session = $request->getSession();
+        //check if user pin exists in session
+        if (!$session->get('userPin')) {
+            return $this->redirectToRoute('app_pin');
+        }
 
         $form = $this->createForm(WithdrawDetailsType::class);
         $form->handleRequest($request);
@@ -137,40 +144,35 @@ class WithdrawalController extends AbstractController
         ]);
     }
 
-
-    #[Route('/verify-withdrawal-amount', methods: ['POST'])]
-    public function verifyWithdrawAmount(Request $request): Response
+    #[Route('/enter-pin', name:'app_pin')]
+    public function renderPinTemplate(Request $request): Response
     {
-        //get and decode post request
-        $parameters = json_decode($request->getContent(), true);
+        $form = $this->createForm(PinVerifyType::class);
+        $form->handleRequest($request);
 
-        //return a json response
-        return $this->json([
-            'message' => $parameters['usdWithdrawAmount']
-        ]);
+        //if form is submitted and valid
+        if ($form->isSubmitted() && $form->isValid()) {
+            //get pin from form
 
-    }
+            $session = $request->getSession();
 
-    #[Route('/verify-pin', methods: ['POST'])]
-    public function verifyPinNo(Request $request): Response
-    {
-        //get and decode post request
-        $parameters = json_decode($request->getContent(), true);
+            $userPin = $this->getUser()->getUserPin();
+            $pin = $form->get('pin')->getData();
 
-        //set session variables
-        $pin = $parameters['pinNo'];
-        //get user pin
-        $userPin = $this->getUser()->getUserPin();
-
-        if ($pin != $userPin) {
-            $response = 'fail';
-        } else {
-            $response = 'success';
+            if ($pin === $userPin) {
+                $session->set('userPin', true);
+                $this->addFlash('success_pin', 'Pin Accepted');
+                return $this->redirectToRoute('app_withdraw');
+            } else {
+                $this->addFlash('error', 'Incorrect Pin');
+                return $this->redirectToRoute('app_pin');
+            }
         }
-        //return a json response
-        return $this->json([
-            'message' => $response
+
+        return $this->render('withdrawal/confirm-pin.html.twig', [
+            'PinForm' => $form->createView()
         ]);
 
     }
+
 }

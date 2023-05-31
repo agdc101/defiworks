@@ -104,7 +104,8 @@ const DepositInputs = () =>  {
                     <button id="reset-btn" onClick={handleConversionReset}>Reset</button>
                 </div>
                 :
-                <p>Please enter a deposit amount and convert to USD.</p>}
+                <p>Please enter a deposit amount and convert to USD.</p>
+            }
         </div>
     );
 }

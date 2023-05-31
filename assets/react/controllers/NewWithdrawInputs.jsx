@@ -135,9 +135,18 @@ function WithdrawInputs(props) {
                 {usdWithdrawAmount < 20 && <span>Minimum withdrawal amount is $20</span>}
                 {isUsdValid && <button id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
             </form>
+
             <div id="gbpConversion" ></div>
-            {conversionFetched && <a href="/withdraw/withdraw-details" >Continue</a>}
-            <button id="reset-btn" onClick={handleConversionReset}>Reset</button>
+
+            {isUsdValid && conversionFetched ?
+                <div>
+                    <a id="confirm-continue-btn" href="/withdraw/withdraw-details" >Continue</a>
+                    <button id="reset-btn" onClick={handleConversionReset}>Reset</button>
+                </div>
+                :
+                <p>Please enter a deposit amount and convert to USD.</p>
+            }
+
         </div>
     );
 }
