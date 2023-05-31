@@ -21,6 +21,13 @@ class WithdrawalController extends AbstractController
     #[Route('/withdraw', name: 'app_withdrawal')]
     public function renderWithdrawal(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
+        //get current session
+        $session = $request->getSession();
+        //check if userpin exists in session
+        if (!$session->get('userPin')) {
+            return $this->render('withdrawal/confirm-pin.html.twig');
+        }
+
         //check if userid has a pending withdrawal
         $unverifiedWithdrawals = $entityManager->getRepository(Withdrawals::class)->findOneBy([
             'user_id' => $this->getUser()->getId(),

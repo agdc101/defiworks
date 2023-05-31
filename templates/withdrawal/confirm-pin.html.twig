@@ -10,20 +10,8 @@
     </style>
 
     <div class="example-wrapper">
-        <h3>Enter Pin</h3>
 
-        <form onSubmit={handlePinSubmission}>
-            <p>Please enter your pin to confirm your withdrawal:</p>
-            <label for="pin">Pin:</label>
-            <input type="text" id="pin" name="pin" maxLength="6" onChange={pinChangeHandler} value={pinNo}/>
-            <button onClick={handlePinSubmission}>Confirm Pin</button>
-        </form>
-
-        {#    <div id="hidden-withdraw-form">#}
-        {#        {{ form_start(AddPendingWithdrawalForm) }}#}
-        {#        <button type="submit">Confirm Withdrawal</button>#}
-        {#        {{ form_end(AddPendingWithdrawalForm) }}#}
-        {#    </div>#}
+        <div {{ react_component('PinInput') }}></div>
 
     </div>
 
