@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WithdrawalController extends AbstractController
 {
     #[Route('/withdraw', name: 'app_withdraw')]
-    public function renderWithdrawal(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    public function RenderWithdrawal(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         //get current session
         $session = $request->getSession();
@@ -100,8 +100,8 @@ class WithdrawalController extends AbstractController
         ]);
     }
 
-    #[Route('/withdraw/withdraw-details')]
-    public function renderWithdrawDetailsTemplate(Request $request): Response
+    #[Route('/withdraw/withdraw-details', name: 'app_withdraw_details')]
+    public function RenderWithdrawDetailsTemplate(Request $request): Response
     {
         //get current session
         $session = $request->getSession();
@@ -113,6 +113,22 @@ class WithdrawalController extends AbstractController
         $form = $this->createForm(WithdrawDetailsType::class);
         $form->handleRequest($request);
 
+        //if form is submitted and valid
+        if ($form->isSubmitted() && $form->isValid()) {
+            //get form data
+            $data = $form->getData();
+
+            [$sortCode, $accountNo] = [$data['sort_code'], $data['account_number']];
+            [$usdWithdrawal, $gbpWithdrawal] = [$session->get('usdWithdrawal'), $session->get('gbpWithdrawal')];
+
+            return $this->render('withdrawal/withdraw-confirm.html.twig', [
+                'usdWithdrawAmount' => $usdWithdrawal,
+                'gbpWithdrawAmount' => $gbpWithdrawal,
+                'sortCode' => $sortCode,
+                'accountNo' => $accountNo,
+            ]);
+        }
+
         //return a json response
         return $this->render('withdrawal/withdraw-details.html.twig', [
             'WithdrawDetailsForm' => $form->createView()
@@ -120,8 +136,17 @@ class WithdrawalController extends AbstractController
 
     }
 
+    #[Route('/withdraw/withdraw-confirm', name: 'app_withdraw_confirm')]
+    public function RenderWithdrawConfirmTemplate(Request $request): Response
+    {
+
+        //return a json response
+        return $this->render('withdrawal/withdraw-confirm.html.twig');
+
+    }
+
     #[Route('/create-withdrawal-session', methods: ['POST'])]
-    public function convertUsdToGbp(Request $request): Response
+    public function ConvertUsdToGbp(Request $request): Response
     {
         $parameters = json_decode($request->getContent(), true);
 
