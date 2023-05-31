@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\Withdrawals;
 use App\Form\AddPendingWithdrawalType;
+use App\Form\WithdrawDetailsType;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use JetBrains\PhpStorm\NoReturn;
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WithdrawalController extends AbstractController
 {
-    #[Route('/withdrawal', name: 'app_withdrawal')]
+    #[Route('/withdraw', name: 'app_withdrawal')]
     public function renderWithdrawal(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         //check if userid has a pending withdrawal
@@ -89,6 +90,18 @@ class WithdrawalController extends AbstractController
             'firstName' => $this->getUser()->getFirstName(),
             'lastName' => $this->getUser()->getLastName(),
         ]);
+    }
+
+    #[Route('/withdraw/withdraw-details')]
+    public function renderWithdrawDetailsTemplate(Request $request): Response
+    {
+
+        $form = $this->createForm(WithdrawDetailsType::class);
+        $form->handleRequest($request);
+
+        //return a json response
+        return $this->render('withdrawal/withdraw-details.html.twig');
+
     }
 
     #[Route('/create-withdrawal-session', methods: ['POST'])]

@@ -12,15 +12,6 @@
     <div class="example-wrapper">
         <h3>Withdrawal details</h3>
 
-        <fieldset>
-            <p>Name: {props.name} </p>
-            <label for="sort">Sort Code:</label>
-            <input type="sort" id="sort" name="sort" maxLength="6" onChange={sortChangeHandler} value={sortCode}/>
-            <label for="account">Account Number:</label>
-            <input type="text" id="account" name="account" maxLength="8" onChange={accountChangeHandler} value={accountNo}/><br/>
-            <button onClick={handleWithdrawContinue}>Continue</button>
-        </fieldset>}
-
 {#        <div id="hidden-withdraw-form">#}
 {#            {{ form_start(AddPendingWithdrawalForm) }}#}
 {#            <button type="submit">Confirm Withdrawal</button>#}

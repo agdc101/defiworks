@@ -136,7 +136,7 @@ function WithdrawInputs(props) {
                 {isUsdValid && <button id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
             </form>
             <div id="gbpConversion" ></div>
-            {conversionFetched && <button onClick={ConfirmAndConvertUsd}>Continue</button>}
+            {conversionFetched && <a href="/withdraw/withdraw-details" >Continue</a>}
             <button id="reset-btn" onClick={handleConversionReset}>Reset</button>
         </div>
     );
