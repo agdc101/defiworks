@@ -20,18 +20,17 @@ function WithdrawInputs(props) {
     function validateAndSetUsd(value) {
         const pattern = /^[0-9,. ]*$/;
         if (!pattern.test(value)) return;
+        const strippedVal = value.replace(/,/g, '');
 
-        let strippedVal = value.replace(/,/g, '');
+        //check if the value ends with a decimal or a zero, if so, don't format the value
+        const endsWithDecimalOrZero = strippedVal.endsWith('.') || strippedVal.endsWith('.0');
 
-        //if strippedVal ends in a decimal point, add a 01 to the end
-        if (strippedVal.endsWith('.') || strippedVal.endsWith('.0')) {
-            setUsdWithdrawAmount(strippedVal);
-            setIsUsdValid(false);
-        } else {
-            let formattedValue = Number(strippedVal).toLocaleString();
-            (formattedValue === '0') ? setUsdWithdrawAmount('') : setUsdWithdrawAmount(formattedValue);
-        }
+        const formattedValue = endsWithDecimalOrZero ? strippedVal : Number(strippedVal).toLocaleString();
+
+        setUsdWithdrawAmount(formattedValue === '0' ? '' : formattedValue);
+        setIsUsdValid(!endsWithDecimalOrZero);
     }
+
 
     function setToMax() {
         validateAndSetUsd(props.max.toString());
@@ -94,12 +93,7 @@ function WithdrawInputs(props) {
     async function fetchData(event, requestType) {
         event.preventDefault();
         if (isUsdValid) {
-            let api;
-            if (requestType === 'usdConversion') {
-                api = '/create-withdrawal-session';
-            } else {
-                api = '/verify-withdrawal-amount';
-            }
+            const api = requestType === 'usdConversion' ? '/create-withdrawal-session' : '/verify-withdrawal-amount';
             try {
                 const response = await fetch(api, {
                     method: 'POST',
