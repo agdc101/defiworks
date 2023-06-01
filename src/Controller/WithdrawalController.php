@@ -41,15 +41,52 @@ class WithdrawalController extends AbstractController
             ]);
         }
 
-        //new withdrawal
-        $withdrawal = new Withdrawals();
-        $form = $this->createForm(AddPendingWithdrawalType::class, $withdrawal);
+        return $this->render('withdrawal/withdrawal.html.twig', [
+            'maxWithdraw' => $this->getUser()->getBalance()
+        ]);
+    }
+
+    #[Route('/withdraw/withdraw-details', name: 'app_withdraw_details')]
+    public function RenderWithdrawDetailsTemplate(Request $request): Response
+    {
+        //get current session
+        $session = $request->getSession();
+        //check if user pin exists in session
+        if (!$session->get('userPin')) {
+            return $this->redirectToRoute('app_pin');
+        }
+
+        $form = $this->createForm(WithdrawDetailsType::class);
         $form->handleRequest($request);
 
+        //if form is submitted and valid
         if ($form->isSubmitted() && $form->isValid()) {
-            //add session variables to withdrawal
-            $session = $request->getSession();
+            //get form data
+            $data = $form->getData();
 
+            //add form data to session
+            $session->set('sortCode', $data['sort_code']);
+            $session->set('accountNo', $data['account_number']);
+
+            return $this->redirectToRoute('app_withdraw_confirm');
+        }
+
+        return $this->render('withdrawal/withdraw-details.html.twig', [
+            'WithdrawDetailsForm' => $form->createView()
+        ]);
+
+    }
+
+    #[Route('/withdraw/withdraw-confirm', name: 'app_withdraw_confirm')]
+    public function RenderWithdrawConfirmTemplate(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    {
+        //get current session
+        $session = $request->getSession();
+
+        //if form has been submitted
+        if ($request->isMethod('POST')) {
+            //add session variables to withdrawal
+            $withdrawal = new Withdrawals();
             $cleanGbp = str_replace(',', '', $session->get('gbpWithdrawal'));
             $cleanUsd = str_replace(',', '', $session->get('usdWithdrawal'));
 
@@ -92,50 +129,12 @@ class WithdrawalController extends AbstractController
             return $this->render('withdrawal/withdrawal-success.html.twig');
         }
 
-        return $this->render('withdrawal/withdrawal.html.twig', [
-            'maxWithdraw' => $this->getUser()->getBalance(),
-            'AddPendingWithdrawalForm' => $form->createView(),
-            'firstName' => $this->getUser()->getFirstName(),
-            'lastName' => $this->getUser()->getLastName(),
+        return $this->render('withdrawal/withdraw-confirm.html.twig', [
+            'gbpWithdrawAmount' => $session->get('gbpWithdrawal'),
+            'usdWithdrawAmount' => $session->get('usdWithdrawal'),
+            'sortCode' => $session->get('sortCode'),
+            'accountNo' => $session->get('accountNo')
         ]);
-    }
-
-    #[Route('/withdraw/withdraw-details', name: 'app_withdraw_details')]
-    public function RenderWithdrawDetailsTemplate(Request $request): Response
-    {
-        //get current session
-        $session = $request->getSession();
-        //check if user pin exists in session
-        if (!$session->get('userPin')) {
-            return $this->redirectToRoute('app_pin');
-        }
-
-        $form = $this->createForm(WithdrawDetailsType::class);
-        $form->handleRequest($request);
-
-        //if form is submitted and valid
-        if ($form->isSubmitted() && $form->isValid()) {
-            //get form data
-            $data = $form->getData();
-
-            [$sortCode, $accountNo] = [$data['sort_code'], $data['account_number']];
-
-            return $this->redirectToRoute('app_withdraw_confirm');
-        }
-
-        //return a json response
-        return $this->render('withdrawal/withdraw-details.html.twig', [
-            'WithdrawDetailsForm' => $form->createView()
-        ]);
-
-    }
-
-    #[Route('/withdraw/withdraw-confirm', name: 'app_withdraw_confirm')]
-    public function RenderWithdrawConfirmTemplate(Request $request): Response
-    {
-
-        //return a json response
-        return $this->render('withdrawal/withdraw-confirm.html.twig');
 
     }
 

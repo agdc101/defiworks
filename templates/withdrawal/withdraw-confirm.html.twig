@@ -15,7 +15,9 @@
         <p>You are about to withdraw £{{ gbpWithdrawAmount }} to the account with the sort code of {{ sortCode }} and the account number of {{ accountNo }}.</p>
         <p>${{ usdWithdrawAmount }} will be deducted from your account balance.</p>
 
-        <button>Confirm Withdrawal</button>
+        <form method="post">
+            <button>Confirm Withdrawal</button>
+        </form>
 
     </div>
 

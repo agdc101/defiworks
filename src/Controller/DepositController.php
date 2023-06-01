@@ -21,7 +21,7 @@ class DepositController extends AbstractController
     #[Route('/deposit', name: 'app_deposit')]
     public function renderDeposit(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
-        //check if user has a pending withdrawal
+        //check if user has a pending deposit
         $unverifiedDeposits = $entityManager->getRepository(Deposits::class)->findOneBy([
             'user_id' => $this->getUser()->getId(),
             'is_verified' => false
