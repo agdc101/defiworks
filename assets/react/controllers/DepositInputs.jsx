@@ -91,7 +91,7 @@ const DepositInputs = () =>  {
                     <input type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="6" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
                     {gbpDepositAmount < 20 && <span>Deposit must at least £20 in value.</span>}
                     <br/>
-                    <button id="convert-btn" onClick={ConfirmAndConvertGbp}>Convert</button>
+                    <button id="convert-btn" onClick={ConfirmAndConvertGbp} disabled={!isGbpValid} >Convert</button>
                 </form>
             </div>
 
