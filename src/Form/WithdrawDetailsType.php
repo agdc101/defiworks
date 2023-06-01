@@ -34,7 +34,7 @@ class WithdrawDetailsType extends AbstractType
             ->add('account_number', TextType::class, [
                 'label' => 'Account Number',
                 'attr' => [
-                    'placeholder' => '0123456789'
+                    'placeholder' => '123456789'
                 ],
                 'constraints' => [
                     new NotBlank([

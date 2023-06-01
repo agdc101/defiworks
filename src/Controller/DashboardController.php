@@ -15,7 +15,6 @@ class DashboardController extends AbstractController
     public function renderDashboard(EntityManagerInterface $entityManager): Response
     {
         // getReaperApy is defined in helpers.php
-        getReaperApy($this->getParameter('llama_api'), $this->getParameter('commission'));
         $responseApy = getReaperApy($this->getParameter('llama_api'), $this->getParameter('commission'));
 
         if (end($responseApy) !== 200) {

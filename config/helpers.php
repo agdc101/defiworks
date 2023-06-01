@@ -3,7 +3,7 @@
 use Symfony\Component\HttpClient\HttpClient;
 
 // get Apy% via Api request to Defi-llama, returns status code and result of the request
-function getReaperApy($apiAddress, $commision) : array
+function getReaperApy($apiAddress, $commission) : array
 {
     $client = HttpClient::create();
     $response = $client->request('GET', $apiAddress);
@@ -15,9 +15,10 @@ function getReaperApy($apiAddress, $commision) : array
         ];
     } else {
         $responseData = $response->toArray()['data'];
-        $responseApy = end($responseData)['apy']*$commision;
+        $responseApy = end($responseData)['apy']*$commission;
         return [
             'responseApy' => $responseApy,
+            'responseData' => $responseData,
             'statusCode' => $response->getStatusCode()
         ];
     }
