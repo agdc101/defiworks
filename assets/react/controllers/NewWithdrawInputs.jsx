@@ -18,18 +18,29 @@ function WithdrawInputs(props) {
 
     //validate input, regex check for letters etc, remove commas from the value, then format the value to have the correct commas
     function validateAndSetUsd(value) {
-        const pattern = /^[0-9, ]*$/;
+        const pattern = /^[0-9,. ]*$/;
         if (!pattern.test(value)) return;
 
         let strippedVal = value.replace(/,/g, '');
-        let formattedValue = Number(strippedVal).toLocaleString();
 
-        (formattedValue === '0') ? setUsdWithdrawAmount('') : setUsdWithdrawAmount(formattedValue);
+        //if strippedVal ends in a decimal point, add a 01 to the end
+        if (strippedVal.endsWith('.') || strippedVal.endsWith('.0')) {
+            setUsdWithdrawAmount(strippedVal);
+            setIsUsdValid(false);
+        } else {
+            let formattedValue = Number(strippedVal).toLocaleString();
+            (formattedValue === '0') ? setUsdWithdrawAmount('') : setUsdWithdrawAmount(formattedValue);
+        }
+    }
+
+    function setToMax() {
+        validateAndSetUsd(props.max.toString());
+        checkUsdIsValid(props.max);
     }
 
     function withdrawalInputChangeHandler(event) {
         checkUsdIsValid(event.target.value.replace(/,/g, ''));
-        validateAndSetUsd(event.target.value);
+        validateAndSetUsd(event.target.value.toString());
     }
 
     function handleConversionReset(event) {
@@ -133,8 +144,9 @@ function WithdrawInputs(props) {
                 <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
                 {usdWithdrawAmount.replace(/,/g, '') > props.max && <span>Withdrawal amount exceeds account balance</span>}
                 {usdWithdrawAmount < 20 && <span>Minimum withdrawal amount is $20</span>}
-                {isUsdValid && <button id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
             </form>
+            <button onClick={setToMax} >Max</button>
+            {isUsdValid && <button id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
 
             <div id="gbpConversion" ></div>
 
