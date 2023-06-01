@@ -24,13 +24,11 @@ function WithdrawInputs(props) {
 
         //check if the value ends with a decimal or a zero, if so, don't format the value
         const endsWithDecimalOrZero = strippedVal.endsWith('.') || strippedVal.endsWith('.0');
-
         const formattedValue = endsWithDecimalOrZero ? strippedVal : Number(strippedVal).toLocaleString();
 
         setUsdWithdrawAmount(formattedValue === '0' ? '' : formattedValue);
         setIsUsdValid(!endsWithDecimalOrZero);
     }
-
 
     function setToMax() {
         validateAndSetUsd(props.max.toString());
@@ -48,47 +46,6 @@ function WithdrawInputs(props) {
         conversionDiv.innerHTML = '';
         setConversionFetched(false);
     }
-
-    // async function retrieveGbpConversion(event, requestType) {
-    //     event.preventDefault();
-    //     if (isUsdValid) {
-    //         try {
-    //             const response = await fetch('/create-withdrawal-session', {
-    //                 method: 'POST',
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                 },
-    //                 body: JSON.stringify({
-    //                     usdWithdrawAmount: usdWithdrawAmount,
-    //                 }),
-    //             });
-    //             return await response.json()
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     }
-    // }
-    //
-    // async function validateWithdrawValue(event, requestType) {
-    //     event.preventDefault();
-    //     if (isUsdValid) {
-    //         try {
-    //             const response = await fetch('/verify-withdrawal-amount', {
-    //                 method: 'POST',
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                 },
-    //                 body: JSON.stringify({
-    //                     param: 'verifyWithdrawal',
-    //                     usdWithdrawAmount: usdWithdrawAmount,
-    //                 }),
-    //             });
-    //             return await response.json()
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     }
-    // }
 
     async function fetchData(event, requestType) {
         event.preventDefault();
@@ -135,8 +92,8 @@ function WithdrawInputs(props) {
             <p>Your account balance is ${props.max}</p>
             <form onSubmit={ConfirmAndConvertUsd}>
                 <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
-                <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="6" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
-                {usdWithdrawAmount.replace(/,/g, '') > props.max && <span>Withdrawal amount exceeds account balance</span>}
+                <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
+                {!isUsdValid && <span>Withdrawal amount exceeds account balance</span>}
                 {usdWithdrawAmount < 20 && <span>Minimum withdrawal amount is $20</span>}
             </form>
             <button onClick={setToMax} >Max</button>
@@ -152,7 +109,6 @@ function WithdrawInputs(props) {
                 :
                 <p>Please enter a deposit amount and convert to USD.</p>
             }
-
         </div>
     );
 }

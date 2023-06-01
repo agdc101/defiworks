@@ -119,14 +119,8 @@ class WithdrawalController extends AbstractController
             $data = $form->getData();
 
             [$sortCode, $accountNo] = [$data['sort_code'], $data['account_number']];
-            [$usdWithdrawal, $gbpWithdrawal] = [$session->get('usdWithdrawal'), $session->get('gbpWithdrawal')];
 
-            return $this->render('withdrawal/withdraw-confirm.html.twig', [
-                'usdWithdrawAmount' => $usdWithdrawal,
-                'gbpWithdrawAmount' => $gbpWithdrawal,
-                'sortCode' => $sortCode,
-                'accountNo' => $accountNo,
-            ]);
+            return $this->redirectToRoute('app_withdraw_confirm');
         }
 
         //return a json response
