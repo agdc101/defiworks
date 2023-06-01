@@ -2,13 +2,16 @@ import React, {useState} from 'react';
 
 function WithdrawInputs(props) {
     const [usdWithdrawAmount, setUsdWithdrawAmount] = useState('');
-    const [isUsdValid, setIsUsdValid] = useState(false);
+    const [exceedsBalance, setExceedsBalance] = useState(false);
+    const [isMoreThanMin, setIsMoreThanMin] = useState(false);
     const [conversionFetched, setConversionFetched] = useState(false);
     const conversionDiv = document.getElementById("gbpConversion");
+    const isInputValid = !exceedsBalance && isMoreThanMin;
 
-    // function that checks if the USD amount is valid
+    // function that checks if the USD input is valid
     function checkUsdIsValid(value) {
-        {(value >= 20 && value <= props.max) ? setIsUsdValid(true) : setIsUsdValid(false)};
+        {(value >= 20) ? setIsMoreThanMin(true) : setIsMoreThanMin(false)}
+        {(value <= props.max) ? setExceedsBalance(false) : setExceedsBalance(true)}
     }
 
     function switchButtons (bool) {
@@ -27,7 +30,6 @@ function WithdrawInputs(props) {
         const formattedValue = endsWithDecimalOrZero ? strippedVal : Number(strippedVal).toLocaleString();
 
         setUsdWithdrawAmount(formattedValue === '0' ? '' : formattedValue);
-        setIsUsdValid(!endsWithDecimalOrZero);
     }
 
     function setToMax() {
@@ -49,7 +51,7 @@ function WithdrawInputs(props) {
 
     async function fetchData(event, requestType) {
         event.preventDefault();
-        if (isUsdValid) {
+        if (isInputValid) {
             const api = requestType === 'usdConversion' ? '/create-withdrawal-session' : '/verify-withdrawal-amount';
             try {
                 const response = await fetch(api, {
@@ -93,15 +95,15 @@ function WithdrawInputs(props) {
             <form onSubmit={ConfirmAndConvertUsd}>
                 <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
                 <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
-                {!isUsdValid && <span>Withdrawal amount exceeds account balance</span>}
-                {usdWithdrawAmount < 20 && <span>Minimum withdrawal amount is $20</span>}
+                {exceedsBalance && <span>Withdrawal amount exceeds account balance</span>}
+                {!isMoreThanMin && <span>Minimum withdrawal amount is $20</span>}
             </form>
             <button onClick={setToMax} >Max</button>
-            {isUsdValid && <button id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
+            <button id="convert-btn" onClick={ConfirmAndConvertUsd} disabled={!isInputValid}>Convert</button>
 
             <div id="gbpConversion" ></div>
 
-            {isUsdValid && conversionFetched ?
+            {isInputValid && conversionFetched ?
                 <div>
                     <a id="confirm-continue-btn" href="/withdraw/withdraw-details" >Continue</a>
                     <button id="reset-btn" onClick={handleConversionReset}>Reset</button>
