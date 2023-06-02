@@ -28,7 +28,7 @@ class WithdrawSubscriber implements EventSubscriberInterface
         $session = $request->getSession();
         $pathInfo = $request->getPathInfo();
 
-        if (str_starts_with($pathInfo, '/withdraw') || str_starts_with($pathInfo, '/deposit')) {
+        if ((str_starts_with($pathInfo, '/withdraw') || str_starts_with($pathInfo, '/deposit')) && !str_ends_with($pathInfo, 'success')) {
             if (!$session->get('userPin')) {
                 $event->setResponse(new RedirectResponse($request->getUriForPath('/enter-pin')));
             } else {

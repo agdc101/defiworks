@@ -100,7 +100,7 @@ class WithdrawalController extends AbstractController
                 return $this->render('error/error.html.twig');
             }
 
-            return $this->render('withdrawal/withdraw-success.html.twig');
+            return $this->redirectToRoute('app_withdraw_success');
         }
 
         return $this->render('withdrawal/withdraw-confirm.html.twig', [
@@ -110,6 +110,24 @@ class WithdrawalController extends AbstractController
             'accountNo' => $session->get('accountNo')
         ]);
 
+    }
+
+    #[Route('/withdraw/withdraw-success', name: 'app_withdraw_success')]
+    public function RenderWithdrawSuccessTemplate(Request $request): Response
+    {
+        //if session variables are not set, redirect to withdraw page
+        if (!$request->getSession()->has('usdWithdrawal')) {
+            return $this->redirectToRoute('app_withdraw');
+        }
+
+        //clear sort code and account number and usd and gbp withdrawal amounts from session
+        $session = $request->getSession();
+        $session->remove('sortCode');
+        $session->remove('accountNo');
+        $session->remove('usdWithdrawal');
+        $session->remove('gbpWithdrawal');
+
+        return $this->render('withdrawal/withdraw-success.html.twig');
     }
 
     #[Route('/create-withdrawal-session', methods: ['POST'])]

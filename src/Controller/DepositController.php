@@ -78,7 +78,7 @@ class DepositController extends AbstractController
             //add flash message
             $this->addFlash('gbp_amount', $gbpAmount);
             //redirect to deposit confirmation page
-            return $this->redirectToRoute('app_deposit_confirmed');
+            return $this->redirectToRoute('app_deposit_success');
         }
 
         return $this->render('deposit/deposit-details.html.twig', [
@@ -87,10 +87,20 @@ class DepositController extends AbstractController
         ]);
     }
 
-    #[Route('/deposit/deposit-confirmation', name: 'app_deposit_confirmed')]
-    public function renderDepositConfirmationTemplate(): Response
+    #[Route('/deposit/deposit-success', name: 'app_deposit_success')]
+    public function renderDepositConfirmationTemplate(Request $request): Response
     {
-        return $this->render('deposit/deposit-confirmation.html.twig');
+        //if session variable gbpDeposit is set
+        if (!$request->getSession()->has('gbpDeposit')) {
+            return $this->redirectToRoute('app_deposit');
+        }
+
+        //remove gbpDeposit and usdDeposit session variables
+        $session = $request->getSession();
+        $session->remove('gbpDeposit');
+        $session->remove('usdDeposit');
+
+        return $this->render('deposit/deposit-success.html.twig');
     }
 
     #[Route('/create-deposit-session', methods: ['POST'])]
