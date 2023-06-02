@@ -22,25 +22,6 @@ class WithdrawalController extends AbstractController
     #[Route('/withdraw', name: 'app_withdraw')]
     public function RenderWithdrawal(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
-        //get current session
-        $session = $request->getSession();
-        //check if user pin exists in session
-        if (!$session->get('userPin')) {
-            return $this->redirectToRoute('app_pin');
-        }
-
-        //check if userid has a pending withdrawal
-        $unverifiedWithdrawals = $entityManager->getRepository(Withdrawals::class)->findOneBy([
-            'user_id' => $this->getUser()->getId(),
-            'is_verified' => false
-        ]);
-
-        if ($unverifiedWithdrawals) {
-            return $this->render('error/error.html.twig', [
-                'PendingError' => 'You have a pending withdrawal request, please allow 24 hours for it to be processed.'
-            ]);
-        }
-
         return $this->render('withdrawal/withdrawal.html.twig', [
             'maxWithdraw' => $this->getUser()->getBalance()
         ]);
@@ -51,11 +32,6 @@ class WithdrawalController extends AbstractController
     {
         //get current session
         $session = $request->getSession();
-        //check if user pin exists in session
-        if (!$session->get('userPin')) {
-            return $this->redirectToRoute('app_pin');
-        }
-
         $form = $this->createForm(WithdrawDetailsType::class);
         $form->handleRequest($request);
 

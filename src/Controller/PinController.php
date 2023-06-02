@@ -13,6 +13,7 @@ class PinController extends AbstractController
     #[Route('/enter-pin', name:'app_pin')]
     public function renderPinTemplate(Request $request): Response
     {
+
         $form = $this->createForm(PinVerifyType::class);
         $form->handleRequest($request);
 
