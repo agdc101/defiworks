@@ -26,27 +26,21 @@ class DashboardController extends AbstractController
             'user_id' => $this->getUser()->getId(),
             'is_verified' => false
         ]);
-        $hasPendingDeposit = false;
-        if ($unverifiedDeposits) {
-            $hasPendingDeposit = true;
-        }
-
         //check if user has a pending withdrawal
         $unverifiedWithdrawals = $entityManager->getRepository(Withdrawals::class)->findOneBy([
             'user_id' => $this->getUser()->getId(),
             'is_verified' => false
         ]);
-        $hasPendingWithdrawal = false;
-        if ($unverifiedWithdrawals) {
-            $hasPendingWithdrawal = true;
+        $hasPendingTransaction = false;
+        if ($unverifiedDeposits || $unverifiedWithdrawals) {
+            $hasPendingTransaction = true;
         }
 
         return $this->render('dashboard/dashboard.html.twig', [
             'user' => $this->getUser()->getFirstName(),
             'apy' => reset($responseApy),
             'balance' => $this->getUser()->getBalance(),
-            'hasPendingDeposit' => $hasPendingDeposit,
-            'hasPendingWithdrawal' => $hasPendingWithdrawal
+            'hasPendingTransaction' => $hasPendingTransaction
         ]);
     }
 }
