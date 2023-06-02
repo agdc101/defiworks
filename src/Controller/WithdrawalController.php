@@ -162,35 +162,4 @@ class WithdrawalController extends AbstractController
         ]);
     }
 
-    #[Route('/enter-pin', name:'app_pin')]
-    public function renderPinTemplate(Request $request): Response
-    {
-        $form = $this->createForm(PinVerifyType::class);
-        $form->handleRequest($request);
-
-        //if form is submitted and valid
-        if ($form->isSubmitted() && $form->isValid()) {
-            //get pin from form
-
-            $session = $request->getSession();
-
-            $userPin = $this->getUser()->getUserPin();
-            $pin = $form->get('pin')->getData();
-
-            if ($pin === $userPin) {
-                $session->set('userPin', true);
-                $this->addFlash('success_pin', 'Pin Accepted');
-                return $this->redirectToRoute('app_withdraw');
-            } else {
-                $this->addFlash('error', 'Incorrect Pin');
-                return $this->redirectToRoute('app_pin');
-            }
-        }
-
-        return $this->render('withdrawal/confirm-pin.html.twig', [
-            'PinForm' => $form->createView()
-        ]);
-
-    }
-
 }
