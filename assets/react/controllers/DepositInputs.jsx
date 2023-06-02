@@ -86,10 +86,11 @@ const DepositInputs = () =>  {
         <div>
             <div>
                 <h3>Enter amount to deposit:</h3>
+                <p>Enter the amount you would like to deposit and convert to USD.</p>
                 <form onSubmit={ConfirmAndConvertGbp}>
                     <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
                     <input type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="6" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
-                    {gbpDepositAmount < 20 && <span>Deposit must at least £20 in value.</span>}
+                    {gbpDepositAmount < 20 && <span>Deposit must be at least £20 in value.</span>}
                     <br/>
                     <button id="convert-btn" onClick={ConfirmAndConvertGbp} disabled={!isGbpValid} >Convert</button>
                 </form>
@@ -104,7 +105,7 @@ const DepositInputs = () =>  {
                     <button id="reset-btn" onClick={handleConversionReset}>Reset</button>
                 </div>
                 :
-                <p>Please enter a deposit amount and convert to USD.</p>
+                <p>Please enter a deposit amount.</p>
             }
         </div>
     );

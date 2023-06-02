@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -19,50 +20,14 @@ use Symfony\Component\HttpClient\HttpClient;
 class DepositController extends AbstractController
 {
     #[Route('/deposit', name: 'app_deposit')]
-    public function renderDeposit(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    public function renderDeposit(): Response
     {
-
         //render deposit template - if form is not submitted
         return $this->render('deposit/deposit.html.twig');
     }
 
-    #[Route('/create-deposit-session', methods: ['POST'])]
-    public function createDeposit(Request $request): Response
-    {
-        //create session variable to store post request
-        $session = $request->getSession();
-        //get and decode post request
-        $parameters = json_decode($request->getContent(), true);
-
-        //retrieve conversion rate from gecko api
-        $httpClient = HttpClient::create();
-        $response = $httpClient->request('GET', $this->getParameter('gecko_api'));
-        $data = $response->toArray();
-
-        //remove commas from gbpDepositAmount param.
-        $cleanGbpParam = str_replace( ',', '', $parameters['gbpDepositAmount'] );
-
-        $usdSum = ($cleanGbpParam / $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']) * $this->getParameter('fee');
-        $formatUsd = round($usdSum, 2);
-
-        //set session variables
-        $session->set('gbpDeposit', $parameters['gbpDepositAmount']);
-        $session->set('usdDeposit', $formatUsd);
-
-        //create variables
-        list($gbp, $usd) = [$session->get('gbpDeposit'), $formatUsd];
-
-        //return a json response
-        return $this->json([
-            'message' => 'success',
-            'gbp' => $gbp,
-            'usd' => $usd,
-        ]);
-
-    }
-
     #[Route('/deposit/deposit-details', name: 'app_deposit_details')]
-    public function renderDepositDetailsTemplate(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    public function RenderDepositDetailsTemplate(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         //get usdDeposit and gbpDeposit from session
         $session = $request->getSession();
@@ -126,6 +91,40 @@ class DepositController extends AbstractController
     public function renderDepositConfirmationTemplate(): Response
     {
         return $this->render('deposit/deposit-confirmation.html.twig');
+    }
+
+    #[Route('/create-deposit-session', methods: ['POST'])]
+    public function createDeposit(Request $request): JsonResponse
+    {
+        //create session variable to store post request
+        $session = $request->getSession();
+        //get and decode post request
+        $parameters = json_decode($request->getContent(), true);
+
+        //retrieve conversion rate from gecko api
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request('GET', $this->getParameter('gecko_api'));
+        $data = $response->toArray();
+
+        //remove commas from gbpDepositAmount param.
+        $cleanGbpParam = str_replace( ',', '', $parameters['gbpDepositAmount'] );
+
+        $usdSum = ($cleanGbpParam / $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']) * $this->getParameter('fee');
+        $formatUsd = round($usdSum, 2);
+
+        //set session variables
+        $session->set('gbpDeposit', $parameters['gbpDepositAmount']);
+        $session->set('usdDeposit', $formatUsd);
+
+        //create variables
+        list($gbp, $usd) = [$session->get('gbpDeposit'), $formatUsd];
+
+        //return a json response
+        return new JsonResponse([
+            'message' => 'success',
+            'gbp' => $gbp,
+            'usd' => $usd,
+        ]);
     }
 
 }

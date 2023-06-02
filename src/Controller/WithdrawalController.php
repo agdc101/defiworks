@@ -2,14 +2,12 @@
 
 namespace App\Controller;
 use App\Entity\Withdrawals;
-use App\Form\AddPendingWithdrawalType;
-use App\Form\PinVerifyType;
 use App\Form\WithdrawDetailsType;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -20,9 +18,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class WithdrawalController extends AbstractController
 {
     #[Route('/withdraw', name: 'app_withdraw')]
-    public function RenderWithdrawal(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    public function RenderWithdrawal(): Response
     {
-        return $this->render('withdrawal/withdrawal.html.twig', [
+        return $this->render('withdrawal/withdraw.html.twig', [
             'maxWithdraw' => $this->getUser()->getBalance()
         ]);
     }
@@ -102,7 +100,7 @@ class WithdrawalController extends AbstractController
                 return $this->render('error/error.html.twig');
             }
 
-            return $this->render('withdrawal/withdrawal-success.html.twig');
+            return $this->render('withdrawal/withdraw-success.html.twig');
         }
 
         return $this->render('withdrawal/withdraw-confirm.html.twig', [
@@ -115,7 +113,7 @@ class WithdrawalController extends AbstractController
     }
 
     #[Route('/create-withdrawal-session', methods: ['POST'])]
-    public function ConvertUsdToGbp(Request $request): Response
+    public function ConvertUsdToGbp(Request $request): JsonResponse
     {
         $parameters = json_decode($request->getContent(), true);
 
@@ -131,7 +129,7 @@ class WithdrawalController extends AbstractController
         $session->set('gbpWithdrawal', $formatGbp);
         $session->set('usdWithdrawal', $parameters['usdWithdrawAmount']);
 
-        return $this->json([
+        return new JsonResponse([
             'message' => 'success',
             'gbp' => $session->get('gbpWithdrawal'),
             'usd' => $cleanUsdParam
