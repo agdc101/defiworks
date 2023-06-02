@@ -12,8 +12,6 @@ class UpdateUserDetailsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName')
-            ->add('lastName')
             ->add('address')
             ->add('city')
             ->add('postCode')

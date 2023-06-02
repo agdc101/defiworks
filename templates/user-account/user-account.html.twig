@@ -10,21 +10,22 @@
 
 <div class="example-wrapper">
 
-    <h1>Update your details:</h1>
+    <h2>Account Management</h2>
+
+    <h4>Update your details:</h4>
 
     {% for message in app.flashes('update_success') %}
         <div class="alert alert-danger" role="alert">{{ message }}</div>
     {% endfor %}
-
-    {{ form_start(updateUserForm) }}
-        {{ form_row(updateUserForm.firstName) }}
-        {{ form_row(updateUserForm.lastName) }}
-        {{ form_row(updateUserForm.address) }}
-        {{ form_row(updateUserForm.city) }}
-        {{ form_row(updateUserForm.postCode) }}
-        {{ form_row(updateUserForm.county) }}
-        <button type="submit" class="btn">Update</button>
-    {{ form_end(updateUserForm) }}
+    <div>
+        {{ form_start(updateUserForm) }}
+            {{ form_row(updateUserForm.address) }}
+            {{ form_row(updateUserForm.city) }}
+            {{ form_row(updateUserForm.postCode) }}
+            {{ form_row(updateUserForm.county) }}
+            <button type="submit" class="btn">Update</button>
+        {{ form_end(updateUserForm) }}
+    </div>
 
     <div class="account-options-wrapper">
         <a href="{{ path('app_dashboard') }}">Back</a>
@@ -32,6 +33,9 @@
         <a href="{{ path('app_close_user_account') }}">Close my account</a>
     </div>
 
+    <div>
+        <p>Please contact us at admin@defiworks.co.uk for any other change requests.</p>
+    </div>
 
 </div>
 {% endblock %}
