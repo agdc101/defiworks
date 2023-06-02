@@ -147,8 +147,15 @@ class WithdrawalController extends AbstractController
         $session->set('gbpWithdrawal', $formatGbp);
         $session->set('usdWithdrawal', $parameters['usdWithdrawAmount']);
 
+        //if cleanUsdParam is bigger than user balance, return error
+        if ($cleanUsdParam > $this->getUser()->getBalance()) {
+            $result = false;
+        } else {
+            $result = true;
+        }
+
         return new JsonResponse([
-            'message' => 'success',
+            'result' => $result,
             'gbp' => $session->get('gbpWithdrawal'),
             'usd' => $cleanUsdParam
         ]);

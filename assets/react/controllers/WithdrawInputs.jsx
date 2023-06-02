@@ -7,6 +7,7 @@ function WithdrawInputs(props) {
     const [conversionFetched, setConversionFetched] = useState(false);
     const conversionDiv = document.getElementById("gbpConversion");
     const isInputValid = !exceedsBalance && isMoreThanMin;
+    let valueValid = false;
 
     // function that checks if the USD input is valid
     function checkUsdIsValid(value) {
@@ -75,12 +76,16 @@ function WithdrawInputs(props) {
         switchButtons(true);
         fetchData(event, 'usdConversion')
             .then(data => {
+                valueValid = data.result;
                 const newElement = document.createElement("p");
-                newElement.textContent = `The GBP value of your withdrawal will be £${data.gbp}`;
-                //if data.gbp is less than 20, display a message saying that the withdrawal amount is less than £20
-                if (+data.usd >= 20) {
-                    conversionDiv.appendChild(newElement);
+                if (+data.usd >= 20 && data.result) {
+                    newElement.textContent = `The GBP value of your withdrawal will be £${data.gbp}`;
+                } else {
+                    newElement.textContent = 'Invalid amount';
                 }
+                //if data.gbp is less than 20, display a message saying that the withdrawal amount is less than £20
+                conversionDiv.appendChild(newElement);
+
                 setConversionFetched(true);
 
             }).catch(error => {
@@ -103,7 +108,7 @@ function WithdrawInputs(props) {
 
             <div id="gbpConversion" ></div>
 
-            {isInputValid && conversionFetched ?
+            {isInputValid && conversionFetched && valueValid ?
                 <div>
                     <a id="confirm-continue-btn" href="/withdraw/withdraw-details" >Continue</a>
                     <button id="reset-btn" onClick={handleConversionReset}>Reset</button>
