@@ -7,7 +7,8 @@ parameters:
         llama_api: '%env(LLAMA_API)%'
         gecko_api: '%env(GECKO_API)%'
         commission: '%env(COMMISSION)%'
-        fee: '%env(FEE)%'
+        deposit_fee: '%env(DEPOSIT_FEE)%'
+        withdraw_fee: '%env(WITHDRAW_FEE)%'
 
 
 services:
