@@ -17,7 +17,7 @@ class DashboardController extends AbstractController
         $llamaApi = $this->getParameter('llama_api');
         $commission = $this->getParameter('commission');
         $user = $this->getUser();
-        $responseApy = getReaperApy($llamaApi, $commission);
+        $responseApy = getApy($llamaApi, $commission);
 
         if (end($responseApy) !== 200) {
             return $this->render('homepage/index.html.twig');

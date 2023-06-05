@@ -12,7 +12,7 @@ class RootController extends AbstractController
     public function index(): Response
     {
         // getReaperApy is defined in helpers.php
-        $responseApy = getReaperApy($this->getParameter('llama_api'), $this->getParameter('commission'));
+        $responseApy = getApy($this->getParameter('llama_api'), $this->getParameter('commission'));
 
         if (end($responseApy) !== 200) {
           return $this->render('homepage/index.html.twig');
