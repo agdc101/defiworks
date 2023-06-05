@@ -29,6 +29,9 @@
 
     <div class="dashboard-content-wrapper">
         <p>Current Portfolio Balance: <span>{% if balance is null %} $0 {% else  %} ${{ balance }} {% endif %}</span></p>
+        {% if hasPendingTransaction %}
+            <p class="pending-balance">Pending Portfolio Balance: <span>${{ pendingBalance }}</span></p>
+        {% endif %}
         <p>Total Interest Gained: <span>***</span></p>
         <p>Current APY: <span>{{ apy|round(2, 'floor') }}%</span></p>
     </div>

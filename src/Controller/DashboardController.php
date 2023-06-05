@@ -14,33 +14,42 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function renderDashboard(EntityManagerInterface $entityManager): Response
     {
-        // getReaperApy is defined in helpers.php
-        $responseApy = getReaperApy($this->getParameter('llama_api'), $this->getParameter('commission'));
+        $llamaApi = $this->getParameter('llama_api');
+        $commission = $this->getParameter('commission');
+        $user = $this->getUser();
+        $responseApy = getReaperApy($llamaApi, $commission);
 
         if (end($responseApy) !== 200) {
             return $this->render('homepage/index.html.twig');
         }
 
-        //check if user has a pending withdrawal
         $unverifiedDeposits = $entityManager->getRepository(Deposits::class)->findOneBy([
-            'user_id' => $this->getUser()->getId(),
+            'user_id' => $user->getId(),
             'is_verified' => false
         ]);
-        //check if user has a pending withdrawal
+
         $unverifiedWithdrawals = $entityManager->getRepository(Withdrawals::class)->findOneBy([
-            'user_id' => $this->getUser()->getId(),
+            'user_id' => $user->getId(),
             'is_verified' => false
         ]);
-        $hasPendingTransaction = false;
-        if ($unverifiedDeposits || $unverifiedWithdrawals) {
-            $hasPendingTransaction = true;
+
+        $pendingBalance = 0;
+        if ($unverifiedWithdrawals) {
+            $pendingBalance = $user->getBalance() - $unverifiedWithdrawals->getUsdAmount();
+        }
+        if ($unverifiedDeposits) {
+            $pendingBalance += $user->getBalance() + $unverifiedDeposits->getUsdAmount();
         }
 
+        $hasPendingTransaction = $unverifiedDeposits || $unverifiedWithdrawals;
+
         return $this->render('dashboard/dashboard.html.twig', [
-            'user' => $this->getUser()->getFirstName(),
+            'user' => $user->getFirstName(),
             'apy' => reset($responseApy),
-            'balance' => $this->getUser()->getBalance(),
-            'hasPendingTransaction' => $hasPendingTransaction
+            'balance' => $user->getBalance(),
+            'hasPendingTransaction' => $hasPendingTransaction,
+            'pendingBalance' => $pendingBalance
         ]);
     }
+
 }
