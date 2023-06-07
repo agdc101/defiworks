@@ -16,13 +16,13 @@ echo "Connected successfully";
 $sql = "SELECT * FROM Deposits";
 $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        echo " " . $row['usd_amount'] . " ";
-    }
-} else {
-    echo "No users found";
-}
+//if ($result->num_rows > 0) {
+//    while ($row = $result->fetch_assoc()) {
+//        echo " " . $row['usd_amount'] . " ";
+//    }
+//} else {
+//    echo "No users found";
+//}
 
 $url = "https://yields.llama.fi/chart/b65aef64-c153-4567-9d1a-e0040488f97f";
 
@@ -31,6 +31,8 @@ curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
 $response = curl_exec($curl);
 curl_close($curl);
+//default is 3% if no APY is returned from API
+$apyValue='5';
 
 if ($response !== false) {
     $data = json_decode($response, true);
@@ -38,29 +40,23 @@ if ($response !== false) {
     if (is_array($data)) {
         $lastObject = end($data);
 
-        if (is_array($lastObject)) {
-            $lastArray = end($lastObject);
+        $lastArray = end($lastObject);
+        $lastArray = prev($lastObject);
 
-            if (isset($lastArray['apy'])) {
-                $apyValue = $lastArray['apy'];
+        if (isset($lastArray['apy'])) {
+            $apyValue = $lastArray['apy'];
 
-                // Process the apy value
-                echo "APY: " . $apyValue;
-            } else {
-                // Handle missing 'apy' key
-                echo "Missing 'apy' key in the last array.";
-            }
         } else {
-            // Handle invalid JSON format
-            echo "Invalid JSON format: Last object is not an array.";
+            // Handle missing 'apy' key
+            echo "Missing 'apy' key in the last array.";
         }
-    } else {
-        // Handle invalid JSON format
-        echo "Invalid JSON format: Response is not an array.";
+
     }
 } else {
     // Handle error
     echo "Failed to retrieve data.";
 }
+
+echo  " " . "APY: " . $apyValue;
 
 
