@@ -1,21 +1,14 @@
 <?php
+$servername = "localhost";
+$username = "root";
+$password = "jupiter68";
 
-use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
+// Create connection
+$conn = new mysqli($servername, $username, $password);
 
-// Retrieve the Doctrine EntityManager
-$entityManager = EntityManagerInterface::class;
-
-// Get the UserRepository
-$userRepository = $entityManager->getRepository(User::class);
-
-// Retrieve all user IDs
-$userIDs = $userRepository->createQueryBuilder('u')
-    ->select('u.id')
-    ->getQuery()
-    ->getResult();
-
-// Output the user IDs
-foreach ($userIDs as $userID) {
-    echo "User ID: {$userID['id']} <br>";
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
+echo "Connected successfully";
+
