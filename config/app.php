@@ -5,7 +5,7 @@ $username = "root";
 $password = "jupiter68";
 $dbname = "defiworks";
 $apyValue='5';
-$nexoApy = 11;
+$nexApy = 11;
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -49,13 +49,32 @@ if ($response !== false) {
     echo "Failed to retrieve data.";
 }
 
-$totalApy = (($apyValue + $nexoApy) / 2) * 0.85;
+$totalApy = (($apyValue + $nexApy) / 2) * 0.85;
 $dailyApy = $totalApy / 365;
 
-echo $dailyApy;
-
 //add dailyApy to all balances
-$apySql = "UPDATE User SET balance = round(balance + ($dailyApy / 100 * balance), 3)";
-$apyResult = $conn->query($apySql);
+//$apySql = "UPDATE User SET balance = round(balance + ($dailyApy / 100 * balance), 3)";
+//$apyResult = $conn->query($apySql);
+
+
+
+
+//select all deposit records with a timestamp of today
+$depositSql = "SELECT * FROM Deposits WHERE DATE(timestamp) = CURDATE()";
+$depositResult = $conn->query($depositSql);
+
+//convert $depositResult to array
+$depositArray = $depositResult->fetch_all(MYSQLI_ASSOC);
+//echo each deposit record
+foreach ($depositArray as $deposit) {
+    echo "id: " . $deposit["id"] . " - user_id: " . $deposit["user_id"] . " - usd_amount: " . $deposit["usd_amount"] . " - timestamp: " . $deposit["timestamp"] . "<br>";
+    //add dailyApy to each deposit record
+}
+
+
+
+
+
+
 
 
