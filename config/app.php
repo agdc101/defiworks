@@ -1,8 +1,11 @@
 <?php
+//variables
 $servername = "localhost";
 $username = "root";
 $password = "jupiter68";
 $dbname = "defiworks";
+$apyValue='5';
+$nexoApy = 11;
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -13,16 +16,6 @@ if ($conn->connect_error) {
 }
 echo "Connected successfully";
 
-$sql = "SELECT * FROM Deposits";
-$result = $conn->query($sql);
-
-//if ($result->num_rows > 0) {
-//    while ($row = $result->fetch_assoc()) {
-//        echo " " . $row['usd_amount'] . " ";
-//    }
-//} else {
-//    echo "No users found";
-//}
 
 $url = "https://yields.llama.fi/chart/b65aef64-c153-4567-9d1a-e0040488f97f";
 
@@ -32,7 +25,6 @@ curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($curl);
 curl_close($curl);
 //default is 3% if no APY is returned from API
-$apyValue='5';
 
 if ($response !== false) {
     $data = json_decode($response, true);
@@ -57,6 +49,13 @@ if ($response !== false) {
     echo "Failed to retrieve data.";
 }
 
-echo  " " . "APY: " . $apyValue;
+$totalApy = (($apyValue + $nexoApy) / 2) * 0.85;
+$dailyApy = $totalApy / 365;
+
+echo $dailyApy;
+
+//add dailyApy to all balances
+$apySql = "UPDATE User SET balance = round(balance + ($dailyApy / 100 * balance), 3)";
+$apyResult = $conn->query($apySql);
 
 
