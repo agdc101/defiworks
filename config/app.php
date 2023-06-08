@@ -49,14 +49,6 @@ if ($response !== false) {
     echo "Failed to retrieve data.";
 }
 
-$totalApy = (($apyValue + $nexApy) / 2) * 0.85;
-$dailyApy = $totalApy / 365;
-
-//add dailyApy to all balances
-//$apySql = "UPDATE User SET balance = round(balance + ($dailyApy / 100 * balance), 3)";
-//$apyResult = $conn->query($apySql);
-
-
 
 
 //select all deposit records with a timestamp of today
@@ -67,13 +59,18 @@ $depositResult = $conn->query($depositSql);
 $depositArray = $depositResult->fetch_all(MYSQLI_ASSOC);
 //echo each deposit record
 foreach ($depositArray as $deposit) {
-    echo "id: " . $deposit["id"] . " - user_id: " . $deposit["user_id"] . " - usd_amount: " . $deposit["usd_amount"] . " - timestamp: " . $deposit["timestamp"] . "<br>";
+    echo " - usd_amount: " . $deposit["usd_amount"] . " - timestamp: " . $deposit["timestamp"];
     //add dailyApy to each deposit record
 }
 
 
 
+$totalApy = (($apyValue + $nexApy) / 2) * 0.85;
+$dailyApy = $totalApy / 365;
 
+//add dailyApy to all balances
+$apySql = "UPDATE User SET balance = FLOOR((balance + ($dailyApy / 100 * balance)) * 100) / 100";
+$apyResult = $conn->query($apySql);
 
 
 
