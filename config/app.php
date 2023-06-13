@@ -4,7 +4,7 @@ $servername = "localhost";
 $username = "root";
 $password = "jupiter68";
 $dbname = "defiworks";
-$apyValue='5';
+$apyValue = '5';
 $nexApy = 11;
 
 // Create connection
