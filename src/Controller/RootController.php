@@ -14,6 +14,8 @@ class RootController extends AbstractController
         // getReaperApy is defined in helpers.php
         $responseApy = getApy();
 
+        dd($responseApy);
+
         if (end($responseApy) !== 200) {
           return $this->render('homepage/index.html.twig');
         }

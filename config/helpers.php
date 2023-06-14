@@ -19,20 +19,28 @@ function getApy() : array
     } else {
         $responseData = $response->toArray()['data'];
         $responseApy = end($responseData)['apy'];
-        $lastAPY = prev($responseData)['apy'];
+        $apy = prev($responseData)['apy'];
+
+        if ($apy < 4.75) {
+            $commission = 0.90;
+        } else if ($apy > 6.75) {
+            $commission = 0.80;
+        }
 
         //the live apy. (get the average APY of $nexAPY and $responseApy)
         $avrResponseLiveApy = (($responseApy + $nexAPY) / 2)*$commission;
 
         //the past apy. (get the average APY of $lastAPY and $nexAPY)
-        $avrPastApy = (($lastAPY + $nexAPY) / 2)*$commission;
+        $avrPastApy = (($apy + $nexAPY) / 2)*$commission;
 
         return [
             'liveAPY' => $avrResponseLiveApy,
             'reaperApy' => $responseApy,
             'responseData' => $responseData,
             'yieldApy' => $avrPastApy,
-            'statusCode' => $statusCode
+            'statusCode' => $statusCode,
+            'commission' => $commission,
+            'lastAPY' => $apy,
         ];
     }
 }
