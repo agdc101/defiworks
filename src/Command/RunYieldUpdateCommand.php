@@ -40,15 +40,15 @@ class RunYieldUpdateCommand extends Command
         $llamaApi = 'https://yields.llama.fi/chart/b65aef64-c153-4567-9d1a-e0040488f97f';
         $commission = 0.85;
         $responseApy = getApy($llamaApi, $commission);
-        $nexApy = 11;
-        $apyValue = reset($responseApy);
-        $totalApy = ($apyValue + $nexApy) / 2;
-        $dailyYield = $totalApy / 365;
+        end($responseApy);
+        $apyValue = prev($responseApy);
+        $dailyYield = $apyValue / 365;
 
         $users = $this->entityManager->getRepository(User::class)->findAll();
 
         foreach ($users as $user) {
             $userId = $user->getId();
+            $balance = $user->getBalance();
 
             $currentDate = new \DateTimeImmutable();
             $startDate = $currentDate->setTime(0, 0, 0);
@@ -70,15 +70,12 @@ class RunYieldUpdateCommand extends Command
                 return $sum + $deposit->getUsdAmount();
             }, 0);
 
-            $result = floor(($user->getBalance() + ($dailyYield / 100 * ($user->getBalance() - $dailyDeposit))) * 100) / 100;
+            $result = floor(($balance + ($dailyYield / 100 * ($balance - $dailyDeposit))) * 100) / 100;
 
-            $output->writeln($result);
             $user->setBalance($result);
         }
 
         $this->entityManager->flush();
-
-        $output->writeln($dailyYield);
 
         return Command::SUCCESS;
     }

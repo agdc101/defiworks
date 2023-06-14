@@ -17,14 +17,20 @@ function getApy($apiAddress, $commission) : array
     } else {
         $responseData = $response->toArray()['data'];
         $responseApy = end($responseData)['apy'];
+        prev($responseData)['apy'];
+        $lastAPY = prev($responseData)['apy'];
 
-        //get the average APY of $nexAPY and $responseApy
-        $avrResponseApy = (($responseApy + $nexAPY) / 2)*$commission;
+        //the live apy. (get the average APY of $nexAPY and $responseApy)
+        $avrResponseLiveApy = (($responseApy + $nexAPY) / 2)*$commission;
+
+        //the past apy. (get the average APY of $lastAPY and $nexAPY)
+        $avrPastApy = (($lastAPY + $nexAPY) / 2)*$commission;
 
         return [
-            'responseApy' => $avrResponseApy,
+            'responseApy' => $avrResponseLiveApy,
             'reaperApy' => $responseApy,
             'responseData' => $responseData,
+            'yieldedApy' => $avrPastApy,
             'statusCode' => $response->getStatusCode()
         ];
     }
