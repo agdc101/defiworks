@@ -140,7 +140,7 @@ class WithdrawalController extends AbstractController
         $data = $response->toArray();
 
         $cleanUsdParam = str_replace(',', '', $parameters['usdWithdrawAmount']);
-        $gbpSum = ($cleanUsdParam * $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']) * $this->getParameter('withdraw_fee');
+        $gbpSum = ($cleanUsdParam * $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']);
         $formatGbp = round($gbpSum, 2);
 
         $session = $request->getSession();
