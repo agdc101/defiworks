@@ -32,11 +32,19 @@ class DashboardController extends AbstractController
         ]);
 
         $pendingBalance = 0;
+        $userBalance = $user->getBalance();
+
+        //if user balances only has 1 decimal place, add a 0 to the end
+        if (strlen(substr(strrchr($userBalance, "."), 1)) == 1) {
+            $userBalance = $userBalance . "0";
+        }
+
+        //calculate pending balance according to unverified deposits and withdrawals
         if ($unverifiedWithdrawals) {
-            $pendingBalance = $user->getBalance() - $unverifiedWithdrawals->getUsdAmount();
+            $pendingBalance = $userBalance - $unverifiedWithdrawals->getUsdAmount();
         }
         if ($unverifiedDeposits) {
-            $pendingBalance += $user->getBalance() + $unverifiedDeposits->getUsdAmount();
+            $pendingBalance += $userBalance + $unverifiedDeposits->getUsdAmount();
         }
 
         $hasPendingTransaction = $unverifiedDeposits || $unverifiedWithdrawals;
@@ -44,7 +52,7 @@ class DashboardController extends AbstractController
         return $this->render('dashboard/dashboard.html.twig', [
             'user' => $user->getFirstName(),
             'liveApy' => reset($responseApy),
-            'balance' => $user->getBalance(),
+            'balance' => $userBalance,
             'hasPendingTransaction' => $hasPendingTransaction,
             'pendingBalance' => $pendingBalance
         ]);
