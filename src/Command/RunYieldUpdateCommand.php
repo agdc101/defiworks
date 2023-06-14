@@ -11,8 +11,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Validator\Constraints\Date;
 
 #[AsCommand(
     name: 'run-yield-update',
@@ -44,13 +42,10 @@ class RunYieldUpdateCommand extends Command
         $responseApy = getApy($llamaApi, $commission);
         $nexApy = 11;
         $apyValue = reset($responseApy);
-        $totalApy = (($apyValue + $nexApy) / 2) * $commission;
+        $totalApy = ($apyValue + $nexApy) / 2;
         $dailyYield = $totalApy / 365;
 
-        $userRepository = $this->entityManager->getRepository(User::class);
-        $depositsRepository = $this->entityManager->getRepository(Deposits::class);
-        $users = $userRepository->findAll();
-        $deposits = $depositsRepository->findAll();
+        $users = $this->entityManager->getRepository(User::class)->findAll();
 
         foreach ($users as $user) {
             $userId = $user->getId();
@@ -59,7 +54,8 @@ class RunYieldUpdateCommand extends Command
             $startDate = $currentDate->setTime(0, 0, 0);
             $endDate = $currentDate->setTime(23, 59, 59);
 
-            $depositsToday = $depositsRepository->createQueryBuilder('d')
+            $depositsToday = $this->entityManager->getRepository(Deposits::class)
+                ->createQueryBuilder('d')
                 ->where('d.user_id = :userId')
                 ->andWhere('d.timestamp BETWEEN :startDate AND :endDate')
                 ->setParameters([
@@ -70,16 +66,19 @@ class RunYieldUpdateCommand extends Command
                 ->getQuery()
                 ->getResult();
 
-            foreach ($depositsToday as $deposit) {
-                $formattedTimestamp = $deposit->getTimestamp()->format('Y-m-d H:i:s');
-                $output->writeln($formattedTimestamp);
-            }
+            $dailyDeposit = array_reduce($depositsToday, function ($sum, $deposit) {
+                return $sum + $deposit->getUsdAmount();
+            }, 0);
+
+            $result = floor(($user->getBalance() + ($dailyYield / 100 * ($user->getBalance() - $dailyDeposit))) * 100) / 100;
+
+            $output->writeln($result);
+            $user->setBalance($result);
         }
 
+        $this->entityManager->flush();
 
-
-
-
+        $output->writeln($dailyYield);
 
         return Command::SUCCESS;
     }

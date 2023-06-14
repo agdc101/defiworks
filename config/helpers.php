@@ -23,6 +23,7 @@ function getApy($apiAddress, $commission) : array
 
         return [
             'responseApy' => $avrResponseApy,
+            'reaperApy' => $responseApy,
             'responseData' => $responseData,
             'statusCode' => $response->getStatusCode()
         ];
