@@ -52,24 +52,33 @@ class RunYieldUpdateCommand extends Command
         $users = $userRepository->findAll();
         $deposits = $depositsRepository->findAll();
 
-
         foreach ($users as $user) {
-            //get user id
             $userId = $user->getId();
 
             $currentDate = new \DateTimeImmutable();
-            $formattedDate = $currentDate->format('Y-m-d');
+            $startDate = $currentDate->setTime(0, 0, 0);
+            $endDate = $currentDate->setTime(23, 59, 59);
 
-            $depositsToday = $depositsRepository->findBy([
-                'user_id' => $userId,
-                'timestamp' => $currentDate
-            ]);
+            $depositsToday = $depositsRepository->createQueryBuilder('d')
+                ->where('d.user_id = :userId')
+                ->andWhere('d.timestamp BETWEEN :startDate AND :endDate')
+                ->setParameters([
+                    'userId' => $userId,
+                    'startDate' => $startDate,
+                    'endDate' => $endDate,
+                ])
+                ->getQuery()
+                ->getResult();
 
             foreach ($depositsToday as $deposit) {
-                $formattedDate = $deposit->getTimestamp()->format('Y-m-d H:i:s');
-                $output->writeln($formattedDate);
+                $formattedTimestamp = $deposit->getTimestamp()->format('Y-m-d H:i:s');
+                $output->writeln($formattedTimestamp);
             }
         }
+
+
+
+
 
 
         return Command::SUCCESS;
