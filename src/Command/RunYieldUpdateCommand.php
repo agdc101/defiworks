@@ -37,9 +37,7 @@ class RunYieldUpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $llamaApi = 'https://yields.llama.fi/chart/b65aef64-c153-4567-9d1a-e0040488f97f';
-        $commission = 0.85;
-        $responseApy = getApy($llamaApi, $commission);
+        $responseApy = getApy();
         end($responseApy);
         $apyValue = prev($responseApy);
         $dailyYield = $apyValue / 365;

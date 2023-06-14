@@ -19,7 +19,6 @@ function getApy() : array
     } else {
         $responseData = $response->toArray()['data'];
         $responseApy = end($responseData)['apy'];
-        prev($responseData)['apy'];
         $lastAPY = prev($responseData)['apy'];
 
         //the live apy. (get the average APY of $nexAPY and $responseApy)
@@ -31,8 +30,8 @@ function getApy() : array
         return [
             'liveAPY' => $avrResponseLiveApy,
             'reaperApy' => $responseApy,
-//          'responseData' => $responseData,
-            'yieldedApy' => $avrPastApy,
+            'responseData' => $responseData,
+            'yieldApy' => $avrPastApy,
             'statusCode' => $statusCode
         ];
     }
