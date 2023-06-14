@@ -4,9 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-        llama_api: '%env(LLAMA_API)%'
         gecko_api: '%env(GECKO_API)%'
-        commission: '%env(COMMISSION)%'
         deposit_fee: '%env(DEPOSIT_FEE)%'
         withdraw_fee: '%env(WITHDRAW_FEE)%'
 

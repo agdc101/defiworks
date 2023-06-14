@@ -28,7 +28,7 @@
         {% endif %}
     {% endif %}
 
-    <p>Current strategy is yielding{% if apy is defined %} {{ apy|round(2, 'floor') }}% {% else %} 4% {% endif %}</p>
+    <p>Current strategy is yielding{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</p>
 
 
 </div>

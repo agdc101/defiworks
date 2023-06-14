@@ -3,11 +3,12 @@
 use Symfony\Component\HttpClient\HttpClient;
 
 // get Apy% via Api request to Defi-llama, returns status code and result of the request
-function getApy($apiAddress, $commission) : array
+function getApy() : array
 {
     $client = HttpClient::create();
-    $response = $client->request('GET', $apiAddress);
+    $response = $client->request('GET', 'https://yields.llama.fi/chart/b65aef64-c153-4567-9d1a-e0040488f97f');
     $nexAPY = 11;
+    $commission = 0.85;
 
     // if response is not 404, return status code
     if ($response->getStatusCode() !== 200) {
@@ -27,9 +28,9 @@ function getApy($apiAddress, $commission) : array
         $avrPastApy = (($lastAPY + $nexAPY) / 2)*$commission;
 
         return [
-            'responseApy' => $avrResponseLiveApy,
+            'liveAPY' => $avrResponseLiveApy,
             'reaperApy' => $responseApy,
-            'responseData' => $responseData,
+//          'responseData' => $responseData,
             'yieldedApy' => $avrPastApy,
             'statusCode' => $response->getStatusCode()
         ];

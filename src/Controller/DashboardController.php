@@ -14,10 +14,8 @@ class DashboardController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard')]
     public function renderDashboard(EntityManagerInterface $entityManager): Response
     {
-        $llamaApi = $this->getParameter('llama_api');
-        $commission = $this->getParameter('commission');
         $user = $this->getUser();
-        $responseApy = getApy($llamaApi, $commission);
+        $responseApy = getApy();
 
         if (end($responseApy) !== 200) {
             return $this->render('homepage/index.html.twig');
@@ -45,7 +43,7 @@ class DashboardController extends AbstractController
 
         return $this->render('dashboard/dashboard.html.twig', [
             'user' => $user->getFirstName(),
-            'apy' => reset($responseApy),
+            'liveApy' => reset($responseApy),
             'balance' => $user->getBalance(),
             'hasPendingTransaction' => $hasPendingTransaction,
             'pendingBalance' => $pendingBalance

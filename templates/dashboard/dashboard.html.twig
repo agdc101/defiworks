@@ -33,7 +33,7 @@
             <p class="pending-balance">Pending Portfolio Balance: <span>${{ pendingBalance }}</span></p>
         {% endif %}
         <p>Total Interest Gained: <span>***</span></p>
-        <p>Current APY: <span>{{ apy|round(2, 'floor') }}%</span></p>
+        <p>Current APY: <span>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</span></p>
     </div>
 
     <div class="manage-account-wrapper">
