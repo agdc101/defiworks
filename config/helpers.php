@@ -38,9 +38,9 @@ function getApy() : array
             'reaperApy' => $responseApy,
             'responseData' => $responseData,
             'yieldApy' => $avrPastApy,
-            'statusCode' => $statusCode,
             'commission' => $commission,
             'lastAPY' => $apy,
+            'statusCode' => $statusCode
         ];
     }
 }
