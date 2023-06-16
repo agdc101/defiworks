@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 
 const DepositInputs = () =>  {
     // state variables
+    const ButtonRef = useRef(null);
+    const InputRef = useRef(null);
     const [gbpDepositAmount, setGbpDepositAmount] = useState('');
     const [isGbpValid, setIsGbpValid] = useState(false);
     const [conversionFetched, setConversionFetched] = useState(false);
@@ -13,8 +15,8 @@ const DepositInputs = () =>  {
     }
 
     function switchButtons (bool) {
-        document.getElementById("GbpDepositAmount").disabled = bool;
-        document.getElementById("convert-btn").disabled = bool;
+        ButtonRef.current.disabled = bool;
+        InputRef.current.disabled = bool;
     }
 
     //validate input, regex check for letters etc, remove commas from the value, then format the value to have the correct commas
@@ -89,10 +91,10 @@ const DepositInputs = () =>  {
                 <p>Enter the amount you would like to deposit and convert to USD.</p>
                 <form onSubmit={ConfirmAndConvertGbp}>
                     <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
-                    <input type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="6" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
+                    <input ref={InputRef} type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="8" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
                     {gbpDepositAmount < 20 && <span>Deposit must be at least £20 in value.</span>}
                     <br/>
-                    <button id="convert-btn" onClick={ConfirmAndConvertGbp} disabled={!isGbpValid} >Convert</button>
+                    <button ref={ButtonRef} id="convert-btn" onClick={ConfirmAndConvertGbp} >Convert</button>
                 </form>
             </div>
 

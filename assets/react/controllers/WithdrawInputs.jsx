@@ -1,6 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 
 function WithdrawInputs(props) {
+    const InputRef = useRef(null);
+    const ButtonRef = useRef(null);
     const [usdWithdrawAmount, setUsdWithdrawAmount] = useState('');
     const [exceedsBalance, setExceedsBalance] = useState(false);
     const [isMoreThanMin, setIsMoreThanMin] = useState(false);
@@ -15,8 +17,8 @@ function WithdrawInputs(props) {
     }
 
     function disableInput (bool) {
-        document.getElementById("UsdWithdrawAmount").disabled = bool;
-        document.getElementById("convert-btn").disabled = bool;
+        InputRef.current.disabled = bool;
+        ButtonRef.current.disabled = bool;
     }
 
     //validate input, regex check for letters etc, remove commas from the value, then format the value to have the correct commas
@@ -96,12 +98,12 @@ function WithdrawInputs(props) {
             <p>Your account balance is ${props.max}</p>
             <form onSubmit={ConfirmAndConvertUsd}>
                 <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
-                <input type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
+                <input ref={InputRef} type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
                 {exceedsBalance && <span>Withdrawal amount exceeds account balance</span>}
                 {!isMoreThanMin && <span>Minimum withdrawal amount is $20</span>}
             </form>
             <button onClick={setToMax} >Max</button>
-            <button id="convert-btn" onClick={ConfirmAndConvertUsd} disabled={!isInputValid}>Convert</button>
+            <button ref={ButtonRef}  id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>
 
             <div id="gbpConversion" ></div>
 
