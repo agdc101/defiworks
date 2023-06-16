@@ -68,8 +68,10 @@ class RunYieldUpdateCommand extends Command
                 return $sum + $deposit->getUsdAmount();
             }, 0);
 
-            $result = floor(($balance + ($dailyYield / 100 * ($balance - $dailyDeposit))) * 100) / 100;
+            $result = ($balance + ($dailyYield / 100 * ($balance - $dailyDeposit))) * 100 / 100;
+            $valueAdded = $result - $balance;
 
+            $user->setProfit($user->getProfit() + $valueAdded);
             $user->setBalance($result);
         }
 
