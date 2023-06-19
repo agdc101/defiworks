@@ -22,6 +22,10 @@
         <div class="alert alert-danger" role="alert">{{ message }}</div>
     {% endfor %}
 
+    {% for message in app.flashes('success_pin') %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endfor %}
+
     <h1>{{ user }}'s Dashboard</h1>
     <a href="{{ path('app_home') }}">Home</a>
     <a href="{{ path('app_deposit') }}" class="deposit-btn {% if hasPendingTransaction %} disable-btn {% endif %}">Deposit</a>
