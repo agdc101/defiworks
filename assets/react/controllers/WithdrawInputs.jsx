@@ -2,7 +2,8 @@ import React, {useState, useRef} from 'react';
 
 function WithdrawInputs(props) {
     const InputRef = useRef(null);
-    const ButtonRef = useRef(null);
+    const ConvertButtonRef = useRef(null);
+    const MaxButtonRef = useRef(null);
     const [usdWithdrawAmount, setUsdWithdrawAmount] = useState('');
     const [exceedsBalance, setExceedsBalance] = useState(false);
     const [isMoreThanMin, setIsMoreThanMin] = useState(false);
@@ -18,7 +19,8 @@ function WithdrawInputs(props) {
 
     function disableInput (bool) {
         InputRef.current.disabled = bool;
-        ButtonRef.current.disabled = bool;
+        ConvertButtonRef.current.disabled = bool;
+        MaxButtonRef.current.disabled = bool;
     }
 
     //validate input, regex check for letters etc, remove commas from the value, then format the value to have the correct commas
@@ -102,8 +104,8 @@ function WithdrawInputs(props) {
                 {exceedsBalance && <span>Withdrawal amount exceeds account balance</span>}
                 {!isMoreThanMin && <span>Minimum withdrawal amount is $20</span>}
             </form>
-            <button onClick={setToMax} >Max</button>
-            <button ref={ButtonRef}  id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>
+            <button ref={MaxButtonRef} onClick={setToMax} >Max</button>
+            <button ref={ConvertButtonRef}  id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>
 
             <div id="gbpConversion" ></div>
 

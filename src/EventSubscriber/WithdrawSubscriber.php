@@ -28,7 +28,7 @@ class WithdrawSubscriber implements EventSubscriberInterface
         $session = $request->getSession();
         $pathInfo = $request->getPathInfo();
 
-        if ((str_starts_with($pathInfo, '/withdraw') || str_starts_with($pathInfo, '/deposit') || str_starts_with($pathInfo, '/dashboard')) && !str_ends_with($pathInfo, 'success')) {
+        if ((str_starts_with($pathInfo, '/withdraw') || str_starts_with($pathInfo, '/deposit')) && !str_ends_with($pathInfo, 'success')) {
             if (!$session->get('userPin')) {
                 $event->setResponse(new RedirectResponse($request->getUriForPath('/enter-pin')));
             } else {
@@ -58,6 +58,16 @@ class WithdrawSubscriber implements EventSubscriberInterface
                 if ($unverifiedWithdrawals || $unverifiedDeposits) {
                     $event->setResponse(new RedirectResponse($request->getUriForPath('/transaction-error')));
                 }
+            }
+        } else if (str_starts_with($pathInfo, '/dashboard')) {
+            if (!$session->get('userPin')) {
+                $event->setResponse(new RedirectResponse($request->getUriForPath('/enter-pin')));
+            }
+
+            $token = $this->tokenStorage->getToken();
+            if (!$token) {
+                // Redirect or handle the case when no user token is available
+                $event->setResponse(new RedirectResponse($request->getUriForPath('/login')));
             }
         }
     }

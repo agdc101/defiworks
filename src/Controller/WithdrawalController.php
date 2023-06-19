@@ -21,8 +21,15 @@ class WithdrawalController extends AbstractController
 
     public function RenderWithdrawal(): Response
     {
+        $user = $this->getUser();
+        $userBalance = number_format($user->getBalance(), 3);
+
+        //round $userBalance down to 2 decimal places
+        $userBalance = floor($userBalance * 100) / 100;
+
+
         return $this->render('withdrawal/withdraw.html.twig', [
-            'maxWithdraw' => $this->getUser()->getBalance()
+            'maxWithdraw' => $userBalance
         ]);
     }
 

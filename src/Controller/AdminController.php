@@ -56,6 +56,11 @@ class AdminController extends AbstractController
         //get user balance and subtract withdrawal amount
         $user->setBalance($user->getBalance() - $withdrawal->getUsdAmount());
 
+        //if user balance is less than 0.01 set balance to null
+        if ($user->getBalance() < 0.01) {
+            $user->setBalance(null);
+        }
+
         $entityManager->flush();
 
         return $this->render('admin/withdraw-admin.html.twig', [
