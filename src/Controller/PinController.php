@@ -29,7 +29,7 @@ class PinController extends AbstractController
             if ($pin === $userPin) {
                 $session->set('userPin', true);
                 $this->addFlash('success_pin', 'Pin Accepted');
-                return $this->redirectToRoute('app_withdraw');
+                return $this->redirectToRoute('app_dashboard');
             } else {
                 $this->addFlash('error', 'Incorrect Pin');
                 return $this->redirectToRoute('app_pin');

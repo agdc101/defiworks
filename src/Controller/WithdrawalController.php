@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class WithdrawalController extends AbstractController
 {
     #[Route('/withdraw', name: 'app_withdraw')]
+
     public function RenderWithdrawal(): Response
     {
         return $this->render('withdrawal/withdraw.html.twig', [
