@@ -4,11 +4,11 @@ function WithdrawInputs(props) {
     const InputRef = useRef(null);
     const ConvertButtonRef = useRef(null);
     const MaxButtonRef = useRef(null);
+    const ConvDivRef = useRef(null);
     const [usdWithdrawAmount, setUsdWithdrawAmount] = useState('');
     const [exceedsBalance, setExceedsBalance] = useState(false);
     const [isMoreThanMin, setIsMoreThanMin] = useState(false);
     const [valueValid, setValueValid] = useState(false);
-    const conversionDiv = document.getElementById("gbpConversion");
     let isInputValid = !exceedsBalance && isMoreThanMin;
 
     // function that checks if the USD input is valid
@@ -44,7 +44,7 @@ function WithdrawInputs(props) {
     function handleConversionReset(event) {
         event.preventDefault();
         disableInput(false);
-        conversionDiv.innerHTML = '';
+        ConvDivRef.current.innerHTML = '';
         setValueValid(false);
     }
 
@@ -82,7 +82,7 @@ function WithdrawInputs(props) {
                     newElement.textContent = 'Invalid amount';
                 }
                 //if data.gbp is less than 20, display a message saying that the withdrawal amount is less than £20
-                conversionDiv.appendChild(newElement);
+                ConvDivRef.current.appendChild(newElement);
 
             }).catch(error => {
             console.error('Error:', error);
@@ -102,7 +102,7 @@ function WithdrawInputs(props) {
             <button ref={MaxButtonRef} onClick={setToMax} >Max</button>
             <button ref={ConvertButtonRef}  id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>
 
-            <div id="gbpConversion" ></div>
+            <div ref={ConvDivRef} ></div>
 
             {isInputValid && valueValid ?
                 <div>

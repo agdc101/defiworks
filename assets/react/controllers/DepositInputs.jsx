@@ -4,10 +4,10 @@ const DepositInputs = () =>  {
     // state variables
     const ButtonRef = useRef(null);
     const InputRef = useRef(null);
+    const ConvDivRef = useRef(null);
     const [gbpDepositAmount, setGbpDepositAmount] = useState('');
     const [isGbpValid, setIsGbpValid] = useState(false);
     const [conversionFetched, setConversionFetched] = useState(false);
-    const conversionDiv = document.getElementById("usdConversion");
 
     // function that checks if the USD amount is valid
     function checkGbpIsValid(value) {
@@ -54,7 +54,7 @@ const DepositInputs = () =>  {
         //disable the GbpDepositAmount input field
         switchButtons(true);
         event.preventDefault();
-        conversionDiv.innerHTML = '';
+        ConvDivRef.current.innerHTML = '';
 
         if (isGbpValid) {
             retrieveUsdConversion(event)
@@ -63,7 +63,7 @@ const DepositInputs = () =>  {
                     const newElement = document.createElement("p");
                     newElement.textContent = `The USD value of your deposit will be $${data.usd}`;
                     setConversionFetched(true);
-                    conversionDiv.appendChild(newElement);
+                    ConvDivRef.current.appendChild(newElement);
 
                 }).catch(error => {
                 console.error('Error:', error);
@@ -80,7 +80,7 @@ const DepositInputs = () =>  {
     function handleConversionReset(event) {
         event.preventDefault();
         switchButtons(false);
-        conversionDiv.innerHTML = '';
+        ConvDivRef.current.innerHTML = '';
         setConversionFetched(false);
     }
 
@@ -98,7 +98,7 @@ const DepositInputs = () =>  {
                 </form>
             </div>
 
-            <div id="usdConversion">
+            <div ref={ConvDivRef}>
 
             </div>
             {isGbpValid && conversionFetched ?
