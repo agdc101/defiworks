@@ -28,12 +28,7 @@ function WithdrawInputs(props) {
         const pattern = /^[0-9,. ]*$/;
         if (!pattern.test(value)) return;
         const strippedVal = value.replace(/,/g, '');
-
-        //check if the value ends with a decimal or a zero, if so, don't format the value
-        const endsWithDecimalOrZero = strippedVal.endsWith('.') || strippedVal.endsWith('.0');
-        const formattedValue = endsWithDecimalOrZero ? strippedVal : Number(strippedVal).toLocaleString();
-
-        setUsdWithdrawAmount(formattedValue === '0' ? '' : formattedValue);
+        setUsdWithdrawAmount(strippedVal === '0' ? '' : strippedVal);
     }
 
     function setToMax() {
