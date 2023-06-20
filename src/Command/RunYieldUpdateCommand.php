@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\Deposits;
 use App\Entity\User;
+use App\Entity\Withdrawals;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -52,10 +53,10 @@ class RunYieldUpdateCommand extends Command
             $startDate = $currentDate->setTime(0, 0, 0);
             $endDate = $currentDate->setTime(23, 59, 59);
 
-            $depositsToday = $this->entityManager->getRepository(Deposits::class)
-                ->createQueryBuilder('d')
-                ->where('d.user_id = :userId')
-                ->andWhere('d.timestamp BETWEEN :startDate AND :endDate')
+            $withdrawalsToday = $this->entityManager->getRepository(Withdrawals::class)
+                ->createQueryBuilder('w')
+                ->where('w.user_id = :userId')
+                ->andWhere('w.timestamp BETWEEN :startDate AND :endDate')
                 ->setParameters([
                     'userId' => $userId,
                     'startDate' => $startDate,
@@ -64,18 +65,46 @@ class RunYieldUpdateCommand extends Command
                 ->getQuery()
                 ->getResult();
 
-            $dailyDeposit = array_reduce($depositsToday, function ($sum, $deposit) {
-                return $sum + $deposit->getUsdAmount();
-            }, 0);
+            // if no withdrawals today and balance is greater than 0, user accrues yield.
+            if (!$withdrawalsToday && $balance > 0) {
 
-            $result = ($balance + ($dailyYield / 100 * ($balance - $dailyDeposit))) * 100 / 100;
-            $valueAdded = $result - $balance;
+                $depositsToday = $this->entityManager->getRepository(Deposits::class)
+                    ->createQueryBuilder('d')
+                    ->where('d.user_id = :userId')
+                    ->andWhere('d.timestamp BETWEEN :startDate AND :endDate')
+                    ->setParameters([
+                        'userId' => $userId,
+                        'startDate' => $startDate,
+                        'endDate' => $endDate,
+                    ])
+                    ->getQuery()
+                    ->getResult();
 
-            $user->setProfit($user->getProfit() + $valueAdded);
-            $user->setBalance($result);
+                $dailyDeposit = array_reduce($depositsToday, function ($sum, $deposit) {
+                    return $sum + $deposit->getUsdAmount();
+                }, 0);
+
+                $result = ($balance + ($dailyYield / 100 * ($balance - $dailyDeposit))) * 100 / 100;
+                $valueAdded = $result - $balance;
+
+                $output->writeln([
+                    'User ID: ' . $userId,
+                    'Balance: ' . $balance,
+                    'Yield accrued on: ' . $balance - $dailyDeposit,
+                    'Daily Deposit: ' . $dailyDeposit,
+                    'Daily Yield: ' . $dailyYield,
+                    'Result: ' . $result,
+                    'Value Added: ' . $valueAdded,
+                    '============================',
+                ]);
+
+                $user->setProfit($user->getProfit() + $valueAdded);
+                $user->setBalance($result);
+
+                $this->entityManager->flush();
+
+            }
         }
-
-        $this->entityManager->flush();
 
         return Command::SUCCESS;
     }
