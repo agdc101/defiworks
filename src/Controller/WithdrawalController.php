@@ -145,14 +145,15 @@ class WithdrawalController extends AbstractController
         $httpClient = HttpClient::create();
         $response = $httpClient->request('GET', $this->getParameter('gecko_api'));
         $data = $response->toArray();
+        $usd = $parameters['usdWithdrawAmount'];
 
-        $cleanUsdParam = str_replace(',', '', $parameters['usdWithdrawAmount']);
+        $cleanUsdParam = str_replace(',', '', round($usd,2));
         $gbpSum = ($cleanUsdParam * $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']);
         $formatGbp = round($gbpSum, 2);
 
         $session = $request->getSession();
         $session->set('gbpWithdrawal', $formatGbp);
-        $session->set('usdWithdrawal', $parameters['usdWithdrawAmount']);
+        $session->set('usdWithdrawal', round($usd, 2));
 
         //if cleanUsdParam is bigger than user balance, return error
         if ($cleanUsdParam > $this->getUser()->getBalance()) {
