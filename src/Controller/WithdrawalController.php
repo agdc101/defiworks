@@ -27,13 +27,8 @@ class WithdrawalController extends AbstractController
         //round $userBalance down to 2 decimal places
         $userBalance = floor($userBalance * 100) / 100;
 
-        //if user balance has only 1 decimal place, add a 0 to the end
-        if (strlen($userBalance) === 4) {
-            $userBalance .= '0';
-        }
-
         return $this->render('withdrawal/withdraw.html.twig', [
-            'maxWithdraw' => $userBalance
+            'maxWithdraw' => addZeroToValue($userBalance)
         ]);
     }
 

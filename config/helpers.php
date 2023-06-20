@@ -44,3 +44,13 @@ function getApy() : array
         ];
     }
 }
+
+//if number has only 1 decimal place, add a 0 to the end
+function addZeroToValue($value)
+{
+    $formatUsd = $value;
+    if (strlen(substr(strrchr($value, "."), 1)) == 1) {
+        $formatUsd = $value . '0';
+    }
+    return $formatUsd;
+}

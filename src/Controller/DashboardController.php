@@ -52,7 +52,7 @@ class DashboardController extends AbstractController
             'liveApy' => reset($responseApy),
             'balance' => $userBalance,
             'hasPendingTransaction' => $hasPendingTransaction,
-            'pendingBalance' => $pendingBalance,
+            'pendingBalance' => addZeroToValue($pendingBalance),
             'profit' => $profit,
         ]);
     }

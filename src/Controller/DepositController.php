@@ -122,12 +122,14 @@ class DepositController extends AbstractController
         $usdSum = ($cleanGbpParam / $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']) * $this->getParameter('deposit_fee');
         $formatUsd = round($usdSum, 2);
 
+        $formatUsd = 23.5;
+
         //set session variables
         $session->set('gbpDeposit', $parameters['gbpDepositAmount']);
         $session->set('usdDeposit', $formatUsd);
 
         //create variables
-        list($gbp, $usd) = [$session->get('gbpDeposit'), $formatUsd];
+        list($gbp, $usd) = [$session->get('gbpDeposit'), addZeroToValue($formatUsd)];
 
         //return a json response
         return new JsonResponse([
