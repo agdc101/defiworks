@@ -94,12 +94,10 @@ const DepositInputs = () =>  {
                     <input ref={InputRef} type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="8" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
                     {gbpDepositAmount < 20 && <span>Deposit must be at least £20 in value.</span>}
                     <br/>
-                    <button ref={ButtonRef} id="convert-btn" onClick={ConfirmAndConvertGbp} >Convert</button>
+                    {isGbpValid && <button ref={ButtonRef} id="convert-btn" onClick={ConfirmAndConvertGbp} >Convert</button>}
                 </form>
             </div>
-
             <div ref={ConvDivRef}>
-
             </div>
             {isGbpValid && conversionFetched ?
                 <div>

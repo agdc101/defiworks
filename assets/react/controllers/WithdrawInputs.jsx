@@ -18,8 +18,8 @@ function WithdrawInputs(props) {
     }
 
     function disableInput (bool) {
-        InputRef.current.disabled = bool;
         ConvertButtonRef.current.disabled = bool;
+        InputRef.current.disabled = bool;
         MaxButtonRef.current.disabled = bool;
     }
 
@@ -48,18 +48,16 @@ function WithdrawInputs(props) {
         setValueValid(false);
     }
 
-    async function fetchData(event, requestType) {
+    async function fetchData(event) {
         event.preventDefault();
         if (isInputValid) {
-            const api = requestType === 'usdConversion' ? '/create-withdrawal-session' : '/verify-withdrawal-amount';
             try {
-                const response = await fetch(api, {
+                const response = await fetch('/create-withdrawal-session', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        param: requestType,
                         usdWithdrawAmount: usdWithdrawAmount,
                     }),
                 });
@@ -72,7 +70,7 @@ function WithdrawInputs(props) {
 
     function ConfirmAndConvertUsd(event) {
         disableInput(true);
-        fetchData(event, 'usdConversion')
+        fetchData(event)
             .then(data => {
                 setValueValid(data.result);
                 const newElement = document.createElement("p");
@@ -100,7 +98,7 @@ function WithdrawInputs(props) {
                 {!isMoreThanMin && <span>Minimum withdrawal amount is $20</span>}
             </form>
             <button ref={MaxButtonRef} onClick={setToMax} >Max</button>
-            <button ref={ConvertButtonRef}  id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>
+            {(!exceedsBalance && isMoreThanMin) && <button ref={ConvertButtonRef} id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
 
             <div ref={ConvDivRef} ></div>
 
