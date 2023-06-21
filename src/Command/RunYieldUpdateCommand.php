@@ -50,8 +50,8 @@ class RunYieldUpdateCommand extends Command
             $balance = $user->getBalance();
 
             $currentDate = new \DateTimeImmutable();
-            $startDate = $currentDate->setTime(0, 0, 0);
-            $endDate = $currentDate->setTime(23, 59, 59);
+            $startDate = $currentDate->modify('-1 day')->setTime(0, 0, 0);
+            $endDate = $currentDate->modify('+1 hour');
 
             $withdrawalsToday = $this->entityManager->getRepository(Withdrawals::class)
                 ->createQueryBuilder('w')
@@ -80,23 +80,25 @@ class RunYieldUpdateCommand extends Command
                     ->getQuery()
                     ->getResult();
 
-                $dailyDeposit = array_reduce($depositsToday, function ($sum, $deposit) {
+                $ineligibleDeposit = array_reduce($depositsToday, function ($sum, $deposit) {
                     return $sum + $deposit->getUsdAmount();
                 }, 0);
 
-                $result = ($balance + ($dailyYield / 100 * ($balance - $dailyDeposit))) * 100 / 100;
+                $result = ($balance + ($dailyYield / 100 * ($balance - $ineligibleDeposit))) * 100 / 100;
                 $valueAdded = $result - $balance;
 
-                $output->writeln([
-                    'User ID: ' . $userId,
-                    'Balance: ' . $balance,
-                    'Yield accrued on: ' . $balance - $dailyDeposit,
-                    'Daily Deposit: ' . $dailyDeposit,
-                    'Daily Yield: ' . $dailyYield,
-                    'Result: ' . $result,
-                    'Value Added: ' . $valueAdded,
+                //output results to log file.
+                file_put_contents("./output-log.txt","
+                    'User ID: '$userId,
+                    'Original balance: '$balance,
+                    'Yield accrued on: '$balance - $ineligibleDeposit,
+                    'Ineligible Deposits: '$ineligibleDeposit,
+                    'Daily Yield: '$dailyYield,
                     '============================',
-                ]);
+                    'Result: '$result,
+                    'Value Added: '$valueAdded,
+                    '============================',
+                ");
 
                 $user->setProfit($user->getProfit() + $valueAdded);
                 $user->setBalance($result);
