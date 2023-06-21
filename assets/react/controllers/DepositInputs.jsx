@@ -10,6 +10,7 @@ const DepositInputs = () =>  {
     const [gbpDepositAmount, setGbpDepositAmount] = useState('');
     const [isGbpValid, setIsGbpValid] = useState(false);
     const [conversionFetched, setConversionFetched] = useState(false);
+    const [hasError, setHasError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     // function that checks if the USD amount is valid
@@ -50,6 +51,7 @@ const DepositInputs = () =>  {
                 return await response.json()
             } catch (error) {
                 console.error(error);
+                setHasError(true);
             }
         }
     }
@@ -72,6 +74,7 @@ const DepositInputs = () =>  {
 
                 }).catch(error => {
                 console.error('Error:', error);
+                setHasError(true);
             });
         }
     }
@@ -88,6 +91,8 @@ const DepositInputs = () =>  {
         ConvDivRef.current.innerHTML = '';
         setConversionFetched(false);
     }
+
+    if (hasError) return (<p>oops something went wrong</p>);
 
     return (
         <div>

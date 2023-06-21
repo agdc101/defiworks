@@ -11,6 +11,7 @@ function WithdrawInputs(props) {
     const [isMoreThanMin, setIsMoreThanMin] = useState(false);
     const [valueValid, setValueValid] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [hasError, setHasError] = useState(false);
     let isInputValid = !exceedsBalance && isMoreThanMin;
 
     // function that checks if the USD input is valid
@@ -66,7 +67,8 @@ function WithdrawInputs(props) {
                 });
                 return await response.json()
             } catch (error) {
-                console.error(error);
+                console.error('error ash', error);
+                setHasError(true);
             }
         }
     }
@@ -75,9 +77,9 @@ function WithdrawInputs(props) {
         disableInput(true);
         fetchData(event)
             .then(data => {
-                setValueValid(data.result);
                 const newElement = document.createElement("p");
                 if (+data.usd >= 20 && data.result) {
+                    setValueValid(data.result);
                     newElement.textContent = `The GBP value of your withdrawal will be £${data.gbp}`;
                 } else {
                     newElement.textContent = 'Invalid amount';
@@ -88,11 +90,16 @@ function WithdrawInputs(props) {
 
             }).catch(error => {
             console.error('Error:', error);
+            setHasError(true);
+
         });
     }
 
+    if (hasError) return (<p>oops something went wrong</p>);
+
     return (
         <div>
+            <h3>Request Withdrawal</h3>
             <p>Please enter a withdrawal amount and convert to GBP:</p>
             <p>Your account balance is ${props.max}</p>
             <form onSubmit={ConfirmAndConvertUsd}>
