@@ -1,4 +1,5 @@
 import React, {useState, useRef} from 'react';
+import { DoubleOrbit } from 'react-spinner-animated';
 
 function WithdrawInputs(props) {
     const InputRef = useRef(null);
@@ -9,6 +10,7 @@ function WithdrawInputs(props) {
     const [exceedsBalance, setExceedsBalance] = useState(false);
     const [isMoreThanMin, setIsMoreThanMin] = useState(false);
     const [valueValid, setValueValid] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     let isInputValid = !exceedsBalance && isMoreThanMin;
 
     // function that checks if the USD input is valid
@@ -50,6 +52,7 @@ function WithdrawInputs(props) {
 
     async function fetchData(event) {
         event.preventDefault();
+        setIsLoading(true);
         if (isInputValid) {
             try {
                 const response = await fetch('/create-withdrawal-session', {
@@ -79,6 +82,7 @@ function WithdrawInputs(props) {
                 } else {
                     newElement.textContent = 'Invalid amount';
                 }
+                setIsLoading(false);
                 //if data.gbp is less than 20, display a message saying that the withdrawal amount is less than £20
                 ConvDivRef.current.appendChild(newElement);
 
@@ -101,7 +105,7 @@ function WithdrawInputs(props) {
             {(!exceedsBalance && isMoreThanMin) && <button ref={ConvertButtonRef} id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
 
             <div ref={ConvDivRef} ></div>
-
+            {isLoading && <DoubleOrbit text={"Loading..."} width={"150px"} height={"150px"} />}
             {isInputValid && valueValid ?
                 <div>
                     <a id="confirm-continue-btn" href="/withdraw/withdraw-details" >Continue</a>

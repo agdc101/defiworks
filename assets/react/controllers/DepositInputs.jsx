@@ -1,4 +1,6 @@
 import React, {useState, useRef} from 'react';
+import { DoubleOrbit } from 'react-spinner-animated';
+import 'react-spinner-animated/dist/index.css'
 
 const DepositInputs = () =>  {
     // state variables
@@ -8,6 +10,7 @@ const DepositInputs = () =>  {
     const [gbpDepositAmount, setGbpDepositAmount] = useState('');
     const [isGbpValid, setIsGbpValid] = useState(false);
     const [conversionFetched, setConversionFetched] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     // function that checks if the USD amount is valid
     function checkGbpIsValid(value) {
@@ -32,6 +35,7 @@ const DepositInputs = () =>  {
 
     async function retrieveUsdConversion(event) {
         event.preventDefault();
+        setIsLoading(true);
         if (isGbpValid) {
             try {
                 const response = await fetch('/create-deposit-session', {
@@ -60,6 +64,7 @@ const DepositInputs = () =>  {
             retrieveUsdConversion(event)
                 .then(data => {
                     console.log('Data received:', data.usd, data.gbp);
+                    setIsLoading(false);
                     const newElement = document.createElement("p");
                     newElement.textContent = `The USD value of your deposit will be $${data.usd}`;
                     setConversionFetched(true);
@@ -97,6 +102,7 @@ const DepositInputs = () =>  {
                     {isGbpValid && <button ref={ButtonRef} id="convert-btn" onClick={ConfirmAndConvertGbp} >Convert</button>}
                 </form>
             </div>
+            {isLoading && <DoubleOrbit text={"Loading..."} width={"150px"} height={"150px"} />}
             <div ref={ConvDivRef}>
             </div>
             {isGbpValid && conversionFetched ?
