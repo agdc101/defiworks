@@ -1,6 +1,5 @@
 import React, {useState, useRef} from 'react';
-import { DoubleOrbit } from 'react-spinner-animated';
-import 'react-spinner-animated/dist/index.css'
+import MoonLoader from "react-spinners/MoonLoader";
 
 const DepositInputs = () =>  {
     // state variables
@@ -107,7 +106,14 @@ const DepositInputs = () =>  {
                     {isGbpValid && <button ref={ButtonRef} id="convert-btn" onClick={ConfirmAndConvertGbp} >Convert</button>}
                 </form>
             </div>
-            {isLoading && <DoubleOrbit text={"Loading..."} width={"150px"} height={"150px"} />}
+            {isLoading &&
+                <MoonLoader
+                    color={"purple"}
+                    size={100}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                />
+            }
             <div ref={ConvDivRef}>
             </div>
             {isGbpValid && conversionFetched ?
