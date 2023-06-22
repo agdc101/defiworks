@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import MoonLoader from "react-spinners/MoonLoader";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 const DepositInputs = () =>  {
     // state variables
@@ -98,22 +98,24 @@ const DepositInputs = () =>  {
             <div>
                 <h3>Enter amount to deposit:</h3>
                 <p>Enter the amount you would like to deposit and convert to USD.</p>
-                <form onSubmit={ConfirmAndConvertGbp}>
-                    <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
-                    <input ref={InputRef} type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="8" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
-                    {gbpDepositAmount < 20 && <span>Deposit must be at least £20 in value.</span>}
-                    <br/>
-                    {isGbpValid && <button ref={ButtonRef} id="convert-btn" onClick={ConfirmAndConvertGbp} >Convert</button>}
-                </form>
+                <div>
+                    <form onSubmit={ConfirmAndConvertGbp}>
+                        <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
+                        <input ref={InputRef} type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="8" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
+                        {gbpDepositAmount < 20 && <span>Deposit must be at least £20 in value.</span>}
+                        <br/>
+                        {isGbpValid && <button ref={ButtonRef} id="convert-btn" onClick={ConfirmAndConvertGbp} >Convert</button>}
+                    </form>
+                    {isLoading &&
+                        <PropagateLoader
+                            color={"#5f66e6"}
+                            size={25}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                        />
+                    }
+                </div>
             </div>
-            {isLoading &&
-                <MoonLoader
-                    color={"purple"}
-                    size={100}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
-                />
-            }
             <div ref={ConvDivRef}>
             </div>
             {isGbpValid && conversionFetched ?

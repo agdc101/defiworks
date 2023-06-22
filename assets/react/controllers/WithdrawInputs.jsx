@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import { DoubleOrbit } from 'react-spinner-animated';
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 function WithdrawInputs(props) {
     const InputRef = useRef(null);
@@ -112,7 +112,14 @@ function WithdrawInputs(props) {
             {(!exceedsBalance && isMoreThanMin) && <button ref={ConvertButtonRef} id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
 
             <div ref={ConvDivRef} ></div>
-            {isLoading && <DoubleOrbit text={"Loading..."} width={"150px"} height={"150px"} />}
+            {isLoading &&
+                <PropagateLoader
+                    color={"#5f66e6"}
+                    size={25}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                />
+            }
             {isInputValid && valueValid ?
                 <div>
                     <a id="confirm-continue-btn" href="/withdraw/withdraw-details" >Continue</a>
