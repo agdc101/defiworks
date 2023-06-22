@@ -18,7 +18,7 @@ class AdminController extends AbstractController
         //sql query to update deposit to verified
         $deposit = $entityManager->getRepository(Deposits::class)->find($slug);
 
-        //if deposit is not found, throw error
+        //if deposit is not found, throw pending_transaction_error
         if (!$deposit) {
             throw $this->createNotFoundException(
                 'No deposit found for id '.$slug
@@ -44,7 +44,7 @@ class AdminController extends AbstractController
         //sql query to update withdrawal to verified
         $withdrawal = $entityManager->getRepository(Withdrawals::class)->find($slug);
 
-        //if deposit is not found, throw error
+        //if deposit is not found, throw pending_transaction_error
         if (!$withdrawal) {
             throw $this->createNotFoundException(
                 'No withdraw found for id '.$slug

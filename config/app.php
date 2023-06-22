@@ -45,7 +45,7 @@ if ($response !== false) {
 
     }
 } else {
-    // Handle error
+    // Handle pending_transaction_error
     echo "Failed to retrieve data.";
 }
 

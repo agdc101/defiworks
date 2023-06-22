@@ -54,7 +54,7 @@ class DepositController extends AbstractController
                         ->setGbpAmount($cleanGbp)
                         ->setUsdAmount($cleanUsd);
                 } catch (Exception) {
-                    return $this->render('error/error.html.twig');
+                    return $this->render('pending_transaction_error.html.twig');
                 }
             }
 
@@ -73,7 +73,7 @@ class DepositController extends AbstractController
                 $mailer->send($email);
 
             } catch ( TransportExceptionInterface | Exception) {
-                return $this->render('error/error.html.twig');
+                return $this->render('pending_transaction_error.html.twig');
             }
             //add flash message
             $this->addFlash('gbp_amount', $gbpAmount);

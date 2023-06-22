@@ -8,9 +8,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ErrorController extends AbstractController
 {
-    #[Route('/transaction-error', name: 'app_error')]
+    #[Route('/transaction-pending', name: 'app_error')]
     public function index(): Response
     {
-        return $this->render('error/error.html.twig');
+        return $this->render('pending_transaction_error/pending_transaction_error.html.twig');
     }
 }

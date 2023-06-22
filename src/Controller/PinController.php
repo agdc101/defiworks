@@ -31,7 +31,7 @@ class PinController extends AbstractController
                 $this->addFlash('success_pin', 'Pin Accepted');
                 return $this->redirectToRoute('app_dashboard');
             } else {
-                $this->addFlash('error', 'Incorrect Pin');
+                $this->addFlash('pending_transaction_error', 'Incorrect Pin');
                 return $this->redirectToRoute('app_pin');
             }
         }

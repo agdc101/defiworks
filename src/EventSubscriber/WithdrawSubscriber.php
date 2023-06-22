@@ -56,7 +56,7 @@ class WithdrawSubscriber implements EventSubscriberInterface
                 ]);
 
                 if ($unverifiedWithdrawals || $unverifiedDeposits) {
-                    $event->setResponse(new RedirectResponse($request->getUriForPath('/transaction-error')));
+                    $event->setResponse(new RedirectResponse($request->getUriForPath('/transaction-pending')));
                 }
             }
         } else if (str_starts_with($pathInfo, '/dashboard')) {

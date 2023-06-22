@@ -67,7 +67,7 @@ function WithdrawInputs(props) {
                 });
                 return await response.json()
             } catch (error) {
-                console.error('error ash', error);
+                console.error('pending_transaction_error ash', error);
                 setHasError(true);
             }
         }
