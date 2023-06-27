@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\UpdateUserDetailsType;
+use App\Services\UserServices;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,15 +39,9 @@ class UserAccountController extends AbstractController
     }
 
     #[Route('/user-account/close-user-account/confirm', name: 'app_close_user_account_confirm')]
-    public function close(Request $request, EntityManagerInterface $entityManager): Response
+    public function close(UserServices $userServices): Response
     {
-        $user = $this->getUser();
-        $entityManager->remove($user);
-        $entityManager->flush();
-
-        // invalidates/removes user session.
-        $request->getSession()->invalidate();
-        $this->container->get('security.token_storage')->setToken(null);
+        $userServices->removeUser();
 
         $this->addFlash('account_closed', 'Sorry to see you go. Your account has been successfully closed.');
 

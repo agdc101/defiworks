@@ -81,7 +81,7 @@ class WithdrawalController extends AbstractController
                     ->setUsdAmount(floatval($cleanUsd))
                     ->setGbpAmount(floatval($cleanGbp));
             } catch (Exception) {
-                return $this->render('pending_transaction_error.html.twig');
+                return $this->render('pending_transaction_error/pending_transaction_error.html.twig');
             }
 
             $entityManager->persist($withdrawal);
@@ -104,7 +104,7 @@ class WithdrawalController extends AbstractController
                 $mailer->send($email);
 
             } catch ( TransportExceptionInterface | Exception) {
-                return $this->render('pending_transaction_error.html.twig');
+                return $this->render('pending_transaction_error/pending_transaction_error.html.twig');
             }
 
             return $this->redirectToRoute('app_withdraw_success');
