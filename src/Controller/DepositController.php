@@ -19,6 +19,7 @@ use Symfony\Component\HttpClient\HttpClient;
 
 class DepositController extends AbstractController
 {
+
     #[Route('/deposit', name: 'app_deposit')]
     public function renderDeposit(): Response
     {
@@ -40,9 +41,9 @@ class DepositController extends AbstractController
         //if form is submitted and valid
         if ($form->isSubmitted() && $form->isValid()) {
             //if session variable gbpDeposit is set
-            if ($session->get('gbpDeposit')) {
+            if ($gbpDeposit) {
 
-                $cleanGbp = str_replace(',', '', $session->get('gbpDeposit'));
+                $cleanGbp = str_replace(',', '', $gbpDeposit);
                 $cleanUsd = str_replace(',', '', $session->get('usdDeposit'));
                 try {
                     //set default values for deposit
@@ -54,7 +55,7 @@ class DepositController extends AbstractController
                         ->setGbpAmount($cleanGbp)
                         ->setUsdAmount($cleanUsd);
                 } catch (Exception) {
-                    return $this->render('pending_transaction_error.html.twig');
+                    return $this->render('pending_transaction_error/pending_transaction_error.html.twig');
                 }
             }
 
@@ -73,7 +74,7 @@ class DepositController extends AbstractController
                 $mailer->send($email);
 
             } catch ( TransportExceptionInterface | Exception) {
-                return $this->render('pending_transaction_error.html.twig');
+                return $this->render('pending_transaction_error/pending_transaction_error.html.twig');
             }
             //add flash message
             $this->addFlash('gbp_amount', $gbpAmount);
