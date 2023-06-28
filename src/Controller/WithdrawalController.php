@@ -3,6 +3,8 @@
 namespace App\Controller;
 use App\Entity\Withdrawals;
 use App\Form\WithdrawDetailsType;
+use App\Services\UserServices;
+use App\Services\WithdrawServices;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,13 +21,10 @@ class WithdrawalController extends AbstractController
 {
     #[Route('/withdraw', name: 'app_withdraw')]
 
-    public function RenderWithdrawal(): Response
+    public function RenderWithdrawal(WithdrawServices $withdrawServices): Response
     {
-        $user = $this->getUser();
-        $userBalance = number_format($user->getBalance(), 3);
-
         //round $userBalance down to 2 decimal places
-        $userBalance = floor($userBalance * 100) / 100;
+        $userBalance = $withdrawServices->getFormattedBalance();
 
         return $this->render('withdrawal/withdraw.html.twig', [
             'maxWithdraw' => addZeroToValue($userBalance)
@@ -44,7 +43,6 @@ class WithdrawalController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             //get form data
             $data = $form->getData();
-
             //add form data to session
             $session->set('sortCode', $data['sort_code']);
             $session->set('accountNo', $data['account_number']);
@@ -58,34 +56,23 @@ class WithdrawalController extends AbstractController
 
     }
 
-    #[Route('/withdraw/withdraw-confirm', name: 'app_withdraw_confirm')]
-    public function RenderWithdrawConfirmTemplate(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+   /**
+    * @throws Exception
+    */
+   #[Route('/withdraw/withdraw-confirm', name: 'app_withdraw_confirm')]
+    public function RenderWithdrawConfirmTemplate(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, WithdrawServices $withdrawServices): Response
     {
         //get current session
-        $session = $request->getSession();
+         $session = $request->getSession();
+         $gbp = $session->get('gbpWithdrawal');
+         $usd = $session->get('usdWithdrawal');
 
-        //if form has been submitted
         if ($request->isMethod('POST')) {
-            //add session variables to withdrawal
-            $withdrawal = new Withdrawals();
-            $cleanGbp = str_replace(',', '', $session->get('gbpWithdrawal'));
-            $cleanUsd = str_replace(',', '', $session->get('usdWithdrawal'));
-
             try {
-                //set default values for deposit
-                $withdrawal
-                    ->setIsVerified(false)
-                    ->setTimestamp(new \DateTimeImmutable('now', new \DateTimeZone('Europe/London')))
-                    ->setUserEmail($this->getUser()->getEmail())
-                    ->setUserId($this->getUser()->getId())
-                    ->setUsdAmount(floatval($cleanUsd))
-                    ->setGbpAmount(floatval($cleanGbp));
+               $withdrawal = $withdrawServices->buildWithdrawal($usd, $gbp);
             } catch (Exception) {
-                return $this->render('pending_transaction_error/pending_transaction_error.html.twig');
+               throw new Exception('Error building withdrawal');
             }
-
-            $entityManager->persist($withdrawal);
-            $entityManager->flush();
 
             try {
                 //send email to admin to confirm deposit
@@ -104,15 +91,15 @@ class WithdrawalController extends AbstractController
                 $mailer->send($email);
 
             } catch ( TransportExceptionInterface | Exception) {
-                return $this->render('pending_transaction_error/pending_transaction_error.html.twig');
+                  return $this->render('pending_transaction_error/pending_transaction_error.html.twig');
             }
 
             return $this->redirectToRoute('app_withdraw_success');
         }
 
         return $this->render('withdrawal/withdraw-confirm.html.twig', [
-            'gbpWithdrawAmount' => $session->get('gbpWithdrawal'),
-            'usdWithdrawAmount' => $session->get('usdWithdrawal'),
+            'gbpWithdrawAmount' => $gbp,
+            'usdWithdrawAmount' => $usd,
             'sortCode' => $session->get('sortCode'),
             'accountNo' => $session->get('accountNo')
         ]);
