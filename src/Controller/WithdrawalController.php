@@ -19,16 +19,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WithdrawalController extends AbstractController
 {
+   /**
+    * @throws Exception
+    */
    #[Route('/withdraw', name: 'app_withdraw')]
 
     public function RenderWithdrawal(WithdrawServices $withdrawServices): Response
     {
-       try {
-         $userBalance = $withdrawServices->getFormattedBalance();
-       } catch (\Exception $e) {
-         // Handle the exception, e.g., log the error or show an error message
-         return new Response('An error occurred: ' . $e->getMessage(), 500);
-       }
+      $userBalance = $withdrawServices->getFormattedBalance();
       return $this->render('withdrawal/withdraw.html.twig', [
          'maxWithdraw' => addZeroToValue($userBalance)
       ]);
@@ -37,26 +35,23 @@ class WithdrawalController extends AbstractController
     #[Route('/withdraw/withdraw-details', name: 'app_withdraw_details')]
     public function RenderWithdrawDetailsTemplate(Request $request): Response
     {
-        //get current session
-        $session = $request->getSession();
-        $form = $this->createForm(WithdrawDetailsType::class);
-        $form->handleRequest($request);
+      //get current session
+      $session = $request->getSession();
+      $form = $this->createForm(WithdrawDetailsType::class);
+      $form->handleRequest($request);
 
-        //if form is submitted and valid
-        if ($form->isSubmitted() && $form->isValid()) {
-            //get form data
-            $data = $form->getData();
-            //add form data to session
-            $session->set('sortCode', $data['sort_code']);
-            $session->set('accountNo', $data['account_number']);
-
-            return $this->redirectToRoute('app_withdraw_confirm');
-        }
-
-        return $this->render('withdrawal/withdraw-details.html.twig', [
-            'WithdrawDetailsForm' => $form->createView()
-        ]);
-
+      //if form is submitted and valid
+      if ($form->isSubmitted() && $form->isValid()) {
+         //get form data
+         $data = $form->getData();
+         //add form data to session
+         $session->set('sortCode', $data['sort_code']);
+         $session->set('accountNo', $data['account_number']);
+         return $this->redirectToRoute('app_withdraw_confirm');
+      }
+      return $this->render('withdrawal/withdraw-details.html.twig', [
+         'WithdrawDetailsForm' => $form->createView()
+      ]);
     }
 
    /**
@@ -65,39 +60,21 @@ class WithdrawalController extends AbstractController
    #[Route('/withdraw/withdraw-confirm', name: 'app_withdraw_confirm')]
     public function RenderWithdrawConfirmTemplate(Request $request, MailerInterface $mailer, WithdrawServices $withdrawServices): Response
     {
-        //get current session
-         $session = $request->getSession();
-         $gbp = $session->get('gbpWithdrawal');
-         $usd = $session->get('usdWithdrawal');
+      $session = $request->getSession();
+      $gbp = $session->get('gbpWithdrawal');
+      $usd = $session->get('usdWithdrawal');
 
-        if ($request->isMethod('POST')) {
-            try {
-               $withdrawal = $withdrawServices->buildWithdrawal($usd, $gbp);
-            } catch (Exception $e) {
-               return new Response('An error occurred: ' . $e->getMessage(), 500);
-            }
+      if ($request->isMethod('POST')) {
+         try {
+            $withdrawal = $withdrawServices->buildWithdrawal($usd, $gbp);
+            $sc = $session->get('sortCode');
+            $ac = $session->get('accountNo');
+            $mailer->send($withdrawServices->buildAndSendEmail($sc, $ac, $withdrawal));
 
-            try {
-                //send email to admin to confirm deposit
-                list($firstName, $lastName, $userEmail) = [$this->getUser()->getFirstName(), $this->getUser()->getLastName(), $this->getUser()->getEmail()];
-                list($gbpAmount, $date, $withdrawalId) = [$withdrawal->getGbpAmount(), $withdrawal->getTimestamp(), $withdrawal->getId()];
-                //get session variable sort code
-                $sc = $session->get('sortCode');
-                $ac = $session->get('accountNo');
-
-                $dateString = $date->format('H:i:s Y-m-d');
-                $email = (new Email())
-                    ->from('admin@defiworks.co.uk')
-                    ->to('admin@defiworks.co.uk')
-                    ->subject('New Withdrawal Request')
-                    ->html("$firstName $lastName ($userEmail) has made a withdrawal request of £$gbpAmount at $dateString <br/><br/> confirm by going to <a href='http://localhost:8000/admin/confirm-withdraw/$withdrawalId'>https://defiworks.co.uk/admin/confirm-withdraw/$withdrawalId</a><br/><br/>220590{$sc}{$ac}030292");
-                $mailer->send($email);
-
-            } catch ( TransportExceptionInterface | Exception) {
-                  return $this->render('pending_transaction_error/pending_transaction_error.html.twig');
-            }
-
-            return $this->redirectToRoute('app_withdraw_success');
+         } catch (TransportExceptionInterface $e) {
+            return new Response('An error occurred: ' . $e->getMessage(), 500);
+         }
+         return $this->redirectToRoute('app_withdraw_success');
         }
 
         return $this->render('withdrawal/withdraw-confirm.html.twig', [
