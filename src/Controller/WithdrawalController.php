@@ -19,16 +19,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WithdrawalController extends AbstractController
 {
-    #[Route('/withdraw', name: 'app_withdraw')]
+   #[Route('/withdraw', name: 'app_withdraw')]
 
     public function RenderWithdrawal(WithdrawServices $withdrawServices): Response
     {
-        //round $userBalance down to 2 decimal places
-        $userBalance = $withdrawServices->getFormattedBalance();
-
-        return $this->render('withdrawal/withdraw.html.twig', [
-            'maxWithdraw' => addZeroToValue($userBalance)
-        ]);
+       try {
+         $userBalance = $withdrawServices->getFormattedBalance();
+       } catch (\Exception $e) {
+         // Handle the exception, e.g., log the error or show an error message
+         return new Response('An error occurred: ' . $e->getMessage(), 500);
+       }
+      return $this->render('withdrawal/withdraw.html.twig', [
+         'maxWithdraw' => addZeroToValue($userBalance)
+      ]);
     }
 
     #[Route('/withdraw/withdraw-details', name: 'app_withdraw_details')]
@@ -60,7 +63,7 @@ class WithdrawalController extends AbstractController
     * @throws Exception
     */
    #[Route('/withdraw/withdraw-confirm', name: 'app_withdraw_confirm')]
-    public function RenderWithdrawConfirmTemplate(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer, WithdrawServices $withdrawServices): Response
+    public function RenderWithdrawConfirmTemplate(Request $request, MailerInterface $mailer, WithdrawServices $withdrawServices): Response
     {
         //get current session
          $session = $request->getSession();
@@ -70,8 +73,8 @@ class WithdrawalController extends AbstractController
         if ($request->isMethod('POST')) {
             try {
                $withdrawal = $withdrawServices->buildWithdrawal($usd, $gbp);
-            } catch (Exception) {
-               throw new Exception('Error building withdrawal');
+            } catch (Exception $e) {
+               return new Response('An error occurred: ' . $e->getMessage(), 500);
             }
 
             try {
