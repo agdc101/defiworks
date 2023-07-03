@@ -6,26 +6,29 @@ use App\Entity\User;
 use App\Entity\Withdrawals;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Exceptions\UserNotFoundException;
 use Symfony\Component\Mime\Email;
+use App\Repository\UserRepository;
 
-class WithdrawServices extends AbstractController
+class WithdrawServices
 {
    private EntityManagerInterface $entityManager;
+   private UserRepository $userRepository;
 
-   public function __construct(EntityManagerInterface $entityManager)
+   public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository)
    {
       $this->entityManager = $entityManager;
+      $this->userRepository = $userRepository;
    }
 
    /**
     * @throws Exception
     */
-   private function getUserObject(): User
+   private function getUserOrThrowException(): User
    {
-      $user = $this->getUser();
+      $user = $this->userRepository->findAuthenticatedUser();
       if (!$user instanceof User) {
-         throw new Exception('User not found');
+         throw new UserNotFoundException('User not found');
       }
       return $user;
    }
@@ -36,7 +39,7 @@ class WithdrawServices extends AbstractController
    //get user balance and format to 2 decimal places
    public function getFormattedBalance() : float
    {
-      $user = $this->getUserObject();
+      $user = $this->getUserOrThrowException();
       $userBalance = number_format($user->getBalance(), 3);
       //round $userBalance down to 2 decimal places
       return floor($userBalance * 100) / 100;
@@ -48,7 +51,7 @@ class WithdrawServices extends AbstractController
    //build withdrawal object
    public function buildWithdrawal($usd, $gbp) : Withdrawals
    {
-      $user = $this->getUserObject();
+      $user = $this->getUserOrThrowException();
 
       $withdrawal = new Withdrawals();
       //set default values for deposit
@@ -75,7 +78,7 @@ class WithdrawServices extends AbstractController
    //build and send email to admin requesting withdrawal
    public function buildAndSendEmail($sc, $ac, $withdrawal): Email
     {
-      $user = $this->getUserObject();
+      $user = $this->getUserOrThrowException();
       list($firstName, $lastName, $userEmail) = [$user->getFirstName(), $user->getLastName(), $user->getEmail()];
       list($gbpAmount, $date, $withdrawalId) = [$withdrawal->getGbpAmount(), $withdrawal->getTimestamp(), $withdrawal->getId()];
 

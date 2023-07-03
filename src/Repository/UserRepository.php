@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -19,9 +20,12 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+   private TokenStorageInterface $tokenStorage;
+
+    public function __construct(ManagerRegistry $registry, TokenStorageInterface $tokenStorage)
     {
-        parent::__construct($registry, User::class);
+      parent::__construct($registry, User::class);
+       $this->tokenStorage = $tokenStorage;
     }
 
     public function save(User $entity, bool $flush = false): void
@@ -55,6 +59,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->save($user, true);
     }
+
+    //return authenticated user
+   public function findAuthenticatedUser(): ?User
+   {
+      $token = $this->tokenStorage->getToken();
+      if ($token) {
+         $user = $token->getUser();
+         if ($user instanceof User) {
+            return $user;
+         }
+      }
+
+      return null;
+   }
 
 //    /**
 //     * @return User[] Returns an array of User objects
