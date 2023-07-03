@@ -7,8 +7,14 @@ use App\Entity\Withdrawals;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use App\Exceptions\UserNotFoundException;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class WithdrawServices
 {
@@ -94,8 +100,35 @@ class WithdrawServices
        );
     }
 
-    public function clearSession() : void
-    {
-      $this->entityManager->clear();
-    }
+
+   /**
+    * @throws ServerExceptionInterface
+    * @throws RedirectionExceptionInterface
+    * @throws DecodingExceptionInterface
+    * @throws ClientExceptionInterface
+    */
+   public function getGeckoData($api) : array
+   {
+      $httpClient = HttpClient::create();
+      try {
+         $response = $httpClient->request('GET', $api);
+         return $response->toArray();
+      } catch (TransportExceptionInterface $e) {
+         return ['error' => $e->getMessage()];
+      }
+   }
+
+   /**
+    * @throws UserNotFoundException
+    */
+   public function checkWithdrawalSum($usd) : bool
+   {
+      $user = $this->getUserOrThrowException();
+      $userBalance = $user->getBalance();
+      if ($usd > $userBalance) {
+         return false;
+      } else {
+         return true;
+      }
+   }
 }

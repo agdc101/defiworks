@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\Withdrawals;
+use App\Exceptions\UserNotFoundException;
 use App\Form\WithdrawDetailsType;
 use App\Services\UserServices;
 use App\Services\WithdrawServices;
@@ -16,6 +17,10 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 
 class WithdrawalController extends AbstractController
 {
@@ -86,9 +91,9 @@ class WithdrawalController extends AbstractController
 
     }
 
-    #[Route('/withdraw/withdraw-success', name: 'app_withdraw_success')]
-    public function RenderWithdrawSuccessTemplate(Request $request): Response
-    {
+   #[Route('/withdraw/withdraw-success', name: 'app_withdraw_success')]
+   public function RenderWithdrawSuccessTemplate(Request $request): Response
+   {
       //clear sort code and account number and usd and gbp withdrawal amounts from session
       $session = $request->getSession();
       $variableNames = ['sortCode', 'accountNo', 'usdWithdrawal', 'gbpWithdrawal'];
@@ -97,38 +102,33 @@ class WithdrawalController extends AbstractController
       }
 
       return $this->render('withdrawal/withdraw-success.html.twig');
-    }
+   }
 
-    #[Route('/create-withdrawal-session', methods: ['POST'])]
-    public function ConvertUsdToGbp(Request $request): JsonResponse
-    {
-        $parameters = json_decode($request->getContent(), true);
+   /**
+    * @throws ServerExceptionInterface
+    * @throws RedirectionExceptionInterface
+    * @throws DecodingExceptionInterface
+    * @throws ClientExceptionInterface
+    * @throws UserNotFoundException
+    */
+   #[Route('/create-withdrawal-session', methods: ['POST'])]
+   public function ConvertUsdToGbp(Request $request, WithdrawServices $withdrawServices): JsonResponse
+   {
+      $parameters = json_decode($request->getContent(), true);
+      $data = $withdrawServices->getGeckoData($this->getParameter('gecko_api'));
 
-        $httpClient = HttpClient::create();
-        $response = $httpClient->request('GET', $this->getParameter('gecko_api'));
-        $data = $response->toArray();
-        $usd = $parameters['usdWithdrawAmount'];
+      $usd = str_replace(',', '', round($parameters['usdWithdrawAmount'],2));
+      $gbpSum = ($usd * $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']);
+      $formatGbp = round($gbpSum, 2);
 
-        $cleanUsdParam = str_replace(',', '', round($usd,2));
-        $gbpSum = ($cleanUsdParam * $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']);
-        $formatGbp = round($gbpSum, 2);
+      $session = $request->getSession();
+      $session->set('gbpWithdrawal', $formatGbp);
+      $session->set('usdWithdrawal', round($usd, 2));
 
-        $session = $request->getSession();
-        $session->set('gbpWithdrawal', $formatGbp);
-        $session->set('usdWithdrawal', round($usd, 2));
-
-        //if cleanUsdParam is bigger than user balance, return false
-        if ($cleanUsdParam > $this->getUser()->getBalance()) {
-            $result = false;
-        } else {
-            $result = true;
-        }
-
-        return new JsonResponse([
-            'result' => $result,
-            'gbp' => $session->get('gbpWithdrawal'),
-            'usd' => $cleanUsdParam
-        ]);
-    }
-
+      return new JsonResponse([
+         'result' => $withdrawServices->checkWithdrawalSum($usd),
+         'gbp' => $session->get('gbpWithdrawal'),
+         'usd' => $usd
+      ]);
+   }
 }
