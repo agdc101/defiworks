@@ -93,4 +93,9 @@ class WithdrawServices
              <br/><br/>220590{$sc}{$ac}030292"
        );
     }
+
+    public function clearSession() : void
+    {
+      $this->entityManager->clear();
+    }
 }

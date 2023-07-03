@@ -13,8 +13,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class RouteSubscriber implements EventSubscriberInterface
 {
-    private $tokenStorage;
-    private $entityManager;
+    private TokenStorageInterface $tokenStorage;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(TokenStorageInterface $tokenStorage, EntityManagerInterface $entityManager)
     {
@@ -30,12 +30,6 @@ class RouteSubscriber implements EventSubscriberInterface
 
         if ((str_starts_with($pathInfo, '/withdraw') || str_starts_with($pathInfo, '/deposit')) && !str_ends_with($pathInfo, 'success')) {
            $token = $this->tokenStorage->getToken();
-
-           if (!$token) {
-              // Redirect or handle the case when no user token is available
-              $event->setResponse(new RedirectResponse($request->getUriForPath('/login')));
-              return;
-           }
 
             if (!$session->get('userPin')) {
                $event->setResponse(new RedirectResponse($request->getUriForPath('/enter-pin')));
@@ -64,13 +58,23 @@ class RouteSubscriber implements EventSubscriberInterface
             if (!$session->get('userPin')) {
                 $event->setResponse(new RedirectResponse($request->getUriForPath('/enter-pin')));
             }
-
-            $token = $this->tokenStorage->getToken();
-            if (!$token) {
-                // Redirect or handle the case when no user token is available
-                $event->setResponse(new RedirectResponse($request->getUriForPath('/login')));
-            }
         }
+
+         // Check if user has started a deposit or withdrawal
+        if (str_starts_with($pathInfo, '/deposit') && (str_ends_with($pathInfo, 'details') || str_ends_with($pathInfo, 'success'))) {
+           if (!$request->getSession()->has('gbpDeposit')) {
+              $event->setResponse(new RedirectResponse($request->getUriForPath('/deposit')));
+           }
+        }
+
+       if (str_starts_with($pathInfo, '/withdraw') && (str_ends_with($pathInfo, 'details') || str_ends_with($pathInfo, 'success') || str_ends_with($pathInfo, 'confirm'))) {
+          if (!$request->getSession()->has('gbpWithdrawal')) {
+             $event->setResponse(new RedirectResponse($request->getUriForPath('/withdraw')));
+          }
+       }
+
+
+
     }
 
     public static function getSubscribedEvents(): array
