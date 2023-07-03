@@ -22,7 +22,7 @@ class WithdrawServices
    }
 
    /**
-    * @throws Exception
+    * @throws UserNotFoundException
     */
    private function getUserOrThrowException(): User
    {
@@ -34,7 +34,7 @@ class WithdrawServices
    }
 
    /**
-    * @throws Exception
+    * @throws UserNotFoundException
     */
    //get user balance and format to 2 decimal places
    public function getFormattedBalance() : float
@@ -46,7 +46,7 @@ class WithdrawServices
    }
 
    /**
-    * @throws Exception
+    * @throws UserNotFoundException
     */
    //build withdrawal object
    public function buildWithdrawal($usd, $gbp) : Withdrawals
@@ -73,7 +73,7 @@ class WithdrawServices
    }
 
    /**
-    * @throws Exception
+    * @throws UserNotFoundException
     */
    //build and send email to admin requesting withdrawal
    public function buildAndSendEmail($sc, $ac, $withdrawal): Email

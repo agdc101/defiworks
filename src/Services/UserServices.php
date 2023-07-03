@@ -2,30 +2,43 @@
 
 namespace App\Services;
 
+use App\Entity\User;
+use App\Exceptions\UserNotFoundException;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class UserServices extends AbstractController
+class UserServices
 {
     private EntityManagerInterface $entityManager;
     private RequestStack $requestStack;
+      private UserRepository $userRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, RequestStack $requestStack)
+    public function __construct(EntityManagerInterface $entityManager, RequestStack $requestStack, UserRepository $userRepository)
     {
-        $this->entityManager = $entityManager;
-        $this->requestStack = $requestStack;
+         $this->entityManager = $entityManager;
+         $this->requestStack = $requestStack;
+         $this->userRepository = $userRepository;
     }
 
-    public function removeUser(): void
-    {
-        $user = $this->getUser();
-        $this->entityManager->remove($user);
-        $this->entityManager->flush();
 
-        $request = $this->requestStack->getCurrentRequest();
-        $session = $request->getSession();
-        $session->invalidate();
-        $this->container->get('security.token_storage')->setToken(null);
+   /**
+    * @throws UserNotFoundException
+    */
+   public function removeUser(): void
+    {
+      $user = $this->userRepository->findAuthenticatedUser();
+      if (!$user instanceof User) {
+         throw new UserNotFoundException('User not found');
+      }
+      $this->entityManager->remove($user);
+      $this->entityManager->flush();
+
+      $request = $this->requestStack->getCurrentRequest();
+      $request->getSession()->invalidate();
+
     }
 }

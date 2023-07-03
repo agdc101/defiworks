@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Exceptions\UserNotFoundException;
 use App\Form\UpdateUserDetailsType;
 use App\Services\UserServices;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,13 +41,20 @@ class UserAccountController extends AbstractController
         return $this->render('user-account/close-account.html.twig');
     }
 
-    #[Route('/user-account/close-user-account/confirm', name: 'app_close_user_account_confirm')]
+
+   /**
+    * @throws NotFoundExceptionInterface
+    * @throws UserNotFoundException
+    * @throws ContainerExceptionInterface
+    */
+   #[Route('/user-account/close-user-account/confirm', name: 'app_close_user_account_confirm')]
     public function close(UserServices $userServices): Response
     {
-        $userServices->removeUser();
+      $userServices->removeUser();
+      $this->container->get('security.token_storage')->setToken(null);
 
-        $this->addFlash('account_closed', 'Sorry to see you go. Your account has been successfully closed.');
+      $this->addFlash('account_closed', 'Sorry to see you go. Your account has been successfully closed.');
 
-        return $this->redirectToRoute('app_home');
+      return $this->redirectToRoute('app_home');
     }
 }
