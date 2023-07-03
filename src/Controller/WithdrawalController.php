@@ -1,21 +1,16 @@
 <?php
 
 namespace App\Controller;
-use App\Entity\Withdrawals;
 use App\Exceptions\UserNotFoundException;
 use App\Form\WithdrawDetailsType;
-use App\Services\UserServices;
 use App\Services\WithdrawServices;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
@@ -25,7 +20,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 class WithdrawalController extends AbstractController
 {
    /**
-    * @throws Exception
+    * @throws UserNotFoundException
     */
    #[Route('/withdraw', name: 'app_withdraw')]
 
@@ -70,26 +65,22 @@ class WithdrawalController extends AbstractController
       $usd = $session->get('usdWithdrawal');
 
       if ($request->isMethod('POST')) {
-         try {
-            $sc = $session->get('sortCode');
-            $ac = $session->get('accountNo');
-            $withdrawal = $withdrawServices->buildWithdrawal($usd, $gbp);
-            $mailer->send($withdrawServices->buildAndSendEmail($sc, $ac, $withdrawal));
+         $sc = $session->get('sortCode');
+         $ac = $session->get('accountNo');
+         $withdrawal = $withdrawServices->buildAndPersistWithdrawal($usd, $gbp);
+         $withdrawServices->buildAndSendEmail($sc, $ac, $withdrawal);
 
-         } catch (TransportExceptionInterface $e) {
-            return new Response('An error occurred: ' . $e->getMessage(), 500);
-         }
          return $this->redirectToRoute('app_withdraw_success');
-        }
+         }
 
-        return $this->render('withdrawal/withdraw-confirm.html.twig', [
+         return $this->render('withdrawal/withdraw-confirm.html.twig', [
             'gbpWithdrawAmount' => $gbp,
             'usdWithdrawAmount' => $usd,
             'sortCode' => $session->get('sortCode'),
             'accountNo' => $session->get('accountNo')
-        ]);
+         ]);
 
-    }
+      }
 
    #[Route('/withdraw/withdraw-success', name: 'app_withdraw_success')]
    public function RenderWithdrawSuccessTemplate(Request $request): Response
@@ -109,7 +100,8 @@ class WithdrawalController extends AbstractController
     * @throws RedirectionExceptionInterface
     * @throws DecodingExceptionInterface
     * @throws ClientExceptionInterface
-    * @throws UserNotFoundException
+    * @throws UserNotFoundException|
+    * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
     */
    #[Route('/create-withdrawal-session', methods: ['POST'])]
    public function ConvertUsdToGbp(Request $request, WithdrawServices $withdrawServices): JsonResponse

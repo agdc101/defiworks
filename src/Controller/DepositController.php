@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Deposits;
 use App\Form\AddPendingDepositType;
-use DateTimeImmutable;
+use App\Services\DepositServices;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,64 +23,36 @@ class DepositController extends AbstractController
     #[Route('/deposit', name: 'app_deposit')]
     public function renderDeposit(): Response
     {
-        //render deposit template - if form is not submitted
         return $this->render('deposit/deposit.html.twig');
     }
 
     #[Route('/deposit/deposit-details', name: 'app_deposit_details')]
-    public function RenderDepositDetailsTemplate(Request $request, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    public function RenderDepositDetailsTemplate(Request $request, DepositServices $depositServices, MailerInterface $mailer): Response
     {
         //get usdDeposit and gbpDeposit from session
-        $session = $request->getSession();
-        $deposit = new Deposits();
-        $gbpDeposit = $session->get('gbpDeposit');
+      $session = $request->getSession();
+      $deposit = new Deposits();
+      $gbpDeposit = $session->get('gbpDeposit');
+      $usdDeposit = $session->get('usdDeposit');
 
-        $form = $this->createForm(AddPendingDepositType::class, $deposit);
-        $form->handleRequest($request);
+      $form = $this->createForm(AddPendingDepositType::class, $deposit);
+      $form->handleRequest($request);
 
         //if form is submitted and valid
-        if ($form->isSubmitted() && $form->isValid()) {
-            //if session variable gbpDeposit is set
-            if ($gbpDeposit) {
+      if ($form->isSubmitted() && $form->isValid()) {
+         //if session variable gbpDeposit is set
+         if ($gbpDeposit) {
+             try {
+                $depositServices->buildAndPersistDeposit($deposit, $gbpDeposit, $usdDeposit);
+                $depositServices->buildAndSendEmail($deposit);
+             } catch (TransportExceptionInterface | Exception $e) {
+                return new Response('An error occurred: ' . $e->getMessage(), 500);
+             }
+         }
 
-                $cleanGbp = str_replace(',', '', $gbpDeposit);
-                $cleanUsd = str_replace(',', '', $session->get('usdDeposit'));
-                try {
-                    //set default values for deposit
-                    $deposit
-                        ->setIsVerified(false)
-                        ->setTimestamp(new DateTimeImmutable('now', new \DateTimeZone('Europe/London')))
-                        ->setUserEmail($this->getUser()->getEmail())
-                        ->setUserId($this->getUser()->getId())
-                        ->setGbpAmount($cleanGbp)
-                        ->setUsdAmount($cleanUsd);
-                } catch (Exception) {
-                    return $this->render('pending_transaction_error/pending_transaction_error.html.twig');
-                }
-            }
-
-            $entityManager->persist($deposit);
-            $entityManager->flush();
-            try {
-                //send email to admin to confirm deposit
-                list($firstName, $lastName, $userEmail) = [$this->getUser()->getFirstName(), $this->getUser()->getLastName(), $this->getUser()->getEmail()];
-                list($gbpAmount, $usdAmount, $date, $depositId) = [$deposit->getGbpAmount(), $deposit->getUsdAmount(), $deposit->getTimestamp(), $deposit->getId()];
-                $dateString = $date->format('H:i:s Y-m-d');
-                $email = (new Email())
-                    ->from('admin@defiworks.co.uk')
-                    ->to('admin@defiworks.co.uk')
-                    ->subject('New Deposit - Confirmation required')
-                    ->html("$firstName $lastName ($userEmail) has made a new deposit of £$gbpAmount ($$usdAmount) at $dateString <br><br> confirm by going to <a href='http://localhost:8000/admin/confirm-deposit/$depositId'>https://defiworks.co.uk/admin/confirm-deposit/$depositId</a>");
-                $mailer->send($email);
-
-            } catch ( TransportExceptionInterface | Exception) {
-                return $this->render('pending_transaction_error/pending_transaction_error.html.twig');
-            }
-            //add flash message
-            $this->addFlash('gbp_amount', $gbpAmount);
-            //redirect to deposit confirmation page
-            return $this->redirectToRoute('app_deposit_success');
-        }
+         $this->addFlash('gbp_amount', $deposit->getGbpAmount());
+         return $this->redirectToRoute('app_deposit_success');
+      }
 
         return $this->render('deposit/deposit-details.html.twig', [
             'gbpDeposit' => $gbpDeposit,

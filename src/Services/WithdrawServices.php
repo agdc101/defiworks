@@ -8,23 +8,26 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use App\Exceptions\UserNotFoundException;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use App\Repository\UserRepository;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class WithdrawServices
 {
    private EntityManagerInterface $entityManager;
    private UserRepository $userRepository;
+   private MailerInterface $mailer;
 
-   public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository)
+   public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository, MailerInterface $mailer)
    {
       $this->entityManager = $entityManager;
       $this->userRepository = $userRepository;
+      $this->mailer = $mailer;
    }
 
    /**
@@ -53,9 +56,10 @@ class WithdrawServices
 
    /**
     * @throws UserNotFoundException
+    * @throws Exception
     */
    //build withdrawal object
-   public function buildWithdrawal($usd, $gbp) : Withdrawals
+   public function buildAndPersistWithdrawal($usd, $gbp) : Withdrawals
    {
       $user = $this->getUserOrThrowException();
 
@@ -82,30 +86,34 @@ class WithdrawServices
     * @throws UserNotFoundException
     */
    //build and send email to admin requesting withdrawal
-   public function buildAndSendEmail($sc, $ac, $withdrawal): Email
+   public function buildAndSendEmail($sc, $ac, $withdrawal): void
     {
-      $user = $this->getUserOrThrowException();
-      list($firstName, $lastName, $userEmail) = [$user->getFirstName(), $user->getLastName(), $user->getEmail()];
-      list($gbpAmount, $date, $withdrawalId) = [$withdrawal->getGbpAmount(), $withdrawal->getTimestamp(), $withdrawal->getId()];
+      try {
+         $user = $this->getUserOrThrowException();
+         list($firstName, $lastName, $userEmail) = [$user->getFirstName(), $user->getLastName(), $user->getEmail()];
+         list($gbpAmount, $date, $withdrawalId) = [$withdrawal->getGbpAmount(), $withdrawal->getTimestamp(), $withdrawal->getId()];
 
-      $dateString = $date->format('H:i:s Y-m-d');
-      return (new Email())
-       ->from('admin@defiworks.co.uk')
-       ->to('admin@defiworks.co.uk')
-       ->subject('New Withdrawal Request')
-       ->html(
-       "$firstName $lastName ($userEmail) has made a withdrawal request of £$gbpAmount at $dateString 
+         $dateString = $date->format('H:i:s Y-m-d');
+         $email = (new Email())
+            ->from('admin@defiworks.co.uk')
+            ->to('admin@defiworks.co.uk')
+            ->subject('New Withdrawal Request')
+            ->html(
+               "$firstName $lastName ($userEmail) has made a withdrawal request of £$gbpAmount at $dateString 
              <br/><br/> confirm by going to <a href='http://localhost:8000/admin/confirm-withdraw/$withdrawalId'>https://defiworks.co.uk/admin/confirm-withdraw/$withdrawalId</a>
              <br/><br/>220590{$sc}{$ac}030292"
-       );
+            );
+         $this->mailer->send($email);
+      } catch (TransportExceptionInterface $e) {
+         echo $e->getMessage();
+      }
     }
-
 
    /**
     * @throws ServerExceptionInterface
     * @throws RedirectionExceptionInterface
     * @throws DecodingExceptionInterface
-    * @throws ClientExceptionInterface
+    * @throws ClientExceptionInterface|\Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
     */
    public function getGeckoData($api) : array
    {
@@ -113,7 +121,7 @@ class WithdrawServices
       try {
          $response = $httpClient->request('GET', $api);
          return $response->toArray();
-      } catch (TransportExceptionInterface $e) {
+      } catch (ClientExceptionInterface $e) {
          return ['error' => $e->getMessage()];
       }
    }
