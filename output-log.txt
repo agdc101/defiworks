@@ -1,11 +1,11 @@
 
-                    'User ID: '5,
-                    'Original balance: '66.235362826409,
-                    'Yield accrued on: '66.235362826409 - 0,
-                    'Ineligible Deposits: '0,
-                    'Daily Yield: '0.022225369863014,
+                    'User ID: '89,
+                    'Original balance: '806.69063022437,
+                    'Yield accrued on: '806.69063022437 - 62.63,
+                    'Ineligible Deposits: '62.63,
+                    'Daily Yield: '0.026401287671233,
                     '============================',
-                    'Result: '66.250083880777,
-                    'Value Added: '0.01472105436828,
+                    'Result: '806.8870718118,
+                    'Value Added: '0.19644158743392,
                     '============================',
                 

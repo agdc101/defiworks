@@ -37,6 +37,7 @@
             <p class="pending-balance">Pending Portfolio Balance: <span>${{ pendingBalance }}</span></p>
         {% endif %}
         <p>Total Profit: <span>{% if profit is null %} $0 {% else  %} ${{ profit }} {% endif %}</span></p>
+        <p>Total Portfolio Growth: <span>{% if growth is null %} $0 {% else  %} {{ growth }}% {% endif %}</span></p>
         <p>Current APY: <span>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</span></p>
     </div>
 

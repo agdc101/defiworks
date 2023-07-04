@@ -37,6 +37,9 @@ class DashboardController extends AbstractController
         $profit = number_format($user->getProfit(), 3);
         $userBalance = number_format($user->getBalance(), 3);
 
+         //get percentage of profit into user balance
+         $growth = (($profit / $userBalance) * 100);
+
         //calculate pending balance according to unverified deposits and withdrawals
         if ($unverifiedWithdrawals) {
             $pendingBalance = $userBalance - $unverifiedWithdrawals->getUsdAmount();
@@ -54,6 +57,7 @@ class DashboardController extends AbstractController
             'hasPendingTransaction' => $hasPendingTransaction,
             'pendingBalance' => addZeroToValue($pendingBalance),
             'profit' => $profit,
+            'growth' => round($growth, 2)
         ]);
     }
 
