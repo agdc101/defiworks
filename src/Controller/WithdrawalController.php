@@ -123,7 +123,7 @@ class WithdrawalController extends AbstractController
 
       return new JsonResponse([
          'result' => $withdrawServices->checkWithdrawalSum($usd),
-         'gbp' => $session->get('gbpWithdrawal'),
+         'gbp' => addZeroToValue($formatGbp),
          'usd' => $usd
       ]);
    }
