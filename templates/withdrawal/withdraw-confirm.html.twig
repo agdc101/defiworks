@@ -16,9 +16,19 @@
         <p>${{ usdWithdrawAmount }} will be deducted from your account balance.</p>
 
         <form method="post">
-            <button>Confirm Withdrawal</button>
+            <button id="submit">Confirm Withdrawal</button>
         </form>
 
     </div>
+
+    <script>
+       //disable button after click
+       document.getElementById("submit").onclick = function() {
+          //set timeout to allow form to submit
+          setTimeout(function(){
+             document.getElementById("submit").disabled = true;
+          }, 100);
+       };
+    </script>
 
 {% endblock %}

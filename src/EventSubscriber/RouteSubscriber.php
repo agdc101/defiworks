@@ -49,7 +49,6 @@ class RouteSubscriber implements EventSubscriberInterface
                  'user_id' => $userId,
                  'is_verified' => false
                ]);
-
                if ($unverifiedWithdrawals || $unverifiedDeposits) {
                  $event->setResponse(new RedirectResponse($request->getUriForPath('/transaction-pending')));
                }
@@ -67,7 +66,7 @@ class RouteSubscriber implements EventSubscriberInterface
            }
         }
 
-       if (str_starts_with($pathInfo, '/withdraw') && (str_ends_with($pathInfo, 'details') || str_ends_with($pathInfo, 'success') || str_ends_with($pathInfo, 'confirm'))) {
+       if (str_starts_with($pathInfo, '/withdraw') && (str_ends_with($pathInfo, 'details') || str_ends_with($pathInfo, 'confirm'))) {
           if (!$request->getSession()->has('gbpWithdrawal')) {
              $event->setResponse(new RedirectResponse($request->getUriForPath('/withdraw')));
           }
