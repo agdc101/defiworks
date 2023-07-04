@@ -1,5 +1,7 @@
 import React, {useState, useRef} from 'react';
 import PropagateLoader from "react-spinners/PropagateLoader";
+import ContinueResetButtons from './components/ContinueResetButtons';
+import Form from "./components/Form";
 
 const DepositInputs = () =>  {
    // state variables
@@ -102,24 +104,18 @@ const DepositInputs = () =>  {
                <form onSubmit={ConfirmAndConvertGbp}>
                   <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
                   <input ref={InputRef} type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="8" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
-                  {gbpDepositAmount < 20 && <span>Deposit must be at least £20 in value.</span>}
-                  <br/>
                   {isGbpValid && <button ref={ButtonRef} id="convert-btn" onClick={ConfirmAndConvertGbp} >Convert</button>}
                </form>
-               {isLoading &&
-                  <PropagateLoader color={"#5f66e6"} size={25} aria-label="Loading Spinner" data-testid="loader"/>
-               }
+               {gbpDepositAmount < 20 && <span>Deposit must be at least £20 in value.</span>}
             </div>
          </div>
          <div ref={ConvDivRef}>
+         {isLoading &&
+            <PropagateLoader color={"#5f66e6"} size={25} aria-label="Loading Spinner" data-testid="loader"/>
+         }
          </div>
-         {isGbpValid && conversionFetched ?
-            <div>
-               <a id="confirm-continue-btn" href="/deposit/deposit-details" >Continue</a>
-               <button id="reset-btn" onClick={handleConversionReset}>Reset</button>
-            </div>
-            :
-            <p>Please enter a deposit amount.</p>
+         {isGbpValid && conversionFetched &&
+            <ContinueResetButtons link={'/deposit/deposit-details'} handleConversionReset={handleConversionReset} />
          }
       </div>
    );

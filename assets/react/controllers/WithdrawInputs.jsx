@@ -1,5 +1,6 @@
 import React, {useState, useRef} from 'react';
 import PropagateLoader from "react-spinners/PropagateLoader";
+import ContinueResetButtons from './components/ContinueResetButtons';
 
 function WithdrawInputs(props) {
    const InputRef = useRef(null);
@@ -105,23 +106,18 @@ function WithdrawInputs(props) {
          <form onSubmit={ConfirmAndConvertUsd}>
             <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
             <input ref={InputRef} type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
-            {exceedsBalance && <span>Withdrawal amount exceeds account balance</span>}
-            {!isMoreThanMin && <span>Minimum withdrawal amount is $20</span>}
+            {(!exceedsBalance && isMoreThanMin) && <button ref={ConvertButtonRef} id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
          </form>
+         {exceedsBalance && <span>Withdrawal amount exceeds account balance</span>}
+         {!isMoreThanMin && <span>Minimum withdrawal amount is $20</span>}
          <button ref={MaxButtonRef} onClick={setToMax} >Max</button>
-         {(!exceedsBalance && isMoreThanMin) && <button ref={ConvertButtonRef} id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
 
          <div ref={ConvDivRef} ></div>
          {isLoading &&
             <PropagateLoader color={"#5f66e6"} size={25} aria-label="Loading Spinner" data-testid="loader"/>
          }
-         {isInputValid && valueValid ?
-            <div>
-               <a id="confirm-continue-btn" href="/withdraw/withdraw-details" >Continue</a>
-               <button id="reset-btn" onClick={handleConversionReset}>Reset</button>
-            </div>
-            :
-            <p>Please enter a deposit amount and convert to USD.</p>
+         {isInputValid && valueValid &&
+            <ContinueResetButtons link={'/withdraw/withdraw-details'} handleConversionReset={handleConversionReset}/>
          }
       </div>
    );
