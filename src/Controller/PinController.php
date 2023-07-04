@@ -36,7 +36,7 @@ class PinController extends AbstractController
             }
         }
 
-        return $this->render('withdrawal/confirm-pin.html.twig', [
+        return $this->render('pin/confirm-pin.html.twig', [
             'PinForm' => $form->createView()
         ]);
 

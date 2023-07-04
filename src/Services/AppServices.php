@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Entity\User;
-use App\Entity\Deposits;
 use App\Exceptions\UserNotFoundException;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -63,8 +62,6 @@ class AppServices
        $this->entityManager->persist($transaction);
        $this->entityManager->flush();
     }
-
-   //build and send email to admin requesting withdrawal
 
    /**
     * @throws TransportExceptionInterface
