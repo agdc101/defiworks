@@ -29,7 +29,6 @@ class DepositController extends AbstractController
     #[Route('/deposit/deposit-details', name: 'app_deposit_details')]
     public function RenderDepositDetailsTemplate(Request $request, AppServices $appServices): Response
     {
-        //get usdDeposit and gbpDeposit from session
       $session = $request->getSession();
       $deposit = new Deposits();
       $gbpDeposit = $session->get('gbpDeposit');
@@ -38,15 +37,13 @@ class DepositController extends AbstractController
       $form = $this->createForm(AddPendingDepositType::class, $deposit);
       $form->handleRequest($request);
 
-        //if form is submitted and valid
       if ($form->isSubmitted() && $form->isValid()) {
-         //if session variable gbpDeposit is set
          if ($gbpDeposit) {
              try {
                 $appServices->buildAndPersistTransaction($deposit, $gbpDeposit, $usdDeposit);
                 $appServices->buildAndSendEmail('deposit', $deposit, $sc=null, $ac=null);
              } catch (TransportExceptionInterface | Exception $e) {
-                return new Response('An error occurred: ' . $e->getMessage(), 500);
+                return new Response('An error occurred: ' . $e->getMessage());
              }
          }
          $this->addFlash('gbp_amount', $deposit->getGbpAmount());
@@ -62,12 +59,9 @@ class DepositController extends AbstractController
     #[Route('/deposit/deposit-success', name: 'app_deposit_success')]
     public function renderDepositConfirmationTemplate(Request $request): Response
     {
-        //if session variable gbpDeposit is set
         if (!$request->getSession()->has('gbpDeposit')) {
             return $this->redirectToRoute('app_deposit');
         }
-
-        //remove gbpDeposit and usdDeposit session variables
         $session = $request->getSession();
         $session->remove('gbpDeposit');
         $session->remove('usdDeposit');
@@ -94,14 +88,11 @@ class DepositController extends AbstractController
         $usdSum = ($cleanGbpParam / $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']) * $this->getParameter('deposit_fee');
         $formatUsd = round($usdSum, 2);
 
-        //set session variables
         $session->set('gbpDeposit', $parameters['gbpDepositAmount']);
         $session->set('usdDeposit', $formatUsd);
 
-        //create variables
         list($gbp, $usd) = [$session->get('gbpDeposit'), $appServices->addZeroToValue($formatUsd)];
 
-        //return a json response
         return new JsonResponse([
             'message' => 'success',
             'gbp' => $gbp,

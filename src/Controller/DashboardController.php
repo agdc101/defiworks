@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Exceptions\UserNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
@@ -25,9 +26,14 @@ class DashboardController extends AbstractController
     * @throws RedirectionExceptionInterface
     */
    #[Route('/dashboard', name: 'app_dashboard')]
-    public function renderDashboard(AppServices $appServices, DashboardServices $dashboardServices ): Response
+    public function renderDashboard(Request $request, AppServices $appServices, DashboardServices $dashboardServices): Response
     {
-      $responseApy = $appServices->getApy();
+      $session = $request->getSession();
+
+      if (!$session->get('apy')) {
+         $responseApy = $appServices->getApy();
+         $session->set('apy', reset($responseApy));
+      }
       $user = $appServices->getUserOrThrowException();
       $userBalance = number_format($user->getBalance(), 3);
 
@@ -37,7 +43,7 @@ class DashboardController extends AbstractController
 
       return $this->render('dashboard/dashboard.html.twig', [
          'user' => $user->getFirstName(),
-         'liveApy' => reset($responseApy),
+         'liveApy' => $session->get('apy'),
          'balance' => $userBalance,
          'pendingBalance' => $appServices->addZeroToValue($pendingBalance),
          'profit' => $profit,
