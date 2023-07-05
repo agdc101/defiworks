@@ -25,11 +25,11 @@ class WithdrawalController extends AbstractController
     */
    #[Route('/withdraw', name: 'app_withdraw')]
 
-    public function RenderWithdrawal(WithdrawServices $withdrawServices): Response
+    public function RenderWithdrawal(WithdrawServices $withdrawServices, AppServices $appServices): Response
     {
       $userBalance = $withdrawServices->getFormattedBalance();
       return $this->render('withdrawal/withdraw.html.twig', [
-         'maxWithdraw' => addZeroToValue($userBalance)
+         'maxWithdraw' => $appServices->addZeroToValue($userBalance)
       ]);
     }
 
@@ -123,7 +123,7 @@ class WithdrawalController extends AbstractController
 
       return new JsonResponse([
          'result' => $withdrawServices->checkWithdrawalSum($usd),
-         'gbp' => addZeroToValue($formatGbp),
+         'gbp' => $appServices->addZeroToValue($formatGbp),
          'usd' => $usd
       ]);
    }

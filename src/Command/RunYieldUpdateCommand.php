@@ -12,20 +12,28 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use App\Services\AppServices;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 #[AsCommand(
     name: 'run-yield-update',
-    description: 'pays out yield to users'
+    description: 'pays out daily yield to users'
 )]
 class RunYieldUpdateCommand extends Command
 {
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
+    private AppServices $appServices;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, AppServices $appServices)
     {
-        $this->entityManager = $entityManager;
+      $this->entityManager = $entityManager;
+      $this->appServices = $appServices;
 
-        parent::__construct();
+      parent::__construct();
     }
 
     protected function configure(): void
@@ -36,9 +44,16 @@ class RunYieldUpdateCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+   /**
+    * @throws TransportExceptionInterface
+    * @throws ServerExceptionInterface
+    * @throws RedirectionExceptionInterface
+    * @throws DecodingExceptionInterface
+    * @throws ClientExceptionInterface
+    */
+   protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $responseApy = getApy();
+        $responseApy = $this->appServices->getApy();
         end($responseApy);
         $apyValue = prev($responseApy);
         $dailyYield = $apyValue / 365;

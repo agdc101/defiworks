@@ -99,7 +99,7 @@ class DepositController extends AbstractController
         $session->set('usdDeposit', $formatUsd);
 
         //create variables
-        list($gbp, $usd) = [$session->get('gbpDeposit'), addZeroToValue($formatUsd)];
+        list($gbp, $usd) = [$session->get('gbpDeposit'), $appServices->addZeroToValue($formatUsd)];
 
         //return a json response
         return new JsonResponse([

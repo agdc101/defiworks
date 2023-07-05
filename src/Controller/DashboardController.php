@@ -27,7 +27,7 @@ class DashboardController extends AbstractController
    #[Route('/dashboard', name: 'app_dashboard')]
     public function renderDashboard(AppServices $appServices, DashboardServices $dashboardServices ): Response
     {
-      $responseApy = getApy();
+      $responseApy = $appServices->getApy();
       $user = $appServices->getUserOrThrowException();
       $userBalance = number_format($user->getBalance(), 3);
 
@@ -39,7 +39,7 @@ class DashboardController extends AbstractController
          'user' => $user->getFirstName(),
          'liveApy' => reset($responseApy),
          'balance' => $userBalance,
-         'pendingBalance' => addZeroToValue($pendingBalance),
+         'pendingBalance' => $appServices->addZeroToValue($pendingBalance),
          'profit' => $profit,
          'growth' => round($growth, 2)
       ]);
