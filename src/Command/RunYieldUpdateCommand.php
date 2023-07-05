@@ -113,13 +113,14 @@ class RunYieldUpdateCommand extends Command
                   ->setLogResult($logResult)
                   ->setTimestamp(new \DateTimeImmutable('+1 hour'));
 
-               // update user balance and profit
-               $user->setProfit($user->getProfit() + $valueAdded);
-               $user->setBalance($result);
+               $user
+                  ->setProfit($user->getProfit() + $valueAdded)
+                  ->setCurrentProfit($user->getCurrentProfit() + $valueAdded)
+                  ->setBalance($result);
 
                $this->entityManager->persist($userYieldLog);
+               $this->entityManager->persist($user);
                $this->entityManager->flush();
-
             }
         }
         return Command::SUCCESS;

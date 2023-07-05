@@ -2,17 +2,13 @@
 
 namespace App\Services;
 
-use App\Entity\User;
 use App\Exceptions\TransactionConfirmationException;
-use Doctrine\ORM\EntityManagerInterface;
 
 class AdminServices
 {
-   private EntityManagerInterface $entityManager;
 
-   public function __construct(EntityManagerInterface $entityManager)
+   public function __construct()
    {
-      $this->entityManager = $entityManager;
    }
 
    /**
@@ -24,6 +20,7 @@ class AdminServices
          throw new TransactionConfirmationException();
       }
       $transaction->setIsVerified(true);
+      $user->setCurrentProfit(0);
 
       if ($type === 'withdraw') {
          $user->setBalance($user->getBalance() - $transaction->getUsdAmount());

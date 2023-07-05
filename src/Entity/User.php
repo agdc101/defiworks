@@ -63,6 +63,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?float $profit = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $current_profit = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -260,6 +263,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setProfit(?float $profit): self
     {
         $this->profit = $profit;
+
+        return $this;
+    }
+
+    public function getCurrentProfit(): ?float
+    {
+        return $this->current_profit;
+    }
+
+    public function setCurrentProfit(?float $current_profit): self
+    {
+        $this->current_profit = $current_profit;
 
         return $this;
     }
