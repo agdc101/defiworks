@@ -71,7 +71,7 @@ class WithdrawalController extends AbstractController
          $sc = $session->get('sortCode');
          $ac = $session->get('accountNo');
 
-         $appServices->buildAndPersistTransaction($withdrawal, $usd, $gbp);
+         $appServices->buildAndPersistTransaction($withdrawal, $gbp, $usd);
          $appServices->buildAndSendEmail('withdraw', $withdrawal, $sc, $ac);
 
          return $this->redirectToRoute('app_withdraw_success');

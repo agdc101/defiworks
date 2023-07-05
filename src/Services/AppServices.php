@@ -32,7 +32,7 @@ class AppServices
    /**
     * @throws UserNotFoundException
     */
-   private function getUserOrThrowException(): User
+   public function getUserOrThrowException(): User
    {
       $user = $this->userRepository->findAuthenticatedUser();
       if (!$user instanceof User) {
@@ -74,7 +74,7 @@ class AppServices
       list($gbpAmount, $usdAmount, $date, $Id) = [$object->getGbpAmount(), $object->getUsdAmount(), $object->getTimestamp(), $object->getId()];
       $dateString = $date->format('H:i:s Y-m-d');
 
-      if ($type === 'withdrawal') {
+      if ($type === 'withdraw') {
          $email = (new Email())
             ->from('admin@defiworks.co.uk')
             ->to('admin@defiworks.co.uk')
