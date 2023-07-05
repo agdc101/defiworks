@@ -17,8 +17,8 @@ function WithdrawInputs(props) {
 
    // function that checks if the USD input is valid
    function checkUsdIsValid(value) {
-      {(value >= 20) ? setIsMoreThanMin(true) : setIsMoreThanMin(false)}
-      {(value <= props.max) ? setExceedsBalance(false) : setExceedsBalance(true)}
+      {(+value >= 20) ? setIsMoreThanMin(true) : setIsMoreThanMin(false)}
+      {(+value <= +props.max) ? setExceedsBalance(false) : setExceedsBalance(true)}
    }
 
    function disableInput (bool) {
@@ -32,7 +32,8 @@ function WithdrawInputs(props) {
       const pattern = /^[0-9,. ]*$/;
       if (!pattern.test(value)) return;
       const strippedVal = value.replace(/,/g, '');
-      setUsdWithdrawAmount(strippedVal === '0' ? '' : strippedVal);
+      let formattedValue = Number(strippedVal).toLocaleString();
+      (formattedValue === '0') ? setUsdWithdrawAmount('') : setUsdWithdrawAmount(formattedValue);
    }
 
    function setToMax() {
@@ -106,10 +107,10 @@ function WithdrawInputs(props) {
          <form onSubmit={ConfirmAndConvertUsd}>
             <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
             <input ref={InputRef} type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
-            {(!exceedsBalance && isMoreThanMin) && <button ref={ConvertButtonRef} id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
+            {isInputValid && <button ref={ConvertButtonRef} id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
          </form>
-         {exceedsBalance && <span>Withdrawal amount exceeds account balance</span>}
-         {!isMoreThanMin && <span>Minimum withdrawal amount is $20</span>}
+         {exceedsBalance && <span>Amount entered exceeds account balance</span>}
+         {!isMoreThanMin && <span>Amount needs to equal $20 or more</span>}
          <button ref={MaxButtonRef} onClick={setToMax} >Max</button>
 
          <div ref={ConvDivRef} ></div>

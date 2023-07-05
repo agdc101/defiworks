@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Deposits;
 use App\Entity\User;
 use App\Entity\Withdrawals;
+use App\Exceptions\TransactionConfirmationException;
+use App\Services\AdminServices;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,77 +14,42 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {
-    #[Route('/admin/confirm-deposit/{slug}')]
-    public function confirmDeposit(EntityManagerInterface $entityManager, int $slug = 0): Response
+   /**
+    * @throws TransactionConfirmationException
+    */
+   #[Route('/admin/confirm-deposit/{slug}')]
+    public function confirmDeposit(EntityManagerInterface $entityManager, AdminServices $adminServices, int $slug = 0): Response
     {
-        //sql query to update deposit to verified
-        $deposit = $entityManager->getRepository(Deposits::class)->find($slug);
+      $deposit = $entityManager->getRepository(Deposits::class)->find($slug);
+      $user = $entityManager->getRepository(User::class)->find($deposit->getUserId());
 
-        //if deposit is not found, throw pending_transaction_error
-        if (!$deposit) {
-            throw $this->createNotFoundException(
-                'No deposit found for id '.$slug
-            );
-        }
+      $adminServices->verifyTransactionUpdateUserBalance('deposit', $deposit, $user);
 
-        //if deposit is already verified, throw exception
-         if ($deposit->isIsVerified()) {
-               throw $this->createNotFoundException(
-                  'Deposit already verified for id '.$slug
-               );
-         }
+      $entityManager->flush();
 
-        $deposit->setIsVerified(true);
-        //get user where deposit belongs to using user_id
-        $user = $entityManager->getRepository(User::class)->find($deposit->getUserId());
-        //get user balance and add deposit amount
-        $user->setBalance($user->getBalance() + $deposit->getUsdAmount());
-
-        $entityManager->flush();
-
-        return $this->render('admin/deposit-admin.html.twig', [
-            'slug' => $slug,
-            'depositAmount' => $deposit->getGbpAmount()
-        ]);
+      return $this->render('admin/deposit-admin.html.twig', [
+         'slug' => $slug,
+         'depositAmount' => $deposit->getGbpAmount()
+      ]);
     }
 
-    #[Route('/admin/confirm-withdraw/{slug}')]
-    public function confirmWithdrawal(EntityManagerInterface $entityManager, int $slug = 0): Response
+   /**
+    * @throws TransactionConfirmationException
+    */
+   #[Route('/admin/confirm-withdraw/{slug}')]
+    public function confirmWithdrawal(EntityManagerInterface $entityManager, AdminServices $adminServices, int $slug = 0): Response
     {
-        //sql query to update withdrawal to verified
-        $withdrawal = $entityManager->getRepository(Withdrawals::class)->find($slug);
+      $withdrawal = $entityManager->getRepository(Withdrawals::class)->find($slug);
+      $user = $entityManager->getRepository(User::class)->find($withdrawal->getUserId());
 
-        //if deposit is not found, throw pending_transaction_error
-        if (!$withdrawal) {
-            throw $this->createNotFoundException(
-                'No withdraw found for id '.$slug
-            );
-        }
+      $adminServices->verifyTransactionUpdateUserBalance('withdraw', $withdrawal, $user);
 
-       //if deposit is already verified, throw exception
-       if ($withdrawal->isIsVerified()) {
-          throw $this->createNotFoundException(
-             'Withdrawal already verified for id '.$slug
-          );
-       }
+      $entityManager->flush();
 
-        $withdrawal->setIsVerified(true);
-        //get user where deposit belongs to using user_id
-        $user = $entityManager->getRepository(User::class)->find($withdrawal->getUserId());
-        //get user balance and subtract withdrawal amount
-        $user->setBalance($user->getBalance() - $withdrawal->getUsdAmount());
-
-        //if user balance is less than 0.01 set balance to null
-        if ($user->getBalance() < 0.01) {
-            $user->setBalance(null);
-        }
-
-        $entityManager->flush();
-
-        return $this->render('admin/withdraw-admin.html.twig', [
-            'slug' => $slug,
-            'withdrawAmount' => $withdrawal->getGbpAmount()
-        ]);
+      return $this->render('admin/withdraw-admin.html.twig', [
+         'slug' => $slug,
+         'withdrawAmount' => $withdrawal->getGbpAmount()
+      ]);
     }
 
 }
