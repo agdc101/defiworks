@@ -24,6 +24,14 @@ class AdminController extends AbstractController
                 'No deposit found for id '.$slug
             );
         }
+
+        //if deposit is already verified, throw exception
+         if ($deposit->isIsVerified()) {
+               throw $this->createNotFoundException(
+                  'Deposit already verified for id '.$slug
+               );
+         }
+
         $deposit->setIsVerified(true);
         //get user where deposit belongs to using user_id
         $user = $entityManager->getRepository(User::class)->find($deposit->getUserId());
@@ -50,6 +58,14 @@ class AdminController extends AbstractController
                 'No withdraw found for id '.$slug
             );
         }
+
+       //if deposit is already verified, throw exception
+       if ($withdrawal->isIsVerified()) {
+          throw $this->createNotFoundException(
+             'Withdrawal already verified for id '.$slug
+          );
+       }
+
         $withdrawal->setIsVerified(true);
         //get user where deposit belongs to using user_id
         $user = $entityManager->getRepository(User::class)->find($withdrawal->getUserId());
