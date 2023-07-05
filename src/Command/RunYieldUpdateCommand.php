@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\Deposits;
 use App\Entity\User;
+use App\Entity\UserYieldLog;
 use App\Entity\Withdrawals;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -58,9 +59,12 @@ class RunYieldUpdateCommand extends Command
         $apyValue = prev($responseApy);
         $dailyYield = $apyValue / 365;
 
-        $users = $this->entityManager->getRepository(User::class)->findAll();
+       $users = $this->entityManager->getRepository(User::class)
+          ->createQueryBuilder('u')
+          ->getQuery()
+          ->getResult();
 
-        foreach ($users as $user) {
+       foreach ($users as $user) {
             $userId = $user->getId();
             $balance = $user->getBalance();
 
@@ -82,7 +86,6 @@ class RunYieldUpdateCommand extends Command
 
             // if no withdrawals today and balance is greater than 0, user accrues yield.
             if (!$withdrawalsToday && $balance > 0) {
-
                 $depositsToday = $this->entityManager->getRepository(Deposits::class)
                     ->createQueryBuilder('d')
                     ->where('d.user_id = :userId')
@@ -99,30 +102,26 @@ class RunYieldUpdateCommand extends Command
                     return $sum + $deposit->getUsdAmount();
                 }, 0);
 
-                $result = ($balance + ($dailyYield / 100 * ($balance - $ineligibleDeposit))) * 100 / 100;
-                $valueAdded = $result - $balance;
+               $result = ($balance + ($dailyYield / 100 * ($balance - $ineligibleDeposit))) * 100 / 100;
+               $valueAdded = $result - $balance;
 
-                //output results to log file.
-                file_put_contents("./output-log.txt","
-                    'User ID: '$userId,
-                    'Original balance: '$balance,
-                    'Yield accrued on: '$balance - $ineligibleDeposit,
-                    'Ineligible Deposits: '$ineligibleDeposit,
-                    'Daily Yield: '$dailyYield,
-                    '============================',
-                    'Result: '$result,
-                    'Value Added: '$valueAdded,
-                    '============================',
-                ");
+               $logResult = "User ID: $userId, Original balance: $balance, Ineligible Deposits: $ineligibleDeposit, Daily Yield: $dailyYield, Result: $result, Value Added: $valueAdded";
+               // log yield result
+               $output->writeln($logResult);
+               $userYieldLog = (new UserYieldLog())
+                  ->setUserId($userId)
+                  ->setLogResult($logResult)
+                  ->setTimestamp(new \DateTimeImmutable('+1 hour'));
 
-                $user->setProfit($user->getProfit() + $valueAdded);
-                $user->setBalance($result);
+               // update user balance and profit
+               $user->setProfit($user->getProfit() + $valueAdded);
+               $user->setBalance($result);
 
-                $this->entityManager->flush();
+               $this->entityManager->persist($userYieldLog);
+               $this->entityManager->flush();
 
             }
         }
-
         return Command::SUCCESS;
     }
 }
