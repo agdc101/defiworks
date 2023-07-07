@@ -27,6 +27,7 @@ function TransactionHistory({ deposits, withdrawals }) {
    return (
       <div>
          <h1>Transaction History</h1>
+         <a href="/dashboard">Back to Dashboard</a>
          <select onChange={handleSelectChange}>
             <option value="withdrawals">Withdrawals</option>
             <option value="deposits">Deposits</option>
