@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import TransactionItem from './components/TransactionItem';
 
 function TransactionHistory({ deposits, withdrawals }) {
@@ -7,9 +7,6 @@ function TransactionHistory({ deposits, withdrawals }) {
    function handleSelectChange(event) {
       setSelected(event.target.value);
    }
-
-   //remove time from timestamp
-   // const date = new Date(deposits[0].timestamp.date);
 
    const transactionList = useMemo(() => {
       const transactions = selected === 'withdrawals' ? withdrawals : deposits;
@@ -20,7 +17,8 @@ function TransactionHistory({ deposits, withdrawals }) {
             id={transaction.id}
             usd={transaction.usd_amount}
             gbp={transaction.gbp_amount}
-            timestamp={transaction.timestamp.date}
+            //replaces trailing zeros with spaces on timestamp
+            timestamp={transaction.timestamp.date.replace(/.0+$/, match => ' '.repeat(match.length))}
             isVerified={transaction.is_verified}
          />
       ));
@@ -33,7 +31,18 @@ function TransactionHistory({ deposits, withdrawals }) {
             <option value="withdrawals">Withdrawals</option>
             <option value="deposits">Deposits</option>
          </select>
-         {transactionList}
+         <table>
+         <thead>
+         <tr>
+            <th>Transaction ID</th>
+            <th>USD Amount</th>
+            <th>GBP Amount</th>
+            <th>Timestamp</th>
+            <th>Verified</th>
+         </tr>
+         </thead>
+            {transactionList}
+         </table>
       </div>
    );
 }
