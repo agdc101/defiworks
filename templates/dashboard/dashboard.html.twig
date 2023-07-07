@@ -30,6 +30,8 @@
     <a href="{{ path('app_home') }}">Home</a>
     <a href="{{ path('app_deposit') }}" class="deposit-btn {% if pendingBalance != 0  %} disable-btn {% endif %}">Deposit</a>
     <a {% if balance is null or balance == 0 or pendingBalance != 0  %} class="withdraw-btn disable-btn"{% else  %} class="withdraw-btn" {% endif %} href="{{ path('app_withdraw') }}">Withdraw</a>
+    <a href="{{ path('app_logout') }}">Logout</a>
+    <a href="{{ path('app_transaction_history') }}">View Transaction History</a>
 
     <div class="dashboard-content-wrapper">
         <p>Current Portfolio Balance: <span>{% if balance is null %} $0 {% else  %} ${{ balance }} {% endif %}</span></p>
