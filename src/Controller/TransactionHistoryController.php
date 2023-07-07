@@ -29,8 +29,8 @@ class TransactionHistoryController extends AbstractController
       $userArrayWithdrawals = $transactionHistoryServices->mapEntityToArray($userWithdrawals);
 
       return $this->render('transaction_history/transaction-history.html.twig', [
-         'userDeposits' => $userArrayDeposits,
-         'userWithdrawals' => $userArrayWithdrawals,
+         'deposits' => $userArrayDeposits,
+         'withdrawals' => $userArrayWithdrawals,
       ]);
    }
 }
