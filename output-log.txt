@@ -1,0 +1,440 @@
+User ID: 5, Original balance: 68.680553978301, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.682059305511, Value Added: 0.0015053272104808
+User ID: 89, Original balance: 299.3521588826, Ineligible Deposits: 215.56, Daily Yield: 0.0021917808219178, Result: 299.35399542307, Value Added: 0.0018365404686733
+User ID: 5, Original balance: 68.682059305511, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.683564665715, Value Added: 0.0015053602039501
+User ID: 89, Original balance: 299.35399542307, Ineligible Deposits: 215.56, Daily Yield: 0.0021917808219178, Result: 299.35583200379, Value Added: 0.0018365807216014
+User ID: 5, Original balance: 68.683564665715, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.685070058913, Value Added: 0.0015053931981583
+User ID: 89, Original balance: 299.35583200379, Ineligible Deposits: 215.56, Daily Yield: 0.0021917808219178, Result: 299.35766862477, Value Added: 0.001836620975439
+User ID: 5, Original balance: 68.685070058913, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.686575485106, Value Added: 0.0015054261930771
+User ID: 89, Original balance: 299.35766862477, Ineligible Deposits: 215.56, Daily Yield: 0.0021917808219178, Result: 299.359505286, Value Added: 0.0018366612301293
+User ID: 5, Original balance: 68.686575485106, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.688080944295, Value Added: 0.0015054591887207
+User ID: 89, Original balance: 299.359505286, Ineligible Deposits: 215.56, Daily Yield: 0.0021917808219178, Result: 299.36134198749, Value Added: 0.001836701485729
+User ID: 5, Original balance: 68.688080944295, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.68958643648, Value Added: 0.0015054921850748
+User ID: 89, Original balance: 299.36134198749, Ineligible Deposits: 215.56, Daily Yield: 0.0021917808219178, Result: 299.36317872923, Value Added: 0.0018367417421814
+User ID: 5, Original balance: 68.68958643648, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.691091961662, Value Added: 0.0015055251821678
+User ID: 89, Original balance: 299.36317872923, Ineligible Deposits: 215.56, Daily Yield: 0.0021917808219178, Result: 299.36501551123, Value Added: 0.0018367819995433
+User ID: 5, Original balance: 68.691091961662, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.692597519842, Value Added: 0.0015055581799857
+User ID: 89, Original balance: 299.36501551123, Ineligible Deposits: 215.56, Daily Yield: 0.0021917808219178, Result: 299.36685233349, Value Added: 0.0018368222577578
+User ID: 5, Original balance: 68.692597519842, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.694103111021, Value Added: 0.001505591178514
+User ID: 89, Original balance: 299.36685233349, Ineligible Deposits: 215.56, Daily Yield: 0.0021917808219178, Result: 299.36868919601, Value Added: 0.0018368625168819
+User ID: 5, Original balance: 68.694103111021, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.695608735199, Value Added: 0.0015056241777813
+User ID: 89, Original balance: 299.36868919601, Ineligible Deposits: 215.56, Daily Yield: 0.0021917808219178, Result: 299.37052609879, Value Added: 0.0018369027769154
+User ID: 5, Original balance: 68.695608735199, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.697114392377, Value Added: 0.0015056571777592
+User ID: 89, Original balance: 299.37052609879, Ineligible Deposits: 215.56, Daily Yield: 0.0021917808219178, Result: 299.37236304183, Value Added: 0.0018369430378016
+User ID: 5, Original balance: 68.697114392377, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.698620082555, Value Added: 0.0015056901784618
+User ID: 89, Original balance: 299.37236304183, Ineligible Deposits: 215.56, Daily Yield: 0.0021917808219178, Result: 299.37420002513, Value Added: 0.0018369832995404
+User ID: 5, Original balance: 68.698620082555, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.700125805735, Value Added: 0.0015057231798892
+User ID: 89, Original balance: 299.37420002513, Ineligible Deposits: 215.56, Daily Yield: 0.0021917808219178, Result: 299.37603704869, Value Added: 0.0018370235621887
+User ID: 5, Original balance: 68.700125805735, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.701631561917, Value Added: 0.0015057561820413
+User ID: 89, Original balance: 299.37603704869, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.38259871526, Value Added: 0.0065616665654602
+User ID: 5, Original balance: 68.701631561917, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.703137351102, Value Added: 0.0015057891849182
+User ID: 89, Original balance: 299.38259871526, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.38916052564, Value Added: 0.0065618103827774
+User ID: 5, Original balance: 68.703137351102, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.704643173291, Value Added: 0.0015058221885198
+User ID: 89, Original balance: 299.38916052564, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.39572247984, Value Added: 0.0065619542032778
+User ID: 5, Original balance: 68.704643173291, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.706149028484, Value Added: 0.0015058551928462
+User ID: 89, Original balance: 299.39572247984, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.40228457787, Value Added: 0.0065620980269614
+User ID: 5, Original balance: 68.706149028484, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.707654916682, Value Added: 0.0015058881978831
+User ID: 89, Original balance: 299.40228457787, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.40884681972, Value Added: 0.0065622418537714
+User ID: 5, Original balance: 68.707654916682, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.709160837886, Value Added: 0.001505921203659
+User ID: 89, Original balance: 299.40884681972, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.4154092054, Value Added: 0.0065623856837078
+User ID: 5, Original balance: 68.709160837886, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.710666792096, Value Added: 0.0015059542101454
+User ID: 89, Original balance: 299.4154092054, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.42197173492, Value Added: 0.0065625295168275
+User ID: 5, Original balance: 68.710666792096, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.712172779313, Value Added: 0.0015059872173566
+User ID: 89, Original balance: 299.42197173492, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.42853440827, Value Added: 0.0065626733530735
+User ID: 5, Original balance: 68.712172779313, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.713678799538, Value Added: 0.0015060202253068
+User ID: 89, Original balance: 299.42853440827, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.43509722546, Value Added: 0.0065628171925027
+User ID: 5, Original balance: 68.713678799538, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.715184852772, Value Added: 0.0015060532339675
+User ID: 89, Original balance: 299.43509722546, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.4416601865, Value Added: 0.0065629610350584
+User ID: 5, Original balance: 68.715184852772, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.716690939015, Value Added: 0.0015060862433529
+User ID: 89, Original balance: 299.4416601865, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.44822329138, Value Added: 0.0065631048807973
+User ID: 5, Original balance: 68.716690939015, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.718197058268, Value Added: 0.0015061192534631
+User ID: 89, Original balance: 299.44822329138, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.45478654011, Value Added: 0.0065632487296625
+User ID: 5, Original balance: 68.718197058268, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.719703210532, Value Added: 0.0015061522642839
+User ID: 89, Original balance: 299.45478654011, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.46134993269, Value Added: 0.006563392581711
+User ID: 5, Original balance: 68.719703210532, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.721209395808, Value Added: 0.0015061852758436
+User ID: 89, Original balance: 299.46134993269, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.46791346913, Value Added: 0.0065635364368859
+User ID: 5, Original balance: 68.721209395808, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.722715614096, Value Added: 0.001506218288128
+User ID: 89, Original balance: 299.46791346913, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.47447714943, Value Added: 0.0065636802951872
+User ID: 5, Original balance: 68.722715614096, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.724221865397, Value Added: 0.0015062513011372
+User ID: 89, Original balance: 299.47447714943, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.48104097359, Value Added: 0.0065638241566717
+User ID: 5, Original balance: 68.724221865397, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.725728149712, Value Added: 0.001506284314857
+User ID: 89, Original balance: 299.48104097359, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.48760494161, Value Added: 0.0065639680213394
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
+[critical] Error thrown while running command "run-yield-update". Message: "An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refused"
+
+In ExceptionConverter.php line 101:
+                                                                               
+  An exception occurred in the driver: SQLSTATE[HY000] [2002] Connection refu  
+  sed                                                                          
+                                                                               
+
+In Exception.php line 28:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+In Driver.php line 33:
+                                             
+  SQLSTATE[HY000] [2002] Connection refused  
+                                             
+
+run-yield-update [--option1] [--] [<arg1>]
+
