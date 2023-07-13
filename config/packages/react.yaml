@@ -1,3 +1,5 @@
 react:
   controllers_path: '/assets/react/controllers'
-  name_glob: '*.jsx'
+   name_glob:
+    - '*.js'
+    - '*.jsx'
