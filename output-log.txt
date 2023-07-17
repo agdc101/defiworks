@@ -582,3 +582,11 @@ User ID: 5, Original balance: 68.831250134033, Ineligible Deposits: 0, Daily Yie
 User ID: 89, Original balance: 299.94744039485, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.95401458532, Value Added: 0.0065741904743959
 User ID: 5, Original balance: 68.832758764173, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.834267427379, Value Added: 0.001508663205783
 User ID: 89, Original balance: 299.95401458532, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.96058891989, Value Added: 0.0065743345662668
+User ID: 5, Original balance: 68.834267427379, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.835776123651, Value Added: 0.0015086962723814
+User ID: 89, Original balance: 299.96058891989, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.96716339855, Value Added: 0.006574478661264
+User ID: 5, Original balance: 68.835776123651, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.837284852991, Value Added: 0.0015087293396903
+User ID: 89, Original balance: 299.96716339855, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.97373802131, Value Added: 0.0065746227594445
+User ID: 5, Original balance: 68.837284852991, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.838793615399, Value Added: 0.0015087624077381
+User ID: 89, Original balance: 299.97373802131, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.98031278817, Value Added: 0.0065747668607514
+User ID: 5, Original balance: 68.838793615399, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 68.840302410875, Value Added: 0.0015087954764965
+User ID: 89, Original balance: 299.98031278817, Ineligible Deposits: 0, Daily Yield: 0.0021917808219178, Result: 299.98688769914, Value Added: 0.0065749109652415
