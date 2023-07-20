@@ -39,17 +39,6 @@ jobs:
           output-directory: ${{ env.DEPLOYMENT_FOLDER }}
           intermediate-data-file: ${{ env.DEPLOYMENT_FOLDER }}/.template-renderer-data
 
-      - name: Setup composer
-        uses: php-actions/composer@v6
-# uncomment the following lines if you want to add environment variables for this step
-#        env:
-#          MY_ENV_VAR: value-for-my-env-var
-#          MY_SECRET_ENV_VAR: ${{ secrets.MY_SECRET }} # here you can find information how to create secrets: https://docs.github.com/en/actions/security-guides/encrypted-secrets
-        with:
-          php_version: '8.1'
-          version: '2'
-          args: --optimize-autoloader --no-dev
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -64,13 +53,31 @@ jobs:
           yarn install --frozen-lockfile
           yarn build
 
+      - name: Setup composer
+        uses: php-actions/composer@v6
+# uncomment the following lines if you want to add environment variables for this step
+#        env:
+#          MY_ENV_VAR: value-for-my-env-var
+#          MY_SECRET_ENV_VAR: ${{ secrets.MY_SECRET }} # here you can find information how to create secrets: https://docs.github.com/en/actions/security-guides/encrypted-secrets
+        with:
+          php_version: '8.0'
+          version: '2'
+          args: --optimize-autoloader --no-dev
+
+      - name: Build PHP assets
+# uncomment the following lines if you want to add environment variables for this step
+#        env:
+#          MY_ENV_VAR: value-for-my-env-var
+#          MY_SECRET_ENV_VAR: ${{ secrets.MY_SECRET }} # here you can find information how to create secrets: https://docs.github.com/en/actions/security-guides/encrypted-secrets
+        run: composer update
+
 # Please do not touch the following action
       - name: Store deployment content
         uses: ionos-deploy-now/artifact-action@v1
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
-          project-id: 8f9fae64-fa05-41ca-b62e-d040d6500d20
+          project-id: 26a95eb9-4f67-47a3-826f-39a3d242aa1d
           branch-id: ${{ inputs.branch-id }}
           version: ${{ github.sha }}
           folder: ${{ env.DEPLOYMENT_FOLDER }}
