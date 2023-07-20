@@ -39,6 +39,17 @@ jobs:
           output-directory: ${{ env.DEPLOYMENT_FOLDER }}
           intermediate-data-file: ${{ env.DEPLOYMENT_FOLDER }}/.template-renderer-data
 
+      - name: Setup composer
+        uses: php-actions/composer@v6
+# uncomment the following lines if you want to add environment variables for this step
+#        env:
+#          MY_ENV_VAR: value-for-my-env-var
+#          MY_SECRET_ENV_VAR: ${{ secrets.MY_SECRET }} # here you can find information how to create secrets: https://docs.github.com/en/actions/security-guides/encrypted-secrets
+        with:
+          php_version: '8.0'
+          version: '2'
+          args: --optimize-autoloader --no-dev
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -51,18 +62,6 @@ jobs:
         run: |
           npm install --global yarn
           yarn install --frozen-lockfile
-          yarn build
-
-      - name: Setup composer
-        uses: php-actions/composer@v6
-# uncomment the following lines if you want to add environment variables for this step
-#        env:
-#          MY_ENV_VAR: value-for-my-env-var
-#          MY_SECRET_ENV_VAR: ${{ secrets.MY_SECRET }} # here you can find information how to create secrets: https://docs.github.com/en/actions/security-guides/encrypted-secrets
-        with:
-          php_version: '8.0'
-          version: '2'
-          args: --optimize-autoloader --no-dev
 
 # Please do not touch the following action
       - name: Store deployment content
@@ -70,7 +69,7 @@ jobs:
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
           service-host: api-eu.ionos.space
-          project-id: e4008562-4610-41e6-8f1a-d9097843672b
+          project-id: f8e3fe42-4c3b-4b7f-bd5d-0af003269204
           branch-id: ${{ inputs.branch-id }}
           version: ${{ github.sha }}
           folder: ${{ env.DEPLOYMENT_FOLDER }}
