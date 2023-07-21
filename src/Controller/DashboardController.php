@@ -39,7 +39,12 @@ class DashboardController extends AbstractController
 
       $pendingBalance = $dashboardServices->getPendingBalance();
       $profit = number_format($user->getProfit(), 3);
-      $growth = ($user->getCurrentProfit() / $userBalance) * 100;
+      if ($user->getCurrentProfit() > 0) {
+         $growth = ($user->getCurrentProfit() / $userBalance) * 100;
+      } else {
+         $growth = 0;
+      }
+      
 
       return $this->render('dashboard/dashboard.html.twig', [
          'user' => $user->getFirstName(),
