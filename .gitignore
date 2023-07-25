@@ -224,6 +224,9 @@ fabric.properties
 # Build data
 /build/
 /public/build
+/public/build/entrypoints.json
+/public/build/manifest.json
+/public/build/entrypoints.json
 
 # Composer PHAR
 /composer.phar
