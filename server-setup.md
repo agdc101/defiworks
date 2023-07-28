@@ -1,7 +1,7 @@
 ## Set up Apache user and SSH Access
-* - commands should be run as root user.
-1) * create new apache user -> "adduser ash"
-2) * adds user as a 'superuser', user will be able to use 'sudo' command -> "usermod -aG sudo ash".
+steps 1 & 2 - commands should be run as root user.
+1) create new apache user -> "adduser ash"
+2) adds user as a 'superuser', user will be able to use 'sudo' command -> "usermod -aG sudo ash".
 3) Switch apache user with -> "su - ash". 
 4) if needed, on local machine generate a new SSH key pair using -> "ssh-keygen", this will generate id_rsa files (public and private key).
 5) as the user, create a .ssh directory and set permissions -> "mkdir ~/.ssh" + "chmod 700 ~/.ssh". (700 = The file's owner has read, write, and execute permissions)
@@ -18,3 +18,6 @@ Different applications can register their profiles with UFW upon installation. T
 2) To allow an application e.g SSH connections -> "sudo ufw allow OpenSSH".
 3) Then enable the firewall -> "sudo ufw enable".
 4) To check firewall status -> "sudo ufw status"
+5) Block connections from specific IP address -> "sudo ufw deny from 203.0.113.100".
+6) Check UFW manual -> "man ufw".
+7) For more UFW commands and info see -> "https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands"
