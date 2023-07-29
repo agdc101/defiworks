@@ -27,7 +27,7 @@ Different applications can register their profiles with UFW upon installation. T
 2) Change the ownership of the newly created folder to the current user -> "sudo chown -R $USER:$USER /var/www/example.com/public_html".
 3) Grant general read access in the www directory -> "sudo chmod -R 755 /var/www".
 
-# Creating New Virtual Host Files
+### Creating New Virtual Host Files
 Virtual host files are the files that specify the actual configuration of our virtual hosts and dictate how the Apache web server will respond to various domain requests.
 
 Apache comes with a default virtual host file called 000-default.conf that we can use as a jumping off point. We are going to copy it over to create a virtual host file for each of our domains.
@@ -38,6 +38,10 @@ Apache comes with a default virtual host file called 000-default.conf that we ca
 4) Add the following properties, ServerName, establishes the base domain that should match for this virtual host definition, ServerAlias, defines further names that should match as if they were the base name. -> ServerName defiworks.co.uk ServerAlias www.defiworks.co.uk.
 5) Define DocumentRoot to -> "/var/www/defiworks.co.uk/public_html".
 
-# Enabling the New Virtual Host Files
+### Enabling the New Virtual Host Files
 1) Enable the new file -> "sudo a2ensite defiworks.co.uk.conf".
 2) Restart Apache to see the changes -> "systemctl reload apache2".
+
+### renewing ssl
+1) "certbot --apache -d example.com -d www.example.com".
+
