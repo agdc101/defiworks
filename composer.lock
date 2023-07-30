@@ -6558,7 +6558,6 @@
     "platform": {
         "php": ">=8.1",
         "ext-ctype": "*",
-        "ext-curl": "*",
         "ext-iconv": "*",
         "ext-mysqli": "*"
     },
