@@ -2,6 +2,4 @@ controllers:
     resource:
         path: ../src/Controller/
         namespace: App\Controller
-        path: /login
-        controller: App\Controller\LoginController
     type: attribute
