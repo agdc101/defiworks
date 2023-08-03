@@ -1,4 +1,4 @@
-# defi-works installation guide
+# Defi-works installation guide
 
 ## Infrastructure set-up
 
