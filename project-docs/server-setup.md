@@ -83,4 +83,7 @@ Require valid-user
     
 < /IfModule >
 
+### Cron jobs
+1) Make sure cron is installed -> "sudo apt install cron".
+1) Make sure cron is enabled -> "sudo systemctl enable cron".
 
