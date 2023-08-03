@@ -85,5 +85,9 @@ Require valid-user
 
 ### Cron jobs
 1) Make sure cron is installed -> "sudo apt install cron".
-1) Make sure cron is enabled -> "sudo systemctl enable cron".
+2) Make sure cron is enabled -> "sudo systemctl enable cron".
+3) To see cronjobs -> "sudo crontab -e".
+4) Cronjob -> 0 8 * * * . /var/www/defiworks.co.uk/public_html/defiworks/.env && /usr/bin/php /var/www/defiworks.co.uk/public_html/defiworks/bin/console run-yield-update >> /var/www/defiworks.co.uk/public_html/defiworks/output-log.txt.
+** Runs at 8am everyday. Loads .env variables. Runs yield update command. Outputs result to log file.
+ 
 
