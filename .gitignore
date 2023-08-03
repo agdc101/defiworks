@@ -11,6 +11,7 @@ public/.htaccess
 /vendor/
 /migrations
 .DS_Store
+/output-log.txt
 /templates/.DS_Store
 ###< symfony/framework-bundle ###
 # User-specific stuff
