@@ -34,15 +34,17 @@ function TransactionHistory({ deposits, withdrawals }) {
          </select>
          <table>
          <thead>
-         <tr>
-            <th>Transaction ID</th>
-            <th>USD Amount</th>
-            <th>GBP Amount</th>
-            <th>Timestamp</th>
-            <th>Verified</th>
-         </tr>
+         {(transactionList.length > 0) && 
+            <tr>
+               <th>Transaction ID</th>
+               <th>USD Amount</th>
+               <th>GBP Amount</th>
+               <th>Timestamp</th>
+               <th>Verified</th>
+            </tr>
+         }
          </thead>
-            {transactionList}
+            {(transactionList.length === 0) ? <tr><td colSpan="5">No transactions to display</td></tr> : transactionList}
          </table>
       </div>
    );
