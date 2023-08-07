@@ -1,4 +1,5 @@
-@import "header";
-@import "footer";
-@import "base";
-@import "pages";
+@import "utilities/_variables";
+@import "partials/_header";
+@import "partials/_footer";
+@import "partials/_base";
+@import "partials/_pages";

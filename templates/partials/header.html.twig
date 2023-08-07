@@ -1,0 +1,15 @@
+
+{% block header %}
+<header>
+    <a href="/"><img src="/img/defi-works-logo.png" alt="Defiworks Logo"></a>
+    <nav>
+        <ul>
+            {% if app.user %}
+            <li><a href="/dashboard">dashboard</a></li>
+            <li><a href="/logout">logout</a></li>
+            {% endif %}
+            <li><a href="/contact">contact</a></li>
+        </ul>
+    </nav>
+</header>
+{% endblock %}
