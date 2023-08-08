@@ -1,22 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RootController!{% endblock %}
+{% block title %}DeFi Works{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
+<div class="content-wrapper">
 
     {% for message in app.flashes('account_closed') %}
         <div class="alert alert-danger" role="alert">{{ message }}</div>
     {% endfor %}
 
-    <h1>De-Fi Works Homepage ✅</h1>
-
-    <p><i>FOR GO-LIVE: set cookie_lifetime to 1500(25mins) + change DB details in env.</i></p>
+    <h1>DeFi Works</h1>
 
     {% if app.user is defined %}
         {% if app.user %}

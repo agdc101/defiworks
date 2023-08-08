@@ -44,6 +44,9 @@ class RegistrationFormType extends AbstractType
                         'message' => 'The first name you have entered is not valid'
                     ])
                 ],
+                'attr' => [
+                    'class' => 'form-control',
+                ]
             ])
             ->add('lastName', TextType::class, [
                 'constraints' => [
@@ -59,6 +62,9 @@ class RegistrationFormType extends AbstractType
                         'message' => 'The last name you have entered is not valid'
                     ])
                 ],
+                'attr' => [
+                    'class' => 'form-control',
+                ]
             ])
             ->add('address', TextType::class, [
                 'constraints' => [
@@ -69,6 +75,9 @@ class RegistrationFormType extends AbstractType
                         'max' => 450,
                     ]),
                 ],
+                'attr' => [
+                    'class' => 'form-control',
+                ]
             ])
             ->add('city', TextType::class, [
                 'constraints' => [
@@ -79,6 +88,9 @@ class RegistrationFormType extends AbstractType
                         'max' => 100,
                     ]),
                 ],
+                'attr' => [
+                    'class' => 'form-control',
+                ]
             ])
             ->add('postCode', TextType::class,  [
                 'constraints' => [
@@ -89,6 +101,9 @@ class RegistrationFormType extends AbstractType
                         'max' => 10,
                     ]),
                 ],
+                'attr' => [
+                    'class' => 'form-control',
+                ]
             ])
             ->add('county',TextType::class, [
                 'required' => false,
@@ -105,6 +120,9 @@ class RegistrationFormType extends AbstractType
                         'message' => 'The first name you have entered is not valid'
                     ])
                 ],
+                'attr' => [
+                    'class' => 'form-control',
+                ]
             ])
             ->add('email', EmailType::class, [
                 'constraints' => [
@@ -115,6 +133,9 @@ class RegistrationFormType extends AbstractType
                         'max' => 450,
                     ])
                 ],
+                'attr' => [
+                    'class' => 'form-control',
+                ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
@@ -127,7 +148,7 @@ class RegistrationFormType extends AbstractType
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
-                'options' => ['attr' => ['class' => 'password-field']],
+                'options' => ['attr' => ['class' => 'password-field form-control']],
                 'required' => true,
                 'first_options'  => ['label' => 'Password'],
                 'second_options' => ['label' => 'Confirm Password'],
@@ -146,7 +167,7 @@ class RegistrationFormType extends AbstractType
             ->add('userPin', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'The pin fields must match.',
-                'options' => ['attr' => ['class' => 'pin-field']],
+                'options' => ['attr' => ['class' => 'pin-field form-control']],
                 'required' => true,
                 'first_options'  => ['label' => 'Pin'],
                 'second_options' => ['label' => 'Confirm Pin'],

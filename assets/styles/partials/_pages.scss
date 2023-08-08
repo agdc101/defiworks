@@ -1,3 +1,40 @@
+//-=-=-=- Register page -=-=-=-//
+form[name="registration_form"] {
+  max-width: 800px;
+  @media (min-width: $medium) {
+    display:flex;
+    flex-wrap: wrap;
+  }
+  div:first-of-type,
+  div:nth-of-type(11) {
+    @media (min-width: $medium) {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+  }
+  div:nth-of-type(8) {
+    @media (min-width: $medium) {
+      margin-right:1rem;
+    }
+  }
+  div {
+    margin: .5rem 0;
+    @media (min-width: $medium) {
+      width: 48%;
+      margin: .5rem;
+    }
+  }
+  #registration_form_title,
+  #registration_form_agreeTerms {
+    margin-left:.75rem;
+  }
+  button {
+    color:#ffffff;
+    background-color: $secondary;
+    margin-left: .5rem;
+  }
+}
 
 //-=-=-=- Deposit page -=-=-=-//
 #hidden-deposit-form {

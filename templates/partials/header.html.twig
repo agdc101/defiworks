@@ -1,15 +1,22 @@
 
 {% block header %}
 <header>
-    <a href="/"><img src="/img/defi-works-logo.png" alt="Defiworks Logo"></a>
-    <nav>
-        <ul>
-            {% if app.user %}
-            <li><a href="/dashboard">dashboard</a></li>
-            <li><a href="/logout">logout</a></li>
+    <div class="header-inner">
+        <a href="/"><img src="/img/defi-works-logo.png" alt="Defiworks Logo"></a>
+        <nav>
+            <ul>
+            {% if app.user is defined %}
+                {% if app.user %}
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/logout">Logout</a></li>
+                {% else %}
+                <li><a href="/login">Login</a></li>
+                <li><a href="/register">Register</a></li>
+                {% endif %}
+                <li><a href="/contact">Contact</a></li>
             {% endif %}
-            <li><a href="/contact">contact</a></li>
-        </ul>
-    </nav>
+            </ul>
+        </nav>
+    </div>
 </header>
 {% endblock %}
