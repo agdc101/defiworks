@@ -14,17 +14,25 @@
 
 7) Install babel == "JSX should not be implemented directly by browsers, but instead requires a compiler to transform it into ECMAScript. This is where Babel comes in. Babel acts as this compiler allowing us to leverage all the benefits of JSX while building React components" == yarn add @babel/preset-react@^7.0.0 --dev
 
-7) Install mySQL server & mySQL GUI (Workbench) == "The MySQL server provides a database management system with querying and connectivity capabilities" == create mySQL database.
+7) Install mySQL server & mySQL GUI (Workbench, Sequel Ace) == "The MySQL server provides a database management system with querying and connectivity capabilities" == create mySQL database.
 
-## Project Set-up
+## Local Project Set-up
 
-1) Git clone - https://github.com/agdc101/defiworks.git
+1) Git clone -> `https://github.com/agdc101/defiworks.git`.
 
-2) run composer install
+2) Create .env file, see -> 
 
-3) run yarn install - installs node_modules
+3) Set permissions -> `sudo chmod -R 777 /PATH/TO/FILENAME/defiworks/`.
+
+4) Install vendors -> `composer install`.
+
+5) Installs node_modules -> run `yarn install`.
   
-4) Create env.local file - change database URL.
+6) Create env.local file -> change database URL to root etc.
+
+7) Make sure MySQL server is running in preference pane -> Initialise Database.
+
+8) Connect to MySQL -> connect using basic details, user:root, enter password, port 3306 etc.
   
 ### Windows machines will need to run webpack in git bash.  
-### run in terminal --> "symfony server:start" --> "yarn encore dev --watch".
+### run in terminal --> "symfony server:start" --> "yarn watch".
