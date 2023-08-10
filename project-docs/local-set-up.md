@@ -20,7 +20,7 @@
 
 1) Git clone -> `https://github.com/agdc101/defiworks.git`.
 
-2) Create .env file, see -> 
+2) Create .env file -> see Apple notes for an env template.
 
 3) Set permissions -> `sudo chmod -R 777 /PATH/TO/FILENAME/defiworks/`.
 
@@ -30,9 +30,15 @@
   
 6) Create env.local file -> change database URL to root etc.
 
-7) Make sure MySQL server is running in preference pane -> Initialise Database.
+7) Make sure MySQL server is running in preference pane.
 
-8) Connect to MySQL -> connect using basic details, user:root, enter password, port 3306 etc.
+8) Connect to MySQL -> connect using basic details, user = root, host = 127.0.0.1, port 3306, password = mysql password etc.
+
+9) Make sure DATABASE_URL is set correctly -> `DATABASE_URL="mysql://root:password@127.0.0.1:3306/defiworks"`.
+
+10) Create database -> `php bin/console doctrine:database:create`.
+
+11) Map schema to database, check sql commands to be run -> `php bin/console doctrine:schema:update --dump-sql` then use `php bin/console doctrine:schema:update --force`.
   
 ### Windows machines will need to run webpack in git bash.  
 ### run in terminal --> "symfony server:start" --> "yarn watch".
