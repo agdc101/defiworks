@@ -1,4 +1,6 @@
-# DeFiworks - Simplifying Your DeFi Journey
+<img width=75 height=75 src="/public/img/defi-works-logo.png"/>   
+
+# DeFi Works - Simplifying Your DeFi Journey 
 DeFi Works is your go-to web app for simplifying your journey with decentralised finance. Our platform helps you gain yield on your fiat currency with ease
 
 ## Features
