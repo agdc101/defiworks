@@ -1,0 +1,53 @@
+//-=-=-=- Register page -=-=-=-//
+form[name="registration_form"] {
+  fieldset {
+    max-width: 700px;
+    @media (min-width: $medium) {
+      display:flex;
+      flex-wrap: wrap;
+    }
+    legend {
+      color: $tertiary;
+      font-weight: 100;
+      margin-bottom:1.25rem;
+      font-size:1.2rem;
+    }
+    input {
+      background-color: rgb(238, 238, 238);
+    }
+    div:first-of-type,
+    div:nth-of-type(11) {
+      @media (min-width: $medium) {
+        display: flex;
+        align-items: center;
+        width: 100%;
+      }
+    }
+    div:nth-of-type(8) {
+      @media (min-width: $medium) {
+        margin-right:1rem;
+      }
+    }
+    div {
+      margin: .5rem 0;
+      @media (min-width: $medium) {
+        width: 47.5%;
+        margin: .5rem;
+      }
+    }
+    #registration_form_title,
+    #registration_form_agreeTerms {
+      margin-left:.75rem;
+    }
+  }
+  button {
+    color:#ffffff;
+    background-color: $secondary;
+    width: 100%;
+    margin-top: .5rem;
+    @media (min-width: $medium) {
+      margin: .75rem 0 0 .5rem;
+      width: auto;
+    }
+  }
+}
