@@ -6,13 +6,11 @@ DeFi Works is your go-to web app for simplifying your journey with decentralised
 ## Features
 * Yield Optimization: DeFi Works provides you with powerful tools to optimize the yield on your fiat currency investments within the DeFi ecosystem.
 
-* User-Friendly Interface: Our user interface is designed with simplicity in mind. Navigating through various DeFi protocols and strategies has never been this intuitive.
+* User-Friendly Interface: Our user interface is designed with simplicity in mind.
 
 * Secure and Private: Security is our top priority. Your data and investments are protected using the latest encryption and security practices.
 
 * Real-time Monitoring: Stay up-to-date with real-time monitoring of your DeFi portfolio. Track your earnings and make informed decisions.
-
-* Educational Resources: New to DeFi? No problem! DeFi Works offers educational resources to help you understand the DeFi landscape and make informed choices.
 
 ## Getting Started
 To get started with DeFi Works, follow these steps:
