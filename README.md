@@ -19,7 +19,7 @@ To get started with DeFi Works, follow these steps:
 
 1) Clone this repository to your local machine:
 `git clone https://github.com/your-username/defi-works.git`.
-2) Create .env file -> contact for neccessary variables.
+2) Create .env file -> use .env.example. as template.
 
 3) Check/set file permission:
 `sudo chmod -R 777 /PATH/TO/FILENAME/defiworks/`.`
