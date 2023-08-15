@@ -5,16 +5,39 @@ body {
   font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
 }
 .content-wrapper {
-  width:90%;
-  margin: 0 auto 4rem auto;
-  max-width: 800px;
-  @media (min-width: $extraLarge) {
-    width: 90%;
-  }
-  h1 {
-    color:#ffffff;
-    letter-spacing: 2px;
-    font-weight: 300;
-    margin: 2.5rem 0 2rem 0;
-  }
+    width:90%;
+    margin: 0 auto 4rem auto;
+    max-width: 800px;
+    @media (min-width: $extraLarge) {
+        width: 90%;
+    }
+        h1 {
+            color:#ffffff;
+            letter-spacing: 2px;
+            font-weight: 300;
+            margin: 2.5rem 0 2rem 0;
+            @media (min-width: $medium) {
+                margin-left: .5rem;
+            }
+        }
+    legend {
+        color: $tertiary;
+        font-weight: 100;
+        margin:0 0 1.25rem 0;
+        font-size:1.2rem;
+        @media (min-width: $medium) {
+            margin-left: .5rem;
+        }
+    }
+    button {
+        color:#ffffff;
+        background-color: $secondary;
+        width: 100%;
+        margin: .5rem 0;
+        font-size: 1rem;
+        @media (min-width: $medium) {
+            margin: .75rem 0 0 .5rem;
+            width: auto;
+        }
+    }
 }

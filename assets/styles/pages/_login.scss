@@ -1,0 +1,24 @@
+.login-form {
+    input {
+        background-color: rgb(238, 238, 238);
+    }
+    .form-fields-wrapper {
+        @media (min-width: $medium) {
+            display:flex;
+            justify-content: space-around;
+        }
+        div {
+            margin: .5rem 0;
+            @media (min-width: $medium) {
+                width: 47.5%;
+            }
+        }
+    }
+    a {
+        color: $textGrey;
+        display:block;
+        @media (min-width: $medium) {
+            margin: 1rem 0 0 .5rem;
+        }
+    }
+}

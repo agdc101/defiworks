@@ -7,26 +7,24 @@
         <div class="alert alert-danger" role="alert">{{ message }}</div>
     {% endfor %}
 
-    <div class="content-wrapper">
-            <h1>Register</h1>
-            {{ form_start(registrationForm) }}
-                <fieldset>
-                    <legend>Please enter your details:</legend>
-                    {{ form_row(registrationForm.title) }}
-                    {{ form_row(registrationForm.firstName) }}
-                    {{ form_row(registrationForm.lastName) }}
-                    {{ form_row(registrationForm.address) }}
-                    {{ form_row(registrationForm.city) }}
-                    {{ form_row(registrationForm.postCode) }}
-                    {{ form_row(registrationForm.county) }}
-                    <hr>
-                    {{ form_row(registrationForm.email) }}
-                    {{ form_row(registrationForm.password) }}
-                    {{ form_row(registrationForm.agreeTerms) }}
-                    <hr>
-                    {{ form_row(registrationForm.userPin) }}
-                </fieldset>
-                <button type="submit" class="btn">Register</button>
-            {{ form_end(registrationForm) }}
-    </div>
+        <h1>Register</h1>
+        {{ form_start(registrationForm) }}
+            <fieldset>
+                <legend>Please enter your details:</legend>
+                {{ form_row(registrationForm.title) }}
+                {{ form_row(registrationForm.firstName) }}
+                {{ form_row(registrationForm.lastName) }}
+                {{ form_row(registrationForm.address) }}
+                {{ form_row(registrationForm.city) }}
+                {{ form_row(registrationForm.postCode) }}
+                {{ form_row(registrationForm.county) }}
+                <hr>
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.password) }}
+                <hr>
+                {{ form_row(registrationForm.userPin) }}
+                {{ form_row(registrationForm.agreeTerms) }}
+            </fieldset>
+            <button type="submit" class="btn">Register</button>
+        {{ form_end(registrationForm) }}
 {% endblock %}
