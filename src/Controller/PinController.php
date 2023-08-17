@@ -13,6 +13,10 @@ class PinController extends AbstractController
     #[Route('/enter-pin', name:'app_pin')]
     public function renderPinTemplate(Request $request): Response
     {
+        $user = $this->getUser();
+        if (!$user->isVerified()) {
+            return $this->redirectToRoute('app_login');
+        }
 
         $form = $this->createForm(PinVerifyType::class);
         $form->handleRequest($request);

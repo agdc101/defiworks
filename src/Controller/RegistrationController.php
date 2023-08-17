@@ -37,7 +37,6 @@ class RegistrationController extends AbstractController
         }
 
         $user = new User();
-        $user->setRoles(["ROLE_USER"]);
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -80,7 +79,8 @@ class RegistrationController extends AbstractController
     public function verifyUserEmail(Request $request, MailerInterface $mailer): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
+        $user = $this->getUser();
+        $user->setRoles(["ROLE_USER"]);
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());

@@ -3,10 +3,16 @@
 {% block title %}DeFi Works - Login{% endblock %}
 
 {% block body %}
+
+{% for message in app.flashes('verifyMessage') %}
+    <div class="alert alert-danger" role="alert">{{ message }}</div>
+{% endfor %}
+
 <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
 <form class="login-form" method="post">
     <fieldset>
         <legend>Please enter your login credentials:</legend>
+
         {% if error is not null %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -14,6 +20,7 @@
         {% for flash_error in app.flashes('password_reset_success') %}
             <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
         {% endfor %}
+
         <div class="form-fields-wrapper">
             <div>
                 <label class="" for="inputEmail">Email</label>
@@ -36,10 +43,10 @@
                 </label>
             </div>
         #}
-
         <button class="btn btn-lg btn-primary" type="submit">
             Sign in
         </button>
+        
         <a href="{{ path('app_forgot_password_request') }}">Forgot your password?</a>
     </fieldset>
 </form>

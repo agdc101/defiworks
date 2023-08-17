@@ -35,7 +35,6 @@ security:
         - { path: ^/deposit , roles: ROLE_USER }
         - { path: ^/withdrawal , roles: ROLE_USER }
         - { path: ^/dashboard , roles: ROLE_USER }
-        - { path: ^/user-account , roles: ROLE_USER }
 
 when@test:
     security:

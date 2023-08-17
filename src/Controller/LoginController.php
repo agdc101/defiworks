@@ -12,9 +12,13 @@ class LoginController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-         if ($this->getUser()) {
-             return $this->redirectToRoute('app_dashboard');
-         }
+        if ($this->getUser()) {
+            if ($this->getUser()->isVerified()) {
+                return $this->redirectToRoute('app_dashboard');
+            } else {
+                $this->addFlash('verifyMessage', 'Please verify your email address to continue');
+            }
+        }
 
         // get the login pending_transaction_error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

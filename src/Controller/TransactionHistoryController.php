@@ -18,6 +18,9 @@ class TransactionHistoryController extends AbstractController
    public function renderTransactionHistory(AppServices $appServices, TransactionHistoryServices $transactionHistoryServices): Response
    {
       $user = $appServices->getUserOrThrowException();
+      if (!$user->isVerified()) {
+         return $this->redirectToRoute('app_login');
+     }
       $userId = $user->getId();
 
       // Get user withdrawals and deposits
