@@ -66,13 +66,20 @@ class RouteSubscriber implements EventSubscriberInterface
            }
         }
 
-       if (str_starts_with($pathInfo, '/withdraw') && (str_ends_with($pathInfo, 'details') || str_ends_with($pathInfo, 'confirm'))) {
-          if (!$request->getSession()->has('gbpWithdrawal')) {
-             $event->setResponse(new RedirectResponse($request->getUriForPath('/withdraw')));
-          }
-       }
+        if (str_starts_with($pathInfo, '/withdraw') && (str_ends_with($pathInfo, 'details') || str_ends_with($pathInfo, 'confirm'))) {
+            if (!$request->getSession()->has('gbpWithdrawal')) {
+                $event->setResponse(new RedirectResponse($request->getUriForPath('/withdraw')));
+            }
+        }
 
-
+        // if $pathinfo is /enter-pin or /transaction-history and user is not verified redirect to login
+        if (str_starts_with($pathInfo, '/enter-pin') || str_starts_with($pathInfo, '/transaction-history') || str_starts_with($pathInfo, '/user-account')) {
+            $token = $this->tokenStorage->getToken();
+            $user = $token->getUser();
+            if (!$user->isVerified()) {
+                $event->setResponse(new RedirectResponse($request->getUriForPath('/login')));
+            }
+        }
 
     }
 

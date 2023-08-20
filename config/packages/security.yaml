@@ -33,8 +33,13 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/deposit , roles: ROLE_USER }
-        - { path: ^/withdrawal , roles: ROLE_USER }
+        - { path: ^/withdraw , roles: ROLE_USER }
         - { path: ^/dashboard , roles: ROLE_USER }
+        - { path: ^/transaction-pending , roles: ROLE_USER }
+        - { path: ^/enter-pin , roles: ROLE_USER }
+        - { path: ^/transaction-history , roles: ROLE_USER }
+        - { path: ^/user-account, roles: ROLE_USER }
+
 
 when@test:
     security:

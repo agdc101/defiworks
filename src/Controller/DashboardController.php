@@ -44,7 +44,6 @@ class DashboardController extends AbstractController
       } else {
          $growth = 0;
       }
-      
 
       return $this->render('dashboard/dashboard.html.twig', [
          'user' => $user->getFirstName(),

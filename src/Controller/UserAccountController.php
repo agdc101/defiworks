@@ -18,10 +18,6 @@ class UserAccountController extends AbstractController
     #[Route('/user-account', name: 'app_user_account')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $user = $this->getUser();
-        if (!$user->isVerified()) {
-            return $this->redirectToRoute('app_login');
-        }
         $form = $this->createForm(UpdateUserDetailsType::class, $user);
         $form->handleRequest($request);
 
@@ -41,10 +37,6 @@ class UserAccountController extends AbstractController
     #[Route('/user-account/close-user-account', name: 'app_close_user_account')]
     public function displayCloseLanding(): Response
     {
-        $user = $this->getUser();
-        if (!$user->isVerified()) {
-            return $this->redirectToRoute('app_login');
-        }
         return $this->render('user-account/close-account.html.twig');
     }
 
@@ -57,10 +49,6 @@ class UserAccountController extends AbstractController
    #[Route('/user-account/close-user-account/confirm', name: 'app_close_user_account_confirm')]
     public function close(UserServices $userServices): Response
     {
-        $user = $this->getUser();
-        if (!$user->isVerified()) {
-            return $this->redirectToRoute('app_login');
-        }
         $userServices->removeUser();
         $this->container->get('security.token_storage')->setToken(null);
 
