@@ -111,7 +111,7 @@ class RunYieldUpdateCommand extends Command
                $userYieldLog = (new UserYieldLog())
                   ->setUserId($userId)
                   ->setLogResult($logResult)
-                  ->setTimestamp(new \DateTimeImmutable('+1 hour'));
+                  ->setTimestamp(new \DateTimeImmutable());
 
                $user
                   ->setProfit($user->getProfit() + $valueAdded)

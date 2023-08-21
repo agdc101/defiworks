@@ -28,6 +28,15 @@ class RouteSubscriber implements EventSubscriberInterface
         $session = $request->getSession();
         $pathInfo = $request->getPathInfo();
 
+
+        //get env variable called MAINTENANCE_MODE
+        $maintenanceMode = $_ENV['MAINTENANCE_MODE'];
+
+        if ($maintenanceMode === 'true') {
+            $event->setResponse(new RedirectResponse($request->getUriForPath('/contact')));
+        }
+
+
         if ((str_starts_with($pathInfo, '/withdraw') || str_starts_with($pathInfo, '/deposit')) && !str_ends_with($pathInfo, 'success')) {
            $token = $this->tokenStorage->getToken();
 
@@ -80,6 +89,8 @@ class RouteSubscriber implements EventSubscriberInterface
                 $event->setResponse(new RedirectResponse($request->getUriForPath('/login')));
             }
         }
+
+
 
     }
 
