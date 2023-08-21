@@ -1,0 +1,25 @@
+body {
+    background: #130e1f;
+    text-align: center;
+    padding:2rem 1rem;
+}
+img {
+    width: clamp(120px, 85px, 400px);
+    margin-bottom: 2.5rem;
+}
+h1 {
+    font-weight: 500;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+}
+
+p {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-weight: 200;
+}
+
+h1, p{
+    color: #606060;
+    margin-bottom:2.5rem;
+    font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
+}
