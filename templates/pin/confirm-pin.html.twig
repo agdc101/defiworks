@@ -4,26 +4,21 @@
 
 {% block body %}
 
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
+    {% for message in app.flashes('pending_transaction_error') %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endfor %}
 
-    <div class="example-wrapper">
+    <h1>Enter Pin</h1>
 
-        {% for message in app.flashes('pending_transaction_error') %}
-            <div class="alert alert-danger" role="alert">{{ message }}</div>
-        {% endfor %}
+    {{ form_start(PinForm) }}
+        <fieldset>
+            <legend>Please enter your pin to continue:</legend>
+            <div class="pin-form-wrap">
+                {{ form_row(PinForm.pin) }}
+                <button class="btn" type="submit">Submit</button>
+            </div>
+        </fieldset>
+    {{ form_end(PinForm) }}
 
-        <h3>Enter Pin</h3>
-
-        <p>Please enter your pin to continue:</p>
-
-        {{ form_start(PinForm) }}
-        {{ form_row(PinForm.pin) }}
-        <button type="submit">Submit</button>
-        {{ form_end(PinForm) }}
-
-    </div>
 
 {% endblock %}
