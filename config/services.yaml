@@ -6,7 +6,6 @@
 parameters:
         gecko_api: '%env(GECKO_API)%'
         deposit_fee: '%env(DEPOSIT_FEE)%'
-        maintenance_mode: '%env(MAINTENANCE_MODE)%'
 
 services:
     # default configuration for services in *this* file
