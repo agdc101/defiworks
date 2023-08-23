@@ -38,4 +38,8 @@ body {
             width: auto;
         }
     }
+    button:hover {
+        background: $secondary;
+        color:white;
+    }
 }

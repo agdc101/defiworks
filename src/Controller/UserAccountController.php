@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Exceptions\UserNotFoundException;
 use App\Form\UpdateUserDetailsType;
 use App\Services\UserServices;
+use App\Services\AppServices;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -16,8 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserAccountController extends AbstractController
 {
     #[Route('/user-account', name: 'app_user_account')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, AppServices $appServices): Response
     {
+
+        $user = $appServices->getUserOrThrowException();
         $form = $this->createForm(UpdateUserDetailsType::class, $user);
         $form->handleRequest($request);
 
