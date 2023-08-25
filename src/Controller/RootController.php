@@ -32,7 +32,7 @@ class RootController extends AbstractController
       }
       $liveApy = $session->get('apy');
 
-      return $this->render('homepage/index.html.twig',
+      return $this->render('pending_transaction_error/pending_transaction_error.html.twig',
          ['liveApy' => $liveApy]
       );
     }

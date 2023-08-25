@@ -8,5 +8,9 @@
         margin-left:.5rem;
         color:white;
         font-weight: 200;
+        &:hover {
+            background-color: $secondary;
+            color:white;
+        }
     }
 }
