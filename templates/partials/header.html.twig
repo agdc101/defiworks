@@ -6,7 +6,6 @@
         <nav>
             <ul>
             {% if app.user is defined %}
-                <li><a href="/">Home</a></li>
                 {% if app.user %}
                 <li><a href="/dashboard">Dashboard</a></li>
                 <li><a href="/logout">Logout</a></li>
