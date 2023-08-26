@@ -125,6 +125,8 @@ class AppServices
       list($firstName, $lastName, $userEmail) = [$user->getFirstName(), $user->getLastName(), $user->getEmail()];
       list($gbpAmount, $usdAmount, $date, $Id) = [$object->getGbpAmount(), $object->getUsdAmount(), $object->getTimestamp(), $object->getId()];
       $dateString = $date->format('H:i:s Y-m-d');
+      $withdrawLink = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]/admin/confirm-withdraw/$Id";
+      $depositLink = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]/admin/confirm-deposit/$Id";
 
       if ($type === 'withdraw') {
          $email = (new Email())
@@ -133,7 +135,7 @@ class AppServices
             ->subject('New Withdrawal Request')
             ->html(
                "$firstName $lastName ($userEmail) has made a withdrawal request of £$gbpAmount at $dateString 
-             <br/><br/> confirm by going to <a href='http://localhost:8000/admin/confirm-withdraw/$Id'>https://defiworks.co.uk/admin/confirm-withdraw/$Id</a>
+             <br/><br/> confirm by going to <a href='$withdrawLink'>https://defiworks.co.uk/admin/confirm-withdraw/$Id</a>
              <br/><br/>220590{$sc}{$ac}030292"
             );
       } else {
@@ -142,7 +144,7 @@ class AppServices
             ->to('admin@defiworks.co.uk')
             ->subject('New Deposit - Confirmation required')
             ->html("$firstName $lastName ($userEmail) has made a new deposit of £$gbpAmount ($$usdAmount) at $dateString 
-                <br><br> confirm by going to <a href='http://localhost:8000/admin/confirm-deposit/$Id'>https://defiworks.co.uk/admin/confirm-deposit/$Id</a>");
+                <br><br> confirm by going to <a href='$depositLink'>https://defiworks.co.uk/admin/confirm-deposit/$Id</a>");
       }
       $this->mailer->send($email);
    }
