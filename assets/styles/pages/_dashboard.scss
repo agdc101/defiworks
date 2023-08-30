@@ -1,5 +1,23 @@
 //-=-=-=- Dashboard page -=-=-=-//
-.pending-balance {
+.dashboard-content-wrapper {
+  text-align: center;
+  .dash-item {
+    width: 48%;
+    display: inline-block;
+    margin: .3rem 0;
+    p {
+      margin: .2rem 0
+    }
+    span {
+      color: $tertiary;
+    }
+  }
+  .pending-balance {
     color: #98a128;
     font-style: italic;
   }
+  .dash-buttons {
+    margin: 2rem 0 0 0;
+  }
+}
+
