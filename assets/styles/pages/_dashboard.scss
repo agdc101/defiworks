@@ -2,6 +2,12 @@
 
 .dashboard-content-wrapper {
   text-align: center;
+  .dash-info {
+    @media (min-width: $large) {
+      display: flex;
+      margin-top:3rem;
+    }
+  }
   .dash-item {
     width: 44%;
     display: inline-block;
@@ -19,6 +25,9 @@
     span {
       color: $textLightBlue;
       font-size: 1.15rem;
+      @media (min-width: $large) {
+        font-size: 1.25rem;
+      }
     }
     lord-icon {
       display: block;
@@ -26,8 +35,8 @@
       width: 120px;
       height: 120px;
       @media (min-width: $large) {
-        width: 150px;
-        height: 150px;
+        width: 100px;
+        height: 100px;
       }
     }
     a {
@@ -43,9 +52,12 @@
     font-style: italic;
   }
   .dash-buttons {
-    margin: 4rem 0 0 0;
+    margin: 2.5rem 0 0 0;
     @media (min-width: $medium) {
       margin: 3rem 0 0 0;
+    }
+    @media (min-width: $large) {
+      margin: 4.5rem 0 0 0;
     }
     .dash-item {
       margin: .5rem;
@@ -58,8 +70,13 @@
       font-size:.9rem;
       font-weight:200;
       @media (min-width: $medium) {
-        padding: 1.25rem .5rem 1.25rem .5rem;
-        margin: 1rem
+        padding: 1rem .5rem;
+        margin: 1rem;
+        width: 30%;
+      }
+      @media (min-width: $large) {
+        width: 20%;
+        padding:0 0 .75rem 0;
       }
       a.disable-btn {
         color: #444444;
