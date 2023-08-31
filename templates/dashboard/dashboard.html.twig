@@ -44,15 +44,16 @@
 
     <section class="dash-buttons">
         <div class="dash-item">
-            <lord-icon
-                class="deposit-icon"
-                src="https://cdn.lordicon.com/yeallgsa.json"
-                trigger="hover"
-                colors="primary:#5d66e6,secondary:#ffffff"
-                stroke="25"
-                style="width:150px;height:150px">
-            </lord-icon>
-            <a href="{{ path('app_deposit') }}" class="deposit-btn {% if pendingBalance != 0  %} disable-btn {% endif %}">Deposit</a>
+            <a href="{{ path('app_deposit') }}" class="deposit-btn {% if pendingBalance != 0  %} disable-btn {% endif %}">
+                <lord-icon
+                    class="deposit-icon"
+                    src="https://cdn.lordicon.com/yeallgsa.json"
+                    trigger="hover"
+                    colors="primary:#5d66e6,secondary:#ffffff"
+                    stroke="25"
+                    target="div">
+                </lord-icon>
+            Deposit</a>
             {# <lord-icon
                 src="https://cdn.lordicon.com/huwchbks.json"
                 trigger="hover"
@@ -60,25 +61,27 @@
                 style="width:250px;height:250px">
             </lord-icon> #}
         </div>
-        <div class="dash-item">
-            <lord-icon
-                src="https://cdn.lordicon.com/rgyftmhc.json"
-                trigger="hover"
-                colors="primary:#ffffff,secondary:#5d66e6"
-                stroke="25"
-                style="width:150px;height:150px">
-            </lord-icon>
-            <a {% if balance is null or balance == 0 or pendingBalance != 0  %} class="withdraw-btn disable-btn"{% else  %} class="withdraw-btn" {% endif %} href="{{ path('app_withdraw') }}">Withdraw</a>
+        <div {% if balance is null or balance == 0 or pendingBalance != 0  %} class="dash-item disabled"{% else  %} class="dash-item" {% endif %} >
+            <a {% if balance is null or balance == 0 or pendingBalance != 0  %} class="withdraw-btn disable-btn"{% else  %} class="withdraw-btn" {% endif %} href="{{ path('app_withdraw') }}">
+                <lord-icon
+                    src="https://cdn.lordicon.com/rgyftmhc.json"
+                    trigger="hover"
+                    colors="primary:#ffffff,secondary:#5d66e6"
+                    stroke="25"
+                    target="div">
+                </lord-icon>
+            Withdraw</a>
         </div>
         <div class="dash-item">
-            <lord-icon
-                src="https://cdn.lordicon.com/wxnxiano.json"
-                trigger="morph"
-                colors="primary:#5d66e6,secondary:#ffffff"
-                stroke="25"
-                style="width:150px;height:150px">
-            </lord-icon>
-            <a href="{{ path('app_transaction_history') }}">View Transaction History</a>
+            <a href="{{ path('app_transaction_history') }}">
+                <lord-icon
+                    src="https://cdn.lordicon.com/wxnxiano.json"
+                    trigger="morph"
+                    colors="primary:#5d66e6,secondary:#ffffff"
+                    stroke="25"
+                    target="div">
+                </lord-icon>
+            Transaction History</a>
         </div>
         <div class="dash-item">
             {# <lord-icon
@@ -87,14 +90,15 @@
                 colors="primary:#ffffff,secondary:#5d66e6"
                 style="width:250px;height:250px">
             </lord-icon> #}
-            <lord-icon
-                src="https://cdn.lordicon.com/sbiheqdr.json"
-                trigger="hover"
-                colors="primary:#ffffff,secondary:#5d66e6"
-                stroke="25"
-                style="width:150px;height:150px">
-            </lord-icon>
-            <a href="{{ path('app_user_account') }}">Manage Your Account</a>
+            <a href="{{ path('app_user_account') }}">
+                <lord-icon
+                    src="https://cdn.lordicon.com/sbiheqdr.json"
+                    trigger="hover"
+                    colors="primary:#ffffff,secondary:#5d66e6"
+                    stroke="25"
+                    target="div">
+                </lord-icon>
+            Manage Account</a>
         </div>
     </section>
 </div>

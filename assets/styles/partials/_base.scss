@@ -43,4 +43,9 @@ body {
         background: $secondary;
         color:white;
     }
+    a.disable-btn {
+        pointer-events: none;
+        cursor: default;
+        color: #444444;
+    }
 }

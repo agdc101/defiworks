@@ -8,9 +8,9 @@ footer {
     text-align: center;
     display: flex;
     align-items: center;
-    padding: .5rem 1rem;
+    padding: 1rem;
     @media (min-width: $medium) {
-        padding: 1rem;
+        padding: 1.5rem;
     }
     .footer-inner {
         width:100%;

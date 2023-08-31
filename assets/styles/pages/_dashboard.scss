@@ -1,15 +1,41 @@
 //-=-=-=- Dashboard page -=-=-=-//
+
 .dashboard-content-wrapper {
   text-align: center;
   .dash-item {
-    width: 48%;
+    width: 44%;
     display: inline-block;
-    margin: .3rem 0;
+    margin: .45rem 0;
+    @media (min-width: $medium) {
+      width: 35%;
+    }
     p {
-      margin: .2rem 0
+      font-weight: 400;
+      text-transform: uppercase;
+      margin: .2rem 0;
+      font-size: .75rem;
+      letter-spacing: .1rem;
     }
     span {
-      color: $tertiary;
+      color: $textLightBlue;
+      font-size: 1.15rem;
+    }
+    lord-icon {
+      display: block;
+      margin: 0 auto;
+      width: 120px;
+      height: 120px;
+      @media (min-width: $large) {
+        width: 150px;
+        height: 150px;
+      }
+    }
+    a {
+      text-decoration: none;
+      color: $textLightBlue;
+      @media (min-width: $medium) {
+        font-size: 1rem;
+      }
     }
   }
   .pending-balance {
@@ -17,7 +43,37 @@
     font-style: italic;
   }
   .dash-buttons {
-    margin: 2rem 0 0 0;
+    margin: 4rem 0 0 0;
+    @media (min-width: $medium) {
+      margin: 3rem 0 0 0;
+    }
+    .dash-item {
+      margin: .5rem;
+      padding:0 .5rem .5rem .5rem;
+      background-color:black;
+      border-radius: .75rem;
+      border: 1px solid black;
+      transition: all .3s ease-in-out;
+      cursor: pointer;
+      font-size:.9rem;
+      font-weight:200;
+      @media (min-width: $medium) {
+        padding: 1.25rem .5rem 1.25rem .5rem;
+        margin: 1rem
+      }
+      a.disable-btn {
+        color: #444444;
+      }
+      &:hover, &:focus, &:active {
+        border: 0.05rem solid white;
+      }
+    }
+    .disabled {
+      cursor: default;
+      &:hover, &:focus {
+        border: 1px solid black;
+      }
+    }
   }
 }
 
