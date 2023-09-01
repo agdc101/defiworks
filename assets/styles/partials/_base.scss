@@ -4,6 +4,25 @@ body {
   background: $primary;
   color:$textGrey;
   font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
+  .svg-bg {
+    background-image: url('/public/img/blob-new.svg');
+    background-size: cover;
+    height: 100vh;
+    background-repeat: no-repeat;
+    top: -250px;
+    z-index: -1;
+    zoom: 1.5;
+    width: 100vw;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    @media (min-width: $large) {
+      top: -300px;
+    }
+    @media (min-width: $xl) {
+      right:-40px;
+    }
+}
 }
 .content-wrapper {
     width:90%;
@@ -12,7 +31,7 @@ body {
     @media (min-width: $medium) {
         padding: 0 .75rem;
     }
-    @media (min-width: $extraLarge) {
+    @media (min-width: $xl) {
         width: 90%;
     }
         h1 {
@@ -47,5 +66,15 @@ body {
         pointer-events: none;
         cursor: default;
         color: #444444;
+    }
+    .user-success-msg {
+        color: lightgreen;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.15rem;
+        @media (min-width: $large) {
+            padding-left: 4rem;
+            text-align: unset;
+        }
     }
 }

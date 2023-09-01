@@ -14,11 +14,11 @@
 {% endfor %}
 
 {% for message in app.flashes('password_reset_success') %}
-    <div class="alert alert-success" role="alert">{{ message }}</div>
+    <div class="alert user-success-msg" role="alert">{{ message }}</div>
 {% endfor %}
 
 {% for message in app.flashes('success_pin') %}
-    <div class="alert alert-success" role="alert">{{ message }}</div>
+    <div class="alert user-success-msg" role="alert">{{ message }}</div>
 {% endfor %}
 
 <h1 class="text-center">{{ user | capitalize }}'s Dashboard</h1>

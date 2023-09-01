@@ -5,7 +5,7 @@
   .dash-info {
     @media (min-width: $large) {
       display: flex;
-      margin-top:3rem;
+      margin-top:4rem;
     }
   }
   .dash-item {
@@ -23,8 +23,9 @@
       letter-spacing: .1rem;
     }
     span {
-      color: $textLightBlue;
+      color: white;
       font-size: 1.15rem;
+      color: $textLightBlue;
       @media (min-width: $large) {
         font-size: 1.25rem;
       }
@@ -41,7 +42,7 @@
     }
     a {
       text-decoration: none;
-      color: $textLightBlue;
+      color: $textGrey;
       @media (min-width: $medium) {
         font-size: 1rem;
       }
@@ -82,7 +83,7 @@
         color: #444444;
       }
       &:hover, &:focus, &:active {
-        border: 0.05rem solid white;
+        border: 0.05rem solid $textLightBlue;
       }
     }
     .disabled {

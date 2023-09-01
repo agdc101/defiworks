@@ -22,7 +22,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 #[AsCommand(
     name: 'run-yield-update',
-    description: 'pays out daily yield to users'
+    description: 'adds the daily yield to user balances'
 )]
 class RunYieldUpdateCommand extends Command
 {
@@ -105,7 +105,7 @@ class RunYieldUpdateCommand extends Command
                $result = ($balance + ($dailyYield / 100 * ($balance - $ineligibleDeposit))) * 100 / 100;
                $valueAdded = $result - $balance;
 
-               $logResult = "User ID: $userId, Original balance: $balance, Ineligible Deposits: $ineligibleDeposit, Daily Yield: $dailyYield, Result: $result, Value Added: $valueAdded";
+               $logResult = "User ID: $userId, Original balance: $balance, Ineligible Deposits: $ineligibleDeposit, Result: $result, Value Added: $valueAdded";
                // log yield result
                $output->writeln($logResult);
                $userYieldLog = (new UserYieldLog())
