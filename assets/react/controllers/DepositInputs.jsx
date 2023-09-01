@@ -96,15 +96,15 @@ const DepositInputs = () =>  {
    if (hasError) return (<p>oops something went wrong</p>);
 
    return (
-      <div>
+      <section class="deposit-wrapper">
          <div>
-            <h3>Enter amount to deposit:</h3>
+            <h1>Deposit</h1>
             <p>Enter the amount you would like to deposit and convert to USD.</p>
             <div>
                <form onSubmit={ConfirmAndConvertGbp}>
-                  <label htmlFor="GbpDepositAmount">Deposit Amount in GBP(£)</label>
-                  <input ref={InputRef} type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="8" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
-                  {isGbpValid && <button ref={ButtonRef} id="convert-btn" onClick={ConfirmAndConvertGbp} >Convert</button>}
+                  <label htmlFor="GbpDepositAmount">Deposit Amount in GBP (£)</label>
+                  <input placeholder="£100" class="form-control" ref={InputRef} type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="8" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
+                  {isGbpValid && <button class="btn" ref={ButtonRef} id="convert-btn" onClick={ConfirmAndConvertGbp} >Convert</button>}
                </form>
                {gbpDepositAmount < 20 && <span>Deposit must be at least £20 in value.</span>}
             </div>
@@ -117,7 +117,7 @@ const DepositInputs = () =>  {
          {isGbpValid && conversionFetched &&
             <ContinueResetButtons link={'/deposit/deposit-details'} handleConversionReset={handleConversionReset} />
          }
-      </div>
+      </section>
    );
 }
 

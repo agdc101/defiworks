@@ -1,4 +1,26 @@
 //-=-=-=- Deposit page -=-=-=-//
-#hidden-deposit-form {
-    display: none;
+section.deposit-wrapper {
+  padding: .5rem 0;
+  @media (min-width: $large) {
+    padding: 1rem 0;
   }
+  form {
+    input {
+      margin: 1rem 0;
+      max-width: 300px;
+    }
+  }
+  p:nth-of-type(1) {
+    font-size:1.1rem;
+    letter-spacing:0.05rem;
+    color: $secondary;
+    margin-bottom: 1.5rem;
+  }
+  p {
+    font-size: 1.1rem;
+  }
+  span {
+    font-style: italic;
+    color: $tertiary;
+  }
+}

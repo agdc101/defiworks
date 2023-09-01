@@ -34,12 +34,13 @@ body {
     @media (min-width: $xl) {
         width: 90%;
     }
-        h1 {
-            color:#ffffff;
-            letter-spacing: 2px;
-            font-weight: 300;
-            margin: 2rem 0 1.5rem 0;
-        }
+    h1 {
+        color:#ffffff;
+        letter-spacing: 2px;
+        font-weight: 300;
+        margin: 2rem 0 1.5rem 0;
+        font-size: 3rem;
+    }
     legend {
         color: $tertiary;
         font-weight: 100;
