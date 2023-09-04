@@ -27,10 +27,12 @@
     <section class="dash-info">
         <div class="dash-item">
             <p>Balance</p><span>{% if balance is null %} $0 {% else  %} ${{ balance }} {% endif %}</span>
-            {% if pendingBalance != 0 %}
-                <p class="pending-balance">Pending Balance: <span>${{ pendingBalance }}</span></p>
-            {% endif %}
         </div>
+        {% if pendingBalance != 0 %}
+        <div class="dash-item">
+            <p class="pending-balance">Pending Balance</p> <span>${{ pendingBalance }}</span>
+        </div>
+        {% endif %}
         <div class="dash-item">
             <p>Profit</p><span>{% if profit is null %} $0 {% else  %} ${{ profit }} {% endif %}</span>
         </div>
@@ -43,8 +45,8 @@
     </section>
 
     <section class="dash-buttons">
-        <div class="dash-item">
-            <a href="{{ path('app_deposit') }}" class="deposit-btn {% if pendingBalance != 0  %} disable-btn {% endif %}">
+        <div {% if balance is null or balance == 0 or pendingBalance != 0  %} class="dash-item disabled"{% else  %} class="dash-item" {% endif %} >
+             <a {% if balance is null or balance == 0 or pendingBalance != 0  %} class="deposit-btn disable-btn"{% else  %} class="deposit-btn" {% endif %} href="{{ path('app_deposit') }}">
                 <lord-icon
                     class="deposit-icon"
                     src="https://cdn.lordicon.com/yeallgsa.json"

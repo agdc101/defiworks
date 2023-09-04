@@ -9,12 +9,18 @@ section.deposit-wrapper {
       margin: 1rem 0;
       max-width: 300px;
     }
+    button {
+      text-transform: capitalize;
+      span {
+        color: white;
+      }
+    }
   }
   p:nth-of-type(1) {
     font-size:1.1rem;
     letter-spacing:0.05rem;
     color: $secondary;
-    margin-bottom: 1.5rem;
+    margin: 1rem 0;
   }
   p {
     font-size: 1.1rem;
@@ -22,5 +28,8 @@ section.deposit-wrapper {
   span {
     font-style: italic;
     color: $tertiary;
+  }
+  .conv-results {
+    padding:0 2rem;
   }
 }

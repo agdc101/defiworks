@@ -1,7 +1,9 @@
 import React, {useState, useRef} from 'react';
-import PropagateLoader from "react-spinners/PropagateLoader";
+// import PropagateLoader from "react-spinners/PropagateLoader";
 import ContinueResetButtons from './components/ContinueResetButtons';
 import Form from "./components/Form";
+import SendIcon from '@mui/icons-material/Send';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const DepositInputs = () =>  {
    // state variables
@@ -96,23 +98,33 @@ const DepositInputs = () =>  {
    if (hasError) return (<p>oops something went wrong</p>);
 
    return (
-      <section class="deposit-wrapper">
+      <section className="deposit-wrapper">
          <div>
             <h1>Deposit</h1>
             <p>Enter the amount you would like to deposit and convert to USD.</p>
             <div>
                <form onSubmit={ConfirmAndConvertGbp}>
                   <label htmlFor="GbpDepositAmount">Deposit Amount in GBP (£)</label>
-                  <input placeholder="£100" class="form-control" ref={InputRef} type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="8" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
-                  {isGbpValid && <button class="btn" ref={ButtonRef} id="convert-btn" onClick={ConfirmAndConvertGbp} >Convert</button>}
+                  <input placeholder="£100" className="form-control" ref={InputRef} type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="8" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
+                  {isGbpValid && 
+                     <LoadingButton
+                        className="btn"
+                        id="convert-btn"
+                        ref={ButtonRef}
+                        loading={isLoading}
+                        loadingPosition="end"
+                        endIcon={<SendIcon />}
+                        variant="outlined"
+                        onClick={ConfirmAndConvertGbp}
+                        >
+                        Convert
+                     </LoadingButton> 
+                  }
                </form>
                {gbpDepositAmount < 20 && <span>Deposit must be at least £20 in value.</span>}
             </div>
-         </div>
+         </div>       
          <div ref={ConvDivRef}>
-         {isLoading &&
-            <PropagateLoader color={"#5f66e6"} size={25} aria-label="Loading Spinner" data-testid="loader"/>
-         }
          </div>
          {isGbpValid && conversionFetched &&
             <ContinueResetButtons link={'/deposit/deposit-details'} handleConversionReset={handleConversionReset} />

@@ -81,6 +81,17 @@ class RouteSubscriber implements EventSubscriberInterface
             }
         }
 
+        //if pathinfo starts with /withdraw
+        if (str_starts_with($pathInfo, '/withdraw')) {
+            //get user balance from user object
+            $token = $this->tokenStorage->getToken();
+            $user = $token->getUser();
+            $balance = $user->getBalance();
+            if (!$balance || $balance < 1) {
+                $event->setResponse(new RedirectResponse($request->getUriForPath('/dashboard')));
+            }
+        }
+
 
 
     }

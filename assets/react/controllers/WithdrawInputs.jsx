@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import PropagateLoader from "react-spinners/PropagateLoader";
+// import PropagateLoader from "react-spinners/PropagateLoader";
 import ContinueResetButtons from './components/ContinueResetButtons';
 
 function WithdrawInputs(props) {
@@ -114,9 +114,9 @@ function WithdrawInputs(props) {
          <button ref={MaxButtonRef} onClick={setToMax} >Max</button>
 
          <div ref={ConvDivRef} ></div>
-         {isLoading &&
+         {/* {isLoading &&
             <PropagateLoader color={"#5f66e6"} size={25} aria-label="Loading Spinner" data-testid="loader"/>
-         }
+         } */}
          {isInputValid && valueValid &&
             <ContinueResetButtons link={'/withdraw/withdraw-details'} handleConversionReset={handleConversionReset}/>
          }
