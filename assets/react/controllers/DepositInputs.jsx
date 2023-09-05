@@ -24,6 +24,8 @@ const DepositInputs = () =>  {
    function switchButtons (bool) {
       ButtonRef.current.disabled = bool;
       InputRef.current.disabled = bool;
+      {(bool) ? InputRef.current.classList.add('disabled') : InputRef.current.classList.remove('disabled')};
+
    }
 
    //validate input, regex check for letters etc, remove commas from the value, then format the value to have the correct commas

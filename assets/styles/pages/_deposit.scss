@@ -7,7 +7,14 @@ section.deposit-wrapper {
   form {
     input {
       margin: 1rem 0;
-      max-width: 300px;
+      width:95%;
+      @media (min-width: $medium) {
+        max-width: 300px;
+        margin: .75rem 0 .5rem 0;
+      }
+      &.disabled {
+        background-color: #848484 !important;
+      }
     }
     button {
       text-transform: capitalize;
@@ -31,5 +38,36 @@ section.deposit-wrapper {
   }
   .conv-results {
     padding:0 2rem;
+  }
+  .reset-btns {
+    margin: 1.75rem 0 .75rem 0;
+    @media (min-width: $medium) {
+      margin: 1rem 0 .5rem 0;
+      display:flex;
+    }
+    a, button {
+      padding: .4rem;
+      width:95%;
+      margin-bottom: .5rem;
+      @media (min-width: $medium) {
+        max-width: 125px;
+      }
+    }
+    a {
+      background-color: $secondary;
+      border:none;
+      color:white;
+      @media (min-width: $medium) {
+        margin-top: .75rem;
+        margin-right: 1rem;
+      }
+    }
+    button {
+      border-radius: 6px;
+      background-color: rgb(143, 143, 143);
+      padding-left: .75rem;
+      padding-right: .75rem;
+      border: none;
+    }
   }
 }
