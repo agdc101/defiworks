@@ -5,12 +5,12 @@
     .form-fields-wrapper {
         @media (min-width: $medium) {
             display:flex;
-            justify-content: space-between;
         }
         div {
             margin: .5rem 0;
             @media (min-width: $medium) {
-                width: 48%;
+                width: 30%;
+                margin: .75rem 1.25rem 1rem 0;
             }
         }
     }

@@ -8,21 +8,33 @@ section.deposit-details {
     }
     h4 {
         text-transform: uppercase;
-        letter-spacing: 0.05rem;
+        letter-spacing: 0.1rem;
         font-weight: 300;
-        font-size: .9rem;
+        font-size: .8rem;
     }
     .bank-details {
+        @media (min-width: $medium) {
+            display: flex;
+            margin: .5rem 0 1rem 0;
+        }
+        div {
+            @media (min-width: $medium) {
+                margin-right: 3.5rem;
+            }
+        }
         p {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
         }
     }
     #usdConversion {
         p:nth-of-type(1) {
             color: $tertiary;
             font-weight: 100;
-            margin: 1.75rem 0;
+            margin: 1.25rem 0;
             font-size: 1.35rem;
+            @media (min-width: $medium) {
+                margin: 1.5rem 0 2rem 0;
+            }
             span {
                 font-weight: 400;
             }
@@ -31,7 +43,7 @@ section.deposit-details {
             font-size: 1.05rem;
             font-weight: 200;
             color: lightgreen;
-            margin-bottom: .75rem;
+            margin-bottom: .25rem;
         }
     }
     a {

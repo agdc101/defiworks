@@ -17,7 +17,7 @@ body {
     bottom: 0;
     position: absolute;
     @media (min-width: $large) {
-      top: -300px;
+      top: -225px;
     }
     @media (min-width: $xl) {
       right:-40px;
@@ -26,8 +26,8 @@ body {
 }
 .content-wrapper {
     width:90%;
-    margin: 3.5rem auto 4rem auto;
-    max-width: 1000px;
+    margin: 3rem auto 4rem auto;
+    max-width: 850px;
     @media (min-width: $medium) {
         padding: 0 .75rem;
     }
@@ -39,7 +39,7 @@ body {
         letter-spacing: 2px;
         font-weight: 300;
         margin-bottom: 1.5rem;
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
     legend {
         color: $tertiary;
