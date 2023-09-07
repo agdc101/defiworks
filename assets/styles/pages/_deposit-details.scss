@@ -46,10 +46,28 @@ section.deposit-details {
             margin-bottom: .25rem;
         }
     }
-    a {
-        background-color: rgb(143, 143, 143);
-        color:white;
-        width: 100%;
-        margin-top: .5rem;
+    .dep-form-wrapper {
+        @media (min-width: $medium) {
+            margin-top: 1rem;
+        }
+        form {
+            display:inline;
+            button {
+                @media (min-width: $medium) {
+                    margin:0 1.5rem 0 0;
+                }
+            }
+        }
+        a {
+            background-color: rgb(143, 143, 143);
+            color:white;
+            width: 100%;
+            margin-top: .25rem;
+            @media (min-width: $medium) {
+                width: 100px;
+                margin-top: 0;
+            }
+        }
     }
+
 }
