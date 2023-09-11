@@ -1,6 +1,7 @@
 import React, {useState, useRef} from 'react';
-// import PropagateLoader from "react-spinners/PropagateLoader";
 import ContinueResetButtons from './components/ContinueResetButtons';
+import SendIcon from '@mui/icons-material/Send';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 function WithdrawInputs(props) {
    const InputRef = useRef(null);
@@ -107,16 +108,25 @@ function WithdrawInputs(props) {
          <form onSubmit={ConfirmAndConvertUsd}>
             <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
             <input ref={InputRef} type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
-            {isInputValid && <button ref={ConvertButtonRef} id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
+            {isInputValid && 
+               <LoadingButton
+                  className="btn"
+                  id="convert-btn"
+                  ref={ConvertButtonRef}
+                  loading={isLoading}
+                  loadingPosition="end"
+                  endIcon={<SendIcon />}
+                  variant="outlined"
+                  onClick={ConfirmAndConvertUsd}
+                  >
+                  Convert
+               </LoadingButton> 
+            }
          </form>
          {exceedsBalance && <span>Amount entered exceeds account balance</span>}
          {!isMoreThanMin && <span>Amount needs to equal $20 or more</span>}
          <button ref={MaxButtonRef} onClick={setToMax} >Max</button>
-
          <div ref={ConvDivRef} ></div>
-         {/* {isLoading &&
-            <PropagateLoader color={"#5f66e6"} size={25} aria-label="Loading Spinner" data-testid="loader"/>
-         } */}
          {isInputValid && valueValid &&
             <ContinueResetButtons link={'/withdraw/withdraw-details'} handleConversionReset={handleConversionReset}/>
          }
