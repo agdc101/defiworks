@@ -5,6 +5,9 @@ section.deposit-details {
         font-weight: 100;
         margin: 0 0 1.5rem 0;
         font-size: 1.2rem;
+        @media (min-width: $large) {
+            margin: 1.5rem 0 2.5rem 0;
+        }
     }
     h4 {
         text-transform: uppercase;
@@ -34,6 +37,7 @@ section.deposit-details {
             font-size: 1.35rem;
             @media (min-width: $medium) {
                 margin: 1.5rem 0 2rem 0;
+                font-size:1.5rem;
             }
             span {
                 font-weight: 400;
