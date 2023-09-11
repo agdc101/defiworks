@@ -9,18 +9,19 @@ body {
     background-size: cover;
     height: 100vh;
     background-repeat: no-repeat;
-    top: -250px;
     z-index: -1;
     zoom: 1.5;
     width: 100vw;
+    top:0;
     right: 0;
+    left:0;
     bottom: 0;
     position: absolute;
     @media (min-width: $large) {
-      top: -225px;
+    //   top: -225px;
     }
     @media (min-width: $xl) {
-      right:-40px;
+    //   right:-40px;
     }
 }
 }

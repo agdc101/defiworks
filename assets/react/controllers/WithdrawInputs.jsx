@@ -102,9 +102,9 @@ function WithdrawInputs(props) {
 
    return (
       <div>
-         <h3>Request Withdrawal</h3>
-         <p>Please enter a withdrawal amount and convert to GBP:</p>
+         <h1>Request Withdrawal</h1>
          <p>Your account balance is ${props.max}</p>
+         <p>Please enter a withdrawal amount and convert to GBP:</p>
          <form onSubmit={ConfirmAndConvertUsd}>
             <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
             <input ref={InputRef} type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
