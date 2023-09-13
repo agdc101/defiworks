@@ -11,7 +11,7 @@ section.withdrawal {
     }
     form {
         input {
-            margin: .75rem 0;
+            margin: .5rem 0 .75rem 0;
         }
         button {
             text-transform: capitalize;
@@ -23,8 +23,10 @@ section.withdrawal {
             font-weight: 500;;
         }
     }
-    label {
-        margin: 0.5rem 0;
+    .conv-data {
+        color: $tertiary;
+        font-size: 1.25rem;
+        margin: 1rem 0;
     }
     .user-msg {
         color: $tertiary;
@@ -33,5 +35,16 @@ section.withdrawal {
         font-style: italic;
         display: inline-block;
         margin: .5rem 0;
+    }
+    .reset-btns {
+        #reset-btn {
+            background-color: gray;
+            margin: .5rem 0 .75rem 0;
+        }
+        #confirm-continue-btn {
+            background-color: $secondary;
+            width: 100%;
+            color:white;
+        }
     }
 }

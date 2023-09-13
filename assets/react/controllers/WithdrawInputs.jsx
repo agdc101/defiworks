@@ -7,7 +7,7 @@ function WithdrawInputs(props) {
    const InputRef = useRef(null);
    const ConvertButtonRef = useRef(null);
    const MaxButtonRef = useRef(null);
-   const ConvDivRef = useRef(null);
+   const ConvMsgRef = useRef(null);
    const [usdWithdrawAmount, setUsdWithdrawAmount] = useState('');
    const [exceedsBalance, setExceedsBalance] = useState(false);
    const [isMoreThanMin, setIsMoreThanMin] = useState(false);
@@ -50,7 +50,7 @@ function WithdrawInputs(props) {
    function handleConversionReset(event) {
       event.preventDefault();
       disableInput(false);
-      ConvDivRef.current.innerHTML = '';
+      ConvMsgRef.current.innerHTML = '';
       setValueValid(false);
    }
 
@@ -80,16 +80,13 @@ function WithdrawInputs(props) {
       disableInput(true);
       fetchData(event)
          .then(data => {
-            const newElement = document.createElement("p");
             if (+data.usd >= 20 && data.result) {
                setValueValid(data.result);
-               newElement.textContent = `The GBP value of your withdrawal will be £${data.gbp}`;
+               ConvMsgRef.current.textContent = `You will recieve £${data.gbp}`;
             } else {
-               newElement.textContent = 'Invalid amount';
+               ConvMsgRef.current.textContent = 'Invalid amount';
             }
             setIsLoading(false);
-            //if data.gbp is less than 20, display a message saying that the withdrawal amount is less than £20
-            ConvDivRef.current.appendChild(newElement);
 
          }).catch(error => {
          console.error('Error:', error);
@@ -123,11 +120,11 @@ function WithdrawInputs(props) {
             }
          </form>
          {exceedsBalance && <span className="user-msg">Amount entered exceeds account balance</span>}
-         {!isMoreThanMin && <span className="user-msg">Amount needs to equal $20 or more</span>}
+         {!isMoreThanMin && <span className="user-msg">$20 minimum withdrawal</span>}
          <button className="btn" ref={MaxButtonRef} onClick={setToMax} >Max</button>
-         <div ref={ConvDivRef}>
-            <p class="conv-data"></p>
-         </div>
+
+         <p ref={ConvMsgRef} className="conv-data"></p>
+
          {isInputValid && valueValid &&
             <ContinueResetButtons link={'/withdraw/withdraw-details'} handleConversionReset={handleConversionReset}/>
          }
