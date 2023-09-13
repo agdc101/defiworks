@@ -103,11 +103,10 @@ function WithdrawInputs(props) {
    return (
       <div>
          <h1>Request Withdrawal</h1>
-         <p>Your account balance is ${props.max}</p>
-         <p>Please enter a withdrawal amount and convert to GBP:</p>
+         <p>Your account balance is <span>${props.max}</span></p>
          <form onSubmit={ConfirmAndConvertUsd}>
             <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
-            <input ref={InputRef} type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
+            <input className="form-control" ref={InputRef} type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" placeholder="$100" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
             {isInputValid && 
                <LoadingButton
                   className="btn"
@@ -123,10 +122,12 @@ function WithdrawInputs(props) {
                </LoadingButton> 
             }
          </form>
-         {exceedsBalance && <span>Amount entered exceeds account balance</span>}
-         {!isMoreThanMin && <span>Amount needs to equal $20 or more</span>}
-         <button ref={MaxButtonRef} onClick={setToMax} >Max</button>
-         <div ref={ConvDivRef} ></div>
+         {exceedsBalance && <span className="user-msg">Amount entered exceeds account balance</span>}
+         {!isMoreThanMin && <span className="user-msg">Amount needs to equal $20 or more</span>}
+         <button className="btn" ref={MaxButtonRef} onClick={setToMax} >Max</button>
+         <div ref={ConvDivRef}>
+            <p class="conv-data"></p>
+         </div>
          {isInputValid && valueValid &&
             <ContinueResetButtons link={'/withdraw/withdraw-details'} handleConversionReset={handleConversionReset}/>
          }

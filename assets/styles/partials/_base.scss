@@ -5,23 +5,20 @@ body {
   color:$textGrey;
   font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
   .svg-bg {
-    background-image: url('/public/img/new-blobz.svg');
+    background-image: url('/public/img/blob-new.svg');
     background-size: cover;
     height: 100vh;
     background-repeat: no-repeat;
     z-index: -1;
-    zoom: 1.5;
+    zoom: 1.4;
     width: 100vw;
-    top:0;
+    top: 0;
     right: 0;
-    left:0;
+    left:-600px;
     bottom: 0;
     position: absolute;
     @media (min-width: $large) {
-    //   top: -225px;
-    }
-    @media (min-width: $xl) {
-    //   right:-40px;
+      top: -100px;
     }
 }
 }
@@ -75,7 +72,7 @@ body {
         text-transform: uppercase;
         letter-spacing: 0.15rem;
         @media (min-width: $large) {
-            padding-left: 4rem;
+            padding-left: 2.5rem;
             text-align: unset;
         }
     }
