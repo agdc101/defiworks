@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import TransactionItem from './components/TransactionItem';
 
 function TransactionHistory({ deposits, withdrawals }) {
-   const [selected, setSelected] = useState('withdrawals');
+   const [selected, setSelected] = useState('');
 
    function handleSelectChange(event) {
       setSelected(event.target.value);
@@ -22,15 +22,16 @@ function TransactionHistory({ deposits, withdrawals }) {
             isVerified={transaction.is_verified}
          />
       ));
-   }, [selected, deposits, withdrawals]);
+   }, [selected]);
 
    return (
       <div>
          <h1>Transaction History</h1>
          <a href="/dashboard">Back to Dashboard</a>
          <select onChange={handleSelectChange}>
-            <option value="withdrawals">Withdrawals</option>
+            <option value="">Select Transaction Type</option>
             <option value="deposits">Deposits</option>
+            <option value="withdrawals">Withdrawals</option>
          </select>
          <table>
          <thead>
