@@ -12,9 +12,17 @@ section.withdrawal {
     form {
         input {
             margin: .5rem 0 .75rem 0;
+            @media (min-width: 600px) {
+                max-width:200px;
+            }
+            @media (min-width: $large) {
+                max-width: 300px;
+            }
         }
         button {
             text-transform: capitalize;
+            margin-right: 1rem;
+            padding: 0.5rem 1.5rem;
         }
     }
     p {
@@ -40,6 +48,15 @@ section.withdrawal {
         #reset-btn {
             background-color: gray;
             margin: .5rem 0 .75rem 0;
+        }
+        a {
+            @media (min-width: 600px) {
+                max-width: 200px;
+            }
+            @media (min-width: $large) {
+                max-width: 300px;
+            }
+            margin: 0 .5rem .25rem 0;
         }
         #confirm-continue-btn {
             background-color: $secondary;

@@ -118,10 +118,11 @@ function WithdrawInputs(props) {
                   Convert
                </LoadingButton> 
             }
+            <button className="btn" ref={MaxButtonRef} onClick={setToMax} >Max</button>
          </form>
          {exceedsBalance && <span className="user-msg">Amount entered exceeds account balance</span>}
          {!isMoreThanMin && <span className="user-msg">$20 minimum withdrawal</span>}
-         <button className="btn" ref={MaxButtonRef} onClick={setToMax} >Max</button>
+         
 
          <p ref={ConvMsgRef} className="conv-data"></p>
 

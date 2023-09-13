@@ -50,7 +50,10 @@ section.deposit-wrapper {
       width:95%;
       margin-bottom: .5rem;
       @media (min-width: $medium) {
-        max-width: 125px;
+        max-width: 200px;
+      }
+      @media (min-width: $large) {
+        max-width: 300px;
       }
     }
     a {
