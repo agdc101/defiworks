@@ -4,23 +4,19 @@
 
 {% block body %}
 
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
+<section class="withdraw-details">
 
-    <div class="example-wrapper">
-        <h3>Withdrawal details</h3>
+    <h1>Withdraw Details</h1>
 
-        <p>The name registered to the bank account must match the name on your DeFi Works account.</p>
-        <span>Please include hyphens when entering your sort code.</span>
+    <p>* The name registered to the bank account must match the name on your DeFi Works account.</p>
+    <span>Please include hyphens when entering your sort code.</span>
 
-        {{ form_start(WithdrawDetailsForm) }}
-        {{ form_row(WithdrawDetailsForm.sort_code) }}
-        {{ form_row(WithdrawDetailsForm.account_number) }}
-        <button type="submit">Continue</button>
-        {{ form_end(WithdrawDetailsForm) }}
+    {{ form_start(WithdrawDetailsForm) }}
+    {{ form_row(WithdrawDetailsForm.sort_code) }}
+    {{ form_row(WithdrawDetailsForm.account_number) }}
+    <button class="btn" type="submit">Continue</button>
+    {{ form_end(WithdrawDetailsForm) }}
 
-    </div>
+</section>
 
 {% endblock %}

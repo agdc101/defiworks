@@ -15,9 +15,10 @@ class WithdrawDetailsType extends AbstractType
     {
         $builder
             ->add('sort_code', TextType::class, [
-                'label' => 'Sort Code',
+                'label' => 'Sort Code:',
                 'attr' => [
-                    'placeholder' => '00-00-00'
+                    'placeholder' => '00-00-00',
+                    'class' => 'form-control'
                 ],
                  'constraints' => [
                     new NotBlank([
@@ -32,9 +33,10 @@ class WithdrawDetailsType extends AbstractType
                 ],
             ])
             ->add('account_number', TextType::class, [
-                'label' => 'Account Number',
+                'label' => 'Account Number:',
                 'attr' => [
-                    'placeholder' => '123456789'
+                    'placeholder' => '123456789',
+                    'class' => 'form-control'
                 ],
                 'constraints' => [
                     new NotBlank([
