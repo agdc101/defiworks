@@ -12,12 +12,6 @@ section.withdrawal {
     form {
         input {
             margin: .5rem 0 .75rem 0;
-            @media (min-width: 600px) {
-                max-width:200px;
-            }
-            @media (min-width: $large) {
-                max-width: 300px;
-            }
         }
         button {
             text-transform: capitalize;

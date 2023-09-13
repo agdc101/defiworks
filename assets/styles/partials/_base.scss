@@ -72,4 +72,11 @@ body {
             text-align: unset;
         }
     }
+    input {
+        margin: 1rem 0;
+        @media (min-width: 600px) {
+          max-width: 300px;
+          margin: .75rem 0 .5rem 0;
+        }
+    }
 }
