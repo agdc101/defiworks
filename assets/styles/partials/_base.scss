@@ -9,19 +9,13 @@ body {
     background-size: cover;
     height: 100vh;
     background-repeat: no-repeat;
-    top: -250px;
     z-index: -1;
-    zoom: 1.5;
-    width: 100vw;
+    zoom: 1.4;
+    top: 0;
     right: 0;
+    left:-300px;
     bottom: 0;
     position: absolute;
-    @media (min-width: $large) {
-      top: -225px;
-    }
-    @media (min-width: $xl) {
-      right:-40px;
-    }
 }
 }
 .content-wrapper {
@@ -54,7 +48,7 @@ body {
         margin: .5rem 0;
         font-size: 1rem;
         font-weight: 200;
-        @media (min-width: $medium) {
+        @media (min-width: 600px) {
             margin-top: .75rem;
             width: auto;
         }
@@ -74,8 +68,21 @@ body {
         text-transform: uppercase;
         letter-spacing: 0.15rem;
         @media (min-width: $large) {
-            padding-left: 4rem;
+            padding-left: 2.5rem;
             text-align: unset;
         }
+    }
+    input {
+        margin: 1rem 0;
+        @media (min-width: 600px) {
+          max-width: 300px;
+          margin: .75rem 0 .5rem 0;
+        }
+    }
+    #return-arrow {
+        color: white;
+        width:25px;
+        height:25px;
+        margin-bottom:.25rem;
     }
 }

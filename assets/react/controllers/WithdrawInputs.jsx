@@ -1,12 +1,13 @@
 import React, {useState, useRef} from 'react';
-// import PropagateLoader from "react-spinners/PropagateLoader";
 import ContinueResetButtons from './components/ContinueResetButtons';
+import SendIcon from '@mui/icons-material/Send';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 function WithdrawInputs(props) {
    const InputRef = useRef(null);
    const ConvertButtonRef = useRef(null);
    const MaxButtonRef = useRef(null);
-   const ConvDivRef = useRef(null);
+   const ConvMsgRef = useRef(null);
    const [usdWithdrawAmount, setUsdWithdrawAmount] = useState('');
    const [exceedsBalance, setExceedsBalance] = useState(false);
    const [isMoreThanMin, setIsMoreThanMin] = useState(false);
@@ -49,7 +50,7 @@ function WithdrawInputs(props) {
    function handleConversionReset(event) {
       event.preventDefault();
       disableInput(false);
-      ConvDivRef.current.innerHTML = '';
+      ConvMsgRef.current.innerHTML = '';
       setValueValid(false);
    }
 
@@ -79,16 +80,13 @@ function WithdrawInputs(props) {
       disableInput(true);
       fetchData(event)
          .then(data => {
-            const newElement = document.createElement("p");
             if (+data.usd >= 20 && data.result) {
                setValueValid(data.result);
-               newElement.textContent = `The GBP value of your withdrawal will be £${data.gbp}`;
+               ConvMsgRef.current.textContent = `You will recieve £${data.gbp}`;
             } else {
-               newElement.textContent = 'Invalid amount';
+               ConvMsgRef.current.textContent = 'Invalid amount';
             }
             setIsLoading(false);
-            //if data.gbp is less than 20, display a message saying that the withdrawal amount is less than £20
-            ConvDivRef.current.appendChild(newElement);
 
          }).catch(error => {
          console.error('Error:', error);
@@ -101,22 +99,33 @@ function WithdrawInputs(props) {
 
    return (
       <div>
-         <h3>Request Withdrawal</h3>
-         <p>Please enter a withdrawal amount and convert to GBP:</p>
-         <p>Your account balance is ${props.max}</p>
+         <h1>Request Withdrawal</h1>
+         <p>Your account balance is <span>${props.max}</span></p>
          <form onSubmit={ConfirmAndConvertUsd}>
             <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
-            <input ref={InputRef} type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
-            {isInputValid && <button ref={ConvertButtonRef} id="convert-btn" onClick={ConfirmAndConvertUsd}>Convert</button>}
+            <input className="form-control" ref={InputRef} type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" placeholder="$100" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
+            {isInputValid && 
+               <LoadingButton
+                  className="btn"
+                  id="convert-btn"
+                  ref={ConvertButtonRef}
+                  loading={isLoading}
+                  loadingPosition="end"
+                  endIcon={<SendIcon />}
+                  variant="outlined"
+                  onClick={ConfirmAndConvertUsd}
+                  >
+                  Convert
+               </LoadingButton> 
+            }
+            <button className="btn" ref={MaxButtonRef} onClick={setToMax} >Max</button>
          </form>
-         {exceedsBalance && <span>Amount entered exceeds account balance</span>}
-         {!isMoreThanMin && <span>Amount needs to equal $20 or more</span>}
-         <button ref={MaxButtonRef} onClick={setToMax} >Max</button>
+         {exceedsBalance && <span className="user-msg">Amount entered exceeds account balance</span>}
+         {!isMoreThanMin && <span className="user-msg">$20 minimum withdrawal</span>}
+         
 
-         <div ref={ConvDivRef} ></div>
-         {/* {isLoading &&
-            <PropagateLoader color={"#5f66e6"} size={25} aria-label="Loading Spinner" data-testid="loader"/>
-         } */}
+         <p ref={ConvMsgRef} className="conv-data"></p>
+
          {isInputValid && valueValid &&
             <ContinueResetButtons link={'/withdraw/withdraw-details'} handleConversionReset={handleConversionReset}/>
          }

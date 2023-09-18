@@ -4,22 +4,17 @@
 
 {% block body %}
 
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
+<section class="withdraw-confirm">
+    <h1>Confirm Withdrawal</h1>
 
-    <div class="example-wrapper">
-        <h3>Confirm Withdrawal</h3>
+    <p>You are about to withdraw <strong>£{{ gbpWithdrawAmount }}</strong> to the account with the sort code of <strong>{{ sortCode }}</strong> and the account number of <strong>{{ accountNo }}</strong>.</p>
+    <p><strong>${{ usdWithdrawAmount }}</strong> will be deducted from your DeFi Works account balance.</p>
+    <p>Please ensure these details are correct as funds may be unrecoverable if sent to the wrong account.</p>
 
-        <p>You are about to withdraw £{{ gbpWithdrawAmount }} to the account with the sort code of {{ sortCode }} and the account number of {{ accountNo }}.</p>
-        <p>${{ usdWithdrawAmount }} will be deducted from your account balance.</p>
-
-        <form method="post">
-            <button id="submit">Confirm Withdrawal</button>
-        </form>
-
-    </div>
+    <form method="post">
+        <button class="btn" id="submit">Confirm Withdrawal</button>
+    </form>
+</section>
 
     <script>
        //disable button after click

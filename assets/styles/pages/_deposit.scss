@@ -6,12 +6,6 @@ section.deposit-wrapper {
   }
   form {
     input {
-      margin: 1rem 0;
-      width:95%;
-      @media (min-width: $medium) {
-        max-width: 300px;
-        margin: .75rem 0 .5rem 0;
-      }
       &.disabled {
         background-color: #848484 !important;
       }
@@ -50,7 +44,7 @@ section.deposit-wrapper {
       width:95%;
       margin-bottom: .5rem;
       @media (min-width: $medium) {
-        max-width: 125px;
+        max-width: 200px;
       }
     }
     a {

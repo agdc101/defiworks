@@ -1,0 +1,24 @@
+section.withdraw-details {
+    p {
+        color: $secondary;
+        font-weight: 300;
+        margin: 0 0 1.5rem 0;
+        letter-spacing: .05rem;
+    }
+    form {
+        div {
+            margin: 1rem 0;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            color: red;
+            font-style: italic;
+        }
+        input {
+            @media (min-width: 600px) {
+                max-width: 350px;
+            }
+        }
+    }
+}
