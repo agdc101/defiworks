@@ -1,0 +1,26 @@
+section.transaction-history {
+  p {
+    color: $tertiary;
+    font-weight: 200;
+    letter-spacing: 0.05rem;
+  }
+  table {
+    margin: 1rem 0;
+    @media (min-width:$medium) {
+      width: 100%;
+    }
+    tr {
+      th:nth-of-type(1) {
+        width:10%;
+      }
+      th:nth-of-type(4) {
+        width: 30%;
+      }
+      th {
+        width:20%;
+        text-align: left;
+        margin: 0 .25rem;
+      }
+    }
+  }
+}

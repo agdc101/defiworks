@@ -27,7 +27,7 @@ function TransactionHistory({ deposits, withdrawals }) {
    return (
       <div>
          <h1>Transaction History</h1>
-         <a href="/dashboard">Back to Dashboard</a>
+         <p>Please select your transaction type</p>
          <select onChange={handleSelectChange}>
             <option value="withdrawals">Withdrawals</option>
             <option value="deposits">Deposits</option>
@@ -36,11 +36,11 @@ function TransactionHistory({ deposits, withdrawals }) {
          <thead>
          {(transactionList.length > 0) && 
             <tr>
-               <th>Transaction ID</th>
-               <th>USD Amount</th>
-               <th>GBP Amount</th>
-               <th>Timestamp</th>
-               <th>Verified</th>
+               <th>ID</th>
+               <th>Value ($)</th>
+               <th>Value (£)</th>
+               <th>Date</th>
+               <th>Verified?</th>
             </tr>
          }
          </thead>
