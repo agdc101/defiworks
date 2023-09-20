@@ -1,13 +1,25 @@
 section.transaction-history {
+  select {
+    border-radius: 4px;
+    padding: 0.2rem;
+    font-weight:500;
+  }
   p {
     color: $tertiary;
     font-weight: 200;
     letter-spacing: 0.05rem;
   }
   table {
-    margin: 1rem 0;
+    margin: 1.5rem 0;
     @media (min-width:$medium) {
       width: 100%;
+    }
+    th {
+      color:$tertiary;
+      font-weight: 200;
+    }
+    td:nth-of-type(5) {
+      padding-left:1.2rem;
     }
     tr {
       th:nth-of-type(1) {
