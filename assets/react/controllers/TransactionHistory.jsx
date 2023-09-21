@@ -9,7 +9,12 @@ function TransactionHistory({ deposits, withdrawals }) {
    }
 
    const transactionList = useMemo(() => {
-      const transactions = selected === 'withdrawals' ? withdrawals : deposits;
+      const transactions = selected === 'withdrawals'
+      ? withdrawals
+      : selected === 'deposits'
+      ? deposits
+      : [];
+     
 
       return transactions.map((transaction, index) => (
          <TransactionItem
