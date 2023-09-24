@@ -85,4 +85,42 @@ body {
         height:25px;
         margin-bottom:.25rem;
     }
+    .dash-buttons {
+        margin: 2.5rem 0 0 0;
+        @media (min-width: $medium) {
+          margin: 3rem 0 0 0;
+        }
+        .dash-item {
+          margin: .5rem;
+          padding:0 .5rem .5rem .5rem;
+          background-color:black;
+          border-radius: .75rem;
+          border: 1px solid black;
+          transition: all .3s ease-in-out;
+          cursor: pointer;
+          font-size:.9rem;
+          font-weight:200;
+          @media (min-width: $medium) {
+            padding: 1rem .5rem;
+            margin: 1rem;
+            width: 30%;
+          }
+          @media (min-width: $large) {
+            width: 20%;
+            padding:0 0 .75rem 0;
+          }
+          a.disable-btn {
+            color: #444444;
+          }
+          &:hover, &:focus, &:active {
+            border: 0.05rem solid $textLightBlue;
+          }
+        }
+        .disabled {
+          cursor: default;
+          &:hover, &:focus {
+            border: 1px solid black;
+          }
+        }
+      }
 }

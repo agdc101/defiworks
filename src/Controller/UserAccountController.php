@@ -32,8 +32,7 @@ class UserAccountController extends AbstractController
         }
 
         return $this->render('user-account/user-account.html.twig', [
-            'controller_name' => 'UserAccountController',
-            'updateUserForm' => $form->createView(),
+            'updateUserForm' => $form->createView()
         ]);
     }
 

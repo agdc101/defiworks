@@ -39,18 +39,18 @@ function TransactionHistory({ deposits, withdrawals }) {
             <option value="withdrawals">Withdrawals</option>
          </select>
          <table>
-         <thead>
-         {(transactionList.length > 0) && 
-            <tr>
-               <th>ID</th>
-               <th>Value ($)</th>
-               <th>Value (£)</th>
-               <th>Date</th>
-               <th>Verified?</th>
-            </tr>
-         }
-         </thead>
-            {(transactionList.length === 0) ? <tr><td colSpan="5">No transactions to display</td></tr> : transactionList}
+            {(transactionList.length > 0) && 
+               <tbody>
+                  <tr>
+                     <th>ID</th>
+                     <th>Value ($)</th>
+                     <th>Value (£)</th>
+                     <th>Date</th>
+                     <th>Verified?</th>
+                  </tr>
+               </tbody>
+            }
+            {(transactionList.length === 0 && selected !== '') ? <tbody><tr><td colSpan="5">No transactions to display</td></tr></tbody> : transactionList}
          </table>
       </div>
    );
