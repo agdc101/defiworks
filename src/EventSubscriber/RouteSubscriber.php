@@ -28,7 +28,7 @@ class RouteSubscriber implements EventSubscriberInterface
         $session = $request->getSession();
         $pathInfo = $request->getPathInfo();
 
-        if ((str_starts_with($pathInfo, '/withdraw') || str_starts_with($pathInfo, '/deposit')) && !str_ends_with($pathInfo, 'success')) {
+        if ((str_starts_with($pathInfo, '/withdraw') || str_starts_with($pathInfo, '/deposit') || str_starts_with($pathInfo, '/transaction')) && !str_ends_with($pathInfo, 'success')) {
            $token = $this->tokenStorage->getToken();
 
             if (!$session->get('userPin')) {

@@ -33,11 +33,11 @@
     lord-icon {
       display: block;
       margin: 0 auto;
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       @media (min-width: $large) {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
       }
     }
     a {
