@@ -8,7 +8,7 @@ function TransactionItem(props) {
             <td>${props.usd}</td>
             <td>£{props.gbp}</td>
             <td>{props.timestamp}</td>
-            <td>{props.isVerified ? '✓' : 'not verified'}</td>
+            <td>{props.isVerified ? '✓' : '✕'}</td>
          </tr>
       </tbody>
    );

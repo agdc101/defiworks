@@ -14,16 +14,26 @@ function TransactionHistory({ deposits, withdrawals }) {
       : selected === 'deposits'
       ? deposits
       : [];
-     
 
-      return transactions.map((transaction, index) => (
+      if (transactions.length === 0) {
+         return [];
+      } else {
+         const dateString = transactions[0].timestamp.date;
+         const parts = dateString.split(" "); // Split the string into date and time parts
+         const datePart = parts[0]; // Get the date part
+      
+         console.log(datePart);
+      }
+
+
+      return transactions.map((transaction, index) => (       
          <TransactionItem
             key={index}
             id={transaction.id}
             usd={transaction.usd_amount}
             gbp={transaction.gbp_amount}
             //replaces trailing zeros with spaces on timestamp
-            timestamp={transaction.timestamp.date.replace(/.0+$/, match => ' '.repeat(match.length))}
+            timestamp={transaction.timestamp.date.split(' ')[0].replace(/.0+$/, match => ' '.repeat(match.length))}
             isVerified={transaction.is_verified}
          />
       ));
