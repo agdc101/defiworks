@@ -1,0 +1,19 @@
+
+section.lost-error {
+    margin:6rem auto;
+    text-align: center;
+    img {
+        width: 150px;
+        height: 150px;
+        @media (min-width: $medium) {
+            width: 200px;
+            height: 200px;
+        }
+    }
+    p {
+        font-size:1.7rem;
+        font-weight: 100;
+        margin: 1.5rem 0;
+        letter-spacing: 0.05rem;
+    }
+}
