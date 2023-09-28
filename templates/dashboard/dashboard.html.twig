@@ -45,35 +45,60 @@
     </section>
 
     <section class="dash-buttons">
-        <div {% if balance is null or balance == 0 or pendingBalance != 0  %} class="dash-item disabled"{% else  %} class="dash-item" {% endif %} >
-             <a {% if balance is null or balance == 0 or pendingBalance != 0  %} class="deposit-btn disable-btn"{% else  %} class="deposit-btn" {% endif %} href="{{ path('app_deposit') }}">
-                <lord-icon
-                    class="deposit-icon"
-                    src="https://cdn.lordicon.com/yeallgsa.json"
-                    trigger="hover"
-                    colors="primary:#5d66e6,secondary:#ffffff"
-                    stroke="25"
-                    target="div">
-                </lord-icon>
-            Deposit</a>
-            {# <lord-icon
-                src="https://cdn.lordicon.com/huwchbks.json"
-                trigger="hover"
-                colors="primary:#5d66e6,secondary:#ffffff"
-                style="width:250px;height:250px">
-            </lord-icon> #}
-        </div>
-        <div {% if balance is null or balance == 0 or pendingBalance != 0  %} class="dash-item disabled"{% else  %} class="dash-item" {% endif %} >
-            <a {% if balance is null or balance == 0 or pendingBalance != 0  %} class="withdraw-btn disable-btn"{% else  %} class="withdraw-btn" {% endif %} href="{{ path('app_withdraw') }}">
-                <lord-icon
-                    src="https://cdn.lordicon.com/rgyftmhc.json"
-                    trigger="hover"
-                    colors="primary:#ffffff,secondary:#5d66e6"
-                    stroke="25"
-                    target="div">
-                </lord-icon>
-            Withdraw</a>
-        </div>
+        {# -- Deposit Button -- #}
+        {% if balance is null or balance == 0 or pendingBalance != 0  %}
+            <div class="dash-item disabled">
+                <a class="deposit-btn disable-btn" href="{{ path('app_deposit') }}">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/yeallgsa.json"
+                        trigger="hover"
+                        colors="primary:#484848,secondary:#484848"
+                        stroke="25">
+                    </lord-icon>
+                Deposit</a>
+            </div>
+        {% else %}
+            <div class="dash-item">
+                <a class="deposit-btn" href="{{ path('app_deposit') }}">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/yeallgsa.json"
+                        trigger="hover"
+                        colors="primary:#5d66e6,secondary:#ffffff"
+                        stroke="25"
+                        target="div">
+                    </lord-icon>
+                Deposit</a>
+            </div>
+        {% endif %}
+        {# --------------------- #}
+
+        {# -- Withdraw Button -- #}
+        {% if balance is null or balance == 0 or pendingBalance != 0  %}
+            <div class="dash-item disabled">
+                <a class="withdraw-btn disable-btn" href="{{ path('app_withdraw') }}">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/rgyftmhc.json"
+                        trigger="hover"
+                        colors="primary:#484848,secondary:#484848"
+                        stroke="25">
+                    </lord-icon>
+                Deposit</a>
+            </div>
+        {% else %}
+            <div class="dash-item">
+                <a class="withdraw-btn" href="{{ path('app_withdraw') }}">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/rgyftmhc.json"
+                        trigger="hover"
+                        colors="primary:#ffffff,secondary:#5d66e6"
+                        stroke="25"
+                        target="div">
+                    </lord-icon>
+                Withdraw</a>
+            </div>
+        {% endif %}
+        {# --------------------- #}
+
         <div class="dash-item">
             <a href="{{ path('app_transaction_history') }}">
                 <lord-icon
@@ -85,13 +110,8 @@
                 </lord-icon>
             Transaction History</a>
         </div>
+
         <div class="dash-item">
-            {# <lord-icon
-                src="https://cdn.lordicon.com/dxjqoygy.json"
-                trigger="hover"
-                colors="primary:#ffffff,secondary:#5d66e6"
-                style="width:250px;height:250px">
-            </lord-icon> #}
             <a href="{{ path('app_user_account') }}">
                 <lord-icon
                     src="https://cdn.lordicon.com/sbiheqdr.json"
