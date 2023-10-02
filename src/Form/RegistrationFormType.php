@@ -96,7 +96,7 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new Length([
                         'min' => 5,
-                        'minMessage' => 'Your Post Code should be at least {{ limit }} characters',
+                        'minMessage' => 'Your Postcode should be at least {{ limit }} characters',
                         // max length allowed by Symfony for security reasons
                         'max' => 10,
                     ]),
@@ -110,14 +110,14 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new Length([
                         'min' => 2,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Your county should be at least {{ limit }} characters',
                         // max length allowed by Symfony for security reasons
                         'max' => 250,
                     ]),
                     new Regex([
                         'match' => false,
                         'pattern' => '~[0-9]~',
-                        'message' => 'The first name you have entered is not valid'
+                        'message' => 'The county you have entered is not valid'
                     ])
                 ],
                 'attr' => [

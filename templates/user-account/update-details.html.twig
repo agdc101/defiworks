@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DeFi Works - Update your details{% endblock %}
+
+{% block body %}
+
+    <section class="update-details">
+
+        <h1>Update your details</h1>
+
+        <p>Update your account details</p>
+
+        <p>For any other account changes please contact <a maito="admin@defiworks.co.uk">admin@defiworks.co.uk</a></p>
+
+        {% for message in app.flashes('update_success') %}
+            <div class="alert alert-success" role="alert">{{ message }}</div>
+        {% endfor %}
+
+        <div>
+            {{ form_start(updateUserForm) }}
+                {{ form_row(updateUserForm.email) }}
+                {{ form_row(updateUserForm.address) }}
+                {{ form_row(updateUserForm.city) }}
+                {{ form_row(updateUserForm.postCode) }}
+                {{ form_row(updateUserForm.county) }}
+                <button class="btn" type="submit" class="btn">Update</button>
+                <a href="{{ path('app_user_account') }}" class="back-btn"><i style="color:#8272e7;" class="fa fa-arrow-left" aria-hidden="true"></i> Go Back</a>
+            {{ form_end(updateUserForm) }}
+        </div>
+    </section>
+{% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserAccountController!{% endblock %}
+{% block title %}DeFi Works - Account Management!{% endblock %}
 
 {% block body %}
 
@@ -8,29 +8,13 @@
 
     <h1>Account Management</h1>
 
-    <p>Update your details:</p>
+    <p>Please contact us at <a mailto="admin@defiworks.co.uk">admin@defiworks.co.uk</a> for any problems or enquiries.</p>
 
-    {% for message in app.flashes('update_success') %}
-        <div class="alert alert-danger" role="alert">{{ message }}</div>
-    {% endfor %}
-    <div>
-        {{ form_start(updateUserForm) }}
-            {{ form_row(updateUserForm.address) }}
-            {{ form_row(updateUserForm.city) }}
-            {{ form_row(updateUserForm.postCode) }}
-            {{ form_row(updateUserForm.county) }}
-            <button class="btn" type="submit" class="btn">Update</button>
-        {{ form_end(updateUserForm) }}
-    </div>
-
-    <div class="dash-buttons">
-        <a class="dash-item" href="{{ path('app_dashboard') }}">Back</a>
-        <a class="dash-item" href="{{ path('app_forgot_password_request') }}">Reset your password</a>
-        <a class="dash-item" href="{{ path('app_close_user_account') }}">Close my account</a>
-    </div>
-
-    <div>
-        <p>Please contact us at <a mailto="admin@defiworks.co.uk">admin@defiworks.co.uk</a> for any other change requests.</p>
+    <div class="user-options">
+        <a class="dash-item" href="{{ path('app_update_details') }}">Update your details</a>
+        <a href="{{ path('app_forgot_password_request') }}">Reset your password</a>
+        <a href="{{ path('app_close_user_account') }}">Close my account</a>
+        <a class="back-btn" href="{{ path('app_dashboard') }}"><i style="color:#8272e7;" class="fa fa-arrow-left" aria-hidden="true"></i> Go Back</a>
     </div>
 
 </section>

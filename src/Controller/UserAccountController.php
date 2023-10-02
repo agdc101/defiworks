@@ -17,7 +17,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserAccountController extends AbstractController
 {
     #[Route('/user-account', name: 'app_user_account')]
-    public function index(Request $request, EntityManagerInterface $entityManager, AppServices $appServices): Response
+    public function index(): Response
+    {
+        return $this->render('user-account/user-account.html.twig');
+    }
+
+    #[Route('/user-account/update-details', name: 'app_update_details')]
+    public function displayUpdateDetailsTemplate(Request $request, EntityManagerInterface $entityManager, AppServices $appServices): Response
     {
 
         $user = $appServices->getUserOrThrowException();
@@ -31,13 +37,13 @@ class UserAccountController extends AbstractController
             $this->addFlash('update_success', 'Your details have been updated successfully.');
         }
 
-        return $this->render('user-account/user-account.html.twig', [
+        return $this->render('user-account/update-details.html.twig', [
             'updateUserForm' => $form->createView()
         ]);
     }
 
     #[Route('/user-account/close-user-account', name: 'app_close_user_account')]
-    public function displayCloseLanding(): Response
+    public function displayCloseAccount(): Response
     {
         return $this->render('user-account/close-account.html.twig');
     }
