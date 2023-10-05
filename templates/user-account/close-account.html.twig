@@ -3,12 +3,11 @@
 {% block title %}DeFi Works{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
-
-    <p>Are you sure you want to close your DeFi Works account?</p>
-    <p>If so, please ensure you have withdrawn all your funds before closing your account.</p>
-    <a href="{{ path('app_close_user_account_confirm') }}">Close Account</a>
-    <a href="{{ path('app_user_account') }}">Back</a>
+    <section class="close-account">
+        <h1>Close your account</h1>
+        <p>Are you sure you want to close your DeFi Works account?</p>
+        <p>If so, please ensure you have withdrawn all your funds before closing your account.</p>
+        <a href="{{ path('app_close_user_account_confirm') }}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp Close account</a>
+        <a class="back-btn" href="{{ path('app_user_account') }}"><i style="color:#8272e7;" class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+    </section>
 {% endblock %}
