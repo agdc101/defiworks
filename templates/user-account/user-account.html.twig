@@ -11,11 +11,12 @@
     <p>Please contact us at <a mailto="admin@defiworks.co.uk">admin@defiworks.co.uk</a> for any problems or enquiries.</p>
 
     <div class="user-options">
-        <a class="dash-item" href="{{ path('app_update_details') }}">Update your details</a>
-        <a href="{{ path('app_forgot_password_request') }}">Reset your password</a>
-        <a href="{{ path('app_close_user_account') }}">Close my account</a>
-        <a class="back-btn" href="{{ path('app_dashboard') }}"><i style="color:#8272e7;" class="fa fa-arrow-left" aria-hidden="true"></i> Go Back</a>
+        <a href="{{ path('app_update_details') }}"><i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp Update your details</a>
+        <a href="{{ path('app_forgot_password_request') }}"><i class="fa fa-unlock-alt" aria-hidden="true"></i> &nbsp Reset your password</a>
+        <a href="{{ path('app_close_user_account') }}"><i class="fa fa-times" aria-hidden="true"></i> &nbsp Close my account</a>
     </div>
+    <a class="back-btn" href="{{ path('app_dashboard') }}"><i style="color:#8272e7;" class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+
 
 </section>
 {% endblock %}

@@ -16,7 +16,10 @@ body {
     left:-300px;
     bottom: 0;
     position: absolute;
-}
+  }
+  a {
+    transition: color .2s ease-in-out;
+  }
 }
 .content-wrapper {
     width:90%;
@@ -126,7 +129,7 @@ body {
     .back-btn {
       display: block;
       color:white;
-      font-size:.975rem;
+      font-size:.9rem;
       margin-top:.75rem;
       text-decoration: none;
       letter-spacing: 0.075rem;
