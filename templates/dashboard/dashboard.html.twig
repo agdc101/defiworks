@@ -7,7 +7,7 @@
 {#  prints verification success message  #}
 {% for message in app.flashes('success') %}
     {% if loop.first %}
-        <div class="alert alert-success">
+        <div class="success-alert">
             {{ message }}
         </div>
     {% endif %}
@@ -46,7 +46,7 @@
 
     <section class="dash-buttons">
         {# -- Deposit Button -- #}
-        {% if balance is null or balance == 0 or pendingBalance != 0  %}
+        {% if pendingBalance != 0  %}
             <div class="dash-item disabled">
                 <a class="deposit-btn disable-btn" href="{{ path('app_deposit') }}">
                     <lord-icon
@@ -82,7 +82,7 @@
                         colors="primary:#484848,secondary:#484848"
                         stroke="25">
                     </lord-icon>
-                Deposit</a>
+                Withdraw</a>
             </div>
         {% else %}
             <div class="dash-item">

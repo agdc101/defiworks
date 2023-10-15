@@ -8,6 +8,14 @@
     <div class="danger-alert" role="alert">{{ message }}</div>
 {% endfor %}
 
+{% for message in app.flashes('success') %}
+    {% if loop.first %}
+        <div class="success-alert">
+            {{ message }}
+        </div>
+    {% endif %}
+{% endfor %}
+
 <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
 <form class="login-form" method="post">
     <fieldset>

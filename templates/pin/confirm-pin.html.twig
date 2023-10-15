@@ -8,6 +8,14 @@
         <div class="danger-alert" role="alert">{{ message }}</div>
     {% endfor %}
 
+    {% for message in app.flashes('success') %}
+        {% if loop.first %}
+            <div class="success-alert">
+                {{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+
     <h1>Enter Pin</h1>
 
     {{ form_start(PinForm) }}

@@ -68,6 +68,7 @@ body {
     .user-success-msg {
         color: lightgreen;
         text-align: center;
+        font-size: .85rem;
         text-transform: uppercase;
         letter-spacing: 0.15rem;
         @media (min-width: $large) {
@@ -137,12 +138,18 @@ body {
         color:lightgrey;
       }
     }
-    .danger-alert {
-      color:red;
+    .danger-alert,
+    .success-alert {
       text-transform: uppercase;
       letter-spacing: 0.05rem;
       font-size:.9rem;
       font-weight:200;
-      margin:1rem 0;
+      margin:1.25rem 0;
+    }
+    .danger-alert {
+      color:red;
+    }
+    .success-alert {
+      color:lightgreen;
     }
 }
