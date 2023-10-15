@@ -137,5 +137,12 @@ body {
         color:lightgrey;
       }
     }
-      
+    .danger-alert {
+      color:red;
+      text-transform: uppercase;
+      letter-spacing: 0.05rem;
+      font-size:.9rem;
+      font-weight:200;
+      margin:1rem 0;
+    }
 }

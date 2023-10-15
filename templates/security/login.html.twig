@@ -5,7 +5,7 @@
 {% block body %}
 
 {% for message in app.flashes('verifyMessage') %}
-    <div class="alert alert-danger" role="alert">{{ message }}</div>
+    <div class="danger-alert" role="alert">{{ message }}</div>
 {% endfor %}
 
 <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
@@ -14,11 +14,11 @@
         <legend>Please enter your login credentials:</legend>
 
         {% if error is not null %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div class="danger-alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
         {% for flash_error in app.flashes('password_reset_success') %}
-            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+            <div class="danger-alert" role="alert">{{ flash_error }}</div>
         {% endfor %}
 
         <div class="form-fields-wrapper">
