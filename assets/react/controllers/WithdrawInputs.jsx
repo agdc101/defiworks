@@ -19,6 +19,7 @@ function WithdrawInputs(props) {
    // function that checks if the USD input is valid
    function checkUsdIsValid(value) {
       {(+value >= 20) ? setIsMoreThanMin(true) : setIsMoreThanMin(false)}
+      console.log(value, props.max);
       {(+value <= +props.max) ? setExceedsBalance(false) : setExceedsBalance(true)}
    }
 
@@ -43,6 +44,8 @@ function WithdrawInputs(props) {
    }
 
    function withdrawalInputChangeHandler(event) {
+      const pattern = /^[0-9, ]*$/;
+      if (!pattern.test(event.target.value)) return;
       checkUsdIsValid(event.target.value.replace(/,/g, ''));
       validateAndSetUsd(event.target.value.toString());
    }
@@ -107,6 +110,7 @@ function WithdrawInputs(props) {
             {isInputValid && 
                <LoadingButton
                   className="btn"
+                  style={{ fontSize: "0.825rem" }}
                   id="convert-btn"
                   ref={ConvertButtonRef}
                   loading={isLoading}

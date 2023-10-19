@@ -112,6 +112,7 @@ const DepositInputs = () =>  {
                      <LoadingButton
                         className="btn"
                         id="convert-btn"
+                        style={{ fontSize: "0.9rem" }}
                         ref={ButtonRef}
                         loading={isLoading}
                         loadingPosition="end"
