@@ -107,7 +107,7 @@ const DepositInputs = () =>  {
             <div>
                <form onSubmit={ConfirmAndConvertGbp}>
                   <label htmlFor="GbpDepositAmount">Deposit Amount in GBP (£)</label>
-                  <input placeholder="£100" className="form-control" ref={InputRef} type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="8" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
+                  <input placeholder="£100" ref={InputRef} type="text" id="GbpDepositAmount" name="GbpDepositAmount" maxLength="8" onChange={setGbpDepositAmountHandler} value={gbpDepositAmount}/>
                   {isGbpValid && 
                      <LoadingButton
                         className="btn"

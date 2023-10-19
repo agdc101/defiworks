@@ -19,7 +19,6 @@ function WithdrawInputs(props) {
    // function that checks if the USD input is valid
    function checkUsdIsValid(value) {
       {(+value >= 20) ? setIsMoreThanMin(true) : setIsMoreThanMin(false)}
-      console.log(value, props.max);
       {(+value <= +props.max) ? setExceedsBalance(false) : setExceedsBalance(true)}
    }
 
@@ -31,10 +30,8 @@ function WithdrawInputs(props) {
 
    //validate input, regex check for letters, remove commas from the value, then format the value to have the correct commas
    function validateAndSetUsd(value) {
-      const pattern = /^[0-9,. ]*$/;
-      if (!pattern.test(value)) return;
       const strippedVal = value.replace(/,/g, '');
-      let formattedValue = Number(strippedVal).toLocaleString();
+      let formattedValue = strippedVal.toLocaleString();
       (formattedValue === '0') ? setUsdWithdrawAmount('') : setUsdWithdrawAmount(formattedValue);
    }
 
@@ -44,7 +41,7 @@ function WithdrawInputs(props) {
    }
 
    function withdrawalInputChangeHandler(event) {
-      const pattern = /^[0-9, ]*$/;
+      const pattern = /^[0-9,. ]*$/;
       if (!pattern.test(event.target.value)) return;
       checkUsdIsValid(event.target.value.replace(/,/g, ''));
       validateAndSetUsd(event.target.value.toString());
@@ -106,7 +103,7 @@ function WithdrawInputs(props) {
          <p>Your account balance is <span>${props.max}</span></p>
          <form onSubmit={ConfirmAndConvertUsd}>
             <label htmlFor="UsdWithdrawAmount">Withdrawal Amount In USD($)</label>
-            <input className="form-control" ref={InputRef} type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" placeholder="$100" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
+            <input ref={InputRef} type="text" id="UsdWithdrawAmount" name="UsdWithdrawAmount" placeholder="$100" maxLength="8" onChange={withdrawalInputChangeHandler} value={usdWithdrawAmount}/>
             {isInputValid && 
                <LoadingButton
                   className="btn"

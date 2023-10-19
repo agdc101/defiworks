@@ -6,8 +6,18 @@ section.deposit-wrapper {
   }
   form {
     input {
-      &.disabled {
-        background-color: #848484 !important;
+      width: 100%;
+      display: block;
+      padding: 0.5rem;
+      border-radius: 0.25rem;
+      border: none;
+      box-shadow: none;
+      background-color: white !important;
+      &[disabled] {
+        background-color: #727272 !important;
+        &:hover {
+          cursor: not-allowed;
+        }
       }
     }
     button {
