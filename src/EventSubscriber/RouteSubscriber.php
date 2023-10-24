@@ -94,6 +94,13 @@ class RouteSubscriber implements EventSubscriberInterface
             }
         }
 
+        if (str_starts_with($pathInfo, '/user-account') || str_starts_with($pathInfo, '/transaction-history')) {
+            //get user balance from user object
+            if (!$session->get('userPin')) {
+                $event->setResponse(new RedirectResponse($request->getUriForPath('/enter-pin')));
+             }
+        }
+
 
 
     }
