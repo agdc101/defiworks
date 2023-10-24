@@ -1,25 +1,22 @@
 body {
     background: #130e1f;
     text-align: center;
-    padding:2rem 1rem;
+    padding:6rem 1rem 2rem 1rem;
 }
 img {
-    width: clamp(120px, 85px, 400px);
+    width: clamp(130px, 95px, 450px);
     margin-bottom: 2.5rem;
-}
-h1 {
-    font-weight: 500;
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 400;
 }
 
 p {
+    color: #9e9e9e;
+    margin-bottom:2.5rem;
+    font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
     font-size: clamp(1rem, 3vw, 1.5rem);
     font-weight: 200;
 }
-
-h1, p{
-    color: #606060;
-    margin-bottom:2.5rem;
-    font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
+p:nth-of-type(2) {
+    color:#8272e7;
+    font-weight: 100;
+    font-size:1.4rem;
 }
