@@ -61,6 +61,7 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
+                $this->addFlash('success', 'Thank You. Your email address has now been verified.');
 
                 $userAuthenticator->authenticateUser(
                 $user,
@@ -81,6 +82,7 @@ class RegistrationController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $user->setRoles(["ROLE_USER"]);
+
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
@@ -105,6 +107,6 @@ class RegistrationController extends AbstractController
 
         $this->addFlash('success', 'Thank You. Your email address has now been verified.');
 
-        return $this->redirectToRoute('app_dashboard');
+        return $this->redirectToRoute('app_home');
     }
 }
