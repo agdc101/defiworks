@@ -10,9 +10,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ResetPasswordRequestRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\ResetPasswordRequest;
 
 class UserAccountController extends AbstractController
 {
@@ -55,8 +57,17 @@ class UserAccountController extends AbstractController
     * @throws ContainerExceptionInterface
     */
    #[Route('/user-account/close-user-account/confirm', name: 'app_close_user_account_confirm')]
-    public function close(UserServices $userServices): Response
+    public function close(UserServices $userServices, AppServices $appServices, ResetPasswordRequestRepository $resetPasswordRequestRepository, EntityManagerInterface $entityManager): Response
     {
+        $user = $appServices->getUserOrThrowException();
+
+        $userPasswordRequest = $resetPasswordRequestRepository->findResetPasswordRequestByUserId($user->getId());  
+        
+        if ($userPasswordRequest) {
+            $resetPasswordRequestRepository->remove($userPasswordRequest);
+            $entityManager->flush();
+        }
+
         $userServices->removeUser();
         $this->container->get('security.token_storage')->setToken(null);
 

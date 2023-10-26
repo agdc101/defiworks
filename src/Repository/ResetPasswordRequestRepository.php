@@ -48,4 +48,9 @@ class ResetPasswordRequestRepository extends ServiceEntityRepository implements 
     {
         return new ResetPasswordRequest($user, $expiresAt, $selector, $hashedToken);
     }
+
+    public function findResetPasswordRequestByUserId(int $userId): ?ResetPasswordRequest
+    {
+        return $this->findOneBy(['user' => $userId]);
+    }
 }

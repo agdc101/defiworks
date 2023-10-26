@@ -140,11 +140,12 @@ body {
     }
     .danger-alert,
     .success-alert {
-      text-transform: uppercase;
       letter-spacing: 0.05rem;
-      font-size:.9rem;
-      font-weight:200;
-      margin:1.25rem 0;
+      font-size: 0.9rem;
+      font-weight: 200;
+      padding: 0.75rem;
+      border: 1px solid red;
+      margin: 2.5rem 0;
     }
     .danger-alert {
       color:red;
