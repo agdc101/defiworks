@@ -72,8 +72,10 @@ body {
         text-transform: uppercase;
         letter-spacing: 0.15rem;
         @media (min-width: $large) {
-            padding-left: 2.5rem;
+            padding-left: 1rem;
+            border: 1px solid $secondary;
             text-align: unset;
+            margin-bottom:2.5rem;
         }
     }
     input {

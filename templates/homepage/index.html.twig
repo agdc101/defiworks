@@ -10,6 +10,10 @@
         <div class="danger-alert" role="alert">{{ message }}</div>
     {% endfor %}
 
+    {% for message in app.flashes('success') %}
+        <div class="alert user-success-msg" role="alert">{{ message }}</div>
+    {% endfor %}
+
     <h1 class="app-title">DeFi Works</h1>
 
     <p>Current strategy is yielding{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</p>
