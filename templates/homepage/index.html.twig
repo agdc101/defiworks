@@ -4,8 +4,6 @@
 
 {% block body %}
 
-<div class="content-wrapper">
-
     {% for message in app.flashes('account_closed') %}
         <div class="danger-alert" role="alert">{{ message }}</div>
     {% endfor %}
@@ -48,6 +46,4 @@
 
     </section>
 
-
-</div>
 {% endblock %}
