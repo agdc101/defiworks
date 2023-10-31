@@ -1,0 +1,10 @@
+#particles-js {
+    position:absolute; 
+    z-index:-9; 
+    right: 0; 
+    left:950px; 
+    width:40%;
+    @media (min-width: $medium) {
+        display:unset!important;
+    }
+}
