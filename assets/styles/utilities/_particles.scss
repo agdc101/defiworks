@@ -2,9 +2,9 @@
     position:absolute; 
     z-index:-9; 
     right: 0; 
-    left:950px; 
+    left:50%; 
     width:40%;
-    @media (min-width: $medium) {
+    @media (min-width: $large) {
         display:unset!important;
     }
 }
