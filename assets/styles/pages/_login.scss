@@ -1,6 +1,6 @@
 .login-form {
     input {
-        background-color: rgb(238, 238, 238);
+        background-color: $julesPink;
     }
     .form-fields-wrapper {
         @media (min-width: $medium) {

@@ -67,6 +67,8 @@ body {
     }
     .user-success-msg {
         color: lightgreen;
+        width: 25%;
+        margin: 3rem auto;
         text-align: center;
         font-size: .85rem;
         text-transform: uppercase;
@@ -77,8 +79,9 @@ body {
             margin-bottom:2.5rem;
         }
     }
-    input {
+    input,select {
         margin: 1rem 0;
+        background: $julesPink;
         @media (min-width: 600px) {
           max-width: 325px;
           margin: .75rem 0 .5rem 0;
