@@ -1,10 +1,28 @@
-.app-title {
-    font-size:2.5rem;
-    @media (min-width: $medium) {
-        font-size:3.5rem;
+div.homepage-wrapper {
+    text-align:center;
+    .app-title {
+        font-size:2.5rem;
+        margin: 5.5rem 0 4rem 0;
+        font-family: 'Share Tech Mono', monospace;
+        @media (min-width: $large) {
+            font-size:5.5rem;
+        }
     }
-}
 
-.integrations {
-    margin: 5rem 0 2rem 0;
+    section.hero {
+        height:100vh;
+        p {
+            font-weight: 100;
+            text-transform: uppercase;
+            font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 0.15rem;
+            @media (min-width: $large) {
+                font-size:1.15rem;
+            }
+        }
+    }
+
+    section.integrations {
+        margin: 5rem 0 2rem 0;
+    }
 }
