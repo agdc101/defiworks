@@ -17,13 +17,12 @@
         {% endfor %}
 
         <section class="hero">
-
             <h1 class="app-title">DeFi Works</h1>
-            <p>Decentralised Finance. Streamlined.</p>
-
+            <p>Decentralised Finance, Streamlined</p>
+            <p>Strategies currently returning <strong>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %} APY</strong></p>
+            <button class="btn"><a href="{{ path('app_register') }}">Get Started</a></button>
         </section>
         
-        <p>Current strategy is yielding{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</p>
 
         <section class="integrations">
 
