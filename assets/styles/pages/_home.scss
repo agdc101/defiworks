@@ -1,42 +1,75 @@
 div.homepage-wrapper {
     text-align:center;
     .app-title {
-        font-size:2.5rem;
-        margin: 5.5rem 0 3.5rem 0;
+        font-size:3.5rem;
+        margin: 5.5rem 0 2rem 0;
         font-family: 'Share Tech Mono', monospace;
         @media (min-width: $large) {
-            font-size:5.5rem;
+            font-size:6rem;
         }
     }
     section.hero {
         height:100vh;
-        p {
-            font-size:1.1rem;
-            font-family: 'Share Tech Mono', monospace;
-            strong {
-                font-size:1.4rem;
+        .hero-content {
+            // animation: fade 2s ease-in-out 1s;
+            p {
+                font-family: 'Share Tech Mono', monospace;
+                letter-spacing: 0.15rem;
             }
-        }
-        p:nth-of-type(1) {
-            font-weight: 100;
-            // text-transform: uppercase;
-            letter-spacing: 0.15rem;
-            margin: 1rem 0 5rem 0;
-            @media (min-width: $large) {
-                font-size:1.2rem;
+            p:nth-of-type(1) {
+                font-weight: 100;
+                margin: 0 0 10% 0;
+                @media (min-width: $large) {
+                    font-size:1.5rem;
+                }
             }
-        }
-        button {
-            background: none;
-            border: 1px solid $secondary;
-            margin-top: 1.25rem;
-            a {
+            p:nth-of-type(2) {
+                strong {
+                    font-size:1.3rem;
+                }
+            }
+            button {
+                background: none;
+                border: 1px solid $secondary;
+                margin-top: 1.25rem;
+                width:50%;
+                @media (min-width: $medium) {
+                    width:25%;
+                }
+                a {
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    letter-spacing: 0.12rem;
+                    color:$textGrey;
+                    font-size: .8rem;
+                }
+            }
+            .hero-arrow {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top:40%;
                 text-decoration: none;
-                text-transform: uppercase;
-                font-style: italic;
-                letter-spacing: 0.075rem;
-                color:$textGrey;
-                font-size: .9rem;
+                @media (min-width: $medium) and (max-height: 1000px) {
+                    margin-top:10%;
+                }
+                span {
+                    font-family: 'Share Tech Mono', monospace;
+                    text-transform: uppercase;
+                    padding-bottom:1rem; 
+                    font-size:.8rem;
+                    letter-spacing: 0.35rem;
+                    color:white;       
+                }
+                #arrow {
+                    width:20px;
+                    height:20px;
+                    animation: bounce 1.5s ease-in-out 1.5s infinite;
+                    @media (min-width: $xxl) {
+                        width:30px;
+                        height:30px;
+                    }
+                }
             }
         }
     }

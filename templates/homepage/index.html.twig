@@ -18,11 +18,18 @@
 
         <section class="hero">
             <h1 class="app-title">DeFi Works</h1>
-            <p>Decentralised Finance, Streamlined</p>
-            <p>Strategies currently returning <strong>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %} APY</strong></p>
-            <button class="btn"><a href="{{ path('app_register') }}">Get Started</a></button>
+            <div class="hero-content">
+                <p>Decentralised Finance, Streamlined</p>
+                <p>Strategies returning  <strong>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %} APY</strong></p>
+                <button class="btn"><a href="{{ path('app_register') }}">Get Started</a></button>
+                <a class='hero-arrow' href="#nav"> 
+                    <span>Explore</span> 
+                    <svg id='arrow' viewBox="0 0 256 159" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M225.813 0L128 97.813L30.187 0L0 30.186L128 158.186L256 30.186L225.813 0Z" fill="#5d66e6"/>
+                    </svg>
+                </a>
+            </div>
         </section>
-        
 
         <section class="integrations">
 
