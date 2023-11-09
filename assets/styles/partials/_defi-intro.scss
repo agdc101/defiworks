@@ -1,0 +1,31 @@
+.defi-intro {
+    height: 80vh;
+    &-inner {
+        @media (min-width: $large) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        &-content {
+            @media (min-width: $large) {
+                width: 75%;
+                margin: 0 2.5rem;
+            }
+        }
+    }
+    h2 {
+        margin-bottom: 2rem;
+    }
+    p {
+        font-weight:100;
+        font-size: 1.3rem;
+        line-height: 1.6;
+    }
+    img {
+        margin-top:2rem;
+        width:90px;
+        height: 90px;
+        
+    }
+}

@@ -1,17 +1,22 @@
 div.homepage-wrapper {
     text-align:center;
-    .app-title {
-        font-size:3.5rem;
-        margin: 5.5rem 0 2rem 0;
-        font-family: 'Share Tech Mono', monospace;
-        @media (min-width: $large) {
-            font-size:6rem;
-        }
+    section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
     section.hero {
-        height:100vh;
+        height:90vh;
+        .app-title {
+            font-size:3.5rem;
+            margin-bottom: 2rem;
+            font-family: 'Share Tech Mono', monospace;
+            @media (min-width: $large) {
+                font-size:6rem;
+            }
+        }
         .hero-content {
-            // animation: fade 2s ease-in-out 1s;
             p {
                 font-family: 'Share Tech Mono', monospace;
                 letter-spacing: 0.15rem;
