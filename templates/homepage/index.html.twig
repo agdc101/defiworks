@@ -6,8 +6,6 @@
 
     <div class="homepage-wrapper">
 
-        {# <div style="display:none;" id="particles-js"></div> #}
-
         {% for message in app.flashes('account_closed') %}
             <div class="danger-alert" role="alert">{{ message }}</div>
         {% endfor %}
@@ -17,7 +15,7 @@
         {% endfor %}
 
         <section class="hero">
-            <h1 class="app-title">DeFi Works</h1>
+            <h1 class="app-title">deFi works</h1>
             <div class="hero-content">
                 <p>Decentralised Finance, Streamlined</p>
                 <p>Strategies returning  <strong>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %} APY</strong></p>
@@ -32,6 +30,8 @@
         </section>
 
         {% include 'partials/defi-intro.html.twig' %}
+
+        {% include 'partials/blockchain-intro.html.twig' %}
 
         {# {% include 'partials/integrations.html.twig' %} #}
 

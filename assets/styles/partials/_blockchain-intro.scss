@@ -1,10 +1,11 @@
-.defi-intro {
+.blockchain-intro {
     height: 50vh;
     &-inner {
         @media (min-width: $large) {
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: row-reverse;
             height: 100%;
         }
         &-content {
@@ -21,14 +22,6 @@
         font-weight:100;
         font-size: 1.3rem;
         line-height: 1.6;
-    }
-    img {
-        margin-top:2rem;
-        width:75px;
-        height: 75px;
-        @media (min-width: $large) {
-            width: 90px;
-            height: 90px;
-        }
+        margin-bottom: 2.5rem;
     }
 }

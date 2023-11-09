@@ -1,13 +1,13 @@
 body {
   margin:0;
   padding-bottom: 2rem;
-  background: $primary;
+  background: black;
   color:$textGrey;
   font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
   .svg-bg {
     background-image: url('/public/img/blob-new.svg');
     background-size: cover;
-    height: 100vh;
+    height: 250vh;
     background-repeat: no-repeat;
     z-index: -1;
     zoom: 1.4;
