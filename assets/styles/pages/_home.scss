@@ -1,12 +1,11 @@
 div.homepage-wrapper {
     text-align:center;
     section.hero {
-        height:90vh;
-        @media (min-width: $xl) {
-            height: 60vh;
+        @media (max-width: $xl) {
+            height: 90vh;
         }
         .hero-content {
-            margin-top: clamp(10%, 15%, 30%);
+            padding: 3rem 0 20% 0;
             p {
                 letter-spacing: 0.15rem;
             }

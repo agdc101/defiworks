@@ -1,5 +1,4 @@
 .defi-intro {
-    height: 50vh;
     &-inner {
         @media (min-width: $large) {
             display: flex;
@@ -14,21 +13,22 @@
             }
         }
     }
-    h2 {
-        margin-bottom: 2rem;
-    }
     p {
         font-weight:100;
         font-size: 1.3rem;
         line-height: 1.6;
+        margin-bottom: 4rem;
+        @media (min-width: $xl) {
+            font-size: 1.6rem;
+        }
     }
     img {
-        margin-top:2rem;
-        width:75px;
-        height: 75px;
+        margin-bottom: 2.5rem;
+        width:60px;
+        height: 60px;
         @media (min-width: $large) {
-            width: 90px;
-            height: 90px;
+            width: 75px;
+            height: 75px;
         }
     }
 }
