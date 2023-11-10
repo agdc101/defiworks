@@ -15,11 +15,11 @@
         {% endfor %}
 
         <section class="hero">
-            <h1 class="app-title">deFi works</h1>
             <div class="hero-content">
-                <p>Decentralised Finance, Streamlined</p>
+                <p>Decentralised Finance, <strong>Streamlined</strong></p>
                 <p>Strategies returning  <strong>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %} APY</strong></p>
                 <button class="btn"><a href="{{ path('app_register') }}">Get Started</a></button>
+                <button class="btn"><a href="{{ path('app_login') }}">Login</a></button>
                 <a class='hero-arrow' href="#nav"> 
                     <span>Explore</span> 
                     <svg id='arrow' viewBox="0 0 256 159" fill="none" xmlns="http://www.w3.org/2000/svg">

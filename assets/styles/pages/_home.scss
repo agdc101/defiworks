@@ -1,35 +1,21 @@
 div.homepage-wrapper {
     text-align:center;
-    section {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
     section.hero {
         height:90vh;
         @media (min-width: $xl) {
             height: 60vh;
         }
-        .app-title {
-            font-size:3.5rem;
-            font-weight: 100;
-            margin-bottom: 2rem;
-            // font-family: 'Share Tech Mono', monospace;
-            @media (min-width: $large) {
-                font-size:5rem;
-            }
-        }
         .hero-content {
+            margin-top: clamp(10%, 15%, 30%);
             p {
                 letter-spacing: 0.15rem;
             }
             p:nth-of-type(1) {
                 font-weight: 100;
                 margin: 0 0 10% 0;
-                font-size:1.2rem;
+                font-size:1.75rem;
                 @media (min-width: $large) {
-                    font-size:1.3rem;
+                    font-size:3rem;
                 }
             }
             p:nth-of-type(2) {

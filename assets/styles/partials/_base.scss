@@ -5,9 +5,9 @@ body {
   color:$textGrey;
   font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
   .svg-bg {
-    background-image: url('/public/img/blob-new.svg');
+    background-image: url('/public/img/dark-blob.svg');
     background-size: cover;
-    height: 250vh;
+    height: 150vh;
     background-repeat: no-repeat;
     z-index: -1;
     zoom: 1.4;

@@ -8,26 +8,46 @@ header {
         @media (min-width: $medium) {
             padding: .75rem 2rem;
         }
-        ul {
-            list-style: none;
-            margin: 0;
-            display: flex;
-            @media (min-width: $medium) {
-                display: flex;
+        &-logo {
+            display:flex;
+            align-items: center;
+            h1 {
+                margin: 0 1.75rem;
+                font-family: 'Share Tech Mono', monospace;
+                font-weight:200;
+                font-size:1.5rem;
+                @media (min-width: $medium) {
+                    display:block!important;
+                }
+                @media (min-width: $large) {
+                    font-size:1.75rem;
+                }
             }
-            li {
-                margin: 0 10px;
-                a {
-                    text-decoration: none;
-                    color: $textGrey;
-                    font-weight:300;
-                    font-size: .85rem;
-                    &:hover {
-                    color: $secondary;
-                    }
-                    @media (min-width: $medium) {
-                        font-size: .95rem;
-                        margin: 0 1rem;
+        }
+        nav {
+            @media (min-width: $medium) {
+                display:unset !important;
+            }
+            ul {
+                list-style: none;
+                margin: 0;
+                @media (min-width: $medium) {
+                    display: flex!important;
+                }
+                li {
+                    margin: 0 10px;
+                    a {
+                        text-decoration: none;
+                        color: $textGrey;
+                        font-weight:300;
+                        font-size: .85rem;
+                        &:hover {
+                        color: $secondary;
+                        }
+                        @media (min-width: $medium) {
+                            font-size: .95rem;
+                            margin: 0 1rem;
+                        }
                     }
                 }
             }
