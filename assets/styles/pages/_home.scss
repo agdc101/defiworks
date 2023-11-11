@@ -11,7 +11,7 @@ div.homepage-wrapper {
             }
             p:nth-of-type(1) {
                 font-weight: 100;
-                margin: 0 0 10% 0;
+                margin: 0 0 15% 0;
                 font-size:1.75rem;
                 @media (min-width: $large) {
                     font-size:3rem;
@@ -73,8 +73,5 @@ div.homepage-wrapper {
                 }
             }
         }
-    }
-    section.integrations {
-        margin: 5rem 0 2rem 0;
     }
 }

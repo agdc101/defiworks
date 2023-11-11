@@ -17,7 +17,7 @@
         <section class="hero">
             <div class="hero-content">
                 <p>Decentralised Finance, <strong>Streamlined</strong></p>
-                <p>Strategies returning  <strong>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %} APY</strong></p>
+                <p>Strategies returning  {% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %} APY</p>
                 <button class="btn"><a href="{{ path('app_register') }}">Get Started</a></button>
                 <button class="btn"><a href="{{ path('app_login') }}">Login</a></button>
                 <a class='hero-arrow' href="#nav"> 
@@ -33,7 +33,7 @@
 
         {% include 'partials/blockchain-intro.html.twig' %}
 
-        {# {% include 'partials/integrations.html.twig' %} #}
+        {% include 'partials/integrations.html.twig' %}
 
     </section>
 

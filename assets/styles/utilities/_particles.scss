@@ -1,3 +1,6 @@
 #particles-js {
     max-width: 400px;
+    @media (min-width: $large) {
+      max-width: 450px;
+    }
 }

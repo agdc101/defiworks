@@ -1,0 +1,28 @@
+.integrations{
+    margin-top:6rem;
+    padding: 1.5rem 0;
+    background: linear-gradient(to right, black, $primary, black);
+    @media (min-width: $large) {
+        margin-top:8rem;
+        padding: 3.5rem 0;
+    }
+    &-inner {
+        h2 {
+            margin-bottom: 1.5rem;
+            @media (min-width: $large) {
+                margin-bottom: 2.5rem;
+            }
+        }
+        svg {
+            margin: 1rem 0;
+            @media (min-width: $large) {
+                margin: 0 1.5rem;
+            }
+        }
+        p {
+            margin: 1rem 0;
+            font-weight: 200;
+            font-size: 1.1rem;
+        }
+    }
+}
