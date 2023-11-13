@@ -37,6 +37,10 @@ div.homepage-wrapper {
                 @media (min-width: $medium) {
                     width:25%;
                 }
+                @media (min-width: $large) {
+                    width:15%;
+                    margin: 1.25rem 1rem;
+                }
                 a {
                     text-decoration: none;
                     text-transform: uppercase;
