@@ -30,7 +30,13 @@
         {% include 'partials/header.html.twig' %}
         {# <svg style="position:absolute;top: -500px;right: -800px;"  #}
     <body>
-        <div class="svg-bg"></div>
+
+        {% if app.request.uri == 'http://localhost:8000/' %}
+            <div class="svg-bg svg-bg-left"></div>
+            <div class="svg-bg svg-bg-right"></div>
+        {% else %}
+            <div class="svg-bg svg-bg-left"></div>
+        {% endif %}
 
         <div class="content-wrapper">
             {% block body %}{% endblock %}
