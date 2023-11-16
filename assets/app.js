@@ -11,12 +11,12 @@
  * We recommend including the built version of this JavaScript file
  * (and its CSS file) in your base layout (base.html.twig).
  */
+
 import './styles/app.scss';
 // any CSS you import will output into a single css file (app.css in this case)
 // start the Stimulus application
-import './bootstrap';
 
-import './particles/app.js';
+import './bootstrap';
 
 // assets/app.js
 import { registerReactControllerComponents } from '@symfony/ux-react';
@@ -31,6 +31,7 @@ import { registerReactControllerComponents } from '@symfony/ux-react';
 // internal components won't be automatically included in your JS built file if
 // they are not necessary.
 registerReactControllerComponents(require.context('./react/controllers', true, /\.(j|t)sx?$/));
+
 
 
 

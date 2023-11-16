@@ -3,11 +3,8 @@ body {
   height:100%;
   padding-bottom: 2rem;
   background: black;
-  color:$textGrey;
+  color:white;
   font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
-  // .svg-bg.bg-small {
-  //   background-image: url('/public/img/dark-blob-sm.svg');
-  // }
   .svg-bg-left {
     position: absolute;
     top: 0;
@@ -15,23 +12,15 @@ body {
     width: 100%;  
     height: 100%;
     background-repeat: no-repeat;
-    background-size: 100%;
-    background-position: center;
+    background-size: cover;
     z-index: -1;
-    background-image: url('/public/img/blob-left.svg');
-  }
-  .svg-bg-right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;  
-    height: 250vh;
-    bottom: 0;
-    background-repeat: no-repeat;
-    background-size: 100%;
-    background-position: center;
-    z-index: -1;
-    background-image: url('/public/img/blob-right.svg');
+    background-image: url('/public/img/bg-hero-mob.png');
+    @media (min-width: $large) {
+      background-image: url('/public/img/bg-hero-tab.png');
+    }
+    @media (min-width: $xl) {
+      background-image: url('/public/img/bg-hero.jpg');
+    }
   }
   a {
     transition: color .2s ease-in-out;

@@ -1,7 +1,10 @@
 .defi-intro {
+    padding: 1.5rem 0;
     @media (max-width: $xl) {
         background: linear-gradient(to right, black, $primary, black);
-        padding: 1.5rem 0;
+    }
+    @media (min-width: $xxl) {
+        padding: 0 0 4rem 0;
     }
     &-inner {
         @media (min-width: $large) {
