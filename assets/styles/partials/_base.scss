@@ -1,11 +1,10 @@
 body {
   margin:0;
   height:100%;
-  padding-bottom: 2rem;
   background: black;
   color:white;
   font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
-  .svg-bg-left {
+  .svg-bg {
     position: absolute;
     top: 0;
     left: 0;
@@ -21,6 +20,16 @@ body {
     @media (min-width: $xl) {
       background-image: url('/public/img/bg-hero.jpg');
     }
+  }
+  .svg-bg::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+    z-index: 1;
   }
   a {
     transition: color .2s ease-in-out;

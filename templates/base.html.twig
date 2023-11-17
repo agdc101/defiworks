@@ -24,23 +24,24 @@
         {% endblock %}
 
         {% block javascripts %}
+            {{ encore_entry_script_tags('main') }}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-        {% include 'partials/header.html.twig' %}
     <body>
 
-        {% if app.request.uri == 'http://localhost:8000/' %}
-            <div class="svg-bg svg-bg-left"></div>
-            <div class="svg-bg svg-bg-right"></div>
-        {% else %}
-            <div class="svg-bg svg-bg-left"></div>
-        {% endif %}
+        {% include 'partials/header.html.twig' %}
+
+        <div class="svg-bg"></div>
 
         <div class="content-wrapper">
             {% block body %}{% endblock %}
         </div>
+
         {% include 'partials/footer.html.twig' %}
+
+        {# twig being a complete nob and will not render footer outside of the above content wrapper, even though this is clearly OUTSIDE the div tags. So having to use JS to hide footer when page is not fully scrolled to the bottom. kind regards, fuck off. #}
+
         <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     </body>
