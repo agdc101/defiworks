@@ -60,7 +60,18 @@ section.close-account {
     @media (min-width: $medium ) {
       display: inline-block;
       margin:.75rem 0;
-      width: 48%;
+      width: 40%;
+    }
+  }
+  button {
+    display:block;
+  }
+}
+section.update-details {
+  .success-alert {
+    text-align: center;
+    @media (min-width: $large ) {
+      width: 40%;
     }
   }
 }

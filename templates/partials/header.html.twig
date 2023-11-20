@@ -6,6 +6,53 @@
             <a href="/"><img src="/img/defi-works-logo.png" alt="Defiworks Logo"></a>
             <h1 style="display:none;">DeFi Works</h1>
         </div>
+
+        {# Mobile Nav #}
+        <nav>
+            <div id="menuToggle">
+                <input type="checkbox" />
+                <span id="span1"></span>
+                <span id="span2"></span>
+                <span id="span3"></span>
+            </div>
+            <div class="mobile-menu">
+                <ul>
+                {% if app.user is defined %}
+                    {% if app.user %}
+                    <li>
+                        <a href="/dashboard">Dashboard</a>
+                        <svg id="menu-arrow" viewBox="0 0 256 159" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M225.813 0L128 97.813L30.187 0L0 30.186L128 158.186L256 30.186L225.813 0Z" fill="#5d66e6"></path>
+                        </svg>
+                    </li>
+                    <li>
+                        <a href="/logout">Logout</a>
+                        <svg id="menu-arrow" viewBox="0 0 256 159" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M225.813 0L128 97.813L30.187 0L0 30.186L128 158.186L256 30.186L225.813 0Z" fill="#5d66e6"></path>
+                        </svg>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="/login">Login</a>
+                        <svg id="menu-arrow" viewBox="0 0 256 159" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M225.813 0L128 97.813L30.187 0L0 30.186L128 158.186L256 30.186L225.813 0Z" fill="#5d66e6"></path>
+                        </svg>
+                    </li>
+                    <li>
+                        <a href="/register">Register</a>
+                        <svg id="menu-arrow" viewBox="0 0 256 159" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M225.813 0L128 97.813L30.187 0L0 30.186L128 158.186L256 30.186L225.813 0Z" fill="#5d66e6"></path>
+                        </svg>
+                    </li>
+                    {% endif %}
+                    {# <li><a href="/contact">Contact</a></li> #}
+                {% endif %}
+                </ul>
+            </div>
+        </nav>
+        {# =-=-=-=-=-= #}
+
+        {# Desktop Nav #}
         <nav style="display:none;">
             <ul>
             {% if app.user is defined %}
@@ -20,6 +67,7 @@
             {% endif %}
             </ul>
         </nav>
+        {# -=-=-=-=-=- #}
     </div>
 </header>
 {% endblock %}

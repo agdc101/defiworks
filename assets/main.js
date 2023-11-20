@@ -10,3 +10,14 @@ window.addEventListener('scroll', function() {
         footer.style.display = 'none';
     }
 });
+
+
+// Mobile menu
+const button = document.querySelector('#menuToggle');
+const mobileMenu = document.querySelector('.mobile-menu');
+
+button.addEventListener('click', function() {
+    mobileMenu.classList.toggle('active');
+});
+
+

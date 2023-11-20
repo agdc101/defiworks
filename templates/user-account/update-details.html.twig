@@ -12,11 +12,10 @@
 
         <p>For any other account changes please contact <a maito="admin@defiworks.co.uk">admin@defiworks.co.uk</a></p>
 
-        {% for message in app.flashes('update_success') %}
-            <div class="success-alert" role="alert">{{ message }}</div>
-        {% endfor %}
-
         <div>
+            {% for message in app.flashes('update_success') %}
+            <div class="success-alert" role="alert">{{ message }}</div>
+            {% endfor %}
             {{ form_start(updateUserForm) }}
                 {{ form_row(updateUserForm.email) }}
                 {{ form_row(updateUserForm.address) }}
