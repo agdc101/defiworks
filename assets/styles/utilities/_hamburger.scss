@@ -1,3 +1,9 @@
+.mobile-nav {
+  display: none;
+  @media (max-width:$medium) {
+    display: inline-block;
+  }
+}
 #menuToggle {
   overflow: hidden;
   width: 100%;
@@ -19,8 +25,8 @@
 }
 
 #menuToggle span{
-  width: 40px;
-  height: 4px;
+  width: 35px;
+  height: 3px;
   margin-bottom: 10px;
   background: white;
   border-radius: 4px;

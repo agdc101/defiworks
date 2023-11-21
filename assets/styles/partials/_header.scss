@@ -24,7 +24,7 @@ header {
                 }
             }
         }
-        nav {
+        .desk-nav {
             @media (min-width: $medium) {
                 display:unset !important;
             }
@@ -55,6 +55,17 @@ header {
                 }
             }
         }
+        .mobile-menu {
+            a {
+                text-decoration: none;
+                color: white;
+                font-weight:200;
+                font-size: .85rem;
+                &:active {
+                    color: $secondary;
+                }
+            }
+        }
         img {
             width: clamp(50px, 60px, 100px);
             height: clamp(50px, 60px, 100px);
@@ -64,11 +75,12 @@ header {
             top: 8vh;
             bottom: 0;
             right: 100%;
+            opacity: 0;
             left: 0;
             background: $primary;
             z-index:10;
             overflow: hidden;
-            transition: all .5s cubic-bezier(.08,.81,.87,.71);
+            transition: opacity .5s cubic-bezier(.12,.541,.77,.71), right .5s cubic-bezier(.08,.81,.87,.71);
             ul {
                 padding: 1.5rem;
                 position: relative;
@@ -89,6 +101,7 @@ header {
             }
             &.active {
                 right: 0;
+                opacity: 1;
             }
         }
     }
