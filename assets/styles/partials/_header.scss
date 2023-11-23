@@ -1,5 +1,9 @@
 
 header {
+    margin-bottom: 2.5rem;
+    @media (min-width: $large) {
+        margin-bottom: 1rem;
+    }
     .header-inner {
         display:flex;
         justify-content: space-between;
@@ -72,7 +76,7 @@ header {
         }
         .mobile-menu {
             position: absolute;
-            top: 8vh;
+            top: 10vh;
             bottom: 0;
             right: 100%;
             opacity: 0;
@@ -102,6 +106,7 @@ header {
             &.active {
                 right: 0;
                 opacity: 1;
+                position: fixed;
             }
         }
     }

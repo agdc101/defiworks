@@ -7,9 +7,9 @@
         <div class="alert alert-danger" role="alert">{{ message }}</div>
     {% endfor %}
 
-        <h1>Register</h1>
         {{ form_start(registrationForm) }}
             <fieldset>
+                <h1>Register</h1>
                 <legend>Please enter your details:</legend>
                 {{ form_row(registrationForm.title) }}
                 {{ form_row(registrationForm.firstName) }}
@@ -25,7 +25,7 @@
                 <p>Enter a 6 digit pin number. This will be required every time you login.</p>
                 {{ form_row(registrationForm.userPin) }}
                 {{ form_row(registrationForm.agreeTerms) }}
+                <button type="submit" class="btn">Register</button>
             </fieldset>
-            <button type="submit" class="btn">Register</button>
         {{ form_end(registrationForm) }}
 {% endblock %}

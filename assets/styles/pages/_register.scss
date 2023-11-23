@@ -2,6 +2,7 @@
 form[name="registration_form"] {
     fieldset {
     max-width: 800px;
+    margin: 0 auto;
         @media (min-width: $medium) {
             display:flex;
             flex-wrap: wrap;
@@ -29,8 +30,8 @@ form[name="registration_form"] {
         div {
             margin: .6rem 0;
             @media (min-width: $medium) {
-                width: 46%;
-                margin: .75rem 1.1rem 0 0;
+                width: 47%;
+                margin: .75rem 1.5rem 0 0;
             }
         }
         p {
