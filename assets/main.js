@@ -16,8 +16,12 @@ window.addEventListener('scroll', function() {
 const button = document.querySelector('#menuToggle');
 const mobileMenu = document.querySelector('.mobile-menu');
 
+//select body element
+const body = document.querySelector('body');
+
 button.addEventListener('click', function() {
     mobileMenu.classList.toggle('active');
+    body.classList.toggle('overflow-hidden');
 });
 
 
