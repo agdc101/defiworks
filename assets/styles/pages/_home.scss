@@ -6,6 +6,9 @@ div.homepage-wrapper {
         }
         .hero-content {
             padding: 3rem 0 30% 0;
+            @media (max-width: $large) {
+                padding: 1rem 0 30% 0;
+            }
             @media (min-width: $xxl) {
                 padding: 4rem 0 30% 0;
             }
