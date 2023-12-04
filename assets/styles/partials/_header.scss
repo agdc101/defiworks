@@ -15,16 +15,22 @@ header {
         &-logo {
             display:flex;
             align-items: center;
-            h1 {
-                margin: 0 1.75rem;
-                font-family: 'Share Tech Mono', monospace;
-                font-weight:200;
-                font-size:1.5rem;
-                @media (min-width: $medium) {
-                    display:block!important;
-                }
-                @media (min-width: $large) {
-                    font-size:1.75rem;
+            a {
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                color: white;
+                h1 {
+                    margin: 0 1.75rem;
+                    font-family: 'Share Tech Mono', monospace;
+                    font-weight:200;
+                    font-size:1.5rem;
+                    @media (min-width: $medium) {
+                        display:block!important;
+                    }
+                    @media (min-width: $large) {
+                        font-size:1.75rem;
+                    }
                 }
             }
         }
