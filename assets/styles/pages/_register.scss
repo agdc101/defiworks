@@ -1,8 +1,6 @@
 //-=-=-=- Register page -=-=-=-//
 form[name="registration_form"] {
     fieldset {
-    max-width: 800px;
-    margin: 0 auto;
         @media (min-width: $medium) {
             display:flex;
             flex-wrap: wrap;
@@ -13,7 +11,7 @@ form[name="registration_form"] {
         }
         div:nth-of-type(8) {
             @media (min-width: $medium) {
-                margin-right: 3rem;
+                margin-right: 4rem;
             }
         }
         div:first-of-type {
@@ -30,8 +28,8 @@ form[name="registration_form"] {
         div {
             margin: .6rem 0;
             @media (min-width: $medium) {
-                width: 47%;
-                margin: .75rem 1.5rem 0 0;
+                width: 45%;
+                margin: .75rem 1.8rem 0 0;
             }
         }
         p {

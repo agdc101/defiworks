@@ -1,24 +1,26 @@
-.login-form {
-    input {
-        background-color: $julesPink;
-    }
-    .form-fields-wrapper {
-        @media (min-width: $medium) {
-            display:flex;
+section.login {
+    .login-form {
+        input {
+            background-color: $julesPink;
         }
-        div {
-            margin: .5rem 0;
+        .form-fields-wrapper {
             @media (min-width: $medium) {
-                width: 30%;
-                margin: .75rem 1.25rem 1rem 0;
+                display:flex;
+            }
+            div {
+                margin: .5rem 0;
+                @media (min-width: $medium) {
+                    width: 35%;
+                    margin: .75rem 1.25rem 1rem 0;
+                }
             }
         }
-    }
-    a {
-        color: $textGrey;
-        display:block;
-        @media (min-width: $medium) {
-            margin-top:.5rem;
+        a {
+            color: $textGrey;
+            display:block;
+            @media (min-width: $medium) {
+                margin-top:.5rem;
+            }
         }
     }
 }
