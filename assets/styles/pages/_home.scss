@@ -1,17 +1,11 @@
 div.homepage-wrapper {
     text-align:center;
     section.hero {
-        @media (max-width: $xl) {
-            height: 90vh;
+        @media (max-width: $medium) {
+            height: 75vh;
         }
         .hero-content {
-            padding: 3rem 0 30% 0;
-            @media (max-width: $large) {
-                padding: 1rem 0 30% 0;
-            }
-            @media (min-width: $xxl) {
-                padding: 4rem 0 30% 0;
-            }
+            padding: 0 0 30% 0;
             p {
                 letter-spacing: 0.15rem;
             }

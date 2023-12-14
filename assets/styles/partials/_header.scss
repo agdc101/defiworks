@@ -1,6 +1,10 @@
 
 header {
     margin-bottom: 3.5rem;
+    position:fixed;
+    width:100%;
+    transition: all .3s cubic-bezier(.12,.541,.77,.71);
+    z-index:99;
     @media (min-width: $large) {
         margin-bottom: 1rem;
     }
