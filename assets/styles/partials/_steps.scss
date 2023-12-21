@@ -1,0 +1,48 @@
+section.steps {
+    margin: 6rem 0 8rem 0;
+    @media (min-width: $large) {
+        margin: 12rem 0 10rem 0;
+    }
+    h2 {
+        margin-bottom:3.5rem;
+        @media (min-width: $large) {
+            margin-bottom: 5.5rem;
+        }
+    }
+    .steps-inner {
+        @media (max-width: 600px) {
+            padding: 0 2rem 0 3.5rem;
+        }
+        @media (min-width: $large) {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .step {
+            margin-bottom: 3.5rem;
+            @media (min-width: $medium) {
+                display:flex;
+                align-items: center;
+            }
+            @media (min-width: $large) {
+                width: 48%;
+            }
+            img {
+                max-width: 76px;
+            }
+            p {
+                font-size: 1.25rem;
+                font-weight: 100;
+                margin: .5rem 0;
+                text-align: left;
+                @media (min-width: $medium) {
+                    margin: 0 0 0 .75rem;
+                }
+                @media (min-width: $large) {
+                    font-size: 1.4rem;
+                }
+            }
+        }
+    }
+
+}

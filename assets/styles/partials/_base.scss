@@ -44,7 +44,7 @@ body {
     max-width: 850px;
     padding: 8rem 2rem 0 2rem;
     @media (min-width: $medium) {
-        padding: 12rem 2rem 0 2rem;
+        padding: 12rem 0 0 0;
     }
     h1 {
         color:#ffffff;
@@ -55,7 +55,7 @@ body {
     }
     h2 {
       font-family: 'Share Tech Mono', monospace;
-      font-size:.8rem;
+      font-size:.9rem;
       text-transform: uppercase;
       font-weight: 200;
       letter-spacing: 0.35rem;
