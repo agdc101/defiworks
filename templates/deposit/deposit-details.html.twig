@@ -14,11 +14,11 @@
             </div>
             <div>
                 <h4>Sort: </h4>
-                <p>04-03-33</p>
+                <p>04-03-33 <button id="copy-btn" value="04-03-33" ><img src="/img/copy-icon.png"></button></p>
             </div>
             <div>
                 <h4>Account No: </h4>
-                <p>68972060</p>
+                <p>68972060 <button id="copy-btn" value="68972060" ><img src="/img/copy-icon.png"></button></p>
             </div>
         </div>
         <div id="usdConversion">
@@ -41,5 +41,13 @@
                 document.getElementById("submit").disabled = true;
             }, 100);
         };
+
+        const btns = document.querySelectorAll("#copy-btn");
+        btns.forEach(function(btn) {
+            btn.addEventListener("click", function() {
+                navigator.clipboard.writeText(btn.value);
+            });
+        });
+
     </script>
 {% endblock %}
