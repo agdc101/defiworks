@@ -1,11 +1,14 @@
 div.homepage-wrapper {
     text-align:center;
+    section {
+        padding-left:0!important;
+    }
     section.hero {
         @media (max-width: $medium) {
             height: 75vh;
         }
         .hero-content {
-            padding: 0 0 30% 0;
+            padding: 0 0 27.5% 0;
             p {
                 letter-spacing: 0.15rem;
             }
@@ -53,7 +56,7 @@ div.homepage-wrapper {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                margin-top:40%;
+                margin-top:35%;
                 text-decoration: none;
                 @media (min-width: $medium) and (max-height: 1000px) {
                     margin-top:10%;

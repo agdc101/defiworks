@@ -2,6 +2,9 @@
 
 .dashboard-content-wrapper {
   text-align: center;
+  section {
+    padding-left:0!important;
+  }
   .dash-info {
     @media (min-width: $large) {
       display: flex;
