@@ -15,7 +15,7 @@ header {
         align-items: center;
         padding: .5rem 1rem;
         @media (min-width: $medium) {
-            padding: .75rem 2rem;
+            padding: 1rem 2rem;
         }
         &-logo {
             display:flex;
@@ -119,6 +119,11 @@ header {
                 opacity: 1;
                 position: fixed;
             }
+        }
+        .alert {
+            margin: 0;
+            color: lightgreen;
+            letter-spacing: .2rem;
         }
     }
 }
