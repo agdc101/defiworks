@@ -1,11 +1,13 @@
 section.withdraw-details {
     p {
         color: $secondary;
-        font-weight: 300;
+        font-weight: 200;
         margin: 0 0 1.5rem 0;
+        font-size: 1.1rem;
         letter-spacing: .05rem;
     }
     form {
+        padding: 1rem 0;
         div {
             margin: 1rem 0;
         }
