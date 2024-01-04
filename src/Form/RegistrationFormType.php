@@ -28,7 +28,7 @@ class RegistrationFormType extends AbstractType
                   'Mr' => 'Mr',
                   'Mrs' => 'Mrs',
                   'Miss' => 'Miss'
-                ],
+                ]
             ])
             ->add('firstName', TextType::class, [
                 'constraints' => [

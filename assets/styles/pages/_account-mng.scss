@@ -34,8 +34,10 @@ section.close-account {
   }
   p {
     font-weight:100;
+    font-size:1.1rem;
     a {
       color:$secondary!important;
+      font-size:1.1rem;
       &:hover {
         text-decoration: underline!important;
       }
@@ -46,7 +48,7 @@ section.close-account {
     cursor: pointer;
     text-decoration: none;
     margin-bottom:1.5rem;
-    display: block;
+    // display: block;
     &:hover {
       color:red;
     }
