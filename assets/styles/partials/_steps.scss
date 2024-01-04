@@ -34,12 +34,12 @@ section.steps {
                 font-size: 1.25rem;
                 font-weight: 100;
                 margin: .5rem 0;
-                text-align: left;
                 @media (min-width: $medium) {
                     margin: 0 0 0 .75rem;
                 }
                 @media (min-width: $large) {
                     font-size: 1.4rem;
+                    text-align: left;
                 }
             }
         }
