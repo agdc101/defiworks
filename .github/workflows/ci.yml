@@ -21,4 +21,5 @@ jobs:
       - name: PHPStan Static Analysis
         uses: php-actions/phpstan@v3
         with:
+          path: src/Controller
           args: --configuration=phpstan.neon
