@@ -17,9 +17,6 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
-
-      - name: Install PHPStan
-        run: composer require --prefer-dist --no-progress --dev phpstan/phpstan
   
       - name: Run PHPStan
         run: vendor/bin/phpstan analyse
