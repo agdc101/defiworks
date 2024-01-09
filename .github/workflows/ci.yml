@@ -18,8 +18,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
 
-      - name: PHPStan Static Analysis
-        uses: php-actions/phpstan@v3
-        with:
-          path: src/Controller
-          args: --configuration=phpstan.neon
+      - name: Install PHPStan
+        run: composer require --prefer-dist --no-progress --dev phpstan/phpstan
+  
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse
