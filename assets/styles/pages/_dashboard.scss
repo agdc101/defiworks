@@ -2,10 +2,13 @@
 
 .dashboard-content-wrapper {
   text-align: center;
+  section {
+    padding-left:0!important;
+  }
   .dash-info {
     @media (min-width: $large) {
       display: flex;
-      margin-top:4rem;
+      margin-top:6rem;
     }
   }
   .dash-item {
@@ -19,7 +22,7 @@
       font-weight: 400;
       text-transform: uppercase;
       margin: .2rem 0;
-      font-size: .75rem;
+      font-size: .9rem;
       letter-spacing: .1rem;
     }
     span {
@@ -32,12 +35,12 @@
     }
     lord-icon {
       display: block;
-      margin: 0 auto;
+      margin: 0 1rem 0 0;
       width: 100px;
       height: 100px;
       @media (min-width: $large) {
-        width: 80px;
-        height: 80px;
+        width: 70px;
+        height: 70px;
       }
     }
     a {
@@ -45,6 +48,10 @@
       color: white;
       @media (min-width: $medium) {
         font-size: 1rem;
+      }
+      @media (min-width: $large) {
+        display:flex;
+        align-items: center;
       }
     }
   }

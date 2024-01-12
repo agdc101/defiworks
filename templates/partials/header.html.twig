@@ -8,6 +8,23 @@
                 <h1 style="display:none;">DeFi Works</h1>
             </a>
         </div>
+
+        {% for message in app.flashes('success') %}
+            {% if loop.first %}
+                <div class="success-alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        {% for message in app.flashes('password_reset_success') %}
+            <div class="alert user-success-msg" role="alert">{{ message }}</div>
+        {% endfor %}
+
+        {% for message in app.flashes('success_pin') %}
+            <div class="alert user-success-msg" role="alert">{{ message }}</div>
+        {% endfor %}
+
         {# Mobile Nav #}
         <nav class="mobile-nav">
             <div id="menuToggle">

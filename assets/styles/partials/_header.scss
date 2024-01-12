@@ -15,7 +15,7 @@ header {
         align-items: center;
         padding: .5rem 1rem;
         @media (min-width: $medium) {
-            padding: .75rem 2rem;
+            padding: 1rem 2rem;
         }
         &-logo {
             display:flex;
@@ -70,30 +70,21 @@ header {
                 }
             }
         }
-        .mobile-menu {
-            a {
-                text-decoration: none;
-                color: white;
-                font-weight:200;
-                font-size: .85rem;
-                &:active {
-                    color: $secondary;
-                }
-            }
-        }
         img {
             width: clamp(50px, 60px, 100px);
             height: clamp(50px, 60px, 100px);
+            z-index:99;
         }
         .mobile-menu {
             position: absolute;
-            top: 10vh;
+            top: 0;
             bottom: 0;
+            padding-top:3rem;
             right: 100%;
             opacity: 0;
             left: 0;
             background: $primary;
-            z-index:10;
+            z-index:-1;
             overflow: hidden;
             transition: opacity .5s cubic-bezier(.12,.541,.77,.71), right .5s cubic-bezier(.08,.81,.87,.71);
             ul {
@@ -109,7 +100,13 @@ header {
                     display: flex;
                     width: 100%;
                     justify-content: space-between;
-                    font-size:1.15rem;
+                    text-decoration: none;
+                    color: white;
+                    font-weight:200;
+                    font-size: 1rem;
+                    &:active {
+                        color: $secondary;
+                    }
                 }
                 #menu-arrow {
                     width:20px;
@@ -122,6 +119,11 @@ header {
                 opacity: 1;
                 position: fixed;
             }
+        }
+        .alert {
+            margin: 0;
+            color: lightgreen;
+            letter-spacing: .2rem;
         }
     }
 }

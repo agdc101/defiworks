@@ -11,25 +11,26 @@ form[name="registration_form"] {
         }
         div:nth-of-type(8) {
             @media (min-width: $medium) {
-                margin-right: 4rem;
+                margin-right: 10rem;
             }
         }
         div:first-of-type {
+            display:flex;
             margin-bottom: 1rem;
+            flex-direction: column;
         }
         div:first-of-type,
         div:nth-of-type(13) {
             @media (min-width: $medium) {
-            display: flex;
-            align-items: center;
-            width: 100%;
+                display: flex;
+                width: 100%;
             }
         }
         div {
             margin: .6rem 0;
             @media (min-width: $medium) {
-                width: 45%;
-                margin: .75rem 1.8rem 0 0;
+                width: 42.5%;
+                margin: .5rem .5rem 0 0;
             }
         }
         p {
@@ -40,16 +41,28 @@ form[name="registration_form"] {
                 width: 95%;
                 margin:1.75rem 0 0 0;
             }
+            @media (min-width: $large) {
+                margin-bottom:.75rem;
+            }
         }
-        #registration_form_title,
         #registration_form_agreeTerms {
             margin-left:.75rem;
+        }
+        #registration_form_title {
+            padding: 0.5rem 0.25rem;
+            border-radius:6px;
+            width: 42.5%;
         }
         ul {
             list-style: none;
             font-weight: 100;
             color: red;
             padding:0;
+        }
+        button {
+            @media (min-width: $medium) {
+                margin: 1.3rem 0 0 0;
+            }
         }
     }
 }

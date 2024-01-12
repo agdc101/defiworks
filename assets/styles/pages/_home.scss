@@ -1,11 +1,14 @@
 div.homepage-wrapper {
     text-align:center;
+    section {
+        padding-left:0!important;
+    }
     section.hero {
         @media (max-width: $medium) {
             height: 75vh;
         }
         .hero-content {
-            padding: 0 0 30% 0;
+            padding: 0 0 27.5% 0;
             p {
                 letter-spacing: 0.15rem;
                 font-size:1.3rem;
@@ -37,6 +40,7 @@ div.homepage-wrapper {
                 border: 1px solid $secondary;
                 margin-top: 1.25rem;
                 width:50%;
+                padding:0;
                 @media (min-width: $medium) {
                     width:25%;
                 }
@@ -45,6 +49,9 @@ div.homepage-wrapper {
                     margin: 1.25rem 1rem;
                 }
                 a {
+                    display: block;
+                    width:100%;
+                    padding:.75rem;
                     text-decoration: none;
                     text-transform: uppercase;
                     letter-spacing: 0.12rem;
@@ -56,7 +63,7 @@ div.homepage-wrapper {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                margin-top:40%;
+                margin-top:35%;
                 text-decoration: none;
                 @media (min-width: $medium) and (max-height: 1000px) {
                     margin-top:15%;
