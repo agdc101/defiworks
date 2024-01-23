@@ -2,14 +2,12 @@
 
 .dashboard-content-wrapper {
   text-align: center;
-  .dash-info {
-    @media (min-width: $large) {
-      display: flex;
-      margin-top:4rem;
-    }
-  }
   .site-status-info {
     letter-spacing: 0.05rem;
+    margin: 2rem 0 2.5rem 0;
+    @media (min-width: $large) {
+      margin: 3.5rem 0 3.5rem 0;
+    }
     span {
       font-weight: 300;
       font-size: .9rem;
@@ -19,15 +17,40 @@
       }
     }
     &-inner {
+      width:75%;
+      margin: 0 auto;
+      border-bottom: 1px solid #383162;
+      @media (min-width: $medium) {
+        display:flex;
+        align-items: baseline;
+        justify-content: space-around;
+      }
       p {
         font-weight: 200;
         font-size: .95rem;
-        margin: .25rem 0 3rem 0;
+        margin: .25rem 0 1.5rem 0;
         letter-spacing: 0.075rem;
         @media (min-width: $large) {
           font-size: 1rem;
           margin: .4rem 0 2.75rem 0;
         }
+      }
+    }
+  }
+  .account-status {
+    margin: 2rem 0;
+    h4 {
+      font-weight:200;
+      letter-spacing: 0.05rem;
+      font-size: 1.1rem;
+      margin-bottom:1.5rem;
+      @media (min-width: $large) {
+        font-size: 1.25rem;
+      }
+    }
+    .dash-info {
+      @media (min-width: $large) {
+        display: flex;
       }
     }
   }

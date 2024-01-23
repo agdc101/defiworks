@@ -25,28 +25,32 @@
 
 <div class="dashboard-content-wrapper">
     <section class="site-status-info">
-        <span>DeFi Works status:</span>
         <div class="site-status-info-inner">
+            <span>DeFi Works status:</span>
             <p>Total Value Locked: <strong>{% if tvl is null %} $0 {% else  %} ${{ tvl }} {% endif %}</strong></p>
+            <p>Active users: <strong>4</strong></p>
         </div>
     </section>
-    <section class="dash-info">
-        <div class="dash-item">
-            <p>Balance</p><span>{% if balance is null %} $0 {% else  %} ${{ balance }} {% endif %}</span>
-        </div>
-        {% if pendingBalance != 0 %}
-        <div class="dash-item">
-            <p class="pending-balance">Pending Balance</p> <span>${{ pendingBalance }}</span>
-        </div>
-        {% endif %}
-        <div class="dash-item">
-            <p>Profit</p><span>{% if profit is null %} $0 {% else  %} ${{ profit }} {% endif %}</span>
-        </div>
-        <div class="dash-item">
-            <p>Growth</p><span>{% if growth is null %} $0 {% else  %} {{ growth }}% {% endif %}</span>
-        </div>
-        <div class="dash-item">
-            <p>APY</p><span>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</span>
+    <section class="account-status">
+        <h4>{{ user | capitalize }}'s Account:</h4>
+        <div class="dash-info">
+            <div class="dash-item">
+                <p>Balance</p><span>{% if balance is null %} $0 {% else  %} ${{ balance }} {% endif %}</span>
+            </div>
+            {% if pendingBalance != 0 %}
+            <div class="dash-item">
+                <p class="pending-balance">Pending Balance</p> <span>${{ pendingBalance }}</span>
+            </div>
+            {% endif %}
+            <div class="dash-item">
+                <p>Profit</p><span>{% if profit is null %} $0 {% else  %} ${{ profit }} {% endif %}</span>
+            </div>
+            <div class="dash-item">
+                <p>Growth</p><span>{% if growth is null %} $0 {% else  %} {{ growth }}% {% endif %}</span>
+            </div>
+            <div class="dash-item">
+                <p>APY</p><span>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</span>
+            </div>
         </div>
     </section>
 
