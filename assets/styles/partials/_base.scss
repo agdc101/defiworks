@@ -46,14 +46,6 @@ body {
   @media (min-width: $medium) {
       padding: 12rem 0 0 0;
   }
-  section {
-    @media (min-width: $medium) {
-      padding-left: 3rem;
-    }
-    @media (min-width: $large) {
-      padding-left: 8rem;
-    }
-  }
   form {
     label {
       font-weight:100;
