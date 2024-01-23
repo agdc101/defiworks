@@ -106,7 +106,7 @@ class RunYieldUpdateCommand extends Command
                $valueAdded = $result - $balance;
 
                // log yield result
-               $output->writeln($logResult);
+               $output->writeln($result);
                $userYieldLog = (new UserYieldLog())
                     ->setUserId($userId)
                     ->setOriginalBalance($balance)
