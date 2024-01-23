@@ -166,4 +166,14 @@ class AppServices
       }
    }
 
+   public function getSiteTVL() : float
+   {
+      $users = $this->userRepository->findAll();
+      $totalBalance = 0;
+      foreach ($users as $user) {
+         $totalBalance += $user->getBalance();
+      }
+      return $totalBalance;
+   }
+
 }
