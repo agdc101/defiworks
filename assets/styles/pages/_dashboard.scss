@@ -13,17 +13,17 @@
     span {
       font-weight: 300;
       font-size: .9rem;
-      color: $tertiary;
+      color: lightgreen;
       @media (min-width: $large) {
         font-size: 1rem;
       }
     }
     &-inner {
       p {
-        font-weight: 400;
-        text-transform: uppercase;
+        font-weight: 200;
         font-size: .95rem;
         margin: .25rem 0 3rem 0;
+        letter-spacing: 0.075rem;
         @media (min-width: $large) {
           font-size: 1rem;
           margin: .4rem 0 2.75rem 0;
