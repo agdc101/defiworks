@@ -59,7 +59,7 @@ class AppServices
       // if response is not 404, return status code
       if ($statusCode !== 200) {
          return [
-            'liveAPY' => 4.5,
+            'liveAPY' => 5.55,
             'statusCode' => $statusCode
          ];
       } else {

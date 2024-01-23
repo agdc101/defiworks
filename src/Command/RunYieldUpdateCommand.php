@@ -105,18 +105,20 @@ class RunYieldUpdateCommand extends Command
                $result = ($balance + ($dailyYield / 100 * ($balance - $ineligibleDeposit))) * 100 / 100;
                $valueAdded = $result - $balance;
 
-               $logResult = "User ID: $userId, Original balance: $balance, Ineligible Deposits: $ineligibleDeposit, Result: $result, Value Added: $valueAdded";
                // log yield result
-               $output->writeln($logResult);
+               $output->writeln($result);
                $userYieldLog = (new UserYieldLog())
-                  ->setUserId($userId)
-                  ->setLogResult($logResult)
-                  ->setTimestamp(new \DateTimeImmutable());
+                    ->setUserId($userId)
+                    ->setOriginalBalance($balance)
+                    ->setIneligibleDeposits($ineligibleDeposit)
+                    ->setLogResult($result)
+                    ->setValueAdded($valueAdded)
+                    ->setTimestamp(new \DateTimeImmutable());
 
                $user
-                  ->setProfit($user->getProfit() + $valueAdded)
-                  ->setCurrentProfit($user->getCurrentProfit() + $valueAdded)
-                  ->setBalance($result);
+                    ->setProfit($user->getProfit() + $valueAdded)
+                    ->setCurrentProfit($user->getCurrentProfit() + $valueAdded)
+                    ->setBalance($result);
 
                $this->entityManager->persist($userYieldLog);
                $this->entityManager->persist($user);
