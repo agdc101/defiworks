@@ -24,6 +24,12 @@
 <h1 class="text-center">{{ user | capitalize }}'s Dashboard</h1>
 
 <div class="dashboard-content-wrapper">
+    <section class="site-status-info">
+        <span>DeFi Works status:</span>
+        <div class="site-status-info-inner">
+            <p>Current TVL: $2322.03</p>
+        </div>
+    </section>
     <section class="dash-info">
         <div class="dash-item">
             <p>Balance</p><span>{% if balance is null %} $0 {% else  %} ${{ balance }} {% endif %}</span>
