@@ -20,6 +20,15 @@ class UserYieldLog
     #[ORM\Column(length: 510)]
     private ?string $log_result = null;
 
+    #[ORM\Column]
+    private ?float $original_balance = null;
+
+    #[ORM\Column]
+    private ?float $ineligible_deposits = null;
+
+    #[ORM\Column]
+    private ?float $valueAdded = null;
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $timestamp = null;
 
@@ -48,6 +57,42 @@ class UserYieldLog
     public function setLogResult(string $log_result): self
     {
         $this->log_result = $log_result;
+
+        return $this;
+    }
+
+    public function getOriginalBalance(): ?float
+    {
+        return $this->original_balance;
+    }
+
+    public function setOriginalBalance(float $original_balance): static
+    {
+        $this->original_balance = $original_balance;
+
+        return $this;
+    }
+
+    public function getIneligibleDeposits(): ?float
+    {
+        return $this->ineligible_deposits;
+    }
+
+    public function setIneligibleDeposits(float $ineligible_deposits): static
+    {
+        $this->ineligible_deposits = $ineligible_deposits;
+
+        return $this;
+    }
+
+    public function getValueAdded(): ?float
+    {
+        return $this->valueAdded;
+    }
+
+    public function setValueAdded(float $valueAdded): static
+    {
+        $this->valueAdded = $valueAdded;
 
         return $this;
     }

@@ -59,7 +59,7 @@ class AppServices
       // if response is not 404, return status code
       if ($statusCode !== 200) {
          return [
-            'liveAPY' => 4.5,
+            'liveAPY' => 5.55,
             'statusCode' => $statusCode
          ];
       } else {
@@ -164,6 +164,16 @@ class AppServices
       } catch (ClientExceptionInterface $e) {
          return ['error' => $e->getMessage()];
       }
+   }
+
+   public function getSiteTVL() : float
+   {
+      $users = $this->userRepository->findAll();
+      $totalBalance = 0;
+      foreach ($users as $user) {
+         $totalBalance += $user->getBalance();
+      }
+      return $totalBalance;
    }
 
 }

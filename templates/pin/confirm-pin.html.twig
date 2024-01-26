@@ -16,17 +16,18 @@
         {% endif %}
     {% endfor %}
 
-    <h1>Enter Pin</h1>
-
-    {{ form_start(PinForm) }}
-        <fieldset>
-            <legend>Please enter your pin to continue:</legend>
-            <div class="pin-form-wrap">
-                {{ form_row(PinForm.pin) }}
-                <button class="btn ani-underline-from-center" type="submit">Submit</button>
-            </div>
-        </fieldset>
-    {{ form_end(PinForm) }}
+    <section class="pin-page">
+        <h1>Enter Pin</h1>
+        {{ form_start(PinForm) }}
+            <fieldset>
+                <legend>Please enter your <strong>6 digit</strong> pin to continue:</legend>
+                <div class="pin-form-wrap">
+                    {{ form_row(PinForm.pin) }}
+                    <button class="btn ani-underline-from-center" type="submit">Submit</button>
+                </div>
+            </fieldset>
+        {{ form_end(PinForm) }}
+    </section>
 
 
 {% endblock %}

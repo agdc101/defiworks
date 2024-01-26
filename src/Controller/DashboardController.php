@@ -45,13 +45,16 @@ class DashboardController extends AbstractController
          $growth = 0;
       }
 
+      $tvl = round($appServices->getSiteTVL(), 2);
+
       return $this->render('dashboard/dashboard.html.twig', [
          'user' => $user->getFirstName(),
          'liveApy' => $session->get('apy'),
          'balance' => $userBalance,
          'pendingBalance' => $appServices->addZeroToValue($pendingBalance),
          'profit' => $profit,
-         'growth' => round($growth, 2)
+         'growth' => round($growth, 2),
+         'tvl' => $tvl
       ]);
     }
 

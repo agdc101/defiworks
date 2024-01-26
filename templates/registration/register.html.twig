@@ -7,25 +7,27 @@
         <div class="alert alert-danger" role="alert">{{ message }}</div>
     {% endfor %}
 
-        {{ form_start(registrationForm) }}
-            <fieldset>
-                <h1>Register</h1>
-                <legend>Please enter your details:</legend>
-                {{ form_row(registrationForm.title) }}
-                {{ form_row(registrationForm.firstName) }}
-                {{ form_row(registrationForm.lastName) }}
-                {{ form_row(registrationForm.address) }}
-                {{ form_row(registrationForm.city) }}
-                {{ form_row(registrationForm.postCode) }}
-                {{ form_row(registrationForm.county) }}
-                <hr>
-                {{ form_row(registrationForm.email) }}
-                {{ form_row(registrationForm.password) }}
-                <hr>
-                <p>Enter a 6 digit pin number. This will be required every time you login.</p>
-                {{ form_row(registrationForm.userPin) }}
-                {{ form_row(registrationForm.agreeTerms) }}
-                <button type="submit" class="btn">Register</button>
-            </fieldset>
-        {{ form_end(registrationForm) }}
+        <section class="register-page">
+            {{ form_start(registrationForm) }}
+                <fieldset>
+                    <h1>Register</h1>
+                    <legend>Please enter your details:</legend>
+                    {{ form_row(registrationForm.title) }}
+                    {{ form_row(registrationForm.firstName) }}
+                    {{ form_row(registrationForm.lastName) }}
+                    {{ form_row(registrationForm.address) }}
+                    {{ form_row(registrationForm.city) }}
+                    {{ form_row(registrationForm.postCode) }}
+                    {{ form_row(registrationForm.county) }}
+                    <hr>
+                    {{ form_row(registrationForm.email) }}
+                    {{ form_row(registrationForm.password) }}
+                    <hr>
+                    <p>Enter a 6 digit pin number. This will be required every time you login.</p>
+                    {{ form_row(registrationForm.userPin) }}
+                    {{ form_row(registrationForm.agreeTerms) }}
+                    <button type="submit" class="btn">Register</button>
+                </fieldset>
+            {{ form_end(registrationForm) }}
+        </section>
 {% endblock %}

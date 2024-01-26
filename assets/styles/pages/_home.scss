@@ -1,39 +1,46 @@
 div.homepage-wrapper {
     text-align:center;
+    section {
+        padding-left:0!important;
+    }
     section.hero {
         @media (max-width: $medium) {
             height: 75vh;
         }
         .hero-content {
-            padding: 0 0 30% 0;
+            padding: 0 0 27.5% 0;
             p {
                 letter-spacing: 0.15rem;
+                font-size:1.3rem;
+                margin-bottom: .5rem;
+                font-weight: 100;
+                @media (min-width: $large) {
+                    font-size:1.1rem;
+                    margin-bottom: 1.5rem;
+                }
             }
-            p:nth-of-type(1) {
+            .title {
                 font-weight: 100;
                 margin: 0 0 15% 0;
-                font-size:1.75rem;
+                font-size:2rem;
                 @media (min-width: $large) {
-                    font-size:3rem;
+                    font-size: 3.25rem;
+                    margin: 0 0 10% 0;
                 }
             }
-            p:nth-of-type(2) {
-                font-size:.9rem;
-                strong {
-                    font-size:1.1rem;
-                    @media (min-width: $large) {
-                        font-size:1.2rem;
-                    }
-                }
-                @media (min-width: $large) {
-                    font-size:1.2rem;
-                }
+            p:nth-of-type(2),
+            p:nth-of-type(3) {
+                font-size: 1.4rem;
+            }
+            p:nth-of-type(3) {
+                margin-bottom:3.5rem;
             }
             button {
                 background: none;
                 border: 1px solid $secondary;
                 margin-top: 1.25rem;
                 width:50%;
+                padding:0;
                 @media (min-width: $medium) {
                     width:25%;
                 }
@@ -42,6 +49,9 @@ div.homepage-wrapper {
                     margin: 1.25rem 1rem;
                 }
                 a {
+                    display: block;
+                    width:100%;
+                    padding:.75rem;
                     text-decoration: none;
                     text-transform: uppercase;
                     letter-spacing: 0.12rem;
@@ -53,10 +63,10 @@ div.homepage-wrapper {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                margin-top:40%;
+                margin-top:35%;
                 text-decoration: none;
                 @media (min-width: $medium) and (max-height: 1000px) {
-                    margin-top:10%;
+                    margin-top:15%;
                 }
                 span {
                     font-family: 'Share Tech Mono', monospace;

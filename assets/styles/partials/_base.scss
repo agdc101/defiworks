@@ -39,146 +39,156 @@ body {
   overflow: hidden;
 }
 .content-wrapper {
-    width:90%;
-    margin: 0 auto 4rem auto;
-    max-width: 850px;
-    padding: 8rem 2rem 0 2rem;
-    @media (min-width: $medium) {
-        padding: 12rem 0 0 0;
+  width:90%;
+  margin: 0 auto 4rem auto;
+  max-width: 1150px;
+  padding: 8rem 2rem 0 2rem;
+  @media (min-width: $medium) {
+      padding: 12rem 0 0 0;
+  }
+  form {
+    label {
+      font-weight:100;
+      font-size:1.05rem;
+      margin-bottom:.25rem;
     }
-    h1 {
-        color:#ffffff;
-        letter-spacing: 2px;
-        font-weight: 300;
-        margin-bottom: 1.5rem;
-        font-size: 2.25rem;
-    }
-    h2 {
-      font-family: 'Share Tech Mono', monospace;
-      font-size:.9rem;
-      text-transform: uppercase;
+  }
+  h1 {
+      color:#ffffff;
+      letter-spacing: 2px;
+      font-weight: 300;
+      margin-bottom: 2.25rem;
+      font-size: 2.25rem;
+      @media (min-width: $large) {
+          font-size: 2.75rem;
+          margin-bottom: 3.5rem;
+      }
+  }
+  h2 {
+    font-family: 'Share Tech Mono', monospace;
+    font-size:.9rem;
+    text-transform: uppercase;
+    font-weight: 200;
+    letter-spacing: 0.35rem;
+  }
+  legend {
+      color: $tertiary;
+      font-weight: 100;
+      margin:0 0 1.25rem 0;
+      font-size:1.2rem;
+  }
+  button {
+      color:#ffffff;
+      background-color: $secondary;
+      width: 100%;
+      margin: .5rem 0;
+      font-size: 1rem;
       font-weight: 200;
-      letter-spacing: 0.35rem;
-    }
-    legend {
-        color: $tertiary;
-        font-weight: 100;
-        margin:0 0 1.25rem 0;
-        font-size:1.2rem;
-    }
-    button {
-        color:#ffffff;
-        background-color: $secondary;
-        width: 100%;
-        margin: .5rem 0;
-        font-size: 1rem;
-        font-weight: 200;
-        @media (min-width: 600px) {
-            margin-top: .75rem;
-            width: auto;
-        }
-    }
-    button:hover {
-        background: $secondary;
-        color:white;
-    }
-    a.disable-btn {
-        pointer-events: none;
-        cursor: default;
-        color: #444444;
-    }
-    .user-success-msg {
-        color: lightgreen;
-        width: 25%;
-        margin: .5rem auto;
-        text-align: center;
-        font-size: .85rem;
-        text-transform: uppercase;
-        letter-spacing: 0.15rem;
-        @media (min-width: $large) {
-            padding-left: 1rem;
-            border: 1px solid $secondary;
-            margin-bottom:3.5rem;
-        }
-    }
-    input,select {
-        margin: 1rem 0;
-        background: $julesPink;
-        @media (min-width: $medium) {
-          max-width: 350px;
-          margin: .75rem 0 .5rem 0;
-        }
-    }
-    #return-arrow {
-        color: white;
-        width:25px;
-        height:25px;
-        margin-bottom:.25rem;
-    }
-    .dash-buttons {
-      margin: 2.5rem 0 0 0;
-      @media (min-width: $medium) {
-        margin: 3rem 0 0 0;
+      @media (min-width: 600px) {
+          margin-top: .75rem;
+          width: auto;
       }
-      .dash-item {
-        margin: .5rem;
-        padding:0 .5rem .5rem .5rem;
-        background-color:black;
-        border-radius: .75rem;
-        border: 1px solid black;
-        transition: all .3s ease-in-out;
-        cursor: pointer;
-        font-size:.9rem;
-        font-weight:200;
-        @media (min-width: $medium) {
-          padding: 1rem .5rem;
-          margin: 1rem;
-          width: 30%;
-        }
-        @media (min-width: $large) {
-          width: 20%;
-          padding:0 0 .75rem 0;
-        }
-        a.disable-btn {
-          color: #444444;
-        }
-        &:hover, &:focus, &:active {
-          border: 0.05rem solid $textLightBlue;
-        }
-      }
-      .disabled {
-        cursor: default;
-        &:hover, &:focus {
-          border: 1px solid black;
-        }
-      }
-    }
-    .back-btn {
-      display: block;
+  }
+  button:hover {
+      background: $secondary;
       color:white;
+  }
+  a.disable-btn {
+      pointer-events: none;
+      cursor: default;
+      color: #444444;
+  }
+  .user-success-msg {
+      color: lightgreen;
+      width: 25%;
+      margin: .5rem auto;
+      text-align: center;
+      font-size: .85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15rem;
+      @media (min-width: $large) {
+          padding-left: 1rem;
+          border: 1px solid $secondary;
+          margin-bottom:3.5rem;
+      }
+  }
+  input,select {
+      margin: 1rem 0;
+      background: $julesPink;
+      @media (min-width: $medium) {
+        max-width: 350px;
+        margin: .75rem 0 .5rem 0;
+      }
+  }
+  #return-arrow {
+      color: white;
+      width:25px;
+      height:25px;
+      margin-bottom:.25rem;
+  }
+  .dash-buttons {
+    margin: 2.5rem 0 0 0;
+    @media (min-width: $medium) {
+      margin: 3rem 0 0 0;
+    }
+    .dash-item {
+      margin: .5rem;
+      padding:0 .5rem .5rem .5rem;
+      background-color:black;
+      border-radius: .75rem;
+      border: 1px solid #383162;
+      transition: all .3s ease-in-out;
+      cursor: pointer;
       font-size:.9rem;
-      margin-top:.75rem;
-      text-decoration: none;
-      letter-spacing: 0.075rem;
-      &:hover {
-        color:lightgrey;
+      font-weight:200;
+      @media (min-width: $medium) {
+        padding: 1rem .5rem;
+        margin: 1rem;
+        width: 30%;
+      }
+      @media (min-width: $large) {
+        width: 20%;
+        padding:.5rem 1.15rem .5rem 1rem;
+      }
+      a.disable-btn {
+        color: #444444;
+      }
+      &:hover, &:focus, &:active {
+        border: 0.05rem solid $textLightBlue;
       }
     }
-    .danger-alert,
-    .success-alert {
-      letter-spacing: 0.05rem;
-      font-weight: 200;
-      padding: 0.75rem 0;
-      margin: 2.5rem 0 1rem 0;
+    .disabled {
+      cursor: default;
+      &:hover, &:focus {
+        border: 1px solid black;
+      }
     }
-    .danger-alert {
-      color:red;
+  }
+  .back-btn {
+    display: block;
+    color:white;
+    margin-top:.75rem;
+    text-decoration: none;
+    letter-spacing: 0.075rem;
+    &:hover {
+      color:lightgrey;
     }
-    .success-alert {
-      color:lightgreen;
-    }
-    .dash-arrow {
-      width:30px;
-      height:35px;
+  }
+  .danger-alert,
+  .success-alert {
+    letter-spacing: 0.05rem;
+    font-weight: 200;
+    padding: 0.75rem 0;
+    margin: 2.5rem 0 1rem 0;
+  }
+  .danger-alert {
+    color:red;
+  }
+  .success-alert {
+    color:lightgreen;
+  }
+  .dash-arrow {
+    width:30px;
+    height:35px;
   }
 }

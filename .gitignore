@@ -9,7 +9,6 @@
 public/.htaccess
 /var/
 /vendor/
-/migrations
 .DS_Store
 /output-log.txt
 /templates/.DS_Store

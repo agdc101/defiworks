@@ -21,12 +21,30 @@ section.deposit-details {
             margin: 3rem 0;
         }
         div {
+            margin:2rem 0;
             @media (min-width: $medium) {
                 margin-right: 3.5rem;
+            }
+            @media (min-width: $large) {
+                margin:1rem rem 1rem 0;
+            }
+            #copy-btn {
+                background: transparent;
+                margin:0 .75rem;
+                width:15%;
+                max-width: 40px;
+                @media (min-width: $medium) {
+                    width: 22.5%;
+                }
+                img {
+                    width:20px;
+                    height:20px;
+                }
             }
         }
         p {
             font-size: 1.5rem;
+            display: flex;
         }
     }
     #usdConversion {
