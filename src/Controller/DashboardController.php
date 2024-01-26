@@ -45,7 +45,7 @@ class DashboardController extends AbstractController
          $growth = 0;
       }
 
-      $tvl = $appServices->getSiteTVL();
+      $tvl = round($appServices->getSiteTVL(), 2);
 
       return $this->render('dashboard/dashboard.html.twig', [
          'user' => $user->getFirstName(),
