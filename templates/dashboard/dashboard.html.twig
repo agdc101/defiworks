@@ -58,7 +58,7 @@
         {# -- Deposit Button -- #}
         {% set isPendingBalance = pendingBalance != 0 %}
 
-        <div class="dash-item{% if isPendingBalance %}disabled{% endif %}">
+        <div class="dash-item {% if isPendingBalance %}disabled{% endif %}">
             <a class="deposit-btn{% if isPendingBalance %} disable-btn{% endif %}" href="{{ path('app_deposit') }}">
                 <lord-icon
                     src="https://cdn.lordicon.com/yeallgsa.json"
