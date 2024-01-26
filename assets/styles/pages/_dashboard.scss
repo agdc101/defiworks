@@ -20,6 +20,7 @@
       width:75%;
       margin: 0 auto;
       border-bottom: 1px solid #383162;
+      padding-bottom: .75rem;
       @media (min-width: $medium) {
         display:flex;
         align-items: baseline;
@@ -28,7 +29,7 @@
       p {
         font-weight: 200;
         font-size: .95rem;
-        margin: .25rem 0 1.5rem 0;
+        margin: .75rem 0;
         letter-spacing: 0.075rem;
         @media (min-width: $large) {
           font-size: 1rem;
@@ -59,14 +60,17 @@
     display: inline-block;
     margin: .45rem 0;
     @media (min-width: $medium) {
-      width: 35%;
+      width: 25%;
     }
     p {
       font-weight: 400;
       text-transform: uppercase;
       margin: .2rem 0;
-      font-size: .9rem;
+      font-size: .7rem;
       letter-spacing: .1rem;
+      @media (min-width: $large) {
+        font-size: .85rem;
+      }
     }
     span {
       color: white;
