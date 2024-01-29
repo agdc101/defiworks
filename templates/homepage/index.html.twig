@@ -17,7 +17,7 @@
         <section class="hero">
             <div class="hero-content">
                 <p class="title">Decentralised Finance, <strong>Streamlined</strong></p>
-                <p>Strategy currently returning  {% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %} APY</p>
+                <p>Returning{% if liveApy is defined %} <strong>{{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %} APY</strong></p>
                 {% if app.user is not defined or not app.user %}
                     <button class="btn"><a href="{{ path('app_register') }}">Get Started</a></button>
                     <button class="btn"><a href="{{ path('app_login') }}">Login</a></button>
