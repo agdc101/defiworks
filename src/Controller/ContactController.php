@@ -45,16 +45,14 @@ class ContactController extends AbstractController
 
             $this->mailer->send($email);
 
-            return $this->render('contact/contact.html.twig', [
-                'contactForm' => $form->createView(),
-                'message' => 'Thank you. We will get back to you as soon as possible.'
+            return $this->render('contact/contact-sent.html.twig', [
+                'message' => 'Thank you for contacting DeFi Works. We will get back to you as soon as possible.'
             ]);
 
         }
 
         return $this->render('contact/contact.html.twig', [
             'contactForm' => $form->createView(),
-            'controller_name' => 'ContactController',
         ]);
     }
 }
