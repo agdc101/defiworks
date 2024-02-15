@@ -88,10 +88,10 @@ body {
           margin-top: .75rem;
           width: auto;
       }
-  }
-  button:hover {
-      background: $secondary;
-      color:white;
+    &:hover {
+        border: 1px solid white;
+        background-color: $secondary;
+    }
   }
   a.disable-btn {
       pointer-events: none;
@@ -114,9 +114,9 @@ body {
   }
   input,select {
       margin: 1rem 0;
-      background: $julesPink;
+      background-color: $julesPink;
       @media (min-width: $medium) {
-        max-width: 350px;
+        max-width: 400px;
         margin: .75rem 0 .5rem 0;
       }
   }

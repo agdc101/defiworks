@@ -1,0 +1,64 @@
+section.contact-wrapper {
+    display: grid;
+    form {
+        max-width: 920px;
+        label {
+            margin: .75rem 1rem .6rem 0;
+        }
+        #contact_message {
+            height: 17vh;
+            width:100%;
+            background: $julesPink;
+            // @media (min-width: $large) {
+            //     width: 65%;
+            // }
+        }
+        p {
+            font-weight:100;
+            font-size: 1.1rem;
+            letter-spacing: 0.03rem;
+            a {
+                color: $tertiary;
+                text-decoration: none;
+                font-weight: 400;
+                &:hover {
+                    color: $secondary;
+                }
+            }
+        }
+        div {
+            display:flex;
+            flex-direction: column;
+            @media (min-width: $large) {
+                margin: .7rem 0;
+            }
+            input {
+                margin: 0;
+                height:37px;
+                max-width:unset;
+            }
+            input, textarea {
+                border-radius: 5px;
+            }
+            button {
+                width: 100%;
+                cursor: pointer;
+                @media (min-width: $xl) {
+                    width: 25%;
+                    margin: .75rem 0;
+                }
+            }
+        }
+        div:nth-of-type(1) {
+            @media (min-width: $large) {
+                margin-right: 2rem;
+            }
+        }
+        div:nth-of-type(1), div:nth-of-type(2), div:nth-of-type(3) {
+            @media (min-width: $large) {
+                width: 48%;
+                display: inline-flex;
+            }
+        }
+    }
+}
