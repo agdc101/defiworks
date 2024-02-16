@@ -37,15 +37,19 @@ class ContactController extends AbstractController
 
             // dd($name, $email, $subject, $message);
 
-            $email = (new Email())
-                ->from('admin@defiworks.co.uk')
-                ->to('admin@defiworks.co.uk')
-                ->subject("Contact page enquiry - $subject")
-                ->html("$message <br> <br> Sent by: $name <br> Email: $email");
+            try {
+                $email = (new Email())
+                    ->from('admin@defiworks.co.uk')
+                    ->to('admin@defiworks.co.uk')
+                    ->subject("Contact page enquiry - $subject")
+                    ->html("$message <br> <br> Sent by: $name <br> Email: $email");
 
-            $this->mailer->send($email);
+                $this->mailer->send($email);
+                return $this->redirectToRoute('app_contact_success');
 
-            return $this->redirectToRoute('app_contact_success');
+            } catch (TransportExceptionInterface $e) {
+                return $this->redirectToRoute('app_contact_success');
+            }
 
         }
 

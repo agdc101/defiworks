@@ -5,11 +5,10 @@
 {% block body %}
 
 <section class="contact-sent-wrapper">
-    <h1>Thank You</h1>
+    <h1>Sorry!</h1>
 
-    {% if message is defined %}
-        <p>{{message}}</p>
-    {% endif %}
+    <p>There was an error sending your message</p>
+    <p>Try again later or Alternatively contact us at <a href="mailto:admin@defiworks.co.uk">admin@defiworks.co.uk</a></p>
 
     <a href="{{ path('app_home') }}">Home        
         <svg id="return-arrow" width="512" height="512" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

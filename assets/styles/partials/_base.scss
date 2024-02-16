@@ -120,12 +120,24 @@ body {
         margin: .75rem 0 .5rem 0;
       }
   }
-  #return-arrow {
+  .return-arrow {
+    display:flex;
+    margin-right: .3rem;
+    color:white;
+    text-decoration: none;
+    &:hover {
+      color:$tertiary;
+    }
+    svg {
+        margin-left: .2rem;
+    }
+    #return-arrow {
       color: white;
       width:25px;
       height:25px;
       margin-bottom:.25rem;
   }
+}
   .dash-buttons {
     margin: 2.5rem 0 0 0;
     @media (min-width: $medium) {
