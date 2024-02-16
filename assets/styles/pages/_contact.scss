@@ -23,6 +23,9 @@ section.contact-wrapper {
                 }
             }
         }
+        // p:nth-of-type(2) {
+        //     color:white;
+        // }
         div {
             display:flex;
             flex-direction: column;
@@ -75,5 +78,29 @@ section.contact-sent-wrapper {
         font-size: 1.1rem;
         letter-spacing: .05rem;
         font-weight: 300;
+    }
+}
+
+section.contact-error-wrapper {
+    h1 {
+        margin-bottom:2rem;
+    }
+    p:nth-of-type(1) {
+        color: $secondary;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        letter-spacing: .05rem;
+        font-weight: 300;
+    }
+    a {
+        color: $tertiary;
+        text-decoration: none;
+        font-weight: 400;
+        &:hover {
+            color: $secondary;
+        }
+    }
+    .back-btn {
+        margin-top:2rem;
     }
 }

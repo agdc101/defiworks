@@ -35,8 +35,6 @@ class ContactController extends AbstractController
             $subject = $data['subject'];
             $message = $data['message'];
 
-            // dd($name, $email, $subject, $message);
-
             try {
                 $email = (new Email())
                     ->from('admin@defiworks.co.uk')
@@ -45,10 +43,10 @@ class ContactController extends AbstractController
                     ->html("$message <br> <br> Sent by: $name <br> Email: $email");
 
                 $this->mailer->send($email);
-                return $this->redirectToRoute('app_contact_success');
+                return $this->redirectToRoute('app_contact_error');
 
             } catch (TransportExceptionInterface $e) {
-                return $this->redirectToRoute('app_contact_success');
+                return $this->redirectToRoute('app_contact_error');
             }
 
         }
@@ -62,5 +60,11 @@ class ContactController extends AbstractController
     public function renderContactSuccessPage( ): Response {
 
         return $this->render('contact/contact-sent.html.twig');
+    }
+
+    #[Route('/contact-error', name: 'app_contact_error')]
+    public function renderContactErrorPage( ): Response {
+
+        return $this->render('contact/contact-error.html.twig');
     }
 }
