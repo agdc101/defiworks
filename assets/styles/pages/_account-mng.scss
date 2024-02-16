@@ -1,10 +1,12 @@
 section.account-mng {
   p {
-    color:$tertiary;
     letter-spacing: 0.05rem;
     font-weight: 200;
     margin: 1.25rem 0;
-  }
+    a {
+      color:$tertiary !important;
+    }
+  } 
   .user-options {
     display: flex;
     flex-direction: column;
@@ -44,11 +46,11 @@ section.close-account {
     }
   }
   a {
+    display:block;
     color:lightgray;
     cursor: pointer;
     text-decoration: none;
-    margin-bottom:1.5rem;
-    // display: block;
+    margin:2rem 0;
     &:hover {
       color:red;
     }
