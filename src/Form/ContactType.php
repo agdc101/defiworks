@@ -17,18 +17,22 @@ class ContactType extends AbstractType
         $builder
             ->add('name', null, [
                 'constraints' => [new NotBlank()],
+                'attr' => ['placeholder' => 'Your Name'],
             ])
             ->add('email', null, [
                 'constraints' => [
                     new NotBlank(),
                     new Email(['message' => 'The email "{{ value }}" is not a valid email.']),
                 ],
+                'attr' => ['placeholder' => 'Your Email'],
             ])
             ->add('subject', null, [
                 'constraints' => [new NotBlank()],
+                'attr' => ['placeholder' => 'Subject'],
             ])
             ->add('message', TextareaType::class, [
                 'constraints' => [new NotBlank()],
+                'attr' => ['placeholder' => 'Your Message'],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Submit',
@@ -39,7 +43,7 @@ class ContactType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            
+
         ]);
     }
 }
