@@ -44,7 +44,10 @@ class DashboardController extends AbstractController
       } else {
          $growth = 0;
       }
-
+      
+      $data = $appServices->getVaultData();
+      $apyAverages = $dashboardServices->getAverageApy($data['responseData']);
+      
       $tvl = round($appServices->getSiteTVL(), 2);
 
       return $this->render('dashboard/dashboard.html.twig', [
@@ -54,7 +57,8 @@ class DashboardController extends AbstractController
          'pendingBalance' => $appServices->addZeroToValue($pendingBalance),
          'profit' => $profit,
          'growth' => round($growth, 2),
-         'tvl' => $tvl
+         'tvl' => $tvl,
+         'threeMonthAverage' => $apyAverages['threeMonthAverage']
       ]);
     }
 

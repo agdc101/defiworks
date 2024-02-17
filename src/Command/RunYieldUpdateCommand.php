@@ -54,7 +54,7 @@ class RunYieldUpdateCommand extends Command
     */
    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $responseApy = $this->appServices->getApy();
+        $responseApy = $this->appServices->getVaultData();
         end($responseApy);
         $apyValue = prev($responseApy);
         $dailyYield = $apyValue / 365;

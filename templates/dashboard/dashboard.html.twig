@@ -4,23 +4,6 @@
 
 {% block body %}
 
-{#  prints verification success message  #}
-{# {% for message in app.flashes('success') %}
-    {% if loop.first %}
-        <div class="success-alert">
-            {{ message }}
-        </div>
-    {% endif %}
-{% endfor %}
-
-{% for message in app.flashes('password_reset_success') %}
-    <div class="alert user-success-msg" role="alert">{{ message }}</div>
-{% endfor %}
-
-{% for message in app.flashes('success_pin') %}
-    <div class="alert user-success-msg" role="alert">{{ message }}</div>
-{% endfor %} #}
-
 <h1 class="text-center">{{ user | capitalize }}'s Dashboard</h1>
 
 <div class="dashboard-content-wrapper">

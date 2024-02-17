@@ -44,4 +44,18 @@ class DashboardServices
       return 0;
    }
 
+   public function getAverageApy($data) : array
+   {
+      $d = [];
+      $nexoApy = 11;
+      for ($i = (count($data) - 90); $i < count($data); $i++) {
+          $d[] = (($data[$i]['apy'] + $nexoApy) / 2 * 0.85);
+      }
+      $threeMonthAverage = array_sum($d) / count($d);
+
+      return[
+         'threeMonthAverage' => $threeMonthAverage,
+      ];
+   }
+
 }

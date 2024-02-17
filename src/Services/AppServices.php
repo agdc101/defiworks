@@ -48,7 +48,7 @@ class AppServices
     * @throws DecodingExceptionInterface
     * @throws ClientExceptionInterface
     */
-   public function getApy() : array
+   public function getVaultData() : array
    {
       $nexAPY = 11;
       $commission = 0.85;
@@ -79,7 +79,7 @@ class AppServices
             'reaperApy' => $responseApy,
             'responseData' => $responseData,
             'commission' => $commission,
-            'statusCode' => $statusCode
+            'statusCode' => $statusCode,
          ];
       }
    }
