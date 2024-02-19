@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Entity\Deposits;
 use App\Entity\Withdrawals;
 use App\Exceptions\UserNotFoundException;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use App\Exceptions\ApyDataException;
 use Doctrine\ORM\EntityManagerInterface;
 
 class DashboardServices
@@ -65,7 +65,7 @@ class DashboardServices
          if (isset($data[$i]['apy'])) {
             $d[] = (($data[$i]['apy'] + $nexoApy) / 2 * 0.85);
          } else {
-            throw new DecodingExceptionInterface('Error decoding data, no APY data');
+            throw new ApyDataException();
          }
       }
 
