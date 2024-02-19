@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Entity\Deposits;
 use App\Entity\Withdrawals;
 use App\Exceptions\UserNotFoundException;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class DashboardServices
@@ -21,8 +22,7 @@ class DashboardServices
    /**
     * @throws UserNotFoundException
     */
-   public function getPendingBalance() : float
-   {
+   public function getPendingBalance() : float {
       $user = $this->appServices->getUserOrThrowException();
       $userBalance = number_format($user->getBalance(), 3);
 
@@ -44,18 +44,32 @@ class DashboardServices
       return 0;
    }
 
-   public function getAverageApy($data) : array
-   {
-      $d = [];
+   public function getAverageApys($data): array {
       $nexoApy = 11;
-      for ($i = (count($data) - 90); $i < count($data); $i++) {
-          $d[] = (($data[$i]['apy'] + $nexoApy) / 2 * 0.85);
-      }
-      $threeMonthAverage = array_sum($d) / count($d);
+      $averages = [];
+  
+      $averages['threeMonthAverage'] = $this->calculateAverage($data, $nexoApy, 90);
+      $averages['sixMonthAverage'] = $this->calculateAverage($data, $nexoApy, 180);
+      $averages['twelveMonthAverage'] = $this->calculateAverage($data, $nexoApy, 365);
+  
+      return $averages;
+   }
 
-      return[
-         'threeMonthAverage' => $threeMonthAverage,
-      ];
+
+   /**
+    * @throws DecodingExceptionInterface
+    */
+   private function calculateAverage($data, $nexoApy, $period): float {
+      $d = [];
+      for ($i = (count($data) - $period); $i < count($data); $i++) {
+         if (isset($data[$i]['apy'])) {
+            $d[] = (($data[$i]['apy'] + $nexoApy) / 2 * 0.85);
+         } else {
+            throw new DecodingExceptionInterface('Error decoding data, no APY data');
+         }
+      }
+
+      return array_sum($d) / count($d);
    }
 
 }

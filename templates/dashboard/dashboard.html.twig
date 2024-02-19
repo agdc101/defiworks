@@ -13,6 +13,12 @@
             <p>Total Value Locked: <strong>{% if tvl is null %} $0 {% else  %} ${{ tvl }} {% endif %}</strong></p>
             <p>Active users: <strong>4</strong></p>
         </div>
+        <div class="site-status-info-inner">
+            <span>Average strategy returns:</span>
+            <p>3 months: <strong>{{ threeMonthAverage }}%</strong></p>
+            <p>6 months: <strong>{{ sixMonthAverage }}%</strong></p>
+            <p>1 year: <strong>{{ twelveMonthAverage }}%</strong></p>
+        </div>
     </section>
     <section class="account-status">
         <h4>{{ user | capitalize }}'s Account:</h4>

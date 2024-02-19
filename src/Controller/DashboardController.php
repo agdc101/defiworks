@@ -31,7 +31,7 @@ class DashboardController extends AbstractController
       $session = $request->getSession();
 
       if (!$session->get('apy')) {
-         $responseApy = $appServices->getApy();
+         $responseApy = $appServices->getVaultData();
          $session->set('apy', reset($responseApy));
       }
       $user = $appServices->getUserOrThrowException();
@@ -46,8 +46,8 @@ class DashboardController extends AbstractController
       }
       
       $data = $appServices->getVaultData();
-      $apyAverages = $dashboardServices->getAverageApy($data['responseData']);
-      
+      $apyAverages = $dashboardServices->getAverageApys($data['responseData']);
+
       $tvl = round($appServices->getSiteTVL(), 2);
 
       return $this->render('dashboard/dashboard.html.twig', [
@@ -58,7 +58,9 @@ class DashboardController extends AbstractController
          'profit' => $profit,
          'growth' => round($growth, 2),
          'tvl' => $tvl,
-         'threeMonthAverage' => $apyAverages['threeMonthAverage']
+         'threeMonthAverage' => round($apyAverages['threeMonthAverage'], 2),
+         'sixMonthAverage' => round($apyAverages['sixMonthAverage'], 2),
+         'twelveMonthAverage' => round($apyAverages['twelveMonthAverage'], 2)
       ]);
     }
 
