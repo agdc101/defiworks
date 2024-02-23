@@ -15,7 +15,7 @@
             <p>APY: <span>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</span></p>
         </div>
         <div class="site-status-info-inner">
-            <span>Average strategy returns:</span>
+            <p class="site-status" >Average strategy returns:</p>
             <p>3 months: <strong>{{ threeMonthAverage }}%</strong></p>
             <p>6 months: <strong>{{ sixMonthAverage }}%</strong></p>
             <p>1 year: <strong>{{ twelveMonthAverage }}%</strong></p>
