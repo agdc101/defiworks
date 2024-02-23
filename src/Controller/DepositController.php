@@ -26,6 +26,10 @@ class DepositController extends AbstractController
         return $this->render('deposit/deposit.html.twig');
     }
 
+    /**
+    * @throws TransportExceptionInterface
+    * @throws Exception
+    */
     #[Route('/deposit/deposit-details', name: 'app_deposit_details')]
     public function RenderDepositDetailsTemplate(Request $request, AppServices $appServices): Response
     {
