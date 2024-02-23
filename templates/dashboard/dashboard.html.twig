@@ -49,7 +49,7 @@
         {% set isPendingBalance = pendingBalance != 0 %}
 
         <div class="dash-item {% if isPendingBalance %}disabled{% endif %}">
-            <a class="deposit-btn{% if isPendingBalance %} disable-btn{% endif %}" href="{{ path('app_deposit') }}">
+            <a class="deposit-btn{% if isPendingBalance %} disable-btn {% endif %}" href="{{ path('app_deposit') }}">
                 <lord-icon
                     src="https://cdn.lordicon.com/yeallgsa.json"
                     trigger="hover"
@@ -64,12 +64,12 @@
         {% set isBalanceZeroOrNull = balance is null or balance == 0 %}
         {% set isPendingBalanceNonZero = pendingBalance != 0 %}
 
-        <div class="dash-item{% if isBalanceZeroOrNull or isPendingBalanceNonZero %} disabled{% endif %}">
-            <a class="withdraw-btn{% if isBalanceZeroOrNull %} disable-btn{% endif %}" href="{{ path('app_withdraw') }}">
+        <div class="dash-item{% if isBalanceZeroOrNull or isPendingBalanceNonZero %} disabled {% endif %}">
+            <a class="withdraw-btn{% if isBalanceZeroOrNull or isPendingBalanceNonZero %} disable-btn {% endif %}" href="{{ path('app_withdraw') }}">
                 <lord-icon
                     src="https://cdn.lordicon.com/rgyftmhc.json"
                     trigger="hover"
-                    colors="primary:{{ isBalanceZeroOrNull ? '#484848' : '#ffffff' }},secondary:{{ isBalanceZeroOrNull ? '#484848' : '#5d66e6' }}"
+                    colors="primary:{{ isBalanceZeroOrNull or isPendingBalanceNonZero ? '#484848' : '#ffffff' }},secondary:{{ isBalanceZeroOrNull or isPendingBalanceNonZero ? '#484848' : '#5d66e6' }}"
                     stroke="25"
                     {% if isBalanceZeroOrNull %}target="div"{% endif %}>
                 </lord-icon>

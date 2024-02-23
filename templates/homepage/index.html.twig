@@ -17,10 +17,10 @@
         <section class="hero">
             <div class="hero-content">
                 <p class="title">Decentralised Finance, <strong>Streamlined</strong></p>
-                <p>Strategy currently returning  {% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %} APY</p>
+                <p>Integrated with audited DeFi protocols for competitive returns</p>
+                <p>{% if liveApy is defined %} <strong>{{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</strong> APY</p>
                 {% if app.user is not defined or not app.user %}
                     <button class="btn"><a href="{{ path('app_register') }}">Get Started</a></button>
-                    <button class="btn"><a href="{{ path('app_login') }}">Login</a></button>
                 {% endif %}
                 <a class='hero-arrow' href="#intro"> 
                     <span>Explore</span> 
