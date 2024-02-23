@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact us - DeFi Works{% endblock %}
+
+{% block body %}
+
+<section class="contact-wrapper">
+
+    {{ form_start(contactForm) }}
+        <fieldset>
+            <h1>Contact us</h1>       
+            <legend>Please enter your enquiry</legend>
+            <p>Alternatively contact us at <a href="mailto:admin@defiworks.co.uk">admin@defiworks.co.uk</a></p>  
+        </fieldset>
+    {{ form_end(contactForm) }}
+
+    {% if message is defined %}
+        <p>{{message}}</p>
+    {% endif %}
+
+
+</section>
+{% endblock %}

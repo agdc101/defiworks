@@ -8,7 +8,7 @@
     @media (min-width: $large) {
       margin: 4rem 0;
     }
-    span {
+    .site-status {
       font-weight: 300;
       font-size: .9rem;
       color: lightgreen;
@@ -16,10 +16,12 @@
         font-size: 1rem;
       }
     }
+    &-inner:last-of-type {
+      border-bottom: 1px solid #383162;    
+    }
     &-inner {
       width:75%;
       margin: 0 auto;
-      border-bottom: 1px solid #383162;
       padding-bottom: .75rem;
       @media (min-width: $medium) {
         display:flex;
@@ -33,7 +35,7 @@
         letter-spacing: 0.075rem;
         @media (min-width: $large) {
           font-size: 1rem;
-          margin: .4rem 0 2.75rem 0;
+          margin: .4rem 0 .5rem 0;
         }
       }
     }
@@ -51,6 +53,7 @@
     .dash-info {
       @media (min-width: $large) {
         display: flex;
+        justify-content: center;
       }
     }
   }
@@ -59,7 +62,7 @@
     display: inline-block;
     margin: .45rem 0;
     @media (min-width: $medium) {
-      width: 25%;
+      width: 20%;
     }
     p {
       font-weight: 400;
@@ -81,7 +84,7 @@
     }
     lord-icon {
       display: block;
-      margin: 0 1rem 0 0;
+      margin: 0 auto;
       width: 100px;
       height: 100px;
       @media (min-width: $large) {
