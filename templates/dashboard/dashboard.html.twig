@@ -4,23 +4,6 @@
 
 {% block body %}
 
-{#  prints verification success message  #}
-{# {% for message in app.flashes('success') %}
-    {% if loop.first %}
-        <div class="success-alert">
-            {{ message }}
-        </div>
-    {% endif %}
-{% endfor %}
-
-{% for message in app.flashes('password_reset_success') %}
-    <div class="alert user-success-msg" role="alert">{{ message }}</div>
-{% endfor %}
-
-{% for message in app.flashes('success_pin') %}
-    <div class="alert user-success-msg" role="alert">{{ message }}</div>
-{% endfor %} #}
-
 <h1 class="text-center">{{ user | capitalize }}'s Dashboard</h1>
 
 <div class="dashboard-content-wrapper">
@@ -30,6 +13,12 @@
             <p>Total Value Locked: <strong>{% if tvl is null %} $0 {% else  %} ${{ tvl }} {% endif %}</strong></p>
             <p>Active users: <strong>4</strong></p>
             <p>APY: <span>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</span></p>
+        </div>
+        <div class="site-status-info-inner">
+            <span>Average strategy returns:</span>
+            <p>3 months: <strong>{{ threeMonthAverage }}%</strong></p>
+            <p>6 months: <strong>{{ sixMonthAverage }}%</strong></p>
+            <p>1 year: <strong>{{ twelveMonthAverage }}%</strong></p>
         </div>
     </section>
     <section class="account-status">

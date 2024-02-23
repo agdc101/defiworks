@@ -1,17 +1,23 @@
-.pin-form-wrap {
-    @media (min-width: $medium) {
-        display:flex;
+section.pin-page {
+    h1 {
+        margin-bottom: 2.5rem;
     }
-    #pin_verify_pin {
+    .pin-form-wrap {
         @media (min-width: $medium) {
-            // width: 50%;
+            display:flex;
         }
-    }
-    button {
-        margin-top:1rem;
-        @media (min-width: $medium) {
-            margin-left: 1rem;
-            margin-top:.75rem;
+        #pin_verify_pin {
+            @media (min-width: $medium) {
+                // width: 50%;
+            }
+        }
+        button {
+            margin-top:1rem;
+            @media (min-width: $medium) {
+                margin-left: 1rem;
+                margin-top:.75rem;
+            }
         }
     }
 }
+

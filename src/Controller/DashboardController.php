@@ -30,8 +30,9 @@ class DashboardController extends AbstractController
     {
       $session = $request->getSession();
 
-      if ($session->get('apy') === null) {
-         $responseApy = $appServices->getApy();
+      if (!$session->get('apy')) {
+         $responseApy = $appServices->getVaultData();
+
          $session->set('apy', reset($responseApy));
       }
       $apy = $session->get('apy');
@@ -46,6 +47,9 @@ class DashboardController extends AbstractController
       } else {
          $growth = 0;
       }
+      
+      $data = $appServices->getVaultData();
+      $apyAverages = $dashboardServices->getAverageApys($data['responseData']);
 
       // add $session->get('apy') to the $userBalance
       $projectedBalance = $userBalance * (1 + $apy / 100);
@@ -60,6 +64,10 @@ class DashboardController extends AbstractController
          'growth' => round($growth, 2),
          'tvl' => $tvl,
          'projectedBalance' => number_format($projectedBalance, 3),
+         'threeMonthAverage' => round($apyAverages['threeMonthAverage'], 2),
+         'sixMonthAverage' => round($apyAverages['sixMonthAverage'], 2),
+         'twelveMonthAverage' => round($apyAverages['twelveMonthAverage'], 2)
+
       ]);
     }
 
