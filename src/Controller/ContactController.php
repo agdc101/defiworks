@@ -43,7 +43,7 @@ class ContactController extends AbstractController
                     ->html("$message <br> <br> Sent by: $name <br> Email: $email");
 
                 $this->mailer->send($email);
-                return $this->redirectToRoute('app_contact_error');
+                return $this->redirectToRoute('app_contact_success');
 
             } catch (TransportExceptionInterface $e) {
                 return $this->redirectToRoute('app_contact_error');
