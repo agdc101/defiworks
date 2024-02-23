@@ -4,31 +4,21 @@
 
 {% block body %}
 
-{#  prints verification success message  #}
-{# {% for message in app.flashes('success') %}
-    {% if loop.first %}
-        <div class="success-alert">
-            {{ message }}
-        </div>
-    {% endif %}
-{% endfor %}
-
-{% for message in app.flashes('password_reset_success') %}
-    <div class="alert user-success-msg" role="alert">{{ message }}</div>
-{% endfor %}
-
-{% for message in app.flashes('success_pin') %}
-    <div class="alert user-success-msg" role="alert">{{ message }}</div>
-{% endfor %} #}
-
 <h1 class="text-center">{{ user | capitalize }}'s Dashboard</h1>
 
 <div class="dashboard-content-wrapper">
     <section class="site-status-info">
         <div class="site-status-info-inner">
-            <span>DeFi Works status:</span>
+            <p class="site-status">DeFi Works status:</p>
             <p>Total Value Locked: <strong>{% if tvl is null %} $0 {% else  %} ${{ tvl }} {% endif %}</strong></p>
             <p>Active users: <strong>4</strong></p>
+            <p>APY: <span>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</span></p>
+        </div>
+        <div class="site-status-info-inner">
+            <p class="site-status" >Average strategy returns:</p>
+            <p>3 months: <strong>{{ threeMonthAverage }}%</strong></p>
+            <p>6 months: <strong>{{ sixMonthAverage }}%</strong></p>
+            <p>1 year: <strong>{{ twelveMonthAverage }}%</strong></p>
         </div>
     </section>
     <section class="account-status">
@@ -49,7 +39,7 @@
                 <p>Growth</p><span>{% if growth is null %} $0 {% else  %} {{ growth }}% {% endif %}</span>
             </div>
             <div class="dash-item">
-                <p>APY</p><span>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</span>
+                <p>Projected Balance (+1 YR)</p><span>{% if projectedBalance is null %} $0 {% else  %} ${{ projectedBalance|round(2, 'floor') }} {% endif %}</span>
             </div>
         </div>
     </section>
@@ -59,7 +49,7 @@
         {% set isPendingBalance = pendingBalance != 0 %}
 
         <div class="dash-item {% if isPendingBalance %}disabled{% endif %}">
-            <a class="deposit-btn{% if isPendingBalance %} disable-btn{% endif %}" href="{{ path('app_deposit') }}">
+            <a class="deposit-btn{% if isPendingBalance %} disable-btn {% endif %}" href="{{ path('app_deposit') }}">
                 <lord-icon
                     src="https://cdn.lordicon.com/yeallgsa.json"
                     trigger="hover"
@@ -74,12 +64,12 @@
         {% set isBalanceZeroOrNull = balance is null or balance == 0 %}
         {% set isPendingBalanceNonZero = pendingBalance != 0 %}
 
-        <div class="dash-item{% if isBalanceZeroOrNull or isPendingBalanceNonZero %} disabled{% endif %}">
-            <a class="withdraw-btn{% if isBalanceZeroOrNull %} disable-btn{% endif %}" href="{{ path('app_withdraw') }}">
+        <div class="dash-item{% if isBalanceZeroOrNull or isPendingBalanceNonZero %} disabled {% endif %}">
+            <a class="withdraw-btn{% if isBalanceZeroOrNull or isPendingBalanceNonZero %} disable-btn {% endif %}" href="{{ path('app_withdraw') }}">
                 <lord-icon
                     src="https://cdn.lordicon.com/rgyftmhc.json"
                     trigger="hover"
-                    colors="primary:{{ isBalanceZeroOrNull ? '#484848' : '#ffffff' }},secondary:{{ isBalanceZeroOrNull ? '#484848' : '#5d66e6' }}"
+                    colors="primary:{{ isBalanceZeroOrNull or isPendingBalanceNonZero ? '#484848' : '#ffffff' }},secondary:{{ isBalanceZeroOrNull or isPendingBalanceNonZero ? '#484848' : '#5d66e6' }}"
                     stroke="25"
                     {% if isBalanceZeroOrNull %}target="div"{% endif %}>
                 </lord-icon>

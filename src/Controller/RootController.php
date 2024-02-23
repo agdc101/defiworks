@@ -27,7 +27,7 @@ class RootController extends AbstractController
     {
       $session = $request->getSession();
       if (!$session->get('apy')) {
-         $responseApy = $appServices->getApy();
+         $responseApy = $appServices->getVaultData();
          $session->set('apy', reset($responseApy));
       }
       $liveApy = $session->get('apy');
