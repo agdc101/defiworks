@@ -6,7 +6,7 @@
     letter-spacing: 0.05rem;
     margin: 2rem 0 2.5rem 0;
     @media (min-width: $large) {
-      margin: 4rem 0;
+      margin: 5rem 0;
     }
     .site-status {
       font-weight: 300;
@@ -41,6 +41,7 @@
     }
   }
   .account-status {
+    margin: 2rem 0;
     h4 {
       font-weight:100;
       letter-spacing: 0.15rem;
@@ -101,41 +102,6 @@
       @media (min-width: $large) {
         display:flex;
         align-items: center;
-      }
-    }
-    .disabled {
-        cursor: default;
-        &:hover, &:focus {
-          border: 1px solid black;
-        }
-    }
-  }
-  .dash-buttons {
-    margin: 2rem 0 0 0;
-    .dash-item {
-      margin: .5rem;
-      padding:0 .5rem .5rem .5rem;
-      background-color:black;
-      border-radius: .75rem;
-      border: 1px solid #383162;
-      transition: all .3s ease-in-out;
-      cursor: pointer;
-      font-size:.9rem;
-      font-weight:200;
-      @media (min-width: $medium) {
-        padding: 1rem .5rem;
-        margin: 1rem;
-        width: 30%;
-      }
-      @media (min-width: $large) {
-        width: 20%;
-        padding:.5rem 1.15rem .5rem 1rem;
-      }
-      a.disable-btn {
-        color: #444444;
-      }
-      &:hover, &:focus, &:active {
-        border: 0.05rem solid $textLightBlue;
       }
     }
   }
