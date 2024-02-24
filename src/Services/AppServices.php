@@ -21,6 +21,7 @@ class AppServices
    private UserRepository $userRepository;
    private EntityManagerInterface $entityManager;
    private MailerInterface $mailer;
+   private HttpClientInterface $client;
 
    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, MailerInterface $mailer, HttpClientInterface $client)
     {
