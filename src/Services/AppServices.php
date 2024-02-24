@@ -168,9 +168,8 @@ class AppServices
     */
    public function getGeckoData($api) : array
    {
-      $httpClient = HttpClient::create();
       try {
-         $response = $httpClient->request('GET', $api);
+         $response = $this->client->request('GET', $api, ['timeout' => 5]);
          return $response->toArray();
       } catch (ClientExceptionInterface $e) {
          return ['error' => $e->getMessage()];
