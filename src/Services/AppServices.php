@@ -85,7 +85,7 @@ class AppServices
                   'statusCode' => $statusCode,
               ];
           }
-      } catch (TransportException $e) {
+      } catch (TransportExceptionInterface $e) {
           return [
               'liveAPY' => $defaultLiveAPY,
               'statusCode' => 503,
