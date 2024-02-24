@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
+use Exception;
 use App\Entity\User;
 use App\Exceptions\UserNotFoundException;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
-use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -21,12 +21,14 @@ class AppServices
    private UserRepository $userRepository;
    private EntityManagerInterface $entityManager;
    private MailerInterface $mailer;
+   private HttpClientInterface $client;
 
-   public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, MailerInterface $mailer)
+   public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, MailerInterface $mailer, HttpClientInterface $client)
     {
          $this->userRepository = $userRepository;
          $this->entityManager = $entityManager;
          $this->mailer = $mailer;
+         $this->client = $client;
     }
 
    /**
@@ -42,47 +44,57 @@ class AppServices
    }
 
    /**
-    * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-    * @throws ServerExceptionInterface
-    * @throws RedirectionExceptionInterface
-    * @throws DecodingExceptionInterface
-    * @throws ClientExceptionInterface
-    */
-   public function getVaultData() : array
-   {
+   * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+   * @throws ServerExceptionInterface
+   * @throws RedirectionExceptionInterface
+   * @throws DecodingExceptionInterface
+   * @throws ClientExceptionInterface
+   */
+  public function getVaultData(): array
+  {
       $nexAPY = 11;
+      $defaultLiveAPY = 6.99;
       $commission = 0.85;
-      $client = HttpClient::create();
-      $response = $client->request('GET', 'https://yields.llama.fi/chart/b65aef64-c153-4567-9d1a-e0040488f97f');
-      $statusCode = $response->getStatusCode();
-
-      // if response is not 404, return status code
-      if ($statusCode !== 200) {
-         return [
-            'liveAPY' => 5.55,
-            'statusCode' => $statusCode
-         ];
-      } else {
-         $responseData = $response->toArray()['data'];
-         $responseApy = end($responseData)['apy'];
-         //the live apy. (get the average APY of $nexAPY and $responseApy)
-         $avrResponseLiveApy = (($responseApy + $nexAPY) / 2)*$commission;
-
-         if ($avrResponseLiveApy < 4.75) {
-            $commission = 0.90;
-         } else if ($avrResponseLiveApy > 6.75) {
-            $commission = 0.80;
-         }
-
-         return [
-            'liveAPY' => $avrResponseLiveApy,
-            'reaperApy' => $responseApy,
-            'responseData' => $responseData,
-            'commission' => $commission,
-            'statusCode' => $statusCode,
-         ];
+  
+      try {
+          $response = $this->client->request('GET', 'https://yields.llama.fi/chart/b65aef64-c153-4567-9d1a-e0040488f97f', ['timeout' => 5]);
+          $statusCode = $response->getStatusCode();
+  
+          if ($statusCode !== 200) {
+              return [
+                  'liveAPY' => $defaultLiveAPY,
+                  'statusCode' => $statusCode,
+              ];
+          } else {
+              $responseData = $response->toArray()['data'];
+              $responseApy = end($responseData)['apy'];
+              $avrResponseLiveApy = (($responseApy + $nexAPY) / 2) * $commission;
+  
+              // Adjust commission based on live APY
+              if ($avrResponseLiveApy < 4.75) {
+                  $commission = 0.90;
+              } elseif ($avrResponseLiveApy > 6.75) {
+                  $commission = 0.80;
+              }
+  
+              return [
+                  'liveAPY' => $avrResponseLiveApy,
+                  'reaperApy' => $responseApy,
+                  'responseData' => $responseData,
+                  'commission' => $commission,
+                  'statusCode' => $statusCode,
+              ];
+          }
+      } catch (TransportExceptionInterface $e) {
+          return [
+              'liveAPY' => $defaultLiveAPY,
+              'statusCode' => 503,
+              'error' => $e->getMessage(),
+          ];
       }
-   }
+  }
+  
+
 
    public function addZeroToValue($value) : string
    {
@@ -157,9 +169,8 @@ class AppServices
     */
    public function getGeckoData($api) : array
    {
-      $httpClient = HttpClient::create();
       try {
-         $response = $httpClient->request('GET', $api);
+         $response = $this->client->request('GET', $api, ['timeout' => 5]);
          return $response->toArray();
       } catch (ClientExceptionInterface $e) {
          return ['error' => $e->getMessage()];
