@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Exception;
 use App\Entity\User;
+use App\Entity\StrategyApy;
 use App\Exceptions\UserNotFoundException;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,6 +44,18 @@ class AppServices
       return $user;
    }
 
+   public function getCurrentApy(): float
+   {
+      return $apyValue = $this->entityManager->getRepository(StrategyApy::class)
+         ->createQueryBuilder('s')
+         ->select('s.apy')
+         ->orderBy('s.timestamp', 'DESC')
+         ->setMaxResults(1)
+         ->getQuery()
+         ->getSingleScalarResult();
+
+   }
+
    /**
    * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
    * @throws ServerExceptionInterface
@@ -50,41 +63,41 @@ class AppServices
    * @throws DecodingExceptionInterface
    * @throws ClientExceptionInterface
    */
-  public function getVaultData(): array
-  {
+   public function getVaultData(): array
+   {
       $nexAPY = 11;
       $defaultLiveAPY = 6.99;
       $commission = 0.85;
   
       try {
-          $response = $this->client->request('GET', 'https://yields.llama.fi/chart/b65aef64-c153-4567-9d1a-e0040488f97f', ['timeout' => 5]);
-          $statusCode = $response->getStatusCode();
-  
+         $response = $this->client->request('GET', 'https://yields.llama.fi/chart/b65aef64-c153-4567-9d1a-e1040488f97f', ['timeout' => 5]);
+         $statusCode = $response->getStatusCode();
+
           if ($statusCode !== 200) {
-              return [
+               return [
                   'liveAPY' => $defaultLiveAPY,
                   'statusCode' => $statusCode,
-              ];
+                  'error' => 'Error fetching data from API'
+               ];
           } else {
-              $responseData = $response->toArray()['data'];
-              $responseApy = end($responseData)['apy'];
-              $avrResponseLiveApy = (($responseApy + $nexAPY) / 2) * $commission;
-  
-              // Adjust commission based on live APY
-              if ($avrResponseLiveApy < 4.75) {
+               // Get the newest APY from the response
+               $responseData = $response->toArray()['data'];
+               $responseApy = end($responseData)['apy'];
+
+               // Adjust commission based on live APY
+               if ($responseApy < 4.75) {
                   $commission = 0.90;
-              } elseif ($avrResponseLiveApy > 6.75) {
+               } elseif ($responseApy > 6.75) {
                   $commission = 0.80;
-              }
+               }
+               $avrResponseLiveApy = (($responseApy + $nexAPY) / 2) * $commission;
   
-              return [
+               return [
                   'liveAPY' => $avrResponseLiveApy,
-                  'reaperApy' => $responseApy,
                   'responseData' => $responseData,
-                  'commission' => $commission,
                   'statusCode' => $statusCode,
-              ];
-          }
+               ];
+         }
       } catch (TransportExceptionInterface $e) {
           return [
               'liveAPY' => $defaultLiveAPY,
@@ -93,8 +106,43 @@ class AppServices
           ];
       }
   }
-  
 
+   /**
+   * @throws ApyDataException
+   */
+   private function calculateAverage($data, $nexoApy, $period): float {
+      $averages = [];
+
+      for ($i = (count($data) - $period); $i < count($data); $i++) {
+         if (isset($data[$i]['apy'])) {
+            $apy = $data[$i]['apy'];
+
+            $commission = 0.85;
+
+            if ($apy < 4.75) {
+               $commission = 0.90;
+            } elseif ($apy > 6.75) {
+               $commission = 0.80;
+            }
+            $averages[] = (($apy + $nexoApy) / 2 * $commission);
+
+         } else {
+            throw new ApyDataException('Missing "apy" value in the data.');
+         }
+      }
+      return array_sum($averages) / count($averages);
+   }
+
+   public function getAverageApys($data): array {
+      $nexoApy = 11;
+      $averages = [];
+
+      $averages['threeMonthAverage'] = $this->calculateAverage($data, $nexoApy, 90);
+      $averages['sixMonthAverage'] = $this->calculateAverage($data, $nexoApy, 180);
+      $averages['yearAverage'] = $this->calculateAverage($data, $nexoApy, 365);
+
+      return $averages;
+   }  
 
    public function addZeroToValue($value) : string
    {
@@ -110,12 +158,12 @@ class AppServices
     * @throws Exception
     */
    public function buildAndPersistTransaction($transaction, $gbp, $usd) : void
-    {
+   {
       $user = $this->getUserOrThrowException();
       $cleanGbp = str_replace(',', '', $gbp);
       $cleanUsd = str_replace(',', '', $usd);
 
-       $transaction
+         $transaction
          ->setIsVerified(false)
          ->setTimestamp(new \DateTimeImmutable('now', new \DateTimeZone('Europe/London')))
          ->setUserEmail($user->getEmail())
@@ -123,9 +171,9 @@ class AppServices
          ->setGbpAmount(floatval($cleanGbp))
          ->setUsdAmount(floatval($cleanUsd));
 
-       $this->entityManager->persist($transaction);
-       $this->entityManager->flush();
-    }
+         $this->entityManager->persist($transaction);
+         $this->entityManager->flush();
+   }
 
    /**
     * @throws TransportExceptionInterface

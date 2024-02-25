@@ -14,6 +14,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use App\Services\DashboardServices;
 use App\Services\AppServices;
+use App\Entity\StrategyApy; 
 
 class DashboardController extends AbstractController
 {
@@ -31,9 +32,8 @@ class DashboardController extends AbstractController
       $session = $request->getSession();
 
       if (!$session->get('apy')) {
-         $responseApy = $appServices->getVaultData();
-
-         $session->set('apy', reset($responseApy));
+         $responseApy = $appServices->getCurrentApy();
+         $session->set('apy', $responseApy);
       }
       $apy = $session->get('apy');
 
@@ -49,6 +49,7 @@ class DashboardController extends AbstractController
       }
       
       $data = $appServices->getVaultData();
+
       $apyAverages = $dashboardServices->getAverageApys($data['responseData']);
 
       // add $session->get('apy') to the $userBalance
