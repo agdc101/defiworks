@@ -14,6 +14,8 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use App\Services\DashboardServices;
 use App\Services\AppServices;
+use App\Entity\StrategyApy; 
+use App\Repository\StrategyApyRepository;
 
 class DashboardController extends AbstractController
 {
@@ -26,14 +28,13 @@ class DashboardController extends AbstractController
     * @throws RedirectionExceptionInterface
     */
    #[Route('/dashboard', name: 'app_dashboard')]
-    public function renderDashboard(Request $request, AppServices $appServices, DashboardServices $dashboardServices): Response
+    public function renderDashboard(Request $request, AppServices $appServices, DashboardServices $dashboardServices, StrategyApyRepository $strategyApyRepository ): Response
     {
       $session = $request->getSession();
 
       if (!$session->get('apy')) {
-         $responseApy = $appServices->getVaultData();
-
-         $session->set('apy', reset($responseApy));
+         $responseApy = $strategyApyRepository->getCurrentApy();
+         $session->set('apy', $responseApy);
       }
       $apy = $session->get('apy');
 
@@ -48,8 +49,8 @@ class DashboardController extends AbstractController
          $growth = 0;
       }
       
-      $data = $appServices->getVaultData();
-      $apyAverages = $dashboardServices->getAverageApys($data['responseData']);
+      //get the most recent entry for the strategy apy table
+      $currentApyData = $strategyApyRepository->returnCurrent();
 
       // add $session->get('apy') to the $userBalance
       $projectedBalance = $userBalance * (1 + $apy / 100);
@@ -64,10 +65,9 @@ class DashboardController extends AbstractController
          'growth' => round($growth, 2),
          'tvl' => $tvl,
          'projectedBalance' => number_format($projectedBalance, 3),
-         'threeMonthAverage' => round($apyAverages['threeMonthAverage'], 2),
-         'sixMonthAverage' => round($apyAverages['sixMonthAverage'], 2),
-         'twelveMonthAverage' => round($apyAverages['twelveMonthAverage'], 2)
-
+         'threeMonthAverage' => round($currentApyData->getMonth3Avg(), 2),
+         'sixMonthAverage' => round($currentApyData->getMonth6Avg(), 2),
+         'twelveMonthAverage' => round($currentApyData->getYear1Avg(), 2)
       ]);
     }
 

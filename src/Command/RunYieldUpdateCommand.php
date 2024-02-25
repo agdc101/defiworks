@@ -6,6 +6,7 @@ use App\Entity\Deposits;
 use App\Entity\User;
 use App\Entity\UserYieldLog;
 use App\Entity\Withdrawals;
+use App\Entity\StrategyApy;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -13,12 +14,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use App\Services\AppServices;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use App\Exceptions\ApyDataException;
 
 #[AsCommand(
     name: 'run-yield-update',
@@ -27,12 +28,10 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 class RunYieldUpdateCommand extends Command
 {
     private EntityManagerInterface $entityManager;
-    private AppServices $appServices;
 
-    public function __construct(EntityManagerInterface $entityManager, AppServices $appServices)
+    public function __construct(EntityManagerInterface $entityManager)
     {
       $this->entityManager = $entityManager;
-      $this->appServices = $appServices;
 
       parent::__construct();
     }
@@ -54,9 +53,15 @@ class RunYieldUpdateCommand extends Command
     */
    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $responseApy = $this->appServices->getVaultData();
-        end($responseApy);
-        $apyValue = prev($responseApy);
+
+        $apyValue = $this->entityManager->getRepository(StrategyApy::class)
+            ->createQueryBuilder('s')
+            ->select('s.apy')
+            ->orderBy('s.timestamp', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleScalarResult();
+
         $dailyYield = $apyValue / 365;
 
        $users = $this->entityManager->getRepository(User::class)

@@ -55,7 +55,7 @@
                     trigger="hover"
                     colors="primary:{{ isPendingBalance ? '#484848' : '#5d66e6' }},secondary:{{ isPendingBalance ? '#484848' : '#ffffff' }}"
                     stroke="25"
-                    {% if isPendingBalance %}target="div"{% endif %}>
+                    {% if isPendingBalance == 0 %}target="div"{% endif %}>
                 </lord-icon>
                 Deposit
             </a>
@@ -71,7 +71,7 @@
                     trigger="hover"
                     colors="primary:{{ isBalanceZeroOrNull or isPendingBalanceNonZero ? '#484848' : '#ffffff' }},secondary:{{ isBalanceZeroOrNull or isPendingBalanceNonZero ? '#484848' : '#5d66e6' }}"
                     stroke="25"
-                    {% if isBalanceZeroOrNull %}target="div"{% endif %}>
+                    {% if isBalanceZeroOrNull == 0 %}target="div"{% endif %}>
                 </lord-icon>
                 Withdraw
             </a>
