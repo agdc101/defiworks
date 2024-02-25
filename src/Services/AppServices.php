@@ -45,18 +45,6 @@ class AppServices
       return $user;
    }
 
-   public function getCurrentApy(): float
-   {
-      return $apyValue = $this->entityManager->getRepository(StrategyApy::class)
-         ->createQueryBuilder('s')
-         ->select('s.apy')
-         ->orderBy('s.timestamp', 'DESC')
-         ->setMaxResults(1)
-         ->getQuery()
-         ->getSingleScalarResult();
-
-   }
-
    /**
    * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
    * @throws ServerExceptionInterface

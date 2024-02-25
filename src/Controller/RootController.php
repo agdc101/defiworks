@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Services\AppServices;
+use App\Repository\StrategyApyRepository;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -23,11 +23,11 @@ class RootController extends AbstractController
     * @throws ClientExceptionInterface
     */
    #[Route('/', name: 'app_home')]
-    public function index(Request $request, AppServices $appServices): Response
+    public function index(Request $request, StrategyApyRepository $strategyApyRepository): Response
     {
       $session = $request->getSession();
       if (!$session->get('apy')) {
-         $responseApy = $appServices->getCurrentApy();
+         $responseApy = $strategyApyRepository->getCurrentApy();
          $session->set('apy', $responseApy);
       }
       $liveApy = $session->get('apy');

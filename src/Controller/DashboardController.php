@@ -33,7 +33,7 @@ class DashboardController extends AbstractController
       $session = $request->getSession();
 
       if (!$session->get('apy')) {
-         $responseApy = $appServices->getCurrentApy();
+         $responseApy = $strategyApyRepository->getCurrentApy();
          $session->set('apy', $responseApy);
       }
       $apy = $session->get('apy');

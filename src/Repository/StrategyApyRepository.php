@@ -35,6 +35,16 @@ class StrategyApyRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
     
+    public function getCurrentApy(): float
+    {
+       return $this->createQueryBuilder('s')
+          ->select('s.apy')
+          ->orderBy('s.timestamp', 'DESC')
+          ->setMaxResults(1)
+          ->getQuery()
+          ->getSingleScalarResult();
+ 
+    }
 
 
 }
