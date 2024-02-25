@@ -21,28 +21,20 @@ class StrategyApyRepository extends ServiceEntityRepository
         parent::__construct($registry, StrategyApy::class);
     }
 
-//    /**
-//     * @return StrategyApy[] Returns an array of StrategyApy objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getAllData(): array
+    {
+        return $this->findAll();
+    }
 
-//    public function findOneBySomeField($value): ?StrategyApy
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function returnCurrent(): ?StrategyApy
+    {
+        return $this->createQueryBuilder('s')
+            ->orderBy('s.timestamp', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+    
+
+
 }

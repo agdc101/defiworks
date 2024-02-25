@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Services\AppServices;
 use App\Entity\Deposits;
 use App\Entity\User;
 use App\Entity\UserYieldLog;
@@ -29,41 +28,12 @@ use App\Exceptions\ApyDataException;
 class RunYieldUpdateCommand extends Command
 {
     private EntityManagerInterface $entityManager;
-    private AppServices $appServices;
 
-    public function __construct(EntityManagerInterface $entityManager, AppServices $appServices)
+    public function __construct(EntityManagerInterface $entityManager)
     {
       $this->entityManager = $entityManager;
-      $this->appServices = $appServices;
 
       parent::__construct();
-    }
-
-    public function logNewApyData(): void
-    {
-        $responseData = $this->appServices->getVaultData();
-
-        if (empty($responseData['error'])) {
-            $apyData = $responseData['responseData'];
-            $newApyLog = $responseData['liveAPY'];
-        } else {
-            throw new ApyDataException('Error fetching APY data');
-            exit;
-        }
-
-        $averageApys = $this->appServices->getAverageApys($apyData);
-        $month3Apy = $averageApys['threeMonthAverage'];
-        $month6Apy = $averageApys['sixMonthAverage'];
-        $yearApy = $averageApys['yearAverage'];
-
-        $strategyApy = (new StrategyApy())
-            ->setApy(round($newApyLog, 2))
-            ->setMonth3Avg(round($month3Apy, 2))
-            ->setMonth6Avg(round($month6Apy, 2))
-            ->setYear1Avg(round($yearApy, 2))
-            ->setTimestamp(new \DateTimeImmutable());
-        $this->entityManager->persist($strategyApy);
-        $this->entityManager->flush();
     }
 
     protected function configure(): void
@@ -91,8 +61,6 @@ class RunYieldUpdateCommand extends Command
             ->setMaxResults(1)
             ->getQuery()
             ->getSingleScalarResult();
-
-        $this->logNewApyData();
 
         $dailyYield = $apyValue / 365;
 

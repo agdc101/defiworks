@@ -24,9 +24,9 @@ final class Version20240224230248 extends AbstractMigration
             id INT AUTO_INCREMENT NOT NULL,
             apy DOUBLE PRECISION NOT NULL,
             timestamp DATETIME NOT NULL,
-            month3Avg DOUBLE PRECISION NOT NULL,
-            month6Avg DOUBLE PRECISION NOT NULL,
-            year1Avg DOUBLE PRECISION NOT NULL,
+            month3_avg DOUBLE PRECISION NOT NULL,
+            month6_avg DOUBLE PRECISION NOT NULL,
+            year1_avg DOUBLE PRECISION NOT NULL,
             PRIMARY KEY(id)
         ) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
     }
