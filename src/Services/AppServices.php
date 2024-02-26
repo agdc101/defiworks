@@ -59,12 +59,11 @@ class AppServices
       $commission = 0.85;
   
       try {
-         $response = $this->client->request('GET', 'https://yields.llama.fi/chart/b65aef64-c153-4567-9d1a-e1040488f97f', ['timeout' => 5]);
+         $response = $this->client->request('GET', 'https://yields.llama.fi/chart/b65aef64-c153-4567-9d1a-e0040488f97f', ['timeout' => 5]);
          $statusCode = $response->getStatusCode();
 
           if ($statusCode !== 200) {
                return [
-                  'liveAPY' => $defaultLiveAPY,
                   'statusCode' => $statusCode,
                   'error' => 'Error fetching data from API'
                ];
@@ -89,7 +88,6 @@ class AppServices
          }
       } catch (TransportExceptionInterface $e) {
           return [
-              'liveAPY' => $defaultLiveAPY,
               'statusCode' => 503,
               'error' => $e->getMessage(),
           ];
