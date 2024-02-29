@@ -46,6 +46,9 @@ body {
   @media (min-width: $medium) {
       padding-top: 9rem;
   }
+  @media (min-width: $large) {
+      padding-top: 12rem;
+  }
   form {
     label {
       font-weight:100;
