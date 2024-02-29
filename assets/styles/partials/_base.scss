@@ -39,12 +39,12 @@ body {
   overflow: hidden;
 }
 .content-wrapper {
-  width:90%;
+  width:95%;
   margin: 0 auto 4rem auto;
   max-width: 1150px;
   padding-top: 8rem;
   @media (min-width: $medium) {
-      padding-top: 12rem;
+      padding-top: 9rem;
   }
   form {
     label {
@@ -99,6 +99,10 @@ body {
       color: #444444;
   }
   .user-success-msg {
+      position: absolute;
+      top: 6%;
+      right: 0;
+      left: 0;
       color: lightgreen;
       width: 25%;
       margin: .5rem auto;
@@ -107,9 +111,7 @@ body {
       text-transform: uppercase;
       letter-spacing: 0.15rem;
       @media (min-width: $large) {
-          padding-left: 1rem;
-          border: 1px solid $secondary;
-          margin-bottom:3.5rem;
+          top: 1%;
       }
   }
   input,select {
@@ -156,10 +158,9 @@ body {
       @media (min-width: $medium) {
         padding: 1rem .5rem;
         margin: 1rem;
-        width: 30%;
+        width: 20%;
       }
       @media (min-width: $large) {
-        width: 20%;
         padding:.5rem 1.15rem .5rem 1rem;
       }
       a.disable-btn {

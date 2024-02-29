@@ -71,6 +71,7 @@ class AppServices
                // Get the newest APY from the response
                $responseData = $response->toArray()['data'];
                $responseApy = end($responseData)['apy'];
+               print_r($responseApy);
 
                // Adjust commission based on live APY
                if ($responseApy < 4.75) {
@@ -79,6 +80,8 @@ class AppServices
                   $commission = 0.80;
                }
                $avrResponseLiveApy = (($responseApy + $nexAPY) / 2) * $commission;
+
+               print_r($avrResponseLiveApy);
   
                return [
                   'liveAPY' => $avrResponseLiveApy,
