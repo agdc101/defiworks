@@ -95,6 +95,7 @@ class RunYieldUpdateCommand extends Command
                     ->createQueryBuilder('d')
                     ->where('d.user_id = :userId')
                     ->andWhere('d.timestamp BETWEEN :startDate AND :endDate')
+                    ->andWhere('d.is_verified = 1')
                     ->setParameters([
                         'userId' => $userId,
                         'startDate' => $startDate,
