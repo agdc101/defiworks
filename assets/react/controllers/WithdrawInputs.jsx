@@ -19,7 +19,7 @@ function WithdrawInputs(props) {
    // function that checks if the USD input is valid
    function checkUsdIsValid(value) {
       {(+value >= 20) ? setIsMoreThanMin(true) : setIsMoreThanMin(false)}
-      {(+value <= +props.max) ? setExceedsBalance(false) : setExceedsBalance(true)}
+      {(+value <= +props.max.toString().replace(/,/g, '')) ? setExceedsBalance(false) : setExceedsBalance(true)}
    }
 
    function disableInput (bool) {
@@ -36,8 +36,10 @@ function WithdrawInputs(props) {
    }
 
    function setToMax() {
-      validateAndSetUsd(props.max.toString());
-      checkUsdIsValid(props.max);
+      let strippedMax = props.max.toString().replace(/,/g, '');
+      validateAndSetUsd(strippedMax);
+
+      checkUsdIsValid(strippedMax);
    }
 
    function withdrawalInputChangeHandler(event) {
@@ -82,18 +84,19 @@ function WithdrawInputs(props) {
          .then(data => {
             if (+data.usd >= 20 && data.result) {
                setValueValid(data.result);
-               ConvMsgRef.current.textContent = `You will recieve £${data.gbp}`;
+   
+               ConvMsgRef.current.textContent = `You will receive £${data.gbp}`;
             } else {
                ConvMsgRef.current.textContent = 'Invalid amount';
             }
             setIsLoading(false);
-
+   
          }).catch(error => {
-         console.error('Error:', error);
-         setHasError(true);
-
-      });
+            console.error('Error:', error);
+            setHasError(true);
+         });
    }
+   
 
    if (hasError) return (<p>oops something went wrong</p>);
 

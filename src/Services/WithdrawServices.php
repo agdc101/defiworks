@@ -19,7 +19,8 @@ class WithdrawServices
    public function getFormattedBalance() : float
    {
       $user = $this->appServices->getUserOrThrowException();
-      $userBalance = number_format($user->getBalance(), 3);
+      $userBalance = $user->getBalance();
+
       //round $userBalance down to 2 decimal places
       return floor($userBalance * 100) / 100;
    }
