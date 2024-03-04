@@ -28,8 +28,9 @@ class WithdrawalController extends AbstractController
     public function RenderWithdrawal(WithdrawServices $withdrawServices, AppServices $appServices): Response
     {
       $userBalance = $withdrawServices->getFormattedBalance();
+      $formattedBalance = number_format($userBalance, 3);
       return $this->render('withdrawal/withdraw.html.twig', [
-         'maxWithdraw' => $appServices->addZeroToValue($userBalance)
+         'maxWithdraw' => $appServices->addZeroToValue($formattedBalance)
       ]);
     }
 
@@ -115,7 +116,7 @@ class WithdrawalController extends AbstractController
 
       $usd = str_replace(',', '', round($parameters['usdWithdrawAmount'],2));
       $gbpSum = ($usd * $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']);
-      $formatGbp = round($gbpSum, 2);
+      $formatGbp = number_format(round($gbpSum, 2), 2);
 
       $session = $request->getSession();
       $session->set('gbpWithdrawal', $formatGbp);
