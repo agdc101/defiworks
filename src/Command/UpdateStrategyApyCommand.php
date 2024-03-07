@@ -34,6 +34,7 @@ class UpdateStrategyApyCommand extends Command
     public function logNewApyData(): void
     {
         $vaultData = $this->appServices->getVaultData();
+        $averageApys = [];
 
         if (empty($vaultData['error'])) {
             $apyData = $vaultData['responseData'];

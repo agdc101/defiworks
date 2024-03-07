@@ -58,6 +58,7 @@ class AppServices
    public function getVaultData(): array {
       $commission = 0.80;
       $responseData = [];
+      $statusCode = NULL;
       $apys['nexo'] = 9.5;
 
       //get all pools from the database where is_enabled is true
