@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PoolsRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PoolsRepository::class)]
@@ -16,11 +17,14 @@ class Pools
     #[ORM\Column(length: 255)]
     private ?string $poolId = null;
 
-    #[ORM\Column]
-    private ?bool $isEnabled = null;
+    #[ORM\Column(length: 255)]
+    private ?string $poolName = null;
+
+    #[ORM\Column(type: Types::FLOAT)]
+    private ?float $poolApy = null;
 
     #[ORM\Column]
-    private ?int $poolApy = null;
+    private ?bool $isEnabled = null;
 
     public function getId(): ?int
     {
@@ -39,7 +43,31 @@ class Pools
         return $this;
     }
 
-    public function isIsEnabled(): ?bool
+    public function getPoolName(): ?string
+    {
+        return $this->poolName;
+    }
+
+    public function setPoolName(string $poolName): static
+    {
+        $this->poolName = $poolName;
+
+        return $this;
+    }
+
+    public function getPoolApy(): ?float
+    {
+        return $this->poolApy;
+    }
+
+    public function setPoolApy(float $poolApy): static
+    {
+        $this->poolApy = $poolApy;
+
+        return $this;
+    }
+
+    public function getIsEnabled(): ?bool
     {
         return $this->isEnabled;
     }
@@ -51,15 +79,4 @@ class Pools
         return $this;
     }
 
-    public function getPoolApy(): ?int
-    {
-        return $this->poolApy;
-    }
-
-    public function setPoolApy(int $poolApy): static
-    {
-        $this->poolApy = $poolApy;
-
-        return $this;
-    }
 }

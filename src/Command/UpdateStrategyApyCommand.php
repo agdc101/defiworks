@@ -33,25 +33,36 @@ class UpdateStrategyApyCommand extends Command
 
     public function logNewApyData(): void
     {
-        $responseData = $this->appServices->getVaultData();
+        $vaultData = $this->appServices->getVaultData();
 
-        if (empty($responseData['error'])) {
-            $apyData = $responseData['responseData'];
-            $newApyLog = $responseData['liveAPY'];
+        if (empty($vaultData['error'])) {
+            $apyData = $vaultData['responseData'];
+            $newApyLog = $vaultData['liveAPY'];
         } else {
             throw new ApyDataException('Error fetching APY data');
             exit;
         }
 
-        $averageApys = $this->appServices->getAverageApys($apyData);
-        $month3Apy = $averageApys['threeMonthAverage'];
-        $month6Apy = $averageApys['sixMonthAverage'];
-        $yearApy = $averageApys['yearAverage'];
+        foreach ($apyData as $index => $data) {
+            $averageApys[$index] = $this->appServices->getAverageApys($data);
+        }    
+
+        foreach ($averageApys as $index => $data) {
+            $weekAvg[$index] = $data['weekAverage'];
+            $monthAvg[$index] = $data['monthAverage'];
+            $yearAvg[$index] = $data['yearAverage'];
+
+        }
+
+        //find the average of the averages
+        $weekApy = array_sum($weekAvg) / count($weekAvg);
+        $monthApy = array_sum($monthAvg) / count($monthAvg);
+        $yearApy = array_sum($yearAvg) / count($yearAvg);
 
         $strategyApy = (new StrategyApy())
             ->setApy(round($newApyLog, 2))
-            ->setMonth3Avg(round($month3Apy, 2))
-            ->setMonth6Avg(round($month6Apy, 2))
+            ->setMonth3Avg(round($weekApy, 2))
+            ->setMonth6Avg(round($monthApy, 2))
             ->setYear1Avg(round($yearApy, 2))
             ->setTimestamp(new \DateTimeImmutable());
         $this->entityManager->persist($strategyApy);

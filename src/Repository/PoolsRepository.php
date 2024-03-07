@@ -21,28 +21,20 @@ class PoolsRepository extends ServiceEntityRepository
         parent::__construct($registry, Pools::class);
     }
 
-//    /**
-//     * @return Pools[] Returns an array of Pools objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function returnAllActivePools(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->Where('p.isEnabled = :val')
+            ->setParameter('val', true)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
-//    public function findOneBySomeField($value): ?Pools
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function returnAllPools(): array
+    {
+        return $this->findAll();
+    }
+    
+
 }
