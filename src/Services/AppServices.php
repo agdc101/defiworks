@@ -55,63 +55,66 @@ class AppServices
    * @throws DecodingExceptionInterface
    * @throws ClientExceptionInterface
    */
-   public function getVaultData(): array {
-      $commission = 0.80;
-      $responseData = [];
-      $statusCode = NULL;
-      $apys['nexo'] = 9.5;
+  public function getVaultData(): array {
+   $commissionRates = [
+       'low' => 0.90,
+       'normal' => 0.80,
+       'high' => 0.75,
+   ];
 
-      //get all pools from the database where is_enabled is true
-      $activePools = $this->poolsRepository->returnAllActivePools();
+   $apys = ['nexo' => 9.5];
+   $responseData = [];
+   $statusCode = null;
 
-      foreach ($activePools as $pool) {
-         $poolId = $pool->getPoolId();
-         $poolName = $pool->getPoolName();
+   // Get all active pools from the database
+   $activePools = $this->poolsRepository->returnAllActivePools();
 
-         try {
-            $response = $this->client->request('GET', "https://yields.llama.fi/chart/$poolId", ['timeout' => 5]);
-            $statusCode = $response->getStatusCode(); 
+   foreach ($activePools as $pool) {
+       $poolId = $pool->getPoolId();
+       $poolName = $pool->getPoolName();
 
-            print_r($statusCode);exit;
+       try {
+           $response = $this->client->request('GET', "https://yields.llama.fi/chart/$poolId", ['timeout' => 5]);
+           $statusCode = $response->getStatusCode();
 
-            if ($statusCode !== 200) {
+           if ($statusCode !== 200) {
                return [
-                  'statusCode' => $statusCode,
-                  'error' => 'Error fetching data from API'
+                   'statusCode' => $statusCode,
+                   'error' => 'Error fetching data from API',
                ];
-            } else {
+           } else {
                $responseData[$poolName] = $response->toArray()['data'];
                $responseApy = end($responseData[$poolName])['apy'];
                $apys[$poolName] = $responseApy;
+
                $pool->setPoolApy($responseApy);
                $this->entityManager->persist($pool);
-               $this->entityManager->flush();    
-
-            }
-         } catch (TransportExceptionInterface $e) {
-            return [
-                'statusCode' => 503,
-                'error' => $e->getMessage(),
-            ];
-        }
-        
-      }
-      //get average of apys in $apys array
-      $averageApy = array_sum($apys) / count($apys);
-
-      if ($averageApy < 4.75) {
-         $commission = 0.90;
-      } elseif ($averageApy > 6.75) {
-         $commission = 0.75;
-      }
-      $avrResponseLiveApy = ($averageApy) * $commission;
-
-      return [
-         'liveAPY' => $avrResponseLiveApy,
-         'responseData' => $responseData,
-         'statusCode' => $statusCode,
-      ];
+               $this->entityManager->flush();
+           }
+       } catch (TransportExceptionInterface $e) {
+           return [
+               'statusCode' => 503,
+               'error' => $e->getMessage(),
+           ];
+       }
    }
+
+   // Calculate the average APY
+   $averageApy = array_sum($apys) / count($apys);
+
+   // Determine the commission rate based on the average APY
+   $commission = ($averageApy < 4.75) ? $commissionRates['low'] : (($averageApy > 6.75) ? $commissionRates['high'] : $commissionRates['normal']);
+
+   // Calculate the live APY using the determined commission rate
+   $avrResponseLiveApy = $averageApy * $commission;
+
+   return [
+       'liveAPY' => $avrResponseLiveApy,
+       'responseData' => $responseData,
+       'statusCode' => $statusCode,
+   ];
+}
+
 
    /**
    * @throws ApyDataException
