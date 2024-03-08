@@ -120,6 +120,11 @@ class AppServices
    * @throws ApyDataException
    */
    private function calculateAverage($data, $nexoApy, $period=NULL): float {
+      $commissionRates = [
+         'low' => 0.90,
+         'normal' => 0.80,
+         'high' => 0.75,
+     ];
       $averages = [];
       if ($period === NULL) {
          $period = count($data);
@@ -129,13 +134,8 @@ class AppServices
          if (isset($data[$i]['apy'])) {
             $apy = $data[$i]['apy'];
 
-            $commission = 0.80;
+            $commission = ($apy < 4.75) ? $commissionRates['low'] : (($apy > 6.75) ? $commissionRates['high'] : $commissionRates['normal']);
 
-            if ($apy < 4.75) {
-               $commission = 0.90;
-            } elseif ($apy > 6.75) {
-               $commission = 0.75;
-            }
             $averages[] = (($apy + $nexoApy) / 2 * $commission);
 
          } else {
