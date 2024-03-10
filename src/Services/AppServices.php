@@ -5,8 +5,10 @@ namespace App\Services;
 use Exception;
 use App\Entity\User;
 use App\Entity\Pools;
+use App\Entity\PerformanceRates;
 use App\Exceptions\UserNotFoundException;
 use App\Repository\UserRepository;
+use App\Repository\PerformanceRatesRepository;
 use App\Repository\PoolsRepository;
 use App\Exceptions\ApyDataException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,13 +25,15 @@ class AppServices
 {
    private UserRepository $userRepository;
    private PoolsRepository $poolsRepository;
+   private PerformanceRatesRepository $performanceRatesRepository;
    private EntityManagerInterface $entityManager;
    private MailerInterface $mailer;
    private HttpClientInterface $client;
 
-   public function __construct(UserRepository $userRepository, PoolsRepository $poolsRepository, EntityManagerInterface $entityManager, MailerInterface $mailer, HttpClientInterface $client)
+   public function __construct(UserRepository $userRepository, PoolsRepository $poolsRepository, PerformanceRatesRepository $performanceRatesRepository, EntityManagerInterface $entityManager, MailerInterface $mailer, HttpClientInterface $client)
    {
       $this->userRepository = $userRepository;
+      $this->performanceRatesRepository = $performanceRatesRepository;
       $this->poolsRepository = $poolsRepository;
       $this->entityManager = $entityManager;
       $this->mailer = $mailer;
@@ -247,5 +251,16 @@ class AppServices
       }
       return $totalBalance;
    }
+
+   public function returnPerformanceRates($apy)                                               
+   {
+      $performanceRates = $this->performanceRatesRepository->findAll();
+      //iterate through the performance rates and return the rate that matches the apy
+      foreach ($performanceRates as $rate) {
+         if ($apy > $rate->getApy()) {
+            return $rate->getRate();
+         }
+      }
+   }  
 
 }
