@@ -60,12 +60,6 @@ class AppServices
    * @throws ClientExceptionInterface
    */
   public function getVaultData(): array {
-   $commissionRates = [
-       'low' => 0.90,
-       'normal' => 0.80,
-       'high' => 0.75,
-   ];
-
    $apys = ['nexo' => 9.5];
    $responseData = [];
    $statusCode = null;
@@ -88,7 +82,7 @@ class AppServices
                ];
            } else {
                $responseData[$poolName] = $response->toArray()['data'];
-               $responseApy = end($responseData[$poolName])['apy'];
+               $responseApy = 4.5;
                $apys[$poolName] = $responseApy;
 
                $pool->setPoolApy($responseApy);
@@ -107,7 +101,7 @@ class AppServices
    $averageApy = array_sum($apys) / count($apys);
 
    // Determine the commission rate based on the average APY
-   $commission = ($averageApy < 4.75) ? $commissionRates['low'] : (($averageApy > 6.75) ? $commissionRates['high'] : $commissionRates['normal']);
+   $commission = $this->returnPerformanceRates($averageApy);
 
    // Calculate the live APY using the determined commission rate
    $avrResponseLiveApy = $averageApy * $commission;
@@ -124,11 +118,6 @@ class AppServices
    * @throws ApyDataException
    */
    private function calculateAverage($data, $nexoApy, $period=NULL): float {
-      $commissionRates = [
-         'low' => 0.90,
-         'normal' => 0.80,
-         'high' => 0.75,
-     ];
       $averages = [];
       if ($period === NULL) {
          $period = count($data);
@@ -138,7 +127,7 @@ class AppServices
          if (isset($data[$i]['apy'])) {
             $apy = $data[$i]['apy'];
 
-            $commission = ($apy < 4.75) ? $commissionRates['low'] : (($apy > 6.75) ? $commissionRates['high'] : $commissionRates['normal']);
+            $commission = $this->returnPerformanceRates($apy);
 
             $averages[] = (($apy + $nexoApy) / 2 * $commission);
 
@@ -255,7 +244,7 @@ class AppServices
    public function returnPerformanceRates($apy)                                               
    {
       $performanceRates = $this->performanceRatesRepository->findAll();
-      //iterate through the performance rates and return the rate that matches the apy
+      
       foreach ($performanceRates as $rate) {
          if ($apy > $rate->getApy()) {
             return $rate->getRate();
