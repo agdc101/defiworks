@@ -8,7 +8,7 @@
     <h1>Confirm Withdrawal</h1>
 
     <p>You are about to withdraw <strong>£{{ gbpWithdrawAmount }}</strong> to the account with the sort code of <strong>{{ sortCode }}</strong> and the account number of <strong>{{ accountNo }}</strong>.</p>
-    <p><strong>${{ usdWithdrawAmount }}</strong> will be deducted from your DeFi Works account balance.</p>
+    <p><strong>${{ usdWithdrawAmount|number_format(2) }}</strong> will be deducted from your DeFi Works account balance.</p>
     <p>Please ensure these details are correct as funds may be unrecoverable if sent to the wrong account.</p>
 
     <form method="post">

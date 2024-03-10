@@ -35,10 +35,10 @@ class DashboardServices
       ]);
 
       if ($unverifiedWithdrawals) {
-         return (float)$userBalance - $unverifiedWithdrawals->getUsdAmount();
+         return (float)str_replace(',', '', $userBalance) - $unverifiedWithdrawals->getUsdAmount();
       }
       if ($unverifiedDeposits) {
-         return (float)$userBalance + $unverifiedDeposits->getUsdAmount();
+         return (float)str_replace(',', '', $userBalance) + $unverifiedDeposits->getUsdAmount();
       }
       return 0;
    }

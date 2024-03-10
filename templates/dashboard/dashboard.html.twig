@@ -11,7 +11,6 @@
         <div class="site-status-info-inner">
             <p class="site-status">DeFi Works status:</p>
             <p>Total Value Locked: <strong>{% if tvl is null %} $0 {% else  %} ${{ tvl }} {% endif %}</strong></p>
-            <p>Active users: <strong>4</strong></p>
             <p>APY: <span>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</span></p>
         </div>
         <div class="site-status-info-inner">
@@ -39,7 +38,7 @@
                 <p>Growth</p><span>{% if growth is null %} $0 {% else  %} {{ growth }}% {% endif %}</span>
             </div>
             <div class="dash-item">
-                <p>Projected Balance (+1 YR)</p><span>{% if projectedBalance is null %} $0 {% else  %} ${{ projectedBalance|round(2, 'floor') }} {% endif %}</span>
+                <p>Projected Balance (+1 YR)</p><span>{% if projectedBalance is null %} $0 {% else  %} ${{ projectedBalance }} {% endif %}</span>
             </div>
         </div>
     </section>
