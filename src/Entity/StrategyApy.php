@@ -20,13 +20,13 @@ class StrategyApy
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $timestamp = null;
 
-    #[ORM\Column(type: Types::FLOAT)]
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
     private ?float $month3Avg = null;
 
-    #[ORM\Column(type: Types::FLOAT)]
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
     private ?float $month6Avg = null;
 
-    #[ORM\Column(type: Types::FLOAT)]
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
     private ?float $year1Avg = null;
 
     public function getId(): ?int
@@ -63,19 +63,20 @@ class StrategyApy
         return $this->month3Avg;
     }
 
-    public function setMonth3Avg(float $month3Avg): static
+    public function setMonth3Avg(?float $month3Avg): static
     {
         $this->month3Avg = $month3Avg;
 
         return $this;
     }
 
+    
     public function getMonth6Avg(): ?float
     {
         return $this->month6Avg;
     }
 
-    public function setMonth6Avg(float $month6Avg): static
+    public function setMonth6Avg(?float $month6Avg): static
     {
         $this->month6Avg = $month6Avg;
 
@@ -87,7 +88,7 @@ class StrategyApy
         return $this->year1Avg;
     }
 
-    public function setYear1Avg(float $year1Avg): static
+    public function setYear1Avg(?float $year1Avg): static
     {
         $this->year1Avg = $year1Avg;
 

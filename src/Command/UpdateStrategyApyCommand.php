@@ -16,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'update-strategy-apy',
-    description: 'Add a short description for your command',
+    description: 'Update the strategy APY data.',
 )]
 class UpdateStrategyApyCommand extends Command
 {
