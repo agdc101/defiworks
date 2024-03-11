@@ -19,7 +19,7 @@
         <div class="site-status-info-inner">
             <p class="site-status">DeFi Works status:</p>
             <p>Total Value Locked: <strong>{% if tvl is null %} $0 {% else  %} ${{ tvl }} {% endif %}</strong></p>
-            <p>APY: <span>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</span></p>
+            <p>APY: <strong>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</strong></p>
         </div>
         <div class="site-status-info-inner">
             <p class="site-status" >Average strategy returns:</p>
