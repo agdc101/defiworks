@@ -19,7 +19,8 @@ div.homepage-wrapper {
             }
             .title {
                 margin: 0 0 15% 0;
-                font-size:2rem;
+                font-size:2.25rem;
+                font-weight: 100;
                 letter-spacing: 0.45rem;
                 @media (min-width: $medium) {
                     font-size: 3.75rem;
@@ -29,6 +30,7 @@ div.homepage-wrapper {
             p:nth-of-type(2) {
                 display:none;
                 font-weight: 100;
+                color: $julesPink;
                 @media (min-width: $medium) {
                     display:block;
                     font-size: 1.4rem;
@@ -38,7 +40,8 @@ div.homepage-wrapper {
                 margin:1.5rem 0 3.5rem 0;
                 color: $tertiary;
                 letter-spacing: 0.25rem;
-                font-size: 1.25rem;
+                font-size: 1.75rem;
+                font-weight: 300;
                 @media (min-width: $large) {
                     margin:3rem 0 3.5rem 0;
                     font-size: 2.5rem;
@@ -63,9 +66,9 @@ div.homepage-wrapper {
                     padding:.75rem;
                     text-decoration: none;
                     text-transform: uppercase;
-                    letter-spacing: 0.12rem;
+                    letter-spacing: 0.2rem;
                     color:white;
-                    font-size: 1rem;
+                    font-size: .9rem;
                 }
             }
             .hero-arrow {
@@ -81,7 +84,7 @@ div.homepage-wrapper {
                     text-transform: uppercase;
                     padding-bottom:1rem; 
                     font-size:.8rem;
-                    letter-spacing: 0.35rem;
+                    letter-spacing: 0.5rem;
                     color:white;       
                 }
                 #arrow {
