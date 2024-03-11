@@ -34,6 +34,9 @@ body {
   a {
     transition: color .2s ease-in-out;
   }
+  p {
+    max-width: 1000px;
+  }
 }
 .overflow-hidden {
   overflow: hidden;
@@ -41,7 +44,7 @@ body {
 .content-wrapper {
   width:95%;
   margin: 0 auto 4rem auto;
-  max-width: 1150px;
+  max-width: 1300px;
   padding-top: 8rem;
   @media (min-width: $medium) {
       padding-top: 9rem;

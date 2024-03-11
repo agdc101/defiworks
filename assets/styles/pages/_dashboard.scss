@@ -88,7 +88,8 @@
       margin: 0 auto;
       width: 100px;
       height: 100px;
-      @media (min-width: $medium) {
+      @media (min-width: $large) {
+        margin: 0 1rem 0 0;
         width: 70px;
         height: 70px;
       }
@@ -97,11 +98,11 @@
       text-decoration: none;
       color: white;
       @media (min-width: $medium) {
-        font-size: .8rem;
+        font-size: 1.05rem;
       }
       @media (min-width: $large) {
         display:flex;
-        font-size:1rem;
+        justify-content: center;
         align-items: center;
       }
     }
