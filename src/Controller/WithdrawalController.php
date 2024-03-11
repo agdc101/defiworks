@@ -115,7 +115,7 @@ class WithdrawalController extends AbstractController
       $data = $appServices->getGeckoData($this->getParameter('gecko_api'));
 
       $usd = str_replace(',', '', round($parameters['usdWithdrawAmount'],2));
-      $gbpSum = ($usd * $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp'] * $this->getParameter('fee'));
+      $gbpSum = ($usd * $data['0xaf88d065e77c8cc2239327c5edb3a432268e5831']['gbp'] * $this->getParameter('fee'));
       $formatGbp = number_format(round($gbpSum, 2), 2);
 
       $session = $request->getSession();
