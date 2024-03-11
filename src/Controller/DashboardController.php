@@ -43,8 +43,9 @@ class DashboardController extends AbstractController
 
       $pendingBalance = $dashboardServices->getPendingBalance();
       $profit = number_format($user->getProfit(), 3);
+      
       if ($user->getCurrentProfit() > 0) {
-         $growth = ($user->getCurrentProfit() / $userBalance) * 100;
+         $growth = ($user->getCurrentProfit() / str_replace(',', '', $userBalance)) * 100;
       } else {
          $growth = 0;
       }
@@ -53,7 +54,8 @@ class DashboardController extends AbstractController
       $currentApyData = $strategyApyRepository->returnCurrent();
 
       // add $session->get('apy') to the $userBalance
-      $projectedBalance = $userBalance * (1 + $apy / 100);
+      $projectedBalance = str_replace(',', '', $userBalance) * (1 + $apy / 100);
+
       $tvl = round($appServices->getSiteTVL(), 2);
 
       return $this->render('dashboard/dashboard.html.twig', [
@@ -65,9 +67,9 @@ class DashboardController extends AbstractController
          'growth' => round($growth, 2),
          'tvl' => $tvl,
          'projectedBalance' => number_format($projectedBalance, 3),
-         'threeMonthAverage' => round($currentApyData->getMonth3Avg(), 2),
-         'sixMonthAverage' => round($currentApyData->getMonth6Avg(), 2),
-         'twelveMonthAverage' => round($currentApyData->getYear1Avg(), 2)
+         'weekAvg' => $currentApyData->getWeekAvg(),
+         'monthAvg' => $currentApyData->getMonthAvg(),
+         'yearAvg' => $currentApyData->getYear1Avg()
       ]);
     }
 

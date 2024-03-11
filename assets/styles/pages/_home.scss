@@ -22,6 +22,7 @@ div.homepage-wrapper {
                 font-weight: 100;
                 margin: 1rem auto;
                 font-size:2rem;
+                letter-spacing: 0.45rem;
                 @media (min-width: $medium) {
                     font-size: 3.75rem;
                 }
@@ -68,7 +69,7 @@ div.homepage-wrapper {
                     text-transform: uppercase;
                     letter-spacing: 0.12rem;
                     color:white;
-                    font-size: .8rem;
+                    font-size: 1rem;
                 }
             }
             .hero-arrow {
@@ -81,7 +82,6 @@ div.homepage-wrapper {
                     margin-top:12.5%;
                 }
                 span {
-                    font-family: 'Share Tech Mono', monospace;
                     text-transform: uppercase;
                     padding-bottom:1rem; 
                     font-size:.8rem;
