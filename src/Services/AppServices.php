@@ -60,7 +60,7 @@ class AppServices
    * @throws ClientExceptionInterface
    */
   public function getVaultData(): array {
-   $apys = ['nexo' => 9.5];
+   $apys = ['nexo' => 9];
    $responseData = [];
    $statusCode = null;
 
@@ -82,7 +82,8 @@ class AppServices
                ];
            } else {
                $responseData[$poolName] = $response->toArray()['data'];
-               $responseApy = 4.5;
+               $end = end($responseData[$poolName])['apy'];
+               $responseApy = prev($responseData[$poolName])['apy'];
                $apys[$poolName] = $responseApy;
 
                $pool->setPoolApy($responseApy);
@@ -99,7 +100,7 @@ class AppServices
 
    // Calculate the average APY
    $averageApy = array_sum($apys) / count($apys);
-
+   
    // Determine the commission rate based on the average APY
    $commission = $this->returnPerformanceRates($averageApy);
 
@@ -140,7 +141,7 @@ class AppServices
    }
 
    public function getAverageApys($data): array {
-      $nexoApy = 9.5;
+      $nexoApy = 9;
       $averages = [];
 
       $averages['weekAverage'] = $this->calculateAverage($data, $nexoApy, 7);
