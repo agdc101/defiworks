@@ -66,10 +66,10 @@ class DashboardController extends AbstractController
          'profit' => $profit,
          'growth' => round($growth, 2),
          'tvl' => $tvl,
-         'projectedBalance' => number_format($projectedBalance, 2),
-         'threeMonthAverage' => round($currentApyData->getMonth3Avg(), 2),
-         'sixMonthAverage' => round($currentApyData->getMonth6Avg(), 2),
-         'twelveMonthAverage' => round($currentApyData->getYear1Avg(), 2)
+         'projectedBalance' => number_format($projectedBalance, 3),
+         'weekAvg' => $currentApyData->getWeekAvg(),
+         'monthAvg' => $currentApyData->getMonthAvg(),
+         'yearAvg' => $currentApyData->getYear1Avg()
       ]);
     }
 

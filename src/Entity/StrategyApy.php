@@ -29,6 +29,12 @@ class StrategyApy
     #[ORM\Column(type: Types::FLOAT, nullable: true)]
     private ?float $year1Avg = null;
 
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
+    private ?float $weekAvg = null;
+
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
+    private ?float $monthAvg = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +97,30 @@ class StrategyApy
     public function setYear1Avg(?float $year1Avg): static
     {
         $this->year1Avg = $year1Avg;
+
+        return $this;
+    }
+
+    public function getWeekAvg(): ?float
+    {
+        return $this->weekAvg;
+    }
+
+    public function setWeekAvg(?float $weekAvg): static
+    {
+        $this->weekAvg = $weekAvg;
+
+        return $this;
+    }
+
+    public function getMonthAvg(): ?float
+    {
+        return $this->monthAvg;
+    }
+
+    public function setMonthAvg(?float $monthAvg): static
+    {
+        $this->monthAvg = $monthAvg;
 
         return $this;
     }
