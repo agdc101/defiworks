@@ -4,9 +4,13 @@ namespace App\Services;
 
 use Exception;
 use App\Entity\User;
-use App\Entity\StrategyApy;
+use App\Entity\Pools;
+use App\Entity\PerformanceRates;
 use App\Exceptions\UserNotFoundException;
 use App\Repository\UserRepository;
+use App\Repository\PerformanceRatesRepository;
+use App\Repository\PoolsRepository;
+use App\Exceptions\ApyDataException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -16,22 +20,25 @@ use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use App\Exceptions\ApyDataException;
 
 class AppServices
 {
    private UserRepository $userRepository;
+   private PoolsRepository $poolsRepository;
+   private PerformanceRatesRepository $performanceRatesRepository;
    private EntityManagerInterface $entityManager;
    private MailerInterface $mailer;
    private HttpClientInterface $client;
 
-   public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, MailerInterface $mailer, HttpClientInterface $client)
-    {
-         $this->userRepository = $userRepository;
-         $this->entityManager = $entityManager;
-         $this->mailer = $mailer;
-         $this->client = $client;
-    }
+   public function __construct(UserRepository $userRepository, PoolsRepository $poolsRepository, PerformanceRatesRepository $performanceRatesRepository, EntityManagerInterface $entityManager, MailerInterface $mailer, HttpClientInterface $client)
+   {
+      $this->userRepository = $userRepository;
+      $this->performanceRatesRepository = $performanceRatesRepository;
+      $this->poolsRepository = $poolsRepository;
+      $this->entityManager = $entityManager;
+      $this->mailer = $mailer;
+      $this->client = $client;
+   }
 
    /**
     * @throws UserNotFoundException
@@ -52,81 +59,94 @@ class AppServices
    * @throws DecodingExceptionInterface
    * @throws ClientExceptionInterface
    */
-   public function getVaultData(): array
-   {
-      $nexAPY = 11;
-      $defaultLiveAPY = 6.99;
-      $commission = 0.85;
-  
-      try {
-         $response = $this->client->request('GET', 'https://yields.llama.fi/chart/b65aef64-c153-4567-9d1a-e0040488f97f', ['timeout' => 5]);
-         $statusCode = $response->getStatusCode();
+  public function getVaultData(): array {
+   $apys = ['nexo' => 9];
+   $responseData = [];
+   $statusCode = null;
 
-          if ($statusCode !== 200) {
-               return [
-                  'statusCode' => $statusCode,
-                  'error' => 'Error fetching data from API'
-               ];
-          } else {
-               // Get the newest APY from the response
-               $responseData = $response->toArray()['data'];
-               $responseApy = end($responseData)['apy'];
+   // Get all active pools from the database
+   $activePools = $this->poolsRepository->returnAllActivePools();
 
-               // Adjust commission based on live APY
-               if ($responseApy < 4.75) {
-                  $commission = 0.90;
-               } elseif ($responseApy > 6.75) {
-                  $commission = 0.80;
-               }
-               $avrResponseLiveApy = (($responseApy + $nexAPY) / 2) * $commission;
-  
+   foreach ($activePools as $pool) {
+       $poolId = $pool->getPoolId();
+       $poolName = $pool->getPoolName();
+
+       try {
+           $response = $this->client->request('GET', "https://yields.llama.fi/chart/$poolId", ['timeout' => 5]);
+           $statusCode = $response->getStatusCode();
+
+           if ($statusCode !== 200) {
                return [
-                  'liveAPY' => $avrResponseLiveApy,
-                  'responseData' => $responseData,
-                  'statusCode' => $statusCode,
+                   'statusCode' => $statusCode,
+                   'error' => 'Error fetching data from API',
                ];
-         }
-      } catch (TransportExceptionInterface $e) {
-          return [
-              'statusCode' => 503,
-              'error' => $e->getMessage(),
-          ];
-      }
-  }
+           } else {
+               $responseData[$poolName] = $response->toArray()['data'];
+               $end = end($responseData[$poolName])['apy'];
+               $responseApy = prev($responseData[$poolName])['apy'];
+               $apys[$poolName] = $responseApy;
+
+               $pool->setPoolApy($responseApy);
+               $this->entityManager->persist($pool);
+               $this->entityManager->flush();
+           }
+       } catch (TransportExceptionInterface $e) {
+           return [
+               'statusCode' => 503,
+               'error' => $e->getMessage(),
+           ];
+       }
+   }
+
+   // Calculate the average APY
+   $averageApy = array_sum($apys) / count($apys);
+   
+   // Determine the commission rate based on the average APY
+   $commission = $this->returnPerformanceRates($averageApy);
+
+   // Calculate the live APY using the determined commission rate
+   $avrResponseLiveApy = $averageApy * $commission;
+
+   return [
+       'liveAPY' => $avrResponseLiveApy,
+       'responseData' => $responseData,
+       'statusCode' => $statusCode,
+   ];
+}
+
 
    /**
    * @throws ApyDataException
    */
-   private function calculateAverage($data, $nexoApy, $period): float {
+   private function calculateAverage($data, $nexoApy, $period=NULL): float {
       $averages = [];
+      if ($period === NULL) {
+         $period = count($data);
+      }
 
       for ($i = (count($data) - $period); $i < count($data); $i++) {
          if (isset($data[$i]['apy'])) {
             $apy = $data[$i]['apy'];
 
-            $commission = 0.85;
+            $commission = $this->returnPerformanceRates($apy);
 
-            if ($apy < 4.75) {
-               $commission = 0.90;
-            } elseif ($apy > 6.75) {
-               $commission = 0.80;
-            }
             $averages[] = (($apy + $nexoApy) / 2 * $commission);
 
          } else {
-            throw new ApyDataException('Missing "apy" value in the data.');
+            throw new ApyDataException('Missing apy value in the data.');
          }
       }
+
       return array_sum($averages) / count($averages);
    }
 
    public function getAverageApys($data): array {
-      $nexoApy = 11;
+      $nexoApy = 9;
       $averages = [];
 
-      $averages['threeMonthAverage'] = $this->calculateAverage($data, $nexoApy, 90);
-      $averages['sixMonthAverage'] = $this->calculateAverage($data, $nexoApy, 180);
-      $averages['yearAverage'] = $this->calculateAverage($data, $nexoApy, 365);
+      $averages['weekAverage'] = $this->calculateAverage($data, $nexoApy, 7);
+      $averages['monthAverage'] = $this->calculateAverage($data, $nexoApy, 30);
+      $averages['yearAverage'] = $this->calculateAverage($data, $nexoApy);
 
       return $averages;
    }  
@@ -221,5 +241,16 @@ class AppServices
       }
       return $totalBalance;
    }
+
+   public function returnPerformanceRates($apy)                                               
+   {
+      $performanceRates = $this->performanceRatesRepository->findAll();
+      
+      foreach ($performanceRates as $rate) {
+         if ($apy > $rate->getApy()) {
+            return $rate->getRate();
+         }
+      }
+   }  
 
 }

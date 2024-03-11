@@ -16,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'update-strategy-apy',
-    description: 'Add a short description for your command',
+    description: 'Update the strategy APY data.',
 )]
 class UpdateStrategyApyCommand extends Command
 {
@@ -33,30 +33,44 @@ class UpdateStrategyApyCommand extends Command
 
     public function logNewApyData(): void
     {
-        $responseData = $this->appServices->getVaultData();
-
-        if (empty($responseData['error'])) {
-            $apyData = $responseData['responseData'];
-            $newApyLog = $responseData['liveAPY'];
-        } else {
-            throw new ApyDataException('Error fetching APY data');
-            exit;
+        try {
+            $vaultData = $this->appServices->getVaultData();
+    
+            if (!empty($vaultData['error'])) {
+                throw new ApyDataException('Error fetching APY data');
+            }
+    
+            $apyData = $vaultData['responseData'];
+            $newApyLog = $vaultData['liveAPY'];
+    
+            $averageApys = array_map(function ($data) {
+                return $this->appServices->getAverageApys($data);
+            }, $apyData);
+    
+            $weekAvg = array_column($averageApys, 'weekAverage');
+            $monthAvg = array_column($averageApys, 'monthAverage');
+            $yearAvg = array_column($averageApys, 'yearAverage');
+    
+            $weekApyAvg = round(array_sum($weekAvg) / count($weekAvg), 2);
+            $monthApyAvg = round(array_sum($monthAvg) / count($monthAvg), 2);
+            $yearApyAvg = round(array_sum($yearAvg) / count($yearAvg), 2);
+    
+            $strategyApy = (new StrategyApy())
+                ->setApy($newApyLog)
+                ->setWeekAvg($weekApyAvg)
+                ->setMonthAvg($monthApyAvg)
+                ->setYear1Avg($yearApyAvg)
+                ->setTimestamp(new \DateTimeImmutable());
+    
+            $this->entityManager->persist($strategyApy);
+            $this->entityManager->flush();
+    
+            echo 'APY data saved successfully';
+        } catch (\Exception $e) {
+            throw new ApyDataException($e->getMessage());
         }
-
-        $averageApys = $this->appServices->getAverageApys($apyData);
-        $month3Apy = $averageApys['threeMonthAverage'];
-        $month6Apy = $averageApys['sixMonthAverage'];
-        $yearApy = $averageApys['yearAverage'];
-
-        $strategyApy = (new StrategyApy())
-            ->setApy(round($newApyLog, 2))
-            ->setMonth3Avg(round($month3Apy, 2))
-            ->setMonth6Avg(round($month6Apy, 2))
-            ->setYear1Avg(round($yearApy, 2))
-            ->setTimestamp(new \DateTimeImmutable());
-        $this->entityManager->persist($strategyApy);
-        $this->entityManager->flush();
     }
+    
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
