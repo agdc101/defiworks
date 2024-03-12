@@ -26,7 +26,7 @@ class StrategyApyRepository extends ServiceEntityRepository
         return $this->findAll();
     }
 
-    public function returnCurrent(): ?StrategyApy
+    public function returnLatestlog(): ?StrategyApy
     {
         return $this->createQueryBuilder('s')
             ->orderBy('s.timestamp', 'DESC')

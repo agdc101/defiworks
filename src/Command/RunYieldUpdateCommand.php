@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\UserYieldLog;
 use App\Entity\Withdrawals;
 use App\Entity\StrategyApy;
+use App\Repository\StrategyApyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -28,12 +29,14 @@ use App\Exceptions\ApyDataException;
 class RunYieldUpdateCommand extends Command
 {
     private EntityManagerInterface $entityManager;
+    private StrategyApyRepository $strategyApyRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, StrategyApyRepository $strategyApyRepository)
     {
-      $this->entityManager = $entityManager;
+        $this->entityManager = $entityManager;
+        $this->strategyApyRepository = $strategyApyRepository;
 
-      parent::__construct();
+        parent::__construct();
     }
 
     protected function configure(): void
@@ -54,13 +57,7 @@ class RunYieldUpdateCommand extends Command
    protected function execute(InputInterface $input, OutputInterface $output): int
     {
 
-        $apyValue = $this->entityManager->getRepository(StrategyApy::class)
-            ->createQueryBuilder('s')
-            ->select('s.apy')
-            ->orderBy('s.timestamp', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getSingleScalarResult();
+        $apyValue = $this->strategyApyRepository->returnLatestlog()->getApy();
 
         $dailyYield = $apyValue / 365;
 

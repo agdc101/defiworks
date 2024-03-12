@@ -6,6 +6,7 @@ use Exception;
 use App\Entity\User;
 use App\Entity\Pools;
 use App\Entity\PerformanceRates;
+use App\Entity\LiveApyLog;
 use App\Exceptions\UserNotFoundException;
 use App\Repository\UserRepository;
 use App\Repository\PerformanceRatesRepository;
@@ -41,10 +42,34 @@ class AppServices
    }
 
    /**
+    * @throws RuntimeException
+    */
+   private function updateApyLog($apy) : void {
+      try {
+         $newApyLog = (new LiveApyLog())
+            ->setApy($apy)
+            ->setTimestamp(new \DateTimeImmutable('now', new \DateTimeZone('Europe/London')));
+         $this->entityManager->persist($newApyLog);
+         $this->entityManager->flush();
+      } catch (\RuntimeException $e) {
+         echo $e->getMessage();
+      }
+   }
+
+   private function returnPerformanceRates($apy) {
+      $performanceRates = $this->performanceRatesRepository->findAll();
+      
+      foreach ($performanceRates as $rate) {
+         if ($apy > $rate->getApy()) {
+            return $rate->getRate();
+         }
+      }
+   }  
+
+   /**
     * @throws UserNotFoundException
     */
-   public function getUserOrThrowException(): User
-   {
+   public function getUserOrThrowException(): User {
       $user = $this->userRepository->findAuthenticatedUser();
       if (!$user instanceof User) {
          throw new UserNotFoundException('User not found');
@@ -53,13 +78,12 @@ class AppServices
    }
 
    /**
-   * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
    * @throws ServerExceptionInterface
    * @throws RedirectionExceptionInterface
    * @throws DecodingExceptionInterface
    * @throws ClientExceptionInterface
    */
-  public function getVaultData(): array {
+  public function getVaultData($getLive=false): array {
    $apys = ['nexo' => 9];
    $responseData = [];
    $statusCode = null;
@@ -71,34 +95,33 @@ class AppServices
        $poolId = $pool->getPoolId();
        $poolName = $pool->getPoolName();
 
-       try {
-           $response = $this->client->request('GET', "https://yields.llama.fi/chart/$poolId", ['timeout' => 5]);
-           $statusCode = $response->getStatusCode();
+      try {
+         $response = $this->client->request('GET', "https://yields.llama.fi/chart/$poolId", ['timeout' => 5]);
+         $statusCode = $response->getStatusCode();
 
-           if ($statusCode !== 200) {
-               return [
-                   'statusCode' => $statusCode,
-                   'error' => 'Error fetching data from API',
-               ];
-           } else {
-               $responseData[$poolName] = $response->toArray()['data'];
-               $end = end($responseData[$poolName])['apy'];
-               $responseApy = prev($responseData[$poolName])['apy'];
-               $apys[$poolName] = $responseApy;
+         if ($statusCode !== 200) {
+            throw new \RuntimeException('Error fetching data from API');
+         } else {
+            $responseData[$poolName] = $response->toArray()['data'];
+            $liveApy = end($responseData[$poolName])['apy'];
+            $yieldApy = prev($responseData[$poolName])['apy'];
 
-               $pool->setPoolApy($responseApy);
-               $this->entityManager->persist($pool);
-               $this->entityManager->flush();
-           }
-       } catch (TransportExceptionInterface $e) {
-           return [
-               'statusCode' => 503,
-               'error' => $e->getMessage(),
-           ];
-       }
+            if ($getLive) {
+               $apys[$poolName] = $liveApy;
+            } else {
+               $apys[$poolName] = $yieldApy;
+            }
+
+            $pool->setPoolApy($yieldApy);
+            $this->entityManager->persist($pool);
+            $this->entityManager->flush();
+         }
+      } catch (\RuntimeException $e) {
+         echo "Caught RuntimeException: " . $e->getMessage();
+      }
    }
 
-   // Calculate the average APY
+   // Calculate the average APY of all pools
    $averageApy = array_sum($apys) / count($apys);
    
    // Determine the commission rate based on the average APY
@@ -107,8 +130,12 @@ class AppServices
    // Calculate the live APY using the determined commission rate
    $avrResponseLiveApy = $averageApy * $commission;
 
+   if ($getLive) {
+      $this->updateApyLog($avrResponseLiveApy);
+   }
+
    return [
-       'liveAPY' => $avrResponseLiveApy,
+       'yieldApy' => $avrResponseLiveApy,
        'responseData' => $responseData,
        'statusCode' => $statusCode,
    ];
@@ -151,8 +178,7 @@ class AppServices
       return $averages;
    }  
 
-   public function addZeroToValue($value) : string
-   {
+   public function addZeroToValue($value) : string {
       $formatUsd = $value;
       if (strlen(substr(strrchr($value, "."), 1)) == 1) {
          $formatUsd = $value . '0';
@@ -164,13 +190,12 @@ class AppServices
     * @throws UserNotFoundException
     * @throws Exception
     */
-   public function buildAndPersistTransaction($transaction, $gbp, $usd) : void
-   {
+   public function buildAndPersistTransaction($transaction, $gbp, $usd) : void {
       $user = $this->getUserOrThrowException();
       $cleanGbp = str_replace(',', '', $gbp);
       $cleanUsd = str_replace(',', '', $usd);
 
-         $transaction
+      $transaction
          ->setIsVerified(false)
          ->setTimestamp(new \DateTimeImmutable('now', new \DateTimeZone('Europe/London')))
          ->setUserEmail($user->getEmail())
@@ -178,16 +203,15 @@ class AppServices
          ->setGbpAmount(floatval($cleanGbp))
          ->setUsdAmount(floatval($cleanUsd));
 
-         $this->entityManager->persist($transaction);
-         $this->entityManager->flush();
+      $this->entityManager->persist($transaction);
+      $this->entityManager->flush();
    }
 
    /**
     * @throws TransportExceptionInterface
     * @throws UserNotFoundException
     */
-   public function buildAndSendEmail($type, $object, $sc, $ac): void
-   {
+   public function buildAndSendEmail($type, $object, $sc, $ac): void {
       $user = $this->getUserOrThrowException();
       list($firstName, $lastName, $userEmail) = [$user->getFirstName(), $user->getLastName(), $user->getEmail()];
       list($gbpAmount, $usdAmount, $date, $Id) = [$object->getGbpAmount(), $object->getUsdAmount(), $object->getTimestamp(), $object->getId()];
@@ -222,8 +246,7 @@ class AppServices
     * @throws DecodingExceptionInterface
     * @throws ClientExceptionInterface|\Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
     */
-   public function getGeckoData($api) : array
-   {
+   public function getGeckoData($api) : array {
       try {
          $response = $this->client->request('GET', $api, ['timeout' => 5]);
          return $response->toArray();
@@ -232,8 +255,7 @@ class AppServices
       }
    }
 
-   public function getSiteTVL() : float
-   {
+   public function getSiteTVL() : float {
       $users = $this->userRepository->findAll();
       $totalBalance = 0;
       foreach ($users as $user) {
@@ -241,16 +263,5 @@ class AppServices
       }
       return $totalBalance;
    }
-
-   public function returnPerformanceRates($apy)                                               
-   {
-      $performanceRates = $this->performanceRatesRepository->findAll();
-      
-      foreach ($performanceRates as $rate) {
-         if ($apy > $rate->getApy()) {
-            return $rate->getRate();
-         }
-      }
-   }  
 
 }

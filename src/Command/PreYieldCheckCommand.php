@@ -33,7 +33,7 @@ class PreYieldCheckCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $mostRecentApy = $this->strategyApyRepository->returnCurrent();
+        $mostRecentApy = $this->strategyApyRepository->returnLatestlog();
         $apyDate = $mostRecentApy->getTimestamp();
         $now = new \DateTime();
 
@@ -45,7 +45,7 @@ class PreYieldCheckCommand extends Command
             $strategyApy = (new StrategyApy())
                 ->setApy($defaultApy)
                 ->setWeekAvg($mostRecentApy->getWeekAvg())
-                ->setMonth($mostRecentApy->getMonth())
+                ->setMonthAvg($mostRecentApy->getMonthAvg())
                 ->setMonth3Avg($mostRecentApy->getMonth3Avg())
                 ->setMonth6Avg($mostRecentApy->getMonth6Avg())
                 ->setYear1Avg($mostRecentApy->getYear1Avg())
