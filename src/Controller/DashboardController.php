@@ -76,7 +76,7 @@ class DashboardController extends AbstractController
          'pendingBalance' => $appServices->addZeroToValue($pendingBalance),
          'profit' => $profit,
          'growth' => round($growth, 2),
-         'tvl' => $tvl,
+         'tvl' => number_format($tvl, 2),
          'projectedBalance' => number_format($projectedBalance, 3),
          'weekAvg' => $currentYieldLogData->getWeekAvg(),
          'monthAvg' => $currentYieldLogData->getMonthAvg(),
