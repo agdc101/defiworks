@@ -108,15 +108,16 @@ body {
       top: 6%;
       right: 0;
       left: 0;
-      color: lightgreen;
-      width: 25%;
+      color: $secondary;
+      width: 50%;
       margin: .5rem auto;
       text-align: center;
-      font-size: .85rem;
+      font-size: .7rem;
       text-transform: uppercase;
       letter-spacing: 0.15rem;
       @media (min-width: $large) {
-          top: 1%;
+          top: 2%;
+          font-size: .75rem;
       }
   }
   input,select {

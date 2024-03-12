@@ -44,8 +44,7 @@ class AppServices
    /**
     * @throws RuntimeException
     */
-   private function updateApyLog($apy) : void
-   {
+   private function updateApyLog($apy) : void {
       try {
          $newApyLog = (new LiveApyLog())
             ->setApy($apy)
@@ -57,11 +56,20 @@ class AppServices
       }
    }
 
+   private function returnPerformanceRates($apy) {
+      $performanceRates = $this->performanceRatesRepository->findAll();
+      
+      foreach ($performanceRates as $rate) {
+         if ($apy > $rate->getApy()) {
+            return $rate->getRate();
+         }
+      }
+   }  
+
    /**
     * @throws UserNotFoundException
     */
-   public function getUserOrThrowException(): User
-   {
+   public function getUserOrThrowException(): User {
       $user = $this->userRepository->findAuthenticatedUser();
       if (!$user instanceof User) {
          throw new UserNotFoundException('User not found');
@@ -170,8 +178,7 @@ class AppServices
       return $averages;
    }  
 
-   public function addZeroToValue($value) : string
-   {
+   public function addZeroToValue($value) : string {
       $formatUsd = $value;
       if (strlen(substr(strrchr($value, "."), 1)) == 1) {
          $formatUsd = $value . '0';
@@ -183,8 +190,7 @@ class AppServices
     * @throws UserNotFoundException
     * @throws Exception
     */
-   public function buildAndPersistTransaction($transaction, $gbp, $usd) : void
-   {
+   public function buildAndPersistTransaction($transaction, $gbp, $usd) : void {
       $user = $this->getUserOrThrowException();
       $cleanGbp = str_replace(',', '', $gbp);
       $cleanUsd = str_replace(',', '', $usd);
@@ -205,8 +211,7 @@ class AppServices
     * @throws TransportExceptionInterface
     * @throws UserNotFoundException
     */
-   public function buildAndSendEmail($type, $object, $sc, $ac): void
-   {
+   public function buildAndSendEmail($type, $object, $sc, $ac): void {
       $user = $this->getUserOrThrowException();
       list($firstName, $lastName, $userEmail) = [$user->getFirstName(), $user->getLastName(), $user->getEmail()];
       list($gbpAmount, $usdAmount, $date, $Id) = [$object->getGbpAmount(), $object->getUsdAmount(), $object->getTimestamp(), $object->getId()];
@@ -241,8 +246,7 @@ class AppServices
     * @throws DecodingExceptionInterface
     * @throws ClientExceptionInterface|\Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
     */
-   public function getGeckoData($api) : array
-   {
+   public function getGeckoData($api) : array {
       try {
          $response = $this->client->request('GET', $api, ['timeout' => 5]);
          return $response->toArray();
@@ -251,8 +255,7 @@ class AppServices
       }
    }
 
-   public function getSiteTVL() : float
-   {
+   public function getSiteTVL() : float {
       $users = $this->userRepository->findAll();
       $totalBalance = 0;
       foreach ($users as $user) {
@@ -260,16 +263,5 @@ class AppServices
       }
       return $totalBalance;
    }
-
-   public function returnPerformanceRates($apy)                                               
-   {
-      $performanceRates = $this->performanceRatesRepository->findAll();
-      
-      foreach ($performanceRates as $rate) {
-         if ($apy > $rate->getApy()) {
-            return $rate->getRate();
-         }
-      }
-   }  
 
 }

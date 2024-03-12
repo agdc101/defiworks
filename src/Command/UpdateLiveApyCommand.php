@@ -31,6 +31,7 @@ class UpdateLiveApyCommand extends Command
     {
         try {
             $this->appServices->getVaultData(true);
+            echo "Live APY updated\n";
         } catch (\RuntimeException $e){
             echo "Caught RuntimeException: " . $e->getMessage();
         }

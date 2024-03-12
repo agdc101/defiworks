@@ -15,7 +15,9 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use App\Services\DashboardServices;
 use App\Services\AppServices;
 use App\Entity\StrategyApy; 
+use App\Entity\LiveApyLog;
 use App\Repository\StrategyApyRepository;
+use App\Repository\LiveApyLogRepository;
 
 class DashboardController extends AbstractController
 {
@@ -28,15 +30,15 @@ class DashboardController extends AbstractController
     * @throws RedirectionExceptionInterface
     */
    #[Route('/dashboard', name: 'app_dashboard')]
-    public function renderDashboard(Request $request, AppServices $appServices, DashboardServices $dashboardServices, StrategyApyRepository $strategyApyRepository ): Response
+    public function renderDashboard(Request $request, AppServices $appServices, DashboardServices $dashboardServices, StrategyApyRepository $strategyApyRepository, LiveApyLogRepository $liveApyLogRepository ): Response
     {
       $session = $request->getSession();
 
-      if (!$session->get('apy')) {
+      if (!$session->get('yieldApy')) {
          $responseApy = $strategyApyRepository->getCurrentApy();
-         $session->set('apy', $responseApy);
+         $session->set('yieldApy', $responseApy);
       }
-      $apy = $session->get('apy');
+      $apy = $session->get('yieldApy');
 
       $user = $appServices->getUserOrThrowException();
       $userBalance = number_format($user->getBalance(), 3);
@@ -49,9 +51,17 @@ class DashboardController extends AbstractController
       } else {
          $growth = 0;
       }
+
+      if (!isset($_COOKIE['liveApy'])) {
+         $liveApy = $liveApyLogRepository->returnLatestLog()->getApy();
+         setcookie('liveApy', $liveApy, time() + 1800, "/");
+         $liveApyCookie = $liveApy; // Set the variable here as well
+      } else {
+         $liveApyCookie = $_COOKIE['liveApy'];
+      }
       
-      //get the most recent entry for the strategy apy table
-      $currentApyData = $strategyApyRepository->returnLatestlog();
+      // Get the most recent entry for the strategy APY table
+      $currentYieldLogData = $strategyApyRepository->returnLatestlog();
 
       // add $session->get('apy') to the $userBalance
       $projectedBalance = str_replace(',', '', $userBalance) * (1 + $apy / 100);
@@ -60,16 +70,17 @@ class DashboardController extends AbstractController
 
       return $this->render('dashboard/dashboard.html.twig', [
          'user' => $user->getFirstName(),
-         'liveApy' => $session->get('apy'),
+         'liveApy' => $liveApyCookie,
+         'yieldApy' => $session->get('yieldApy'),
          'balance' => $userBalance,
          'pendingBalance' => $appServices->addZeroToValue($pendingBalance),
          'profit' => $profit,
          'growth' => round($growth, 2),
          'tvl' => $tvl,
          'projectedBalance' => number_format($projectedBalance, 3),
-         'weekAvg' => $currentApyData->getWeekAvg(),
-         'monthAvg' => $currentApyData->getMonthAvg(),
-         'yearAvg' => $currentApyData->getYear1Avg()
+         'weekAvg' => $currentYieldLogData->getWeekAvg(),
+         'monthAvg' => $currentYieldLogData->getMonthAvg(),
+         'yearAvg' => $currentYieldLogData->getYear1Avg()
       ]);
     }
 

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\StrategyApyRepository;
+use App\Repository\LiveApyLogRepository;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -23,17 +24,19 @@ class RootController extends AbstractController
     * @throws ClientExceptionInterface
     */
    #[Route('/', name: 'app_home')]
-    public function index(Request $request, StrategyApyRepository $strategyApyRepository): Response
+    public function index(Request $request, StrategyApyRepository $strategyApyRepository, LiveApyLogRepository $liveApyLogRepository): Response
     {
-      $session = $request->getSession();
-      if (!$session->get('apy')) {
-         $responseApy = $strategyApyRepository->getCurrentApy();
-         $session->set('apy', $responseApy);
+
+      if (!isset($_COOKIE['liveApy'])) {
+         $liveApy = $liveApyLogRepository->returnLatestLog()->getApy();
+         setcookie('liveApy', $liveApy, time() + 1800, "/");
+         $liveApyCookie = $liveApy; // Set the variable here as well
+      } else {
+         $liveApyCookie = $_COOKIE['liveApy'];
       }
-      $liveApy = $session->get('apy');
 
       return $this->render('homepage/index.html.twig',
-         ['liveApy' => $liveApy]
+         ['liveApy' => $liveApyCookie]
       );
     }
 }

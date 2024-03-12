@@ -45,7 +45,7 @@ class PreYieldCheckCommand extends Command
             $strategyApy = (new StrategyApy())
                 ->setApy($defaultApy)
                 ->setWeekAvg($mostRecentApy->getWeekAvg())
-                ->setMonth($mostRecentApy->getMonth())
+                ->setMonthAvg($mostRecentApy->getMonthAvg())
                 ->setMonth3Avg($mostRecentApy->getMonth3Avg())
                 ->setMonth6Avg($mostRecentApy->getMonth6Avg())
                 ->setYear1Avg($mostRecentApy->getYear1Avg())

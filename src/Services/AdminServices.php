@@ -7,10 +7,6 @@ use App\Exceptions\TransactionConfirmationException;
 class AdminServices
 {
 
-   public function __construct()
-   {
-   }
-
    /**
     * @throws TransactionConfirmationException
     */

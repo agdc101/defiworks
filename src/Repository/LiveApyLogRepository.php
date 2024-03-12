@@ -21,28 +21,13 @@ class LiveApyLogRepository extends ServiceEntityRepository
         parent::__construct($registry, LiveApyLog::class);
     }
 
-//    /**
-//     * @return LiveApyLog[] Returns an array of LiveApyLog objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('l.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function returnLatestlog()
+    {
+        return $this->createQueryBuilder('l')
+            ->orderBy('l.timestamp', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 
-//    public function findOneBySomeField($value): ?LiveApyLog
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
