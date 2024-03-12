@@ -4,6 +4,14 @@
 
 {% block body %}
 
+{% for message in app.flashes('password_reset_success') %}
+    <div class="alert user-success-msg" role="alert">{{ message }}</div>
+{% endfor %}
+
+{% for message in app.flashes('success_pin') %}
+    <div class="alert user-success-msg" role="alert">{{ message }}</div>
+{% endfor %}
+
 <h1 class="text-center">{{ user | capitalize }}'s Dashboard</h1>
 
 <div class="dashboard-content-wrapper">
@@ -11,13 +19,14 @@
         <div class="site-status-info-inner">
             <p class="site-status">DeFi Works status:</p>
             <p>Total Value Locked: <strong>{% if tvl is null %} $0 {% else  %} ${{ tvl }} {% endif %}</strong></p>
-            <p>APY: <span>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</span></p>
+            <p>Last Yield APY: <strong>{% if yieldApy is defined %} {{ yieldApy|round(2, 'floor') }}% {% else %} 4.44% {% endif %}</strong></p>
+            <p>Live APY: <strong>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</strong></p>
         </div>
         <div class="site-status-info-inner">
             <p class="site-status" >Average strategy returns:</p>
-            <p>3 months: <strong>{{ threeMonthAverage }}%</strong></p>
-            <p>6 months: <strong>{{ sixMonthAverage }}%</strong></p>
-            <p>1 year: <strong>{{ twelveMonthAverage }}%</strong></p>
+            {% if weekAvg is not null %} <p>Week: <strong>{{ weekAvg }}%</strong></p>{% endif %}
+            {% if monthAvg is not null %} <p>Month: <strong>{{ monthAvg }}%</strong></p>{% endif %}
+            {% if yearAvg is not null %} <p>Year: <strong>{{ yearAvg }}%</strong></p>{% endif %}
         </div>
     </section>
     <section class="account-status">

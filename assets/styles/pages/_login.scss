@@ -1,4 +1,6 @@
 section.login {
+    max-width: 800px;
+    margin: 0 auto;
     .login-form {
         input {
             background-color: $julesPink;
@@ -10,7 +12,7 @@ section.login {
             div {
                 margin: .5rem 0;
                 @media (min-width: $medium) {
-                    width: 35%;
+                    width: 50%;
                     margin: .75rem 1.25rem 1rem 0;
                 }
             }

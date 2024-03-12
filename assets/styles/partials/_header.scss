@@ -27,7 +27,6 @@ header {
                 color: white;
                 h1 {
                     margin: 0 1.75rem;
-                    font-family: 'Share Tech Mono', monospace;
                     font-weight:200;
                     font-size:1.5rem;
                     @media (min-width: $medium) {
@@ -55,7 +54,7 @@ header {
                         text-decoration: none;
                         color: white;
                         font-weight:300;
-                        font-size: .85rem;
+                        font-size: .95rem;
                         &:hover {
                         color: $secondary;
                         }

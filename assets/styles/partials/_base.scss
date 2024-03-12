@@ -3,7 +3,7 @@ body {
   height:100%;
   background: black;
   color:white;
-  font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
+  font-family: "Roboto", sans-serif;  
   .svg-bg {
     position: absolute;
     top: 0;
@@ -34,16 +34,22 @@ body {
   a {
     transition: color .2s ease-in-out;
   }
+  p {
+    max-width: 1000px;
+  }
 }
 .overflow-hidden {
   overflow: hidden;
 }
 .content-wrapper {
-  width:90%;
+  width:95%;
   margin: 0 auto 4rem auto;
-  max-width: 1150px;
+  max-width: 1300px;
   padding-top: 8rem;
   @media (min-width: $medium) {
+      padding-top: 9rem;
+  }
+  @media (min-width: $large) {
       padding-top: 12rem;
   }
   form {
@@ -65,7 +71,6 @@ body {
       }
   }
   h2 {
-    font-family: 'Share Tech Mono', monospace;
     font-size:.9rem;
     text-transform: uppercase;
     font-weight: 200;
@@ -99,24 +104,27 @@ body {
       color: #444444;
   }
   .user-success-msg {
-      color: lightgreen;
-      width: 25%;
+      position: absolute;
+      top: 6%;
+      right: 0;
+      left: 0;
+      color: $secondary;
+      width: 50%;
       margin: .5rem auto;
       text-align: center;
-      font-size: .85rem;
+      font-size: .7rem;
       text-transform: uppercase;
       letter-spacing: 0.15rem;
       @media (min-width: $large) {
-          padding-left: 1rem;
-          border: 1px solid $secondary;
-          margin-bottom:3.5rem;
+          top: 2%;
+          font-size: .75rem;
       }
   }
   input,select {
       margin: 1rem 0;
       background-color: $julesPink;
       @media (min-width: $medium) {
-        max-width: 400px;
+        max-width: 475px;
         margin: .75rem 0 .5rem 0;
       }
   }
@@ -156,10 +164,9 @@ body {
       @media (min-width: $medium) {
         padding: 1rem .5rem;
         margin: 1rem;
-        width: 30%;
+        width: 20%;
       }
       @media (min-width: $large) {
-        width: 20%;
         padding:.5rem 1.15rem .5rem 1rem;
       }
       a.disable-btn {

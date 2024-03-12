@@ -89,7 +89,7 @@ class DepositController extends AbstractController
 
         //remove commas from gbpDepositAmount param.
         $cleanGbpParam = str_replace( ',', '', $parameters['gbpDepositAmount'] );
-        $usdSum = ($cleanGbpParam / $data['0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9']['gbp']) * $this->getParameter('fee');
+        $usdSum = ($cleanGbpParam / $data['0xaf88d065e77c8cc2239327c5edb3a432268e5831']['gbp']) * $this->getParameter('fee');
         $formatUsd = number_format(round($usdSum, 2), 2);
 
         $session->set('gbpDeposit', $parameters['gbpDepositAmount']);

@@ -34,7 +34,6 @@
         margin: .75rem 0;
         letter-spacing: 0.075rem;
         @media (min-width: $large) {
-          font-size: 1rem;
           margin: .4rem 0 .5rem 0;
         }
       }
@@ -89,6 +88,7 @@
       width: 100px;
       height: 100px;
       @media (min-width: $large) {
+        margin: 0 1rem 0 0;
         width: 70px;
         height: 70px;
       }
@@ -97,10 +97,11 @@
       text-decoration: none;
       color: white;
       @media (min-width: $medium) {
-        font-size: 1rem;
+        font-size: 1.02rem;
       }
       @media (min-width: $large) {
         display:flex;
+        justify-content: center;
         align-items: center;
       }
     }
