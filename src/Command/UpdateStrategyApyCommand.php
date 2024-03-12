@@ -36,12 +36,8 @@ class UpdateStrategyApyCommand extends Command
         try {
             $vaultData = $this->appServices->getVaultData();
     
-            if (!empty($vaultData['error'])) {
-                throw new ApyDataException('Error fetching APY data');
-            }
-    
             $apyData = $vaultData['responseData'];
-            $newApyLog = $vaultData['liveAPY'];
+            $newApyLog = $vaultData['yieldApy'];
     
             $averageApys = array_map(function ($data) {
                 return $this->appServices->getAverageApys($data);

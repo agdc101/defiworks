@@ -33,7 +33,7 @@ class PreYieldCheckCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $mostRecentApy = $this->strategyApyRepository->returnCurrent();
+        $mostRecentApy = $this->strategyApyRepository->returnLatestlog();
         $apyDate = $mostRecentApy->getTimestamp();
         $now = new \DateTime();
 

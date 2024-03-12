@@ -51,7 +51,7 @@ class DashboardController extends AbstractController
       }
       
       //get the most recent entry for the strategy apy table
-      $currentApyData = $strategyApyRepository->returnCurrent();
+      $currentApyData = $strategyApyRepository->returnLatestlog();
 
       // add $session->get('apy') to the $userBalance
       $projectedBalance = str_replace(',', '', $userBalance) * (1 + $apy / 100);
