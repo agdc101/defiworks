@@ -4,9 +4,9 @@
 
 {% block body %}
 
-{# {% for message in app.flashes('password_reset_success') %} #}
-    <div class="alert user-success-msg" role="alert">Pin Accepted</div>
-{# {% endfor %} #}
+{% for message in app.flashes('password_reset_success') %}
+    <div class="alert user-success-msg" role="alert">{{ message }}</div>
+{% endfor %}
 
 {% for message in app.flashes('success_pin') %}
     <div class="alert user-success-msg" role="alert">{{ message }}</div>
