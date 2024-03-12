@@ -1,8 +1,13 @@
 //-=-=-=- /deposit page -=-=-=-//
-section.deposit-wrapper {
+section.deposit {
   padding: .5rem 0;
+  max-width: 800px;
+  margin: 0 auto;
   @media (min-width: $large) {
     padding: 1rem 0;
+  }
+  .deposit-wrapper {
+    margin-bottom: 2rem;
   }
   form {
     input {

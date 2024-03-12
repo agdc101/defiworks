@@ -184,11 +184,12 @@ body {
     }
   }
   .back-btn {
-    display: block;
     color:white;
     margin-top:.75rem;
     text-decoration: none;
     letter-spacing: 0.075rem;
+    max-width: 800px;
+    margin:1rem auto;
     &:hover {
       color:lightgrey;
     }

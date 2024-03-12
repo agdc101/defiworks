@@ -1,5 +1,7 @@
 section.deposit-details {
     padding: 0 .25rem;
+    max-width: 800px;
+    margin: 0 auto;
     & > p {
         color: $tertiary;
         font-weight: 100;
