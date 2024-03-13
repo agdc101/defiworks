@@ -35,7 +35,7 @@ class WithdrawDetailsType extends AbstractType
             ->add('account_number', TextType::class, [
                 'label' => 'Account Number:',
                 'attr' => [
-                    'placeholder' => '123456789',
+                    'placeholder' => '12345678',
                     'class' => 'form-control'
                 ],
                 'constraints' => [
@@ -43,7 +43,7 @@ class WithdrawDetailsType extends AbstractType
                         'message' => 'Please enter an account number',
                     ]),
                     new Length([
-                        'min' => 9,
+                        'min' => 8,
                         'minMessage' => 'Your account number should be {{ limit }} characters long',
                         // max length allowed by Symfony for security reasons
                         'max' => 9,

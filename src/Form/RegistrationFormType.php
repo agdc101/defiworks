@@ -46,6 +46,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'form-control',
+                    'placeholder' => 'Joe',
                 ]
             ])
             ->add('lastName', TextType::class, [
@@ -64,6 +65,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'form-control',
+                    'placeholder' => 'Bloggs',
                 ]
             ])
             ->add('address', TextType::class, [
@@ -77,6 +79,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'form-control',
+                    'placeholder' => 'Address',
                 ]
             ])
             ->add('city', TextType::class, [
@@ -90,6 +93,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'form-control',
+                    'placeholder' => 'City',
                 ]
             ])
             ->add('postCode', TextType::class,  [
@@ -103,6 +107,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'form-control',
+                    'placeholder' => 'Post Code',
                 ]
             ])
             ->add('county',TextType::class, [
@@ -122,6 +127,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'form-control',
+                    'placeholder' => 'County',
                 ]
             ])
             ->add('email', EmailType::class, [
@@ -135,6 +141,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'form-control',
+                    'placeholder' => 'JoeBloggs@defiworks.co.uk',
                 ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
