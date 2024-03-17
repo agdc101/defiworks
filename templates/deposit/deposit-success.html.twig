@@ -10,7 +10,8 @@
         {% for message in app.flashes('gbp_amount') %}
             <p>Your deposit of £{{ message }} will now need to be confirmed.</p>
         {% endfor %}
-        <p>You can now check your dashboard to see your pending balance. Once confirmed, your deposit amount will be added to your balance.</p>
+        <p>You can now check your dashboard to see your pending balance.</p>
+        <p>Once confirmed, your deposit amount will be added to your balance.</p>
         <p>Thank you for using <strong>DeFi Works</strong>.</p>
         {# -----------------------------------------------------  #}
         <a class="" href={{ path('app_dashboard') }}>Go to Dashboard
