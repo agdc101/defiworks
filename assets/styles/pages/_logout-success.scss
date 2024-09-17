@@ -1,6 +1,16 @@
-.logout-success-page {
-    h1 {
+section.logout-success-page {
+    max-width: 800px;
+    margin: 0 auto;
+    h3 {
         font-size:1.5rem;
+        font-weight: 200;
+        letter-spacing: 0.1rem;
+    }
+    p {
+        margin: 2rem 0;
+        font-size: 1.1rem;
+        color: $tertiary;
+        font-weight: 200;
     }
     a {
         text-decoration: none;

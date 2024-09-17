@@ -10,9 +10,6 @@ section.steps {
         }
     }
     .steps-inner {
-        @media (max-width: 600px) {
-            padding: 0 2rem 0 3.5rem;
-        }
         @media (min-width: $large) {
             display: flex;
             flex-wrap: wrap;
