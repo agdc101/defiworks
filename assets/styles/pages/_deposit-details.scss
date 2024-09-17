@@ -35,6 +35,9 @@ section.deposit-details {
                 margin:0 .75rem;
                 width:15%;
                 max-width: 40px;
+                outline: none;
+                border: 1px solid $tertiary;
+                border-radius: 5px;
                 @media (min-width: $medium) {
                     width: 22.5%;
                 }
@@ -42,11 +45,17 @@ section.deposit-details {
                     width:20px;
                     height:20px;
                 }
+                &:active {
+                    border: 1px solid $secondary;
+                }
             }
         }
         p {
             font-size: 1.5rem;
             display: flex;
+            // styles added for brave browser
+            text-decoration: none !important;
+            color: white !important;
         }
     }
     #usdConversion {
