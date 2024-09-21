@@ -10,18 +10,40 @@
         margin-top:12rem;
     }
     &-inner {
-        .llama-svg-wrap {
-            display:flex;
+        @media (min-width: $large) {
+            display: flex;
             justify-content: center;
             align-items: center;
-            padding: 0 .5rem;
-            margin-bottom: 2.5rem;
-            .llama-icon-text {
-                font-size: 1.35rem;
-                letter-spacing: .15rem;;
+        }
+        .svg-group-wrapper {
+            @media (min-width: $medium) {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 1rem 0;
             }
-            svg {
-                margin: 0 .4rem 0 0rem;
+            div {
+                @media (min-width: $xl) {
+                    margin-right: 2rem;
+                }
+            }
+            .llama-svg-wrap {
+                display:flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0 .5rem;
+                margin-bottom: 2.5rem;
+                @media (min-width: $medium) {
+                    margin-bottom: 0;
+                }
+                .llama-icon-text {
+                    font-size: 1.35rem;
+                    letter-spacing: .15rem;
+                    color:#9d9d9d;
+                }
+                svg {
+                    margin: 0 .4rem 0 0rem;
+                }
             }
         }
         h2 {
@@ -32,9 +54,6 @@
         }
         svg {
             margin: 1rem;
-            &:nth-of-type(1) {
-                padding-top:.5rem;  
-            }
             &:nth-of-type(2) {
                 @media (min-width: $medium) {
                     margin: 1.75rem 4.5rem 1.5rem 0;
@@ -46,5 +65,6 @@
         margin: 1rem auto;
         font-weight: 200;
         font-size: 1.1rem;
+        color: white;
     }
 }
