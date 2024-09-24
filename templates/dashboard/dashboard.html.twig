@@ -29,6 +29,8 @@
             {% if yearAvg is not null %} <p>Year: <strong>{{ yearAvg }}%</strong></p>{% endif %}
         </div>
     </section>
+    <div {{ react_component('DashboardPopups') }}></div>
+
     <section class="account-status">
         <h4>{{ user | capitalize }}'s Account:</h4>
         <div class="dash-info">
