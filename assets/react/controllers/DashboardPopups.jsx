@@ -30,9 +30,9 @@ export function DashboardPopups(props) {
             <PopoverContent className="w-80">
             <div className="grid gap-4">
                 <div className="site-status-info-inner space-y-6">
-                    {/* <p>Total Value Locked: <strong>{% if tvl is null %} $0 {% else  %} ${{ tvl }} {% endif %}</strong></p>
-                    <p>Last Yield APY: <strong>{% if yieldApy is defined %} {{ yieldApy|round(2, 'floor') }}% {% else %} 4.44% {% endif %}</strong></p>
-                    <p>Live APY: <strong>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</strong></p> */}
+                    <p className="font-light">Total Value Locked: <strong className="font-light text-lime-400">{props.tvl ? `$${props.tvl}` : $0}</strong></p>
+                    <p className="font-light">Last Yield APY: <strong className="font-light text-lime-400">{props.yieldApy ? `${Math.round(props.yieldApy * 100) / 100}%` : '4%'}</strong></p>
+                    <p className="font-light">Live APY: <strong className="font-light text-lime-400">{props.liveApy ? `${Math.round(props.liveApy * 100) / 100}%` : '4%'}</strong></p>
                 </div>
             </div>
             </PopoverContent>

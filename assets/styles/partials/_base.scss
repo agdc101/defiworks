@@ -94,9 +94,6 @@ body {
           margin-top: .75rem;
           width: auto;
       }
-      @media (min-width: $large) {
-          margin: 1.5rem 1.75rem;
-      }
     &:hover {
         background-color: $secondary;
     }
