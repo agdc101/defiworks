@@ -44,7 +44,7 @@ class DepositController extends BaseController
          if ($gbpDeposit) {
              try {
                 $this->appServices->buildAndPersistTransaction($deposit, $gbpDeposit, $usdDeposit);
-                $this->$appServices->buildAndSendEmail('deposit', $deposit, $sc=null, $ac=null);
+                $this->appServices->buildAndSendEmail('deposit', $deposit, $sc=null, $ac=null);
              } catch (TransportExceptionInterface | Exception $e) {
                 return new Response('An error occurred: ' . $e->getMessage());
              }
