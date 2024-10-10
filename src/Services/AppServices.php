@@ -31,6 +31,7 @@ class AppServices
    private EntityManagerInterface $entityManager;
    private MailerInterface $mailer;
    private HttpClientInterface $client;
+   private ParameterBagInterface $parameterBag;
 
    public function __construct(UserRepository $userRepository, PoolsRepository $poolsRepository, PerformanceRatesRepository $performanceRatesRepository, EntityManagerInterface $entityManager, MailerInterface $mailer, HttpClientInterface $client, ParameterBagInterface $parameterBag)
    {
