@@ -221,8 +221,8 @@ class AppServices
 
       if ($type === 'withdraw') {
          $email = (new Email())
-            ->from('admin@defiworks.co.uk')
-            ->to('admin@defiworks.co.uk')
+            ->from($this->getParameter('admin_email'))
+            ->to($this->getParameter('admin_email'))
             ->subject('New Withdrawal Request')
             ->html(
                "$firstName $lastName ($userEmail) has made a withdrawal request of £$gbpAmount at $dateString 
@@ -231,8 +231,8 @@ class AppServices
             );
       } else {
          $email = (new Email())
-            ->from('admin@defiworks.co.uk')
-            ->to('admin@defiworks.co.uk')
+            ->from($this->getParameter('admin_email'))
+            ->to($this->getParameter('admin_email'))
             ->subject('New Deposit - Confirmation required')
             ->html("$firstName $lastName ($userEmail) has made a new deposit of £$gbpAmount ($$usdAmount) at $dateString 
                 <br><br> confirm by going to <a href='$depositLink'>https://defiworks.co.uk/admin/confirm-deposit/$Id</a>");

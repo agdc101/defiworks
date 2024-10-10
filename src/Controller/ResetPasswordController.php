@@ -157,7 +157,7 @@ class ResetPasswordController extends AbstractController
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('admin@defiworks.co.uk', 'DeFi Works Password Reset Bot'))
+            ->from(new Address($this->getParameter('admin_email'), 'DeFi Works Password Reset Bot'))
             ->to($user->getEmail())
             ->subject('Your password reset request')
             ->htmlTemplate('reset_password/email.html.twig')

@@ -25,12 +25,10 @@ class DashboardController extends BaseController
     * @throws TransportExceptionInterface
     * @throws UserNotFoundException
     * @throws ServerExceptionInterface
-    * @throws DecodingExceptionInterface
-    * @throws ClientExceptionInterface
-    * @throws RedirectionExceptionInterface
     */
+
    #[Route('/dashboard', name: 'app_dashboard')]
-    public function renderDashboard(Request $request, DashboardServices $dashboardServices, StrategyApyRepository $strategyApyRepository, LiveApyLogRepository $liveApyLogRepository ): Response
+    public function renderDashboard(Request $request, DashboardServices $dashboardServices, StrategyApyRepository $strategyApyRepository, LiveApyLogRepository $liveApyLogRepository): Response
     {
       $session = $request->getSession();
 
