@@ -60,8 +60,8 @@ class WithdrawalController extends BaseController
     * @throws TransportExceptionInterface
     */
    #[Route('/withdraw/withdraw-confirm', name: 'app_withdraw_confirm')]
-    public function RenderWithdrawConfirmTemplate(Request $request): Response
-    {
+   public function RenderWithdrawConfirmTemplate(Request $request): Response
+   {
       $session = $request->getSession();
       $gbp = $session->get('gbpWithdrawal');
       $usd = $session->get('usdWithdrawal');
@@ -84,7 +84,7 @@ class WithdrawalController extends BaseController
          'accountNo' => $session->get('accountNo')
       ]);
 
-      }
+   }
 
    #[Route('/withdraw/withdraw-success', name: 'app_withdraw_success')]
    public function RenderWithdrawSuccessTemplate(Request $request): Response

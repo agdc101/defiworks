@@ -203,8 +203,8 @@ class AppServices
          ->setTimestamp(new \DateTimeImmutable('now', new \DateTimeZone('Europe/London')))
          ->setUserEmail($user->getEmail())
          ->setUserId($user->getId())
-         ->setGbpAmount(floatval($cleanGbp))
-         ->setUsdAmount(floatval($cleanUsd));
+         ->setGbpAmount($cleanGbp)
+         ->setUsdAmount($cleanUsd);
 
       $this->entityManager->persist($transaction);
       $this->entityManager->flush();
