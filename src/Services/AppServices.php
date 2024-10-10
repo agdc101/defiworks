@@ -21,6 +21,7 @@ use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class AppServices
 {
@@ -31,7 +32,7 @@ class AppServices
    private MailerInterface $mailer;
    private HttpClientInterface $client;
 
-   public function __construct(UserRepository $userRepository, PoolsRepository $poolsRepository, PerformanceRatesRepository $performanceRatesRepository, EntityManagerInterface $entityManager, MailerInterface $mailer, HttpClientInterface $client)
+   public function __construct(UserRepository $userRepository, PoolsRepository $poolsRepository, PerformanceRatesRepository $performanceRatesRepository, EntityManagerInterface $entityManager, MailerInterface $mailer, HttpClientInterface $client, ParameterBagInterface $parameterBag)
    {
       $this->userRepository = $userRepository;
       $this->performanceRatesRepository = $performanceRatesRepository;
@@ -39,6 +40,7 @@ class AppServices
       $this->entityManager = $entityManager;
       $this->mailer = $mailer;
       $this->client = $client;
+      $this->parameterBag = $parameterBag;
    }
 
    /**
@@ -221,8 +223,8 @@ class AppServices
 
       if ($type === 'withdraw') {
          $email = (new Email())
-            ->from($this->getParameter('admin_email'))
-            ->to($this->getParameter('admin_email'))
+            ->from($this->parameterBag->get('admin_email'))
+            ->to($this->parameterBag->get('admin_email'))
             ->subject('New Withdrawal Request')
             ->html(
                "$firstName $lastName ($userEmail) has made a withdrawal request of £$gbpAmount at $dateString 
@@ -231,8 +233,8 @@ class AppServices
             );
       } else {
          $email = (new Email())
-            ->from($this->getParameter('admin_email'))
-            ->to($this->getParameter('admin_email'))
+            ->from($this->parameterBag->get('admin_email'))
+            ->to($this->parameterBag->get('admin_email'))
             ->subject('New Deposit - Confirmation required')
             ->html("$firstName $lastName ($userEmail) has made a new deposit of £$gbpAmount ($$usdAmount) at $dateString 
                 <br><br> confirm by going to <a href='$depositLink'>https://defiworks.co.uk/admin/confirm-deposit/$Id</a>");
