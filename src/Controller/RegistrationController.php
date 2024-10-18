@@ -23,13 +23,14 @@ class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, EntityManagerInterface $entityManager)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->entityManager = $entityManager;
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator): Response
     {
         // if already a user redirect to dashboard
         if ($this->getUser()) {
@@ -49,8 +50,8 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
@@ -90,7 +91,7 @@ class RegistrationController extends AbstractController
         }
 
         $user->setRoles(["ROLE_USER"]);
-        $entityManager->flush();
+        $this->entityManager->flush();
 
         $email = (new Email())
             ->from($this->getParameter('admin_email'))
