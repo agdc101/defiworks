@@ -80,27 +80,28 @@ class RegistrationController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-        $user->setRoles(["ROLE_USER"]);
 
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $exception->getReason());
-
             return $this->redirectToRoute('app_register');
         }
 
-        // send defiworks an email informing of new user with their name and email address.
-        $newUserFirstName = $this->getUser()->getFirstName();
-        $newUserLastName = $this->getUser()->getLastName();
-        $newUserEmail = $this->getUser()->getEmail();
+        $user->setRoles(["ROLE_USER"]);
+        $entityManager->flush();
 
         $email = (new Email())
             ->from($this->getParameter('admin_email'))
             ->to($this->getParameter('admin_email'))
             ->subject('New User!')
-            ->html("$newUserFirstName $newUserLastName is now a user. email address is $newUserEmail");
+            ->html(sprintf(
+                '%s %s is now a user. Email address is %s',
+                $user->getFirstName(),
+                $user->getLastName(),
+                $user->getEmail()
+            ));
 
         $mailer->send($email);
 
