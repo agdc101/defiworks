@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Deposits;
 use App\Form\AddPendingDepositType;
-use App\Services\AppServices;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,7 +16,7 @@ use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 
-class DepositController extends AbstractController
+class DepositController extends BaseController
 {
 
     #[Route('/deposit', name: 'app_deposit')]
@@ -31,7 +30,7 @@ class DepositController extends AbstractController
     * @throws Exception
     */
     #[Route('/deposit/deposit-details', name: 'app_deposit_details')]
-    public function RenderDepositDetailsTemplate(Request $request, AppServices $appServices): Response
+    public function RenderDepositDetailsTemplate(Request $request): Response
     {
       $session = $request->getSession();
       $deposit = new Deposits();
@@ -44,8 +43,8 @@ class DepositController extends AbstractController
       if ($form->isSubmitted() && $form->isValid()) {
          if ($gbpDeposit) {
              try {
-                $appServices->buildAndPersistTransaction($deposit, $gbpDeposit, $usdDeposit);
-                $appServices->buildAndSendEmail('deposit', $deposit, $sc=null, $ac=null);
+                $this->appServices->buildAndPersistTransaction($deposit, $gbpDeposit, $usdDeposit);
+                $this->appServices->buildAndSendEmail('deposit', $deposit, $sc=null, $ac=null);
              } catch (TransportExceptionInterface | Exception $e) {
                 return new Response('An error occurred: ' . $e->getMessage());
              }
@@ -81,11 +80,11 @@ class DepositController extends AbstractController
     * @throws ClientExceptionInterface
     */
    #[Route('/create-deposit-session', methods: ['POST'])]
-    public function createDeposit(Request $request, AppServices $appServices): JsonResponse
+    public function createDeposit(Request $request): JsonResponse
     {
         $session = $request->getSession();
         $parameters = json_decode($request->getContent(), true);
-        $data = $appServices->getGeckoData($this->getParameter('gecko_api'));
+        $data = $this->appServices->getGeckoData($this->getParameter('gecko_api'));
 
         //remove commas from gbpDepositAmount param.
         $cleanGbpParam = str_replace( ',', '', $parameters['gbpDepositAmount'] );
@@ -95,7 +94,7 @@ class DepositController extends AbstractController
         $session->set('gbpDeposit', $parameters['gbpDepositAmount']);
         $session->set('usdDeposit', $formatUsd);
 
-        list($gbp, $usd) = [$session->get('gbpDeposit'), $appServices->addZeroToValue($formatUsd)];
+        list($gbp, $usd) = [$session->get('gbpDeposit'), $this->appServices->addZeroToValue($formatUsd)];
 
         return new JsonResponse([
             'message' => 'success',

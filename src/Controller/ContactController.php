@@ -37,8 +37,8 @@ class ContactController extends AbstractController
 
             try {
                 $email = (new Email())
-                    ->from('admin@defiworks.co.uk')
-                    ->to('admin@defiworks.co.uk')
+                    ->from($this->getParameter('admin_email'))
+                    ->to($this->getParameter('admin_email'))
                     ->subject("Contact page enquiry - $subject")
                     ->html("$message <br> <br> Sent by: $name <br> Email: $email");
 

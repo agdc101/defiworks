@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Exceptions\UserNotFoundException;
 use App\Form\UpdateUserDetailsType;
 use App\Services\UserServices;
-use App\Services\AppServices;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -16,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\ResetPasswordRequest;
 
-class UserAccountController extends AbstractController
+class UserAccountController extends BaseController
 {
     #[Route('/user-account', name: 'app_user_account')]
     public function index(): Response
@@ -25,10 +24,10 @@ class UserAccountController extends AbstractController
     }
 
     #[Route('/user-account/update-details', name: 'app_update_details')]
-    public function displayUpdateDetailsTemplate(Request $request, EntityManagerInterface $entityManager, AppServices $appServices): Response
+    public function displayUpdateDetailsTemplate(Request $request, EntityManagerInterface $entityManager): Response
     {
 
-        $user = $appServices->getUserOrThrowException();
+        $user = $this->appServices->getUserOrThrowException();
         $form = $this->createForm(UpdateUserDetailsType::class, $user);
         $form->handleRequest($request);
 
@@ -57,9 +56,9 @@ class UserAccountController extends AbstractController
     * @throws ContainerExceptionInterface
     */
    #[Route('/user-account/close-user-account/confirm', name: 'app_close_user_account_confirm')]
-    public function close(UserServices $userServices, AppServices $appServices, ResetPasswordRequestRepository $resetPasswordRequestRepository, EntityManagerInterface $entityManager): Response
+    public function close(UserServices $userServices, ResetPasswordRequestRepository $resetPasswordRequestRepository, EntityManagerInterface $entityManager): Response
     {
-        $user = $appServices->getUserOrThrowException();
+        $user = $this->appServices->getUserOrThrowException();
 
         $userPasswordRequest = $resetPasswordRequestRepository->findResetPasswordRequestByUserId($user->getId());  
         

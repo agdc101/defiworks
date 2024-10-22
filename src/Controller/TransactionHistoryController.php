@@ -6,18 +6,17 @@ use App\Exceptions\UserNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Services\AppServices;
 use App\Services\TransactionHistoryServices;
 
-class TransactionHistoryController extends AbstractController
+class TransactionHistoryController extends BaseController
 {
    /**
     * @throws UserNotFoundException
     */
    #[Route('/transaction-history', name: 'app_transaction_history')]
-   public function renderTransactionHistory(AppServices $appServices, TransactionHistoryServices $transactionHistoryServices): Response
+   public function renderTransactionHistory(TransactionHistoryServices $transactionHistoryServices): Response
    {
-      $user = $appServices->getUserOrThrowException();
+      $user = $this->appServices->getUserOrThrowException();
       $userId = $user->getId();
 
       // Get user withdrawals and deposits

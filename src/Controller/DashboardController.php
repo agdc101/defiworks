@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Controller\BaseController;
 use App\Exceptions\UserNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,24 +14,21 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use App\Services\DashboardServices;
-use App\Services\AppServices;
 use App\Entity\StrategyApy; 
 use App\Entity\LiveApyLog;
 use App\Repository\StrategyApyRepository;
 use App\Repository\LiveApyLogRepository;
 
-class DashboardController extends AbstractController
+class DashboardController extends BaseController
 {
    /**
     * @throws TransportExceptionInterface
     * @throws UserNotFoundException
     * @throws ServerExceptionInterface
-    * @throws DecodingExceptionInterface
-    * @throws ClientExceptionInterface
-    * @throws RedirectionExceptionInterface
     */
+
    #[Route('/dashboard', name: 'app_dashboard')]
-    public function renderDashboard(Request $request, AppServices $appServices, DashboardServices $dashboardServices, StrategyApyRepository $strategyApyRepository, LiveApyLogRepository $liveApyLogRepository ): Response
+    public function renderDashboard(Request $request, DashboardServices $dashboardServices, StrategyApyRepository $strategyApyRepository, LiveApyLogRepository $liveApyLogRepository): Response
     {
       $session = $request->getSession();
 
@@ -40,7 +38,7 @@ class DashboardController extends AbstractController
       }
       $apy = $session->get('yieldApy');
 
-      $user = $appServices->getUserOrThrowException();
+      $user = $this->appServices->getUserOrThrowException();
       $userBalance = number_format($user->getBalance(), 3);
 
       $pendingBalance = $dashboardServices->getPendingBalance();
@@ -66,14 +64,14 @@ class DashboardController extends AbstractController
       // add $session->get('apy') to the $userBalance
       $projectedBalance = str_replace(',', '', $userBalance) * (1 + $apy / 100);
 
-      $tvl = round($appServices->getSiteTVL(), 2);
+      $tvl = round($this->appServices->getSiteTVL(), 2);
 
       return $this->render('dashboard/dashboard.html.twig', [
          'user' => $user->getFirstName(),
          'liveApy' => $liveApyCookie,
          'yieldApy' => $session->get('yieldApy'),
          'balance' => $userBalance,
-         'pendingBalance' => $appServices->addZeroToValue($pendingBalance),
+         'pendingBalance' => $this->appServices->addZeroToValue($pendingBalance),
          'profit' => $profit,
          'growth' => round($growth, 2),
          'tvl' => number_format($tvl, 2),
