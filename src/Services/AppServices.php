@@ -21,6 +21,7 @@ use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class AppServices
 {
@@ -30,8 +31,9 @@ class AppServices
    private EntityManagerInterface $entityManager;
    private MailerInterface $mailer;
    private HttpClientInterface $client;
+   private ParameterBagInterface $parameterBag;
 
-   public function __construct(UserRepository $userRepository, PoolsRepository $poolsRepository, PerformanceRatesRepository $performanceRatesRepository, EntityManagerInterface $entityManager, MailerInterface $mailer, HttpClientInterface $client)
+   public function __construct(UserRepository $userRepository, PoolsRepository $poolsRepository, PerformanceRatesRepository $performanceRatesRepository, EntityManagerInterface $entityManager, MailerInterface $mailer, HttpClientInterface $client, ParameterBagInterface $parameterBag)
    {
       $this->userRepository = $userRepository;
       $this->performanceRatesRepository = $performanceRatesRepository;
@@ -39,6 +41,7 @@ class AppServices
       $this->entityManager = $entityManager;
       $this->mailer = $mailer;
       $this->client = $client;
+      $this->parameterBag = $parameterBag;
    }
 
    /**
@@ -200,8 +203,8 @@ class AppServices
          ->setTimestamp(new \DateTimeImmutable('now', new \DateTimeZone('Europe/London')))
          ->setUserEmail($user->getEmail())
          ->setUserId($user->getId())
-         ->setGbpAmount(floatval($cleanGbp))
-         ->setUsdAmount(floatval($cleanUsd));
+         ->setGbpAmount($cleanGbp)
+         ->setUsdAmount($cleanUsd);
 
       $this->entityManager->persist($transaction);
       $this->entityManager->flush();
@@ -221,8 +224,8 @@ class AppServices
 
       if ($type === 'withdraw') {
          $email = (new Email())
-            ->from('admin@defiworks.co.uk')
-            ->to('admin@defiworks.co.uk')
+            ->from($this->parameterBag->get('admin_email'))
+            ->to($this->parameterBag->get('admin_email'))
             ->subject('New Withdrawal Request')
             ->html(
                "$firstName $lastName ($userEmail) has made a withdrawal request of £$gbpAmount at $dateString 
@@ -231,8 +234,8 @@ class AppServices
             );
       } else {
          $email = (new Email())
-            ->from('admin@defiworks.co.uk')
-            ->to('admin@defiworks.co.uk')
+            ->from($this->parameterBag->get('admin_email'))
+            ->to($this->parameterBag->get('admin_email'))
             ->subject('New Deposit - Confirmation required')
             ->html("$firstName $lastName ($userEmail) has made a new deposit of £$gbpAmount ($$usdAmount) at $dateString 
                 <br><br> confirm by going to <a href='$depositLink'>https://defiworks.co.uk/admin/confirm-deposit/$Id</a>");
