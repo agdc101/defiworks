@@ -2,6 +2,9 @@
 
 .dashboard-content-wrapper {
   text-align: center;
+  @media (min-width: $xl) {
+    padding-bottom: 5rem;
+  }
   .site-status-info {
     letter-spacing: 0.05rem;
     margin: 2rem 0 2.5rem 0;

@@ -1,5 +1,4 @@
 section.pin-page {
-    max-width: 750px;
     margin: 0 auto;
     h1 {
         margin-bottom: 2.5rem;
@@ -8,15 +7,13 @@ section.pin-page {
         @media (min-width: $medium) {
             display:flex;
         }
-        #pin_verify_pin {
-            @media (min-width: $medium) {
-                // width: 50%;
-            }
+        @media (min-width: $large) {
+            margin-top: 3.5rem;
         }
         button {
             margin-top:1rem;
             @media (min-width: $medium) {
-                margin-left: 1rem;
+                margin-left: 1.5rem;
                 margin-top:.75rem;
             }
         }

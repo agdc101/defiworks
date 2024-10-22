@@ -1,7 +1,9 @@
 section.steps {
     margin: 6rem 0 8rem 0;
     @media (min-width: $large) {
-        margin: 12rem 0 10rem 0;
+        width: 90%;
+        max-width: $xl;
+        margin: 12rem auto 10rem auto;
     }
     h2 {
         margin-bottom:3.5rem;
