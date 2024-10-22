@@ -1,6 +1,7 @@
 section.account-mng {
   max-width: 1000px;
   margin: 0 auto;
+  width: 90%;
   p {
     letter-spacing: 0.05rem;
     font-weight: 200;
@@ -34,9 +35,11 @@ section.account-mng {
 }
 
 section.update-details,
-section.close-account {
+section.close-account,
+section.pass-reset {
   max-width: 1000px;
   margin: 0 auto;
+  width: 90%;
   form {
     margin: 1.75rem 0;
   }
@@ -77,5 +80,11 @@ section.close-account {
   }
   button {
     display:block;
+  }
+}
+
+section.pass-reset {
+  p {
+    margin: 2rem 0;
   }
 }
