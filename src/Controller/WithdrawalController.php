@@ -4,7 +4,6 @@ namespace App\Controller;
 use App\Entity\Withdrawals;
 use App\Exceptions\UserNotFoundException;
 use App\Form\WithdrawDetailsType;
-use App\Services\AppServices;
 use App\Services\WithdrawServices;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,19 +17,19 @@ use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 
-class WithdrawalController extends AbstractController
+class WithdrawalController extends BaseController
 {
    /**
     * @throws UserNotFoundException
     */
    #[Route('/withdraw', name: 'app_withdraw')]
 
-    public function RenderWithdrawal(WithdrawServices $withdrawServices, AppServices $appServices): Response
+    public function RenderWithdrawal(WithdrawServices $withdrawServices): Response
     {
       $userBalance = $withdrawServices->getFormattedBalance();
       $formattedBalance = number_format($userBalance, 3);
       return $this->render('withdrawal/withdraw.html.twig', [
-         'maxWithdraw' => $appServices->addZeroToValue($formattedBalance)
+         'maxWithdraw' => $this->appServices->addZeroToValue($formattedBalance)
       ]);
     }
 
@@ -61,8 +60,8 @@ class WithdrawalController extends AbstractController
     * @throws TransportExceptionInterface
     */
    #[Route('/withdraw/withdraw-confirm', name: 'app_withdraw_confirm')]
-    public function RenderWithdrawConfirmTemplate(Request $request, AppServices $appServices): Response
-    {
+   public function RenderWithdrawConfirmTemplate(Request $request): Response
+   {
       $session = $request->getSession();
       $gbp = $session->get('gbpWithdrawal');
       $usd = $session->get('usdWithdrawal');
@@ -72,8 +71,8 @@ class WithdrawalController extends AbstractController
          $sc = $session->get('sortCode');
          $ac = $session->get('accountNo');
 
-         $appServices->buildAndPersistTransaction($withdrawal, $gbp, $usd);
-         $appServices->buildAndSendEmail('withdraw', $withdrawal, $sc, $ac);
+         $this->appServices->buildAndPersistTransaction($withdrawal, $gbp, $usd);
+         $this->appServices->buildAndSendEmail('withdraw', $withdrawal, $sc, $ac);
 
          return $this->redirectToRoute('app_withdraw_success');
       }
@@ -85,7 +84,7 @@ class WithdrawalController extends AbstractController
          'accountNo' => $session->get('accountNo')
       ]);
 
-      }
+   }
 
    #[Route('/withdraw/withdraw-success', name: 'app_withdraw_success')]
    public function RenderWithdrawSuccessTemplate(Request $request): Response
@@ -109,10 +108,10 @@ class WithdrawalController extends AbstractController
     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
     */
    #[Route('/create-withdrawal-session', methods: ['POST'])]
-   public function ConvertUsdToGbp(Request $request, WithdrawServices $withdrawServices, AppServices $appServices): JsonResponse
+   public function ConvertUsdToGbp(Request $request, WithdrawServices $withdrawServices): JsonResponse
    {
       $parameters = json_decode($request->getContent(), true);
-      $data = $appServices->getGeckoData($this->getParameter('gecko_api'));
+      $data = $this->appServices->getGeckoData($this->getParameter('gecko_api'));
 
       $usd = str_replace(',', '', round($parameters['usdWithdrawAmount'],2));
       $gbpSum = ($usd * $data['0xaf88d065e77c8cc2239327c5edb3a432268e5831']['gbp'] * $this->getParameter('fee'));
@@ -124,7 +123,7 @@ class WithdrawalController extends AbstractController
 
       return new JsonResponse([
          'result' => $withdrawServices->checkWithdrawalSum($usd),
-         'gbp' => $appServices->addZeroToValue($formatGbp),
+         'gbp' => $this->appServices->addZeroToValue($formatGbp),
          'usd' => $usd
       ]);
    }
