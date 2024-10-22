@@ -20,20 +20,15 @@ function TransactionHistory({ deposits, withdrawals }) {
       } else {
          const dateString = transactions[0].timestamp.date;
          const parts = dateString.split(" "); // Split the string into date and time parts
-         const datePart = parts[0]; // Get the date part
-      
-         console.log(datePart);
       }
-
 
       return transactions.map((transaction, index) => (       
          <TransactionItem
             key={index}
             id={transaction.id}
-            usd={transaction.usd_amount}
-            gbp={transaction.gbp_amount}
-            //replaces trailing zeros with spaces on timestamp
-            timestamp={transaction.timestamp.date.split(' ')[0].replace(/.0+$/, match => ' '.repeat(match.length))}
+            usd={Number(transaction.usd_amount).toFixed(2)}
+            gbp={Number(transaction.gbp_amount).toFixed(2)}
+            timestamp={transaction.timestamp.date.split(' ')[0]}
             isVerified={transaction.is_verified}
          />
       ));

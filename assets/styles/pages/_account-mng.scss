@@ -1,6 +1,7 @@
 section.account-mng {
   max-width: 1000px;
   margin: 0 auto;
+  width: 90%;
   p {
     letter-spacing: 0.05rem;
     font-weight: 200;
@@ -12,14 +13,16 @@ section.account-mng {
   .user-options {
     display: flex;
     flex-direction: column;
+    margin-bottom: 1.5rem;
     @media (min-width: $medium ) {
       flex-direction: row;
-      margin-bottom:1.5rem;
+      margin-bottom:1.75rem;
     }
     a {
       text-decoration: none;
-      margin:.35rem 0;
+      margin:1rem 0;
       color:lightgray;
+      font-weight: 200;
       @media (min-width: $medium ) {
         margin: 1.5rem 2.5rem 1.5rem 0;
         font-size: 1.1rem;
@@ -32,9 +35,11 @@ section.account-mng {
 }
 
 section.update-details,
-section.close-account {
+section.close-account,
+section.pass-reset {
   max-width: 1000px;
   margin: 0 auto;
+  width: 90%;
   form {
     margin: 1.75rem 0;
   }
@@ -75,5 +80,11 @@ section.close-account {
   }
   button {
     display:block;
+  }
+}
+
+section.pass-reset {
+  p {
+    margin: 2rem 0;
   }
 }

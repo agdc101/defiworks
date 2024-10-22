@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Services\AppServices;
+use App\Services\CronServices;
 use App\Exceptions\ApyDataException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -18,19 +18,19 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class UpdateLiveApyCommand extends Command
 {
-    private AppServices $appServices;
+    private CronServices $cronServices;
 
-    public function __construct(AppServices $appServices)
+    public function __construct(CronServices $cronServices)
     {
-      $this->appServices = $appServices;
+        $this->cronServices = $cronServices;
 
-      parent::__construct();
+        parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $this->appServices->getVaultData(true);
+            $this->cronServices->getVaultData(true);
             echo "Live APY updated\n";
         } catch (\RuntimeException $e){
             echo "Caught RuntimeException: " . $e->getMessage();

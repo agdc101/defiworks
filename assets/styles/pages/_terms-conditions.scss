@@ -1,0 +1,14 @@
+.tcs {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem .5rem;
+    @media (min-width: $xl) {
+        padding: 2rem .5rem 3rem 0;
+    }
+    h2 {
+        margin: 1.75rem 0 1rem 0;
+        @media (min-width: $xl) {
+            margin: 3.5rem 0 1.5rem 0;
+        }
+    }
+}

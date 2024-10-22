@@ -14,8 +14,10 @@
     {{ form_start(WithdrawDetailsForm) }}
     {{ form_row(WithdrawDetailsForm.sort_code) }}
     {{ form_row(WithdrawDetailsForm.account_number) }}
-    <button class="btn" type="submit">Continue</button>
+    <button class="btn mb-3" type="submit">Continue</button>
     {{ form_end(WithdrawDetailsForm) }}
+
+    <a class="back-btn" href="{{ path('app_dashboard') }}"><i style="color:#8272e7;" class="fa fa-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
 
 </section>
 

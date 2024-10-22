@@ -21,15 +21,14 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    private EmailVerifier $emailVerifier;
-
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(private EmailVerifier $emailVerifier, private EntityManagerInterface $entityManager)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->entityManager = $entityManager;
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, LoginFormAuthenticator $authenticator): Response
     {
         // if already a user redirect to dashboard
         if ($this->getUser()) {
@@ -49,13 +48,13 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('admin@defiworks.co.uk', 'Defi Works Admin'))
+                    ->from(new Address($this->getParameter('admin_email'), 'Defi Works Admin'))
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
@@ -80,27 +79,28 @@ class RegistrationController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-        $user->setRoles(["ROLE_USER"]);
 
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $exception->getReason());
-
             return $this->redirectToRoute('app_register');
         }
 
-        // send defiworks an email informing of new user with their name and email address.
-        $newUserFirstName = $this->getUser()->getFirstName();
-        $newUserLastName = $this->getUser()->getLastName();
-        $newUserEmail = $this->getUser()->getEmail();
+        $user->setRoles(["ROLE_USER"]);
+        $this->entityManager->flush();
 
         $email = (new Email())
-            ->from('admin@defiworks.co.uk')
-            ->to('admin@defiworks.co.uk')
+            ->from($this->getParameter('admin_email'))
+            ->to($this->getParameter('admin_email'))
             ->subject('New User!')
-            ->html("$newUserFirstName $newUserLastName is now a user. email address is $newUserEmail");
+            ->html(sprintf(
+                '%s %s is now a user. Email address is %s',
+                $user->getFirstName(),
+                $user->getLastName(),
+                $user->getEmail()
+            ));
 
         $mailer->send($email);
 

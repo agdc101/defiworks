@@ -4,7 +4,7 @@ namespace App\Command;
 
 use App\Entity\StrategyApy;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Services\AppServices;
+use App\Services\CronServices;
 use App\Exceptions\ApyDataException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -21,26 +21,26 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class UpdateStrategyApyCommand extends Command
 {
     private EntityManagerInterface $entityManager;
-    private AppServices $appServices;
+    private CronServices $cronServices;
 
-    public function __construct(EntityManagerInterface $entityManager, AppServices $appServices)
+    public function __construct(EntityManagerInterface $entityManager, CronServices $cronServices)
     {
-      $this->entityManager = $entityManager;
-      $this->appServices = $appServices;
+        $this->entityManager = $entityManager;
+        $this->cronServices = $cronServices;
 
-      parent::__construct();
+        parent::__construct();
     }
 
     public function logNewApyData(): void
     {
         try {
-            $vaultData = $this->appServices->getVaultData();
+            $vaultData = $this->cronServices->getVaultData();
     
             $apyData = $vaultData['responseData'];
             $newApyLog = $vaultData['yieldApy'];
     
             $averageApys = array_map(function ($data) {
-                return $this->appServices->getAverageApys($data);
+                return $this->cronServices->getAverageApys($data);
             }, $apyData);
     
             $weekAvg = array_column($averageApys, 'weekAverage');
