@@ -17,20 +17,18 @@
 <div class="dashboard-content-wrapper">
     <section class="site-status-info">
         <div class="site-status-info-inner">
-            <p class="site-status">DeFi Works status:</p>
-            <p>Total Value Locked: <strong>{% if tvl is null %} $0 {% else  %} ${{ tvl }} {% endif %}</strong></p>
-            <p>Last Yield APY: <strong>{% if yieldApy is defined %} {{ yieldApy|round(2, 'floor') }}% {% else %} 4.44% {% endif %}</strong></p>
-            <p>Live APY: <strong>{% if liveApy is defined %} {{ liveApy|round(2, 'floor') }}% {% else %} 4% {% endif %}</strong></p>
+            <img src="{{ asset('img/check.png') }}" alt="Check Icon" class="site-logo">
+            <p class="site-status font-extralight text-lime-400">All Systems Operational</p>
         </div>
         <div class="site-status-info-inner">
-            <p class="site-status" >Average strategy returns:</p>
-            {% if weekAvg is not null %} <p>Week: <strong>{{ weekAvg }}%</strong></p>{% endif %}
-            {% if monthAvg is not null %} <p>Month: <strong>{{ monthAvg }}%</strong></p>{% endif %}
-            {% if yearAvg is not null %} <p>Year: <strong>{{ yearAvg }}%</strong></p>{% endif %}
+            <div {{ react_component('DashboardPopups', { 'weekAvg': weekAvg, 'monthAvg': monthAvg, 'yearAvg': yearAvg, 'tvl': tvl, 'yieldApy': yieldApy, 'liveApy': yieldApy }) }}></div>
         </div>
     </section>
+    {# <div {{ react_component('WithdrawInputs', { 'max': maxWithdraw }) }}></div> #}
+
+
     <section class="account-status">
-        <h4>{{ user | capitalize }}'s Account:</h4>
+        <h4>Account Performance:</h4>
         <div class="dash-info">
             <div class="dash-item">
                 <p>Balance</p><span>{% if balance is null %} $0 {% else  %} ${{ balance }} {% endif %}</span>
