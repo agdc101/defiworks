@@ -1,6 +1,10 @@
 section.transaction-history {
-  min-width: 1000px;
-  margin: 0 auto;
+  @media (min-width: $large) {
+    margin: 0 auto;
+  }
+  @media (min-width: $xl) {
+    min-width: 800px;
+  }
   select {
     border-radius: 4px;
     padding: 0.2rem;

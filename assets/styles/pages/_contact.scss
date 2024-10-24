@@ -4,6 +4,9 @@ section.contact-wrapper {
     margin: 0 auto;
     form {
         max-width: 920px;
+        @media (min-width: $xl) {
+            min-width: 800px;
+        }
         label {
             margin: .75rem 1rem .6rem 0;
         }

@@ -1,7 +1,13 @@
 section.login {
-    margin: 0 auto;
+    @media (min-width: $xl) {
+        max-width: 850px;
+        margin: 0 auto;
+    }
     .login-form {
-        min-width: 800px;
+        min-width: 100px;
+        @media (min-width: $xl) {
+            min-width: 800px;
+        }
         input {
             background-color: $julesPink;
         }
