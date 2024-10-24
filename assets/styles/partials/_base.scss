@@ -45,7 +45,7 @@ body {
   overflow: hidden;
 }
 .content-wrapper {
-  padding-top: 8rem;
+  padding: 8rem 1rem 1rem 1.5rem;
   display:flex;
   flex-direction: column;
   justify-content: space-between;
@@ -53,7 +53,7 @@ body {
       padding-top: 9rem;
   }
   @media (min-width: $large) {
-      padding-top: 14rem;
+      padding-top: 12rem;
   }
   form {
     label {

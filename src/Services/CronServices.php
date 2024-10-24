@@ -85,7 +85,7 @@ class CronServices
     * @throws ClientExceptionInterface
    */
   public function getVaultData($getLive=false): array {
-      $apys = ['nexo' => 9];
+      $apys = ['nexo' => 7];
       $responseData = [];
       $statusCode = null;
 
@@ -182,7 +182,7 @@ class CronServices
     * @param array $data
    */
    public function getAverageApys($data): array {
-      $nexoApy = 9;
+      $nexoApy = 7;
       $averages = [];
 
       $averages['weekAverage'] = $this->calculateAverage($data, $nexoApy, 7);
